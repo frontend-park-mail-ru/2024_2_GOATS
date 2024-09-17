@@ -1,1 +1,7 @@
 @import url('./components/Menu/Menu.css');
+
+.form__wrapper {
+  width: 1000px;
+  height: 1000px;
+  background-color: brown;
+}

@@ -1,12 +1,15 @@
-import { Menu } from './components/Menu/menu.js';
+import { Menu } from './components/Menu/Menu.js';
+import { AuthForm } from './components/AuthForm/AuthForm.js';
 import './index.css';
 
 console.log('lolkek');
 const rootElement = document.getElementById('root');
 const menuElement = document.createElement('aside');
+const authFormElement = document.createElement('div');
 const pageElement = document.createElement('main');
 
 rootElement.appendChild(menuElement);
+rootElement.appendChild(authFormElement);
 rootElement.appendChild(pageElement);
 
 const config = {
@@ -27,6 +30,7 @@ const config = {
 };
 
 const menu = new Menu(menuElement, config);
+const authForm = new AuthForm(authFormElement);
 
 function renderMenu() {
   menu.render();
@@ -42,4 +46,9 @@ function renderMenu() {
   });
 }
 
+const renderForm = () => {
+  authForm.render();
+};
+
 renderMenu();
+renderForm();
