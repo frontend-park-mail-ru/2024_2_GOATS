@@ -1,4 +1,4 @@
-export class AuthForm {
+export class RegForm {
   #parent;
   #config;
 
@@ -11,10 +11,11 @@ export class AuthForm {
   }
 
   onButtonClick() {
-    const authBtn = document.getElementById('form-auth-btn');
-    authBtn.addEventListener('click', () => {
-      const emailValue = document.getElementById('form-auth-email').value;
-      const passwordValue = document.getElementById('form-auth-password').value;
+    const regBtn = document.getElementById('form-reg-btn');
+    console.log(regBtn);
+    regBtn.addEventListener('click', () => {
+      const emailValue = document.getElementById('form-reg-email').value;
+      const passwordValue = document.getElementById('form-reg-password').value;
       console.log('clicked!', emailValue, passwordValue);
       const fetchData = async () => {
         const response = await fetch(
@@ -50,7 +51,7 @@ export class AuthForm {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['AuthForm.hbs'];
+    const template = Handlebars.templates['RegForm.hbs'];
     this.#parent.innerHTML = template();
   }
 }

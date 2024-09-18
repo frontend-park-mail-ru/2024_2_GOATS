@@ -1,7 +1,3 @@
 @import url('./components/Menu/Menu.css');
-
-.form__wrapper {
-  width: 1000px;
-  height: 1000px;
-  background-color: brown;
-}
+@import url('./components/AuthForm/AuthForm.css');
+@import url('./components/RegForm/RegForm.css');

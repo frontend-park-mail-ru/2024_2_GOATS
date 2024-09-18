@@ -1,0 +1,11 @@
+<div class='header'>
+  <div class='header__container'>
+    {{#each items}}
+      <a
+        class='header__container_item {{this.className}}'
+        href='{{this.href}}'
+        data-section='{{this.key}}'
+      >{{this.text}}</a>
+    {{/each}}
+  </div>
+</div>
