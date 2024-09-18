@@ -1,6 +1,7 @@
 import { Menu } from './components/Menu/Menu.js';
 import { AuthForm } from './components/AuthForm/AuthForm.js';
 import { Card } from './components/Card/Card.js';
+import { CardsList } from './components/CardsList/CardsList.js';
 import { movies } from './consts.js';
 import './index.css';
 
@@ -35,7 +36,8 @@ const config = {
 
 const menu = new Menu(menuElement, config);
 const authForm = new AuthForm(authFormElement);
-const card = new Card(cardsElement, movies[0]);
+// const card = new Card(cardsElement, movies[0]);
+const cardsList = new CardsList(cardsElement, movies);
 
 function renderMenu() {
   menu.render();
@@ -55,10 +57,11 @@ const renderForm = () => {
   authForm.render();
 };
 
-const renderCard = () => {
-  card.render();
+const renderCards = () => {
+  cardsList.render();
 };
 
 renderMenu();
 renderForm();
-renderCard();
+// renderCard();
+renderCards();

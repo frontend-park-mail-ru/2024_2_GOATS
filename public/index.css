@@ -1,6 +1,12 @@
 @import url('./components/Menu/Menu.css');
 @import url('./components/Card/Card.css');
+@import url('./components/CardsList//CardsList.css');
 
 body {
   background-color: rgb(43, 162, 226);
+}
+
+.page__wrapper {
+  max-width: 85vw;
+  margin: 0 auto;
 }
