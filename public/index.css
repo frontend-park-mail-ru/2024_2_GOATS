@@ -1,4 +1,5 @@
 @import url('./components/Menu/Menu.css');
+@import url('./components/Card/Card.css');
 
 body {
   background-color: rgb(43, 162, 226);
