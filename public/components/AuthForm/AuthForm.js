@@ -18,9 +18,9 @@ export class AuthForm {
       const emailValue = document.getElementById('form-auth-email').value;
       const passwordValue = document.getElementById('form-auth-password').value;
 
-      apiClient.post({
+      apiClient.delete({
         path: 'tasks',
-        body: { email: emailValue, password: passwordValue },
+        id: 6,
         callback: (response) => {
           console.log('fetch', response);
         },
