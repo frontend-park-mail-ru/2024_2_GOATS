@@ -56,18 +56,11 @@ class ApiClient {
       ...(body && { body: JSON.stringify(body) }),
     });
 
-    // if (response.ok) {
-    //   const jsonResponse = await response.json();
-    //   callback(jsonResponse);
-    // }
-
     if (!response.ok) {
-      // Выбрасываем исключение с текстом ошибки или статусом
-      const errorMessage = await response.text(); // Можно использовать response.json(), если сервер возвращает JSON-ошибку
+      const errorMessage = await response.text();
       throw new Error(`Error ${response.status}: ${errorMessage}`);
     }
 
-    // Если всё ок, парсим JSON и вызываем callback
     const jsonResponse = await response.json();
     callback(jsonResponse);
   }
