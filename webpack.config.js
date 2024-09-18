@@ -58,7 +58,7 @@ module.exports = {
     port: 3000,
     watchFiles: path.join(publicPath, 'public'),
     client: {
-      overlay: false, // отключает показ ошибок и предупреждений на весь экран
+      overlay: false,
     },
   },
   performance: {

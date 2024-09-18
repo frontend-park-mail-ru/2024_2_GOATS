@@ -47,13 +47,10 @@ class ApiClient {
 
   async _apiClient({ method, path, id = null, body = null, callback = noop }) {
     const url = API_URL + path + (id ? `/${id}` : '');
-    console.log(url);
     const response = await fetch(url, {
       method: method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      ...(body && { body: JSON.stringify(body) }),
+      headers: body ? { 'Content-Type': 'application/json' } : {},
+      body: body && JSON.stringify(body),
     });
 
     if (!response.ok) {
