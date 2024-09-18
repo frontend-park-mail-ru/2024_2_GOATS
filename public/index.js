@@ -14,9 +14,6 @@ const pageElement = document.createElement('main');
 
 // rootElement.appendChild(menuElement);
 rootElement.appendChild(headerElement);
-
-// pageElement.appendChild(authFormElement);
-// pageElement.appendChild(regFormElement);
 rootElement.appendChild(pageElement);
 
 // Надо будет унести в отдельный файл

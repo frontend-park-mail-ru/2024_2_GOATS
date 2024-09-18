@@ -47,7 +47,7 @@ export class RegForm {
 
   render() {
     this.renderTemplate();
-    // this.onButtonClick();
+    this.onButtonClick();
   }
 
   renderTemplate() {

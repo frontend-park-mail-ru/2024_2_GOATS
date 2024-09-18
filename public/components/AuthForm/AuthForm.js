@@ -46,7 +46,7 @@ export class AuthForm {
 
   render() {
     this.renderTemplate();
-    // this.onButtonClick();
+    this.onButtonClick();
   }
 
   renderTemplate() {
