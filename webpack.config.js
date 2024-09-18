@@ -57,6 +57,9 @@ module.exports = {
     host: '127.0.0.1',
     port: 3000,
     watchFiles: path.join(publicPath, 'public'),
+    client: {
+      overlay: false,
+    },
   },
   performance: {
     maxAssetSize: 500 * 1024,

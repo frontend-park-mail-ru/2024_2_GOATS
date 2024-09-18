@@ -1,3 +1,5 @@
 @import url('./components/Menu/Menu.css');
-@import url('./components/AuthForm/AuthForm.css');
-@import url('./components/RegForm/RegForm.css');
+
+body {
+  background-color: rgb(43, 162, 226);
+}
