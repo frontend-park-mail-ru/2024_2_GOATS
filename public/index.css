@@ -12,6 +12,7 @@ body {
   overflow: auto;
   background-color: #000;
   color: #fff;
+  font-family: 'Inter', sans-serif;
 }
 
 * {
@@ -31,37 +32,10 @@ main {
   padding-top: 100px;
   width: 80vw;
   margin: 0 auto;
-  background-color: rgb(169, 169, 221);
-  font-family: 'Inter', sans-serif;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-figure,
-pre {
-  margin: 0;
-}
-
-button {
-  font-family: 'Inter', sans-serif;
-  background: none;
-  border: none;
-  padding: 0;
 }
 
 button:hover {
   cursor: pointer;
-}
-
-input {
-  all: unset;
-  box-sizing: border-box;
 }
 
 .button {
