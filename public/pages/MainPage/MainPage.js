@@ -16,8 +16,11 @@ export class MainPage {
     const template = Handlebars.templates['MainPage.hbs'];
     this.#parent.innerHTML = template();
 
+    const bestMovies = movies.map((movie, index) => {
+      return { ...movie, position: index + 1 };
+    });
     const bestMoviesBlock = document.getElementById('best-movies-block');
-    const bestMoviesList = new CardsList(bestMoviesBlock, movies, 1);
+    const bestMoviesList = new CardsList(bestMoviesBlock, bestMovies, 1);
     bestMoviesList.render();
 
     const newMoviesBlock = document.getElementById('new-movies-block');
