@@ -1,8 +1,36 @@
+@import url('./styles/reset.css');
+@import url('./pages/MainPage/MainPage.css');
 @import url('./components/Menu/Menu.css');
+@import url('./components/Card/Card.css');
+@import url('./components/CardsList//CardsList.css');
 @import url('./components/AuthForm/AuthForm.css');
 @import url('./components/RegForm/RegForm.css');
 
 body {
+  margin: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: #000;
+  color: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+main {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page__wrapper {
+  padding-top: 100px;
+  width: 80vw;
+  margin: 0 auto;
   background-color: rgb(169, 169, 221);
   font-family: 'Inter', sans-serif;
 }

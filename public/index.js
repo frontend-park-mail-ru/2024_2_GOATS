@@ -1,20 +1,29 @@
-import { Menu } from './components/Menu/Menu.js';
-import { AuthForm } from './components/AuthForm/AuthForm.js';
+import { MainPage } from './pages/MainPage/MainPage.js';
 import './index.css';
 import { RegForm } from './components/RegForm/RegForm.js';
 import { Header } from './components/Header/Header.js';
 
-console.log('lolkek');
 const rootElement = document.getElementById('root');
 const menuElement = document.createElement('aside');
 const headerElement = document.createElement('header');
 const authFormElement = document.createElement('div');
 const regFormElement = document.createElement('div');
 const pageElement = document.createElement('main');
+const pageWrapperElement = document.createElement('div');
+pageWrapperElement.className = 'page__wrapper';
 
 // rootElement.appendChild(menuElement);
 rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
+pageElement.appendChild(pageWrapperElement);
+
+const mainPage = new MainPage(pageWrapperElement);
+
+const renderMainPage = () => {
+  mainPage.render();
+};
+
+renderMainPage();
 
 // Надо будет унести в отдельный файл
 const config = {
