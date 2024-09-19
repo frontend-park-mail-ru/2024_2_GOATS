@@ -13,7 +13,6 @@ export class Card {
 
   renderTemplate() {
     const template = Handlebars.templates['Card.hbs'];
-    console.log(this.#movie);
     this.#parent.insertAdjacentHTML(
       'beforeend',
       template({ movie: this.#movie })
