@@ -5,6 +5,9 @@
 @import url('./components/CardsList//CardsList.css');
 @import url('./components/AuthForm/AuthForm.css');
 @import url('./components/RegForm/RegForm.css');
+@import url('./components/Header/Header.css');
+@import url('./pages/AuthPage/AuthPage.css');
+@import url('./pages/RegPage/RegPage.css');
 
 body {
   margin: 0;
@@ -21,17 +24,17 @@ body {
 
 #root {
   min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 main {
   width: 100%;
-  min-height: 100vh;
-}
-
-.page__wrapper {
-  padding-top: 100px;
-  width: 80vw;
-  margin: 0 auto;
+  /* min-height: 100vh; */
+  height: 100px;
+  flex-grow: 1;
 }
 
 button:hover {

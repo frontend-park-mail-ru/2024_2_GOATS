@@ -1,5 +1,7 @@
 .main-page__container {
-  min-height: 100vh;
+  max-width: 1280px;
+  width: 80vw;
+  margin: 0 auto;
 }
 
 .main-page__blocks {

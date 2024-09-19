@@ -32,6 +32,7 @@ export class Header {
       if (index === 0) {
         className += 'active';
       }
+
       return { key, text, href, className };
     });
     this.#parent.innerHTML = template({ items });
