@@ -28,13 +28,13 @@ export const movies = [
   {
     id: 5,
     title: 'Movie 5',
-    src: 'https://lh6.googleusercontent.com/proxy/ubg5m_2uK3tW7sg0d3r81L_4zYcP-FrnrAZquRG2g-Yc-jy0Dg48DzNx_mxMhKbvV-ioxACq7CETOPjCRQwUOS5kYA2ucm59osYB2E-fKxJvDyxHVZBKGD9GAsSrX1_VGebv2ZTQk7_2uh_2gqWlDx5818id_GG-',
+    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fCU-_5jLdMKFex1KPrxBMxlGFt_BSlUtwQ&s',
     rating: 10.0,
   },
   {
     id: 6,
     title: 'Movie 6',
-    src: 'https://lh6.googleusercontent.com/proxy/ubg5m_2uK3tW7sg0d3r81L_4zYcP-FrnrAZquRG2g-Yc-jy0Dg48DzNx_mxMhKbvV-ioxACq7CETOPjCRQwUOS5kYA2ucm59osYB2E-fKxJvDyxHVZBKGD9GAsSrX1_VGebv2ZTQk7_2uh_2gqWlDx5818id_GG-',
+    src: 'https://s3.afisha.ru/mediastorage/2a/33/d281002d901a4f7d84337489332a.jpg',
     rating: 6.6,
   },
 ];
