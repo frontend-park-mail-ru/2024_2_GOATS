@@ -1,67 +1,18 @@
-import { Menu } from './components/Menu/Menu.js';
-import { AuthForm } from './components/AuthForm/AuthForm.js';
-import { Card } from './components/Card/Card.js';
-import { CardsList } from './components/CardsList/CardsList.js';
-import { movies } from './consts.js';
+import { MainPage } from './pages/MainPage/MainPage.js';
 import './index.css';
 
-console.log('lolkek');
 const rootElement = document.getElementById('root');
-const menuElement = document.createElement('aside');
-const authFormElement = document.createElement('div');
 const pageElement = document.createElement('main');
-const cardsElement = document.createElement('div');
+const pageWrapperElement = document.createElement('div');
+pageWrapperElement.className = 'page__wrapper';
 
-rootElement.appendChild(menuElement);
-rootElement.appendChild(authFormElement);
 rootElement.appendChild(pageElement);
-rootElement.appendChild(cardsElement);
+pageElement.appendChild(pageWrapperElement);
 
-const config = {
-  menu: {
-    films: {
-      text: 'Подборка фильмов',
-      render: () => {},
-    },
-    login: {
-      text: 'Авторизация',
-      render: () => {},
-    },
-    signup: {
-      text: 'Регистрация',
-      render: () => {},
-    },
-  },
+const mainPage = new MainPage(pageWrapperElement);
+
+const renderMainPage = () => {
+  mainPage.render();
 };
 
-const menu = new Menu(menuElement, config);
-const authForm = new AuthForm(authFormElement);
-// const card = new Card(cardsElement, movies[0]);
-const cardsList = new CardsList(cardsElement, movies);
-
-function renderMenu() {
-  menu.render();
-  menuElement.addEventListener('click', (e) => {
-    const { target } = e;
-
-    if (
-      target.tagName.toLowerCase() === 'a' ||
-      target instanceof HTMLAnchorElement
-    ) {
-      e.preventDefault();
-    }
-  });
-}
-
-const renderForm = () => {
-  authForm.render();
-};
-
-const renderCards = () => {
-  cardsList.render();
-};
-
-renderMenu();
-renderForm();
-// renderCard();
-renderCards();
+renderMainPage();

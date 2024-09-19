@@ -1,4 +1,5 @@
 @import url('./styles/reset.css');
+@import url('./pages/MainPage/MainPage.css');
 @import url('./components/Menu/Menu.css');
 @import url('./components/Card/Card.css');
 @import url('./components/CardsList//CardsList.css');
@@ -6,9 +7,9 @@
 body {
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Nanum Gothic', sans-serif;
   overflow: auto;
   background-color: #000;
+  color: #fff;
 }
 
 * {

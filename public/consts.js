@@ -31,4 +31,10 @@ export const movies = [
     src: 'https://lh6.googleusercontent.com/proxy/ubg5m_2uK3tW7sg0d3r81L_4zYcP-FrnrAZquRG2g-Yc-jy0Dg48DzNx_mxMhKbvV-ioxACq7CETOPjCRQwUOS5kYA2ucm59osYB2E-fKxJvDyxHVZBKGD9GAsSrX1_VGebv2ZTQk7_2uh_2gqWlDx5818id_GG-',
     rating: 10.0,
   },
+  {
+    id: 6,
+    title: 'Movie 6',
+    src: 'https://lh6.googleusercontent.com/proxy/ubg5m_2uK3tW7sg0d3r81L_4zYcP-FrnrAZquRG2g-Yc-jy0Dg48DzNx_mxMhKbvV-ioxACq7CETOPjCRQwUOS5kYA2ucm59osYB2E-fKxJvDyxHVZBKGD9GAsSrX1_VGebv2ZTQk7_2uh_2gqWlDx5818id_GG-',
+    rating: 6.6,
+  },
 ];
