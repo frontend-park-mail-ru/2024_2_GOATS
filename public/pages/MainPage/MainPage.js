@@ -6,11 +6,31 @@ export class MainPage {
   #parent;
   #bestMovies;
   #newMovies;
+  #isLoading;
+  // #isLoadingBestMovies;
+  // #isLoadingNewMovies;
 
   constructor(parent) {
     this.#parent = parent;
     this.#bestMovies = [];
     this.#newMovies = [];
+    this.#isLoading = true;
+    // this.#isLoadingBestMovies = true;
+    // this.#isLoadingNewMovies = true;
+  }
+
+  showLoader() {
+    const loader = document.getElementById('global-loader');
+    const mainContent = document.getElementById('main-content');
+    if (loader) loader.style.display = 'block';
+    if (mainContent) mainContent.style.display = 'none';
+  }
+
+  hideLoader() {
+    const loader = document.getElementById('global-loader');
+    const mainContent = document.getElementById('main-content');
+    if (loader) loader.style.display = 'none';
+    if (mainContent) mainContent.style.display = 'block';
   }
 
   render() {
@@ -18,12 +38,19 @@ export class MainPage {
   }
 
   getBestMovies() {
+    this.#isLoading = true;
+    this.showLoader();
+
     apiClient.get({
       path: 'movies',
       callback: (response) => {
         this.#bestMovies = response.map((movie, index) => {
           return { ...movie, position: index + 1 };
         });
+
+        this.#isLoading = false;
+        this.hideLoader();
+
         const bestMoviesBlock = document.getElementById('best-movies-block');
         const bestMoviesList = new CardsList(
           bestMoviesBlock,
