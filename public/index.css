@@ -1,5 +1,48 @@
 @import url('./components/Menu/Menu.css');
+@import url('./components/AuthForm/AuthForm.css');
+@import url('./components/RegForm/RegForm.css');
 
 body {
-  background-color: rgb(43, 162, 226);
+  background-color: rgb(169, 169, 221);
+  font-family: 'Inter', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+figure,
+pre {
+  margin: 0;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input {
+  all: unset;
+  box-sizing: border-box;
+}
+
+.button {
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+}
+
+.input {
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
 }

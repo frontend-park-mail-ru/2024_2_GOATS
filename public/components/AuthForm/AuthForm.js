@@ -14,7 +14,8 @@ export class AuthForm {
 
   onButtonClick() {
     const authBtn = document.getElementById('form-auth-btn');
-    authBtn.addEventListener('click', () => {
+    authBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       const emailValue = document.getElementById('form-auth-email').value;
       const passwordValue = document.getElementById('form-auth-password').value;
 

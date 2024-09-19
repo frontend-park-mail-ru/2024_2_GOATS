@@ -1,5 +1,55 @@
 .form-auth__wrapper {
-  width: 1000px;
-  height: 1000px;
-  background-color: rgb(220, 122, 122);
+  border-radius: 16px;
+  background-color: #0000009c;
+  width: fit-content;
+  padding: 8px 32px;
+  padding-top: 16px;
+}
+
+.form-auth {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.form-auth__title {
+  font-weight: 500;
+  font-size: 24px;
+}
+.form-auth__input {
+  width: 100%;
+  font-size: 16px;
+  outline: 1px solid #fff;
+}
+
+.form-auth__input:focus {
+  outline: 2px solid #fff;
+}
+
+.form-auth__button {
+  width: 100%;
+
+  background-color: #a143ff;
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+.form-auth__button:hover {
+  background-color: #590da6;
+}
+.form-auth__footer {
+  font-size: 11px;
+  font-weight: 300;
+  margin-top: 16px;
+  text-align: center;
+  color: #fff;
+
+  span {
+    a {
+      color: #fff;
+    }
+  }
 }

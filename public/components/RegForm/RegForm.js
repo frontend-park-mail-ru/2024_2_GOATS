@@ -13,7 +13,9 @@ export class RegForm {
   onButtonClick() {
     const regBtn = document.getElementById('form-reg-btn');
     console.log(regBtn);
-    regBtn.addEventListener('click', () => {
+    regBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+
       const emailValue = document.getElementById('form-reg-email').value;
       const passwordValue = document.getElementById('form-reg-password').value;
       console.log('clicked!', emailValue, passwordValue);

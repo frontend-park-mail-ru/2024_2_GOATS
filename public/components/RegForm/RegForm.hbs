@@ -1,8 +1,15 @@
 <div class="form-reg__wrapper">
-    <h1>ssssss</h1>
+    
     <form class="form-reg" action='submit'>
-        <input class="form-reg__input" id="form-reg-email" type="email"></input>
-        <input class="form-reg__input" id="form-reg-password" type="password"></input>
+        <h1 class="form-reg__title">РЕГИСТРАЦИЯ</h1>
+        <input placeholder="e-mail" class="input form-reg__input" id="form-reg-email" type="email"></input>
+        <input placeholder="Логин" class="input form-reg__input" id="form-reg-login" type="text"></input>
+        <input placeholder="Пароль" class="input form-reg__input" id="form-reg-password" type="password"></input>
+        <input placeholder="Подтвердите пароль" class="input form-reg__input" id="form-reg-password-confirm" type="password"></input>
+        <input placeholder="Дата рождения" class="input form-reg__input" id="form-reg-date" type="date"></input>
+        <button class="button form-reg__button"  id="form-reg-btn">Создать аккаунт</button>
     </form>
-    <button id="form-reg-btn">Войти</button>
+    <div class="form-reg__footer">
+            <span>Уже есть аккаунт? <a href="">Авторизируйтесь</a></span>
+    </div>
 </div>

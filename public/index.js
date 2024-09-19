@@ -87,13 +87,10 @@ function goToPage(headerLinkElement) {
   header.state.activeHeaderLink?.classList.remove('active');
   headerLinkElement.classList.add('active');
   header.state.activeHeaderLink = headerLinkElement;
-  console.log(config.pages[headerLinkElement.dataset.section].render);
   config.pages[headerLinkElement.dataset.section].render();
-
-  // pageElement.appendChild(element);
 }
 
 // renderMenu();
 renderHeader();
 // renderAuthForm();
-// renderRegForm();
+renderRegForm();

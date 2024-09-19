@@ -1,5 +1,58 @@
 .form-reg__wrapper {
-  width: 1000px;
-  height: 1000px;
-  background-color: rgb(150, 60, 183);
+  border-radius: 16px;
+  background-color: #0000009c;
+  /* width: fit-content; */
+  width: 300px;
+  padding: 8px 32px;
+  padding-top: 16px;
+}
+
+.form-reg {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.form-reg__title {
+  font-weight: 500;
+  font-size: 24px;
+}
+.form-reg__input {
+  width: 100%;
+  font-size: 16px;
+  outline: 1px solid #fff;
+}
+
+.form-reg__input:focus {
+  outline: 2px solid #fff;
+}
+
+.form-reg__button {
+  width: 100%;
+
+  background-color: #a143ff;
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-reg__button:hover {
+  background-color: #590da6;
+}
+
+.form-reg__footer {
+  font-size: 11px;
+  font-weight: 300;
+  margin-top: 16px;
+  text-align: center;
+  color: #fff;
+
+  span {
+    a {
+      color: #fff;
+    }
+  }
 }
