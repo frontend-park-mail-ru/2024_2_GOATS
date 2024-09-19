@@ -1,4 +1,5 @@
 import { apiClient } from '../../modules/ApiClient';
+import { RegForm } from '../RegForm/RegForm';
 
 export class AuthForm {
   #parent;
@@ -34,10 +35,21 @@ export class AuthForm {
   render() {
     this.renderTemplate();
     this.onButtonClick();
+    this.goToRegistration();
   }
 
   renderTemplate() {
     const template = Handlebars.templates['AuthForm.hbs'];
     this.#parent.innerHTML = template();
+  }
+
+  goToRegistration() {
+    const regLink = document.getElementById('form-auth-reg-link');
+    regLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.#parent.innerHTML = '';
+      const regForm = new RegForm(this.#parent);
+      regForm.render();
+    });
   }
 }

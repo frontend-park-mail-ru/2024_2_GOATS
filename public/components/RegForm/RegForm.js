@@ -1,3 +1,5 @@
+import { AuthForm } from '../AuthForm/AuthForm';
+
 export class RegForm {
   #parent;
   #config;
@@ -50,10 +52,21 @@ export class RegForm {
   render() {
     this.renderTemplate();
     this.onButtonClick();
+    this.goToAuth();
   }
 
   renderTemplate() {
     const template = Handlebars.templates['RegForm.hbs'];
     this.#parent.innerHTML = template();
+  }
+
+  goToAuth() {
+    const authLink = document.getElementById('form-reg-auth-link');
+    authLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.#parent.innerHTML = '';
+      const authForm = new AuthForm(this.#parent);
+      authForm.render();
+    });
   }
 }
