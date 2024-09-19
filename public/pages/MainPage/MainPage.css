@@ -1,0 +1,14 @@
+.main-page__container {
+  min-height: 100vh;
+}
+
+.main-page__blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.main-page__block_title {
+  margin-bottom: 15px;
+  font-size: 30px;
+}
