@@ -13,9 +13,10 @@ export class Card {
 
   renderTemplate() {
     const template = Handlebars.templates['Card.hbs'];
-    const cardHTML = template({ movie: this.#movie });
-    const tempDiv = document.createElement('div'); // TODO: проверить
-    tempDiv.innerHTML = cardHTML;
-    this.#parent.appendChild(tempDiv.firstElementChild);
+    console.log(this.#movie);
+    this.#parent.insertAdjacentHTML(
+      'beforeend',
+      template({ movie: this.#movie })
+    );
   }
 }

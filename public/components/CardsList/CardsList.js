@@ -16,7 +16,7 @@ export class CardsList {
   renderTemplate() {
     const template = Handlebars.templates['CardsList.hbs'];
 
-    this.#parent.innerHTML = template({ movies: this.#movies });
+    this.#parent.insertAdjacentHTML('beforeend', template());
 
     const cardsList = document.getElementById('cards-list');
 
