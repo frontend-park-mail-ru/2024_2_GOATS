@@ -1,12 +1,31 @@
+@import url('./styles/reset.css');
 @import url('./components/Menu/Menu.css');
 @import url('./components/Card/Card.css');
 @import url('./components/CardsList//CardsList.css');
 
 body {
-  background-color: rgb(43, 162, 226);
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Nanum Gothic', sans-serif;
+  overflow: auto;
+  background-color: #000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+main {
+  width: 100%;
+  min-height: 100vh;
 }
 
 .page__wrapper {
-  max-width: 85vw;
+  padding-top: 100px;
+  width: 80vw;
   margin: 0 auto;
 }

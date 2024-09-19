@@ -1,5 +1,5 @@
 .cards__list {
   display: grid;
-  gap: 10px; /* Расстояние между элементами */
+  gap: 50px;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
