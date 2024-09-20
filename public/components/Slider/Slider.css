@@ -1,0 +1,27 @@
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.slider__content {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.slider__btn {
+  background-color: #a143ff;
+  padding: 10px;
+  max-height: 50px;
+}
+
+.slider__track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slider__item {
+  min-width: calc(100% / 5);
+  box-sizing: border-box;
+}
