@@ -1,27 +1,32 @@
 .slider {
   display: flex;
+  gap: 10px;
   align-items: center;
-  gap: 20px;
 }
 
-.slider__content {
+.slider__container {
   display: flex;
+  align-items: center;
+  gap: 10px;
   overflow: hidden;
-  width: 100%;
+}
+
+.slider__track {
+  display: flex;
+  gap: 100px;
+  width: 90%;
+  transition: transform 0.5s ease;
 }
 
 .slider__btn {
   background-color: #a143ff;
   padding: 10px;
   max-height: 50px;
-}
-
-.slider__track {
-  display: flex;
-  transition: transform 0.5s ease;
+  z-index: 10;
 }
 
 .slider__item {
-  min-width: calc(100% / 5);
   box-sizing: border-box;
+  min-width: 200px;
+  height: 100px;
 }

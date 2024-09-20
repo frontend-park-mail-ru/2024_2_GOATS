@@ -1,9 +1,11 @@
 <div class='slider'>
-  <button class='slider__btn'>
+  <button id='slider-btn-prev' class='slider__btn'>
     Назад
   </button>
-  <div id='slider-{{this.id}}' class='slider__content'></div>
-  <button class='slider__btn'>
+  <div class='slider__container'>
+    <div id='slider-{{this.id}}' class='slider__track'></div>
+  </div>
+  <button id='slider-btn-next' class='slider__btn'>
     Вперед
   </button>
 </div>
