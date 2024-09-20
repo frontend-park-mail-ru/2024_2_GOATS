@@ -5,6 +5,7 @@
 @import url('./components/CardsList//CardsList.css');
 @import url('./components/AuthForm/AuthForm.css');
 @import url('./components/RegForm/RegForm.css');
+@import url('./components/Slider/Slider.css');
 
 body {
   margin: 0;
