@@ -56,6 +56,7 @@ function renderHeader() {
       target instanceof HTMLAnchorElement
     ) {
       e.preventDefault();
+      console.log(target);
       goToPage(target);
     }
   });
@@ -71,8 +72,9 @@ function renderRegPage() {
   regPage.render();
 }
 
-function goToPage(headerLinkElement) {
+export function goToPage(headerLinkElement) {
   pageElement.innerHTML = '';
+  console.log(headerLinkElement);
 
   // на первом рэндере activeHeaderLink в header остается пустым, поэтому класс active не пропадает, пока мы не перейдем на главную еще раз
   Object.values(header.state.navElements).forEach((el) =>

@@ -12,6 +12,11 @@
   flex-direction: column;
   gap: 16px;
   align-items: center;
+
+  /* fix to class styling */
+  div {
+    width: 100%;
+  }
 }
 
 .form-auth__title {
@@ -50,6 +55,7 @@
   span {
     a {
       color: #fff;
+      text-decoration: underline;
     }
   }
 }

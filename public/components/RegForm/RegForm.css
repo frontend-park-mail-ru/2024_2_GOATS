@@ -53,6 +53,7 @@
   span {
     a {
       color: #fff;
+      text-decoration: underline;
     }
   }
 }

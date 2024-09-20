@@ -1,4 +1,5 @@
 import { AuthForm } from '../AuthForm/AuthForm';
+import { goToPage } from '../..';
 
 export class RegForm {
   #parent;
@@ -61,12 +62,18 @@ export class RegForm {
   }
 
   goToAuth() {
+    // const authLink = document.getElementById('form-reg-auth-link');
+    // authLink.addEventListener('click', (e) => {
+    //   e.preventDefault();
+    //   this.#parent.innerHTML = '';
+    //   const authForm = new AuthForm(this.#parent);
+    //   authForm.render();
+    // });
+
     const authLink = document.getElementById('form-reg-auth-link');
     authLink.addEventListener('click', (e) => {
       e.preventDefault();
-      this.#parent.innerHTML = '';
-      const authForm = new AuthForm(this.#parent);
-      authForm.render();
+      goToPage(document.querySelector(`[data-section="login"]`));
     });
   }
 }
