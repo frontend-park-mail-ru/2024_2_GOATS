@@ -1,5 +1,5 @@
 .card {
-  max-width: 160px;
+  width: 160px;
   height: 224px;
   position: relative;
 }
@@ -30,7 +30,8 @@
   left: -10px;
   font-size: 90px;
   color: #000;
-  text-shadow: 2px 2px 0px #fff, -2px 2px 0px #fff, 2px -2px 0px #fff,
-    -2px -2px 0px #fff, 2px 0px 0px #fff, -2px 0px 0px #fff, 0px 2px 0px #fff,
-    0px -2px 0px #fff;
+  user-select: none;
+  text-shadow: 2px 2px 0px #e7e7e7, -2px 2px 0px #e7e7e7, 2px -2px 0px #e7e7e7,
+    -2px -2px 0px #e7e7e7, 2px 0px 0px #e7e7e7, -2px 0px 0px #e7e7e7,
+    0px 2px 0px #e7e7e7, 0px -2px 0px #e7e7e7;
 }
