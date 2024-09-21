@@ -4,38 +4,36 @@ export class Slider {
   #parent;
   #movies;
   #id;
-  #cardsToShow;
-  #cardsToScroll;
-  #position;
+  #leftDiff;
+  #rightDiff;
 
   constructor(parent, movies, id) {
     this.#parent = parent;
     this.#movies = movies;
     this.#id = id;
-    this.#cardsToShow = 4;
-    this.#cardsToScroll = 2;
-    this.#position = 0;
+    this.#leftDiff = 0;
+    this.#rightDiff = 0;
   }
 
   render() {
     this.renderTemplate();
   }
 
-  setPositon() {
-    const sliderTrack = document.getElementById(`slider-${this.#id}`);
-    sliderTrack.style.transform = `translateX(${this.#position}px)`;
-  }
-
   checkBtns() {
     const btnNext = document.getElementById('slider-btn-next');
     const btnPrev = document.getElementById('slider-btn-prev');
-    const container = document.querySelector('.slider__container');
-    // const itemWidth = container.clientWidth / this.#cardsToShow;
-    const itemWidth = 160;
 
-    btnPrev.disabled = this.#position === 0;
-    btnNext.disabled =
-      this.#position <= -(this.#movies.length - this.#cardsToShow) * itemWidth;
+    if (this.#rightDiff <= 0) {
+      btnNext.disabled = true;
+    } else {
+      btnNext.disabled = false;
+    }
+
+    if (this.#leftDiff <= 0) {
+      btnPrev.disabled = true;
+    } else {
+      btnPrev.disabled = false;
+    }
   }
 
   renderTemplate() {
@@ -44,46 +42,60 @@ export class Slider {
     this.#parent.insertAdjacentHTML('beforeend', template({ id: this.#id }));
 
     const container = document.querySelector('.slider__container');
-    const sliderTrack = document.getElementById(`slider-${this.#id}`);
+    const track = document.getElementById(`slider-${this.#id}`);
     const btnNext = document.getElementById('slider-btn-next');
     const btnPrev = document.getElementById('slider-btn-prev');
-    const itemsCount = this.#movies.length; // TODO: check
-    // const itemWidth = container.clientWidth / this.#cardsToShow;
-    const itemWidth = 160;
-    const movePosition = this.#cardsToScroll * itemWidth;
 
     btnNext.addEventListener('click', () => {
-      console.log('click next');
-      const itemsLeft =
-        itemsCount -
-        (Math.abs(this.#position) + this.#cardsToShow * itemWidth) / itemWidth;
+      const track = document.getElementById(`slider-${this.#id}`);
 
-      this.#position -=
-        itemsLeft >= this.#cardsToScroll ? movePosition : itemsLeft * itemWidth;
+      // Проверяем, на сколько пикселей нужно двигать (на всю ширину блока или на остаток)
+      if (this.#rightDiff >= container.clientWidth) {
+        track.style.transform = `translateX(-${
+          this.#leftDiff + container.clientWidth
+        }px)`;
 
-      this.setPositon();
+        // Двигаем левую и правую границу
+        this.#rightDiff -= container.clientWidth;
+        this.#leftDiff += container.clientWidth;
+      } else {
+        track.style.transform = `translateX(-${
+          this.#leftDiff + this.#rightDiff
+        }px)`;
+        this.#leftDiff += this.#rightDiff;
+        this.#rightDiff = 0;
+        console.log(this.#rightDiff, this.#leftDiff);
+      }
+
       this.checkBtns();
     });
 
     btnPrev.addEventListener('click', () => {
-      const itemsLeft = Math.abs(this.#position) / itemWidth;
+      const track = document.getElementById(`slider-${this.#id}`);
 
-      this.#position +=
-        itemsLeft >= this.#cardsToScroll ? movePosition : itemsLeft * itemWidth;
+      if (this.#leftDiff >= container.clientWidth) {
+        track.style.transform = `translateX(-${
+          this.#leftDiff - container.clientWidth
+        }px)`;
+        this.#rightDiff += container.clientWidth;
+        this.#leftDiff -= container.clientWidth;
+      } else {
+        track.style.transform = `translateX(0px)`;
+        this.#rightDiff += this.#leftDiff;
+        this.#leftDiff = 0;
+        console.log(this.#rightDiff, this.#leftDiff);
+      }
 
-      this.setPositon();
       this.checkBtns();
     });
 
     this.#movies.forEach((movie) => {
-      const card = new Card(sliderTrack, movie);
+      const card = new Card(track, movie);
       card.render();
     });
 
-    const items = sliderTrack.querySelectorAll('.card');
-    items.forEach((item) => {
-      console.log(item);
-      item.style.minWidth = `${itemWidth}px`;
-    });
+    // Записываем разницу между track и container для скролла вправо
+    this.#rightDiff = track.clientWidth - container.clientWidth;
+    this.checkBtns();
   }
 }

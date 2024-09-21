@@ -1,4 +1,5 @@
 import { CardsList } from '../../components/CardsList/CardsList';
+import { Slider } from '../../components/Slider/Slider';
 import { apiClient } from '../../modules/ApiClient';
 
 export class MainPage {
@@ -25,12 +26,19 @@ export class MainPage {
         });
 
         const bestMoviesBlock = document.getElementById('best-movies-block');
-        const bestMoviesList = new CardsList(
+        const bestMoviesSlider = new Slider(
           bestMoviesBlock,
           this.#bestMovies,
           1
         );
-        bestMoviesList.render();
+        bestMoviesSlider.render();
+
+        // const bestMoviesList = new CardsList(
+        // bestMoviesBlock,
+        // this.#bestMovies,
+        // 1
+        // );
+        // bestMoviesList.render();
       },
     });
   }
