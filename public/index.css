@@ -9,6 +9,7 @@
 @import url('./components/Header/Header.css');
 @import url('./pages/AuthPage/AuthPage.css');
 @import url('./pages/RegPage/RegPage.css');
+@import url('./components/GridBlock/GridBlock.css');
 
 body {
   margin: 0;

@@ -1,20 +1,55 @@
 import { CardsList } from '../../components/CardsList/CardsList';
+import { GridBlock } from '../../components/GridBlock/GridBlock';
 import { Slider } from '../../components/Slider/Slider';
 import { apiClient } from '../../modules/ApiClient';
+
+import bb from '../../assets/mockImages/bb2.jpg';
+import mh from '../../assets/mockImages/mh.jpg';
+import sopranos from '../../assets/mockImages/sopranos.png';
+
+const trendMoviesMock = [
+  {
+    src: bb,
+  },
+  {
+    src: mh,
+  },
+  {
+    src: sopranos,
+  },
+];
 
 export class MainPage {
   #parent;
   #bestMovies;
   #newMovies;
+  #trendMovies;
 
   constructor(parent) {
     this.#parent = parent;
     this.#bestMovies = [];
     this.#newMovies = [];
+    this.#trendMovies = [];
   }
 
   render() {
     this.renderTemplate();
+  }
+
+  getTrendMovies() {
+    apiClient.get({
+      path: 'movies',
+      callback: (response) => {
+        this.#trendMovies = response;
+        const trendMoviesBlock = document.getElementById('trend-movies-block');
+        const trendMoviesList = new GridBlock(
+          trendMoviesBlock,
+          trendMoviesMock
+          // this.#trendMovies
+        );
+        trendMoviesList.render();
+      },
+    });
   }
 
   getBestMovies() {
@@ -59,6 +94,7 @@ export class MainPage {
     const template = Handlebars.templates['MainPage.hbs'];
     this.#parent.innerHTML = template();
 
+    this.getTrendMovies();
     this.getBestMovies();
     this.getNewMovies();
   }

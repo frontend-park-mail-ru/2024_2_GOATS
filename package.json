@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "prestart": "npm run compile:templates",
     "start": "webpack serve --open --mode development",
-    "compile:templates": "handlebars public/components/AuthForm/AuthForm.hbs -f public/components/AuthForm/AuthForm.precompiled.js"
+    "compile:templates": "handlebars public/components/GridBlock/GridBlock.hbs -f public/components/GridBlock/GridBlock.precompiled.js"
   },
   "author": "",
   "license": "ISC",
