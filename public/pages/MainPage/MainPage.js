@@ -1,11 +1,13 @@
+import { apiClient } from '../../modules/ApiClient';
 import { CardsList } from '../../components/CardsList/CardsList';
 import { Slider } from '../../components/Slider/Slider';
-import { apiClient } from '../../modules/ApiClient';
+import { Loader } from '../../components/Loader/Loader';
 
 export class MainPage {
   #parent;
   #bestMovies;
   #newMovies;
+  #loader;
 
   constructor(parent) {
     this.#parent = parent;
@@ -21,6 +23,7 @@ export class MainPage {
     apiClient.get({
       path: 'movies',
       callback: (response) => {
+        this.#loader.kill();
         this.#bestMovies = response.map((movie, index) => {
           return { ...movie, position: index + 1 };
         });
@@ -32,13 +35,6 @@ export class MainPage {
           1
         );
         bestMoviesSlider.render();
-
-        // const bestMoviesList = new CardsList(
-        // bestMoviesBlock,
-        // this.#bestMovies,
-        // 1
-        // );
-        // bestMoviesList.render();
       },
     });
   }
@@ -59,6 +55,8 @@ export class MainPage {
     const template = Handlebars.templates['MainPage.hbs'];
     this.#parent.innerHTML = template();
 
+    this.#loader = new Loader(this.#parent, template());
+    this.#loader.render();
     this.getBestMovies();
     this.getNewMovies();
   }
