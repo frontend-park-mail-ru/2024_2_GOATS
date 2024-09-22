@@ -1,44 +1,21 @@
 export class Loader {
-  #pageId;
+  // parent нужен для того, чтобы понимать где отображать лоадер
+  #parent;
+  // Элемент позволяет вернуть содержимое parent-а после того, как контент загрузился
+  #element;
 
-  constructor(pageId) {
-    this.#pageId = pageId;
-  }
-
-  showLoader() {
-    const loader = document.getElementById('global-loader');
-    console.log(loader);
-    const mainContent = document.getElementById(this.#pageId);
-
-    if (loader) {
-      loader.style.display = 'block';
-    }
-    if (mainContent) {
-      mainContent.style.display = 'none';
-    }
-  }
-
-  hideLoader() {
-    const loader = document.getElementById('global-loader');
-    const mainContent = document.getElementById(this.#pageId);
-    if (loader) {
-      loader.style.display = 'none';
-    }
-    if (mainContent) {
-      mainContent.style.display = 'block';
-    }
+  constructor(parent, element) {
+    this.#parent = parent;
+    this.#element = element;
   }
 
   render() {
-    this.renderTemplate();
+    const template = Handlebars.templates['Loader.hbs'];
+    console.log('parent is', this.#parent);
+    this.#parent.innerHTML = template();
   }
 
-  renderTemplate() {
-    const template = Handlebars.templates['MainPage.hbs'];
-    const rootElement = document.getElementById('root');
-    rootElement.appendChild = template();
-
-    this.getBestMovies();
-    this.getNewMovies();
+  kill() {
+    this.#parent.innerHTML = this.#element;
   }
 }
