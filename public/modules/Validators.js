@@ -28,3 +28,35 @@ export function validatePassword(password) {
     return false;
   }
 }
+
+// TODO: уточнить (сейчас проверяем на длину, только англ символы и разрешение .)
+export function validateLogin(username) {
+  if (username.length <= 5) {
+    return false;
+  }
+
+  let isValid = true;
+  for (let i = 0; i < username.length; i++) {
+    let char = username[i];
+
+    if (
+      (char.charCodeAt(0) >= 65 && char.charCodeAt(0) <= 90) ||
+      (char.charCodeAt(0) >= 97 && char.charCodeAt(0) <= 122)
+    ) {
+      continue;
+    }
+
+    if (char.charCodeAt(0) >= 48 && char.charCodeAt(0) <= 57) {
+      continue;
+    }
+
+    if (char === '.') {
+      continue;
+    }
+
+    isValid = false;
+    break;
+  }
+
+  return isValid;
+}

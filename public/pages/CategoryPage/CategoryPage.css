@@ -1,0 +1,10 @@
+.category-page__inner {
+  width: 80vw;
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 16px;
+}
+
+.category-page__inner_title {
+  margin-bottom: 16px;
+}

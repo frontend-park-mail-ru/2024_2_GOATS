@@ -26,16 +26,21 @@ export class AuthForm {
     if (!validateEmailAddress(emailValue) || !validatePassword(passwordValue)) {
       if (!validateEmailAddress(emailValue)) {
         emailError.innerText = 'Некорректный e-mail';
+        emailError.classList.add('visible');
       } else {
         emailError.innerText = '';
       }
       if (!validatePassword(passwordValue)) {
+        passwordError.classList.add('visible');
         passwordError.innerText = 'Пароль должен содержать минимум 8 символов';
       } else {
         passwordError.innerText = '';
       }
       return false;
     } else {
+      passwordError.classList.remove('visible');
+      emailError.classList.remove('visible');
+
       emailError.innerText = '';
       passwordError.innerText = '';
       return true;
@@ -48,9 +53,6 @@ export class AuthForm {
       e.preventDefault();
       const emailValue = document.getElementById('form-auth-email').value;
       const passwordValue = document.getElementById('form-auth-password').value;
-
-      const emailError = document.getElementById('form-auth-email-error');
-      const passwordError = document.getElementById('form-auth-password-error');
 
       if (!this.validateFormFields(emailValue, passwordValue)) {
         return;

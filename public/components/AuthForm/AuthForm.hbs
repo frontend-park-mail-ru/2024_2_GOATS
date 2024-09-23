@@ -1,23 +1,23 @@
 <div class='form-auth__wrapper'>
   <form class='form-auth' action='submit'>
     <h1 class='form-auth__title'>АВТОРИЗАЦИЯ</h1>
-    <div class=''>
+    <div class='form-auth__input'>
       <input
         placeholder='e-mail'
-        class='input form-auth__input'
+        class='input form-auth__input_field'
         id='form-auth-email'
         type='email'
       />
-      <span id='form-auth-email-error'></span>
+      <span class='form-auth__input_error' id='form-auth-email-error'></span>
     </div>
-    <div class='ss'>
+    <div class='form-auth__input'>
       <input
         placeholder='Пароль'
-        class='input form-auth__input'
+        class='input form-auth__input_field'
         id='form-auth-password'
         type='password'
       />
-      <span id='form-auth-password-error'></span>
+      <span class='form-auth__input_error' id='form-auth-password-error'></span>
     </div>
     <button class='button form-auth__button' id='form-auth-btn'>Войти</button>
   </form>

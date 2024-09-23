@@ -10,6 +10,7 @@
 @import url('./pages/AuthPage/AuthPage.css');
 @import url('./pages/RegPage/RegPage.css');
 @import url('./components/GridBlock/GridBlock.css');
+@import url('./pages/CategoryPage/CategoryPage.css');
 
 body {
   margin: 0;

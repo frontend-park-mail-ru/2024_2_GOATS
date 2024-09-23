@@ -2,36 +2,44 @@
 
   <form class='form-reg' action='submit'>
     <h1 class='form-reg__title'>РЕГИСТРАЦИЯ</h1>
-    <input
-      placeholder='e-mail'
-      class='input form-reg__input'
-      id='form-reg-email'
-      type='email'
-    />
-    <input
-      placeholder='Логин'
-      class='input form-reg__input'
-      id='form-reg-login'
-      type='text'
-    />
-    <input
-      placeholder='Пароль'
-      class='input form-reg__input'
-      id='form-reg-password'
-      type='password'
-    />
-    <input
-      placeholder='Подтвердите пароль'
-      class='input form-reg__input'
-      id='form-reg-password-confirm'
-      type='password'
-    />
-    <input
-      placeholder='Дата рождения'
-      class='input form-reg__input'
-      id='form-reg-date'
-      type='date'
-    />
+    <div class='form-reg__input'>
+      <input
+        placeholder='e-mail'
+        class='input form-reg__input_field'
+        id='form-reg-email'
+        type='email'
+      />
+      <span class='form-reg__input_error' id='form-reg-email-error'></span>
+    </div>
+
+    <div class='form-reg__input'>
+      <input
+        placeholder='Логин'
+        class='input form-reg__input_field'
+        id='form-reg-login'
+        type='text'
+      />
+      <span class='form-reg__input_error' id='form-reg-login-error'></span>
+    </div>
+    <div class='form-reg__input'>
+      <input
+        placeholder='Пароль'
+        class='input form-reg__input_field'
+        id='form-reg-password'
+        type='password'
+      />
+      <span class='form-reg__input_error' id='form-reg-password-error'></span>
+    </div>
+    <div class='form-reg__input'>
+      <input
+        placeholder='Подтвердите пароль'
+        class='input form-reg__input_field'
+        id='form-reg-password-confirm'
+        type='password'
+      />
+      <span class='form-reg__input_error' id='form-reg-confirm-error'></span>
+    </div>
+
     <button class='button form-reg__button' id='form-reg-btn'>Создать аккаунт</button>
   </form>
   <div class='form-reg__footer'>

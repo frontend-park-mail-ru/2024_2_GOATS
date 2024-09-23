@@ -9,16 +9,10 @@ import { RegPage } from './pages/RegPage/RegPage.js';
 
 const rootElement = document.getElementById('root');
 const headerElement = document.createElement('header');
-const authFormElement = document.createElement('div');
-const regFormElement = document.createElement('div');
 const pageElement = document.createElement('main');
-// const pageWrapperElement = document.createElement('div');
-// pageWrapperElement.className = 'page__wrapper';
 
-// rootElement.appendChild(menuElement);
 rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
-// pageElement.appendChild(pageWrapperElement);
 
 // Надо будет унести в отдельный файл
 const config = {
@@ -89,9 +83,6 @@ export function goToPage(headerLinkElement) {
   console.log(headerLinkElement.dataset.section);
 }
 
-// renderMenu();
 renderHeader();
-renderMainPage();
-// renderAuthPage();
-// renderAuthForm();
-// renderRegForm();
+renderRegPage();
+// renderMainPage();

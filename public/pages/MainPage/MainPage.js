@@ -44,8 +44,8 @@ export class MainPage {
         const trendMoviesBlock = document.getElementById('trend-movies-block');
         const trendMoviesList = new GridBlock(
           trendMoviesBlock,
-          trendMoviesMock
-          // this.#trendMovies
+          trendMoviesMock,
+          'Сейчас в тренде'
         );
         trendMoviesList.render();
       },
