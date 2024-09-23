@@ -84,5 +84,4 @@ export function goToPage(headerLinkElement) {
 }
 
 renderHeader();
-renderRegPage();
-// renderMainPage();
+renderMainPage();

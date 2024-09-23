@@ -58,7 +58,7 @@ export class MainPage {
     apiClient.get({
       path: 'movies',
       callback: (response) => {
-        this.#loader.kill();
+        // this.#loader.kill();
         this.#bestMovies = response.map((movie, index) => {
           return { ...movie, position: index + 1 };
         });
@@ -90,8 +90,8 @@ export class MainPage {
     const template = Handlebars.templates['MainPage.hbs'];
     this.#parent.innerHTML = template();
 
-    this.#loader = new Loader(this.#parent, template());
-    this.#loader.render();
+    // this.#loader = new Loader(this.#parent, template());
+    // this.#loader.render();
     this.getTrendMovies();
     this.getBestMovies();
     this.getNewMovies();
