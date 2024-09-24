@@ -5,8 +5,6 @@ const HTTP_METHOD_POST = 'POST';
 const HTTP_METHOD_PUT = 'PUT';
 const HTTP_METHOD_DELETE = 'DELETE';
 
-const noop = () => {};
-
 class ApiClient {
   get({ path, id }) {
     return this._apiClient({

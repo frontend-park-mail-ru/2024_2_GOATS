@@ -2,9 +2,7 @@ import { MainPage } from './pages/MainPage/MainPage.js';
 import { AuthPage } from './pages/AuthPage/AuthPage.js';
 
 import './index.css';
-import { RegForm } from './components/RegForm/RegForm.js';
 import { Header } from './components/Header/Header.js';
-import { AuthForm } from './components/AuthForm/AuthForm.js';
 import { RegPage } from './pages/RegPage/RegPage.js';
 
 const rootElement = document.getElementById('root');
@@ -72,7 +70,7 @@ export function goToPage(headerLinkElement) {
 
   // на первом рэндере activeHeaderLink в header остается пустым, поэтому класс active не пропадает, пока мы не перейдем на главную еще раз
   Object.values(header.state.navElements).forEach((el) =>
-    el.classList.remove('active')
+    el.classList.remove('active'),
   );
 
   header.state.activeHeaderLink?.classList.remove('active');

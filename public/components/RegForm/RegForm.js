@@ -1,4 +1,3 @@
-import { AuthForm } from '../AuthForm/AuthForm';
 import { goToPage } from '../..';
 import {
   validateEmailAddress,
@@ -80,7 +79,7 @@ export class RegForm {
       const loginValue = document.getElementById('form-reg-login').value;
       const passwordValue = document.getElementById('form-reg-password').value;
       const confirmValue = document.getElementById(
-        'form-reg-password-confirm'
+        'form-reg-password-confirm',
       ).value;
 
       if (
@@ -88,7 +87,7 @@ export class RegForm {
           loginValue,
           emailValue,
           passwordValue,
-          confirmValue
+          confirmValue,
         )
       ) {
         return;
@@ -107,7 +106,7 @@ export class RegForm {
               email: emailValue,
               password: passwordValue,
             }),
-          }
+          },
         );
 
         if (!response.ok) {

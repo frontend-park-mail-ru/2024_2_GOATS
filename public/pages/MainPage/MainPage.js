@@ -44,6 +44,7 @@ export class MainPage {
     });
 
     this.#trendMovies = response;
+    console.log(this.#trendMovies);
   }
 
   async getBestMovies() {
@@ -77,7 +78,7 @@ export class MainPage {
     const trendMoviesList = new GridBlock(
       trendMoviesBlock,
       trendMoviesMock,
-      'Сейчас в тренде'
+      'Сейчас в тренде',
     );
     trendMoviesList.render();
 

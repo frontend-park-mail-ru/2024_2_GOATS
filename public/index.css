@@ -1,6 +1,5 @@
 @import url('./styles/reset.css');
 @import url('./pages/MainPage/MainPage.css');
-@import url('./components/Menu/Menu.css');
 @import url('./components/Card/Card.css');
 @import url('./components/CardsList//CardsList.css');
 @import url('./components/AuthForm/AuthForm.css');

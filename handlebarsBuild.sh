@@ -5,7 +5,6 @@ handlebars ./public/components/GridBlock/GridBlock.hbs -f ./public/components/Gr
 handlebars ./public/components/Header/Header.hbs -f ./public/components/Header/Header.precompiled.js
 handlebars ./public/components/Loader/Loader.hbs -f ./public/components/Loader/Loader.precompiled.js
 handlebars ./public/components/RegForm/RegForm.hbs -f ./public/components/RegForm/RegForm.precompiled.js
-handlebars ./public/components/Menu/Menu.hbs -f ./public/components/Menu/Menu.precompiled.js
 handlebars ./public/components/Slider/Slider.hbs -f ./public/components/Slider/Slider.precompiled.js
 
 handlebars ./public/pages/AuthPage/AuthPage.hbs -f ./public/pages/AuthPage/AuthPage.precompiled.js

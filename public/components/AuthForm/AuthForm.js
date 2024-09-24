@@ -4,7 +4,6 @@ import {
   validateEmailAddress,
   validatePassword,
 } from '../../modules/Validators';
-import { RegForm } from '../RegForm/RegForm';
 
 export class AuthForm {
   #parent;
