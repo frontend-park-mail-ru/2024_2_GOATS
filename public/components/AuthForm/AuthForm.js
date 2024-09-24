@@ -49,7 +49,7 @@ export class AuthForm {
 
   onButtonClick() {
     const authBtn = document.getElementById('form-auth-btn');
-    authBtn.addEventListener('click', (e) => {
+    authBtn.addEventListener('click', async (e) => {
       e.preventDefault();
       const emailValue = document.getElementById('form-auth-email').value;
       const passwordValue = document.getElementById('form-auth-password').value;
@@ -58,13 +58,12 @@ export class AuthForm {
         return;
       }
 
-      apiClient.post({
+      const response = await apiClient.post({
         path: 'tasks',
         body: { email: emailValue, password: passwordValue },
-        callback: (response) => {
-          console.log('fetch', response);
-        },
       });
+
+      console.log(response);
 
       console.log('clicked!', emailValue, passwordValue);
     });
