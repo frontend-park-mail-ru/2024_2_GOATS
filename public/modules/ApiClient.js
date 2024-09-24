@@ -8,12 +8,12 @@ const HTTP_METHOD_DELETE = 'DELETE';
 const noop = () => {};
 
 class ApiClient {
-  get({ path, id, callback }) {
-    this._apiClient({
+  get({ path, id }) {
+    return this._apiClient({
       method: HTTP_METHOD_GET,
       path,
       id,
-      callback,
+      // callback,
     });
   }
 
@@ -59,7 +59,8 @@ class ApiClient {
     }
 
     const jsonResponse = await response.json();
-    callback(jsonResponse);
+    return jsonResponse;
+    // callback(jsonResponse);
   }
 }
 

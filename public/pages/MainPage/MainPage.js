@@ -38,62 +38,65 @@ export class MainPage {
     this.renderTemplate();
   }
 
-  getTrendMovies() {
-    apiClient.get({
+  async getTrendMovies() {
+    const response = await apiClient.get({
       path: 'movies',
-      callback: (response) => {
-        this.#trendMovies = response;
-        const trendMoviesBlock = document.getElementById('trend-movies-block');
-        const trendMoviesList = new GridBlock(
-          trendMoviesBlock,
-          trendMoviesMock,
-          'Сейчас в тренде'
-        );
-        trendMoviesList.render();
-      },
+    });
+
+    this.#trendMovies = response;
+  }
+
+  async getBestMovies() {
+    const response = await apiClient.get({
+      path: 'movies',
+    });
+
+    this.#bestMovies = response.map((movie, index) => {
+      return { ...movie, position: index + 1 };
     });
   }
 
-  getBestMovies() {
-    apiClient.get({
+  async getNewMovies() {
+    const response = await apiClient.get({
       path: 'movies',
-      callback: (response) => {
-        // this.#loader.kill();
-        this.#bestMovies = response.map((movie, index) => {
-          return { ...movie, position: index + 1 };
-        });
-
-        const bestMoviesBlock = document.getElementById('best-movies-block');
-        const bestMoviesSlider = new Slider(
-          bestMoviesBlock,
-          this.#bestMovies,
-          1
-        );
-        bestMoviesSlider.render();
-      },
     });
+
+    this.#newMovies = response;
   }
 
-  getNewMovies() {
-    apiClient.get({
-      path: 'movies',
-      callback: (response) => {
-        this.#newMovies = response;
-        const newMoviesBlock = document.getElementById('new-movies-block');
-        const newMoviesList = new CardsList(newMoviesBlock, this.#newMovies, 2);
-        newMoviesList.render();
-      },
-    });
+  async renderBlocks() {
+    await Promise.all([
+      this.getTrendMovies(),
+      this.getBestMovies(),
+      this.getNewMovies(),
+    ]);
+
+    this.#loader.kill();
+
+    const trendMoviesBlock = document.getElementById('trend-movies-block');
+    const trendMoviesList = new GridBlock(
+      trendMoviesBlock,
+      trendMoviesMock,
+      'Сейчас в тренде'
+    );
+    trendMoviesList.render();
+
+    const bestMoviesBlock = document.getElementById('best-movies-block');
+    const bestMoviesSlider = new Slider(bestMoviesBlock, this.#bestMovies, 1);
+    bestMoviesSlider.render();
+
+    const newMoviesBlock = document.getElementById('new-movies-block');
+    const newMoviesList = new CardsList(newMoviesBlock, this.#newMovies, 2);
+    newMoviesList.render();
   }
 
   renderTemplate() {
     const template = Handlebars.templates['MainPage.hbs'];
     this.#parent.innerHTML = template();
 
-    // this.#loader = new Loader(this.#parent, template());
-    // this.#loader.render();
-    this.getTrendMovies();
-    this.getBestMovies();
-    this.getNewMovies();
+    this.#loader = new Loader(this.#parent, template());
+    this.#loader.render();
+
+    this.renderBlocks();
   }
 }
