@@ -1,5 +1,6 @@
 import { CardsList } from '../../components/CardsList/CardsList';
 import { apiClient } from '../../modules/ApiClient';
+import { MainPage } from '../MainPage/MainPage';
 
 export class CategoryPage {
   #parent;
@@ -31,11 +32,24 @@ export class CategoryPage {
     });
   }
 
+  goBack() {
+    const backButton = document.getElementById('category-page-button-back');
+    const main = document.querySelector('main');
+
+    backButton.addEventListener('click', () => {
+      console.log('aaa');
+      main.innerHTML = '';
+      const mainPage = new MainPage(main);
+      mainPage.render();
+    });
+  }
+
   renderTemplate() {
     const template = Handlebars.templates['CategoryPage.hbs'];
     this.#parent.innerHTML = template({
       title: this.#pageTitle,
     });
     this.getCategoryMovies();
+    this.goBack();
   }
 }

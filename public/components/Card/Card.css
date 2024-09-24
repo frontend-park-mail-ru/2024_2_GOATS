@@ -57,6 +57,7 @@
   align-items: flex-start;
   opacity: 0;
   transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .card__overlay_rating {

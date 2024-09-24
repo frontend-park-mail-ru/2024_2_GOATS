@@ -12,6 +12,11 @@ export class AuthPage {
   }
 
   renderTemplate() {
+    // По-другому root не перекрасить
+    const rootElem = document.getElementById('root');
+    rootElem.classList.remove('root-black');
+    rootElem.classList.add('root-image');
+
     const template = Handlebars.templates['AuthPage.hbs'];
     this.#parent.innerHTML = template();
 

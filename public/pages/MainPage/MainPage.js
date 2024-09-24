@@ -87,6 +87,10 @@ export class MainPage {
   }
 
   renderTemplate() {
+    const rootElem = document.getElementById('root');
+    rootElem.classList.add('root-black');
+    rootElem.classList.remove('root-image');
+
     const template = Handlebars.templates['MainPage.hbs'];
     this.#parent.innerHTML = template();
 

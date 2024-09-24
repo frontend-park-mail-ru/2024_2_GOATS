@@ -33,6 +33,15 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+.root-black {
+  background-color: #000;
+}
+
+.root-image {
+  background-image: url('./assets/images/background-image.png');
+  background-size: cover;
+  background-position: center;
+}
 
 main {
   width: 100%;

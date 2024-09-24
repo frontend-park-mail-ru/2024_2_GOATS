@@ -22,11 +22,10 @@ export class GridBlock {
 
   onMoreClick() {
     const more = document.getElementById('grid-block-header-more');
-    const mainPage = document.getElementById('main-page');
+    const main = document.querySelector('main');
     more.addEventListener('click', () => {
-      console.log('aaa');
-      mainPage.innerHTML = '';
-      const category = new CategoryPage(mainPage, this.#blockTitle);
+      main.innerHTML = '';
+      const category = new CategoryPage(main, this.#blockTitle);
       category.render();
     });
   }

@@ -1,7 +1,7 @@
 .reg-page {
-  background-image: url('../../assets/images/background-image.png');
+  /* background-image: url('../../assets/images/background-image.png');
   background-size: cover;
-  background-position: center;
+  background-position: center; */
   height: 100%;
 
   display: flex;
