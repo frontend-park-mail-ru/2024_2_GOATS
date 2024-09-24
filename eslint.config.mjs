@@ -4,8 +4,12 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
   {
-    languageOptions: { globals: globals.browser },
-    ignorePatterns: ['./node_modules/'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        Handlebars: 'readonly',
+      },
+    },
   },
   pluginJs.configs.recommended,
   eslintConfigPrettier,
