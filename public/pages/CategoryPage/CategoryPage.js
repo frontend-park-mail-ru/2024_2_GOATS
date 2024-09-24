@@ -20,16 +20,15 @@ export class CategoryPage {
     return this.#movies.slice(0, 3);
   }
 
-  getCategoryMovies() {
-    apiClient.get({
+  async getCategoryMovies() {
+    const response = await apiClient.get({
       path: 'movies',
-      callback: (response) => {
-        this.#movies = response;
-        const moviesBlock = document.getElementById('category-page-content');
-        const moviesList = new CardsList(moviesBlock, this.#movies, 3);
-        moviesList.render();
-      },
     });
+
+    this.#movies = response;
+    const moviesBlock = document.getElementById('category-page-content');
+    const moviesList = new CardsList(moviesBlock, this.#movies, 3);
+    moviesList.render();
   }
 
   goBack() {

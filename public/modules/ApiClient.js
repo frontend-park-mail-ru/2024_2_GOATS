@@ -8,44 +8,40 @@ const HTTP_METHOD_DELETE = 'DELETE';
 const noop = () => {};
 
 class ApiClient {
-  get({ path, id, callback }) {
-    this._apiClient({
+  get({ path, id }) {
+    return this._apiClient({
       method: HTTP_METHOD_GET,
       path,
       id,
-      callback,
     });
   }
 
-  post({ path, body, callback }) {
-    this._apiClient({
+  post({ path, body }) {
+    return this._apiClient({
       method: HTTP_METHOD_POST,
       path,
       body,
-      callback,
     });
   }
 
-  put({ path, id, body, callback }) {
-    this._apiClient({
+  put({ path, id, body }) {
+    return this._apiClient({
       method: HTTP_METHOD_PUT,
       path,
       id,
       body,
-      callback,
     });
   }
 
-  delete({ path, id, callback }) {
-    this._apiClient({
+  delete({ path, id }) {
+    return this._apiClient({
       method: HTTP_METHOD_DELETE,
       path,
       id,
-      callback,
     });
   }
 
-  async _apiClient({ method, path, id = null, body = null, callback = noop }) {
+  async _apiClient({ method, path, id = null, body = null }) {
     const url = API_URL + path + (id ? `/${id}` : '');
     const response = await fetch(url, {
       method: method,
@@ -59,7 +55,7 @@ class ApiClient {
     }
 
     const jsonResponse = await response.json();
-    callback(jsonResponse);
+    return jsonResponse;
   }
 }
 
