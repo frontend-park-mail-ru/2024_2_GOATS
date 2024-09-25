@@ -1,29 +1,49 @@
-export class Modal {
-  #content;
+export class ConfirmModal {
+  #text;
+  #onConfirm;
+  #onCancel;
 
-  constructor(content) {
-    this.#content = content;
+  constructor(text, onConfirm, onCancel) {
+    this.#text = text;
+    this.#onConfirm = onConfirm;
+    this.#onCancel = onCancel;
   }
 
-  showModal() {
-    const template = Handlebars.templates['Modal.hbs'];
+  render() {
+    const template = Handlebars.templates['ConfirmModal.hbs'];
     const root = document.getElementById('root');
-    root.insertAdjacentHTML('beforeend', template());
+    root.insertAdjacentHTML('beforeend', template({ text: this.#text }));
     root.style.overflow = 'hidden';
 
     const modal = document.getElementById('modal');
     const modalContent = document.getElementById('modal-content');
+    modalContent.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
 
     setTimeout(() => {
       modal.classList.add('modal__active');
       modalContent.classList.add('modal__content_active');
     }, 0);
 
-    if (this.#content instanceof HTMLElement) {
-      modalContent.appendChild(this.#content);
-    } else {
-      modalContent.innerHTML = this.#content;
-    }
+    modal.addEventListener('click', () => this.hideModal());
+
+    const confirmButton = document.getElementById('modal-confirm-btn');
+    const cancelButton = document.getElementById('modal-cancel-btn');
+
+    confirmButton.addEventListener('click', () => {
+      if (this.#onConfirm) {
+        this.#onConfirm();
+      }
+      this.hideModal();
+    });
+
+    cancelButton.addEventListener('click', () => {
+      if (this.#onCancel) {
+        this.#onCancel();
+      }
+      this.hideModal();
+    });
   }
 
   hideModal() {
