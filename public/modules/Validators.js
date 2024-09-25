@@ -36,7 +36,6 @@ export function validatePassword(password) {
   return hasDigit;
 }
 
-// TODO: уточнить (сейчас проверяем на длину, только англ символы и разрешение .)
 export function validateLogin(username) {
   if (username.length <= 5) {
     return false;

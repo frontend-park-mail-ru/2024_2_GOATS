@@ -34,33 +34,33 @@ export class RegForm {
       passwordValue != confirmValue
     ) {
       if (!validateEmailAddress(emailValue)) {
-        emailInput.classList.add('error');
+        emailInput.classList.add('input-error');
       } else {
-        emailInput.classList.remove('error');
+        emailInput.classList.remove('input-error');
       }
 
       if (!validateLogin(loginValue)) {
-        loginInput.classList.add('error');
+        loginInput.classList.add('input-error');
       } else {
-        loginInput.classList.remove('error');
+        loginInput.classList.remove('input-error');
       }
 
       if (!validatePassword(passwordValue)) {
-        passwordInput.classList.add('error');
+        passwordInput.classList.add('input-error');
       } else {
-        passwordInput.classList.remove('error');
+        passwordInput.classList.remove('input-error');
       }
       if (passwordValue != confirmValue) {
-        passwordConfirmInput.classList.add('error');
+        passwordConfirmInput.classList.add('input-error');
       } else {
-        passwordConfirmInput.classList.remove('error');
+        passwordConfirmInput.classList.remove('input-error');
       }
       return false;
     } else {
-      emailInput.classList.remove('error');
-      loginInput.classList.remove('error');
-      passwordInput.classList.remove('error');
-      passwordConfirmInput.classList.remove('error');
+      emailInput.classList.remove('input-error');
+      loginInput.classList.remove('input-error');
+      passwordInput.classList.remove('input-error');
+      passwordConfirmInput.classList.remove('input-error');
 
       return true;
     }

@@ -4,6 +4,7 @@ import {
   validateEmailAddress,
   validatePassword,
 } from '../../modules/Validators';
+import { Notifier } from '../Notifier/Notifier';
 
 export class AuthForm {
   #parent;
@@ -23,19 +24,19 @@ export class AuthForm {
 
     if (!validateEmailAddress(emailValue) || !validatePassword(passwordValue)) {
       if (!validateEmailAddress(emailValue)) {
-        emailInput.classList.add('error');
+        emailInput.classList.add('input-error');
       } else {
-        emailInput.classList.remove('error');
+        emailInput.classList.remove('input-error');
       }
       if (!validatePassword(passwordValue)) {
-        passwordInput.classList.add('error');
+        passwordInput.classList.add('input-error');
       } else {
-        passwordInput.classList.remove('error');
+        passwordInput.classList.remove('input-error');
       }
       return false;
     } else {
-      emailInput.classList.remove('error');
-      passwordInput.classList.remove('error');
+      emailInput.classList.remove('input-error');
+      passwordInput.classList.remove('input-error');
 
       return true;
     }
@@ -71,10 +72,24 @@ export class AuthForm {
     });
   }
 
+  test() {
+    const testEl = document.getElementsByClassName('form-auth__title')[0];
+    testEl.addEventListener('click', () => {
+      const note = new Notifier(
+        'error',
+        'Нет пользователя с таким e-mail',
+        3000,
+      );
+
+      note.render();
+    });
+  }
+
   render() {
     this.renderTemplate();
     this.onAuthButtonClick();
     this.handleRegLinkClick();
+    this.test();
   }
 
   renderTemplate() {

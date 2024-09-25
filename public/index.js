@@ -9,8 +9,12 @@ const rootElement = document.getElementById('root');
 const headerElement = document.createElement('header');
 const pageElement = document.createElement('main');
 
+const notifierElement = document.createElement('div');
+notifierElement.id = 'notifier';
+
 rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
+rootElement.appendChild(notifierElement);
 
 const pagesConfig = {
   pages: {
@@ -82,4 +86,5 @@ export function goToPage(headerLinkElement) {
 }
 
 renderHeader();
-renderMainPage();
+renderAuthPage();
+// renderMainPage();
