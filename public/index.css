@@ -11,6 +11,7 @@
 @import url('./pages/RegPage/RegPage.css');
 @import url('./components/GridBlock/GridBlock.css');
 @import url('./pages/CategoryPage/CategoryPage.css');
+@import url('./components/ConfirmModal/ConfirmModal.css');
 
 body {
   margin: 0;

@@ -4,7 +4,7 @@
   "description": "## Frontend Репозиторий команды GOATS 🐐 проект Netflix",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "npm run compile:templates && webpack --mode production",
     "prestart": "npm run compile:templates",
     "start": "webpack serve --open --mode development",
     "compile:templates": "bash ./handlebarsBuild.sh"
