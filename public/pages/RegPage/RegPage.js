@@ -12,7 +12,6 @@ export class RegPage {
   }
 
   renderTemplate() {
-    // По-другому root именно для этой страницы не перекрасить (через css не очень)
     const rootElem = document.getElementById('root');
     rootElem.classList.remove('root-black');
     rootElem.classList.add('root-image');

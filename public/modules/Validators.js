@@ -20,13 +20,20 @@ export function validateEmailAddress(emailAddress) {
   }
 }
 
-// TODO: добавить условия
 export function validatePassword(password) {
-  if (password.length >= 8) {
-    return true;
-  } else {
+  if (password.length < 8) {
     return false;
   }
+
+  let hasDigit = false;
+  for (let i = 0; i < password.length; i++) {
+    if (!isNaN(password[i])) {
+      hasDigit = true;
+      break;
+    }
+  }
+
+  return hasDigit;
 }
 
 // TODO: уточнить (сейчас проверяем на длину, только англ символы и разрешение .)

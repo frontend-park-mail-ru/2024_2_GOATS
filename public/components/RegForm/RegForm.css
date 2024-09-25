@@ -44,6 +44,9 @@
 .form-reg__input_field:focus {
   outline: 2px solid #fff;
 }
+.form-reg__input_field:hover {
+  cursor: text;
+}
 
 .form-reg__input_field::-ms-reveal {
   filter: invert(100%);
@@ -68,18 +71,17 @@
 .reg__email_note,
 .reg__login_note,
 .reg__password_note {
-  opacity: 0;
-  transition: opacity 0.1s linear;
+  display: none;
 }
 
 .form-reg__email-note_icon:hover + .reg__email_note {
-  opacity: 1;
+  display: block;
 }
 .form-reg__login-note_icon:hover + .reg__login_note {
-  opacity: 1;
+  display: block;
 }
 .form-reg__password-note_icon:hover + .reg__password_note {
-  opacity: 1;
+  display: block;
 }
 
 .error {

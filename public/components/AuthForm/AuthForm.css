@@ -38,9 +38,15 @@
   font-size: 16px;
   outline: 1px solid #fff;
 }
+
 .form-auth__input_field:focus {
   outline: 2px solid #fff;
 }
+
+.form-auth__input_field:hover {
+  cursor: text;
+}
+
 .form-auth__input_field::-ms-reveal {
   filter: invert(100%);
 }
@@ -62,14 +68,13 @@
 }
 .auth__email_note,
 .auth__password_note {
-  opacity: 0;
-  transition: opacity 0.1s linear;
+  display: none;
 }
 .form-auth__email-note_icon:hover + .auth__email_note {
-  opacity: 1;
+  display: block;
 }
 .form-auth__password-note_icon:hover + .auth__password_note {
-  opacity: 1;
+  display: block;
 }
 
 .error {

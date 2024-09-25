@@ -12,8 +12,7 @@ const pageElement = document.createElement('main');
 rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
 
-// Надо будет унести в отдельный файл
-const config = {
+const pagesConfig = {
   pages: {
     films: {
       text: 'Подборка фильмов',
@@ -33,7 +32,7 @@ const config = {
   },
 };
 
-const header = new Header(headerElement, config);
+const header = new Header(headerElement, pagesConfig);
 const mainPage = new MainPage(pageElement);
 const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
@@ -47,7 +46,6 @@ function renderHeader() {
       target.tagName.toLowerCase() === 'a' ||
       target instanceof HTMLAnchorElement
     ) {
-      console.log(target);
       e.preventDefault();
       goToPage(target);
     }
@@ -73,14 +71,14 @@ export function goToPage(headerLinkElement) {
   }
 
   pageElement.innerHTML = '';
+
   Object.values(header.state.navElements).forEach((el) =>
     el.classList.remove('active'),
   );
-
   header.state.activeHeaderLink?.classList.remove('active');
   headerLinkElement.classList.add('active');
   header.state.activeHeaderLink = headerLinkElement;
-  config.pages[headerLinkElement.dataset.section].render();
+  pagesConfig.pages[headerLinkElement.dataset.section].render();
 }
 
 renderHeader();
