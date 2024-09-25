@@ -1,5 +1,5 @@
 @import url('./styles/reset.css');
-@import url('./pages/MainPage/MainPage.css');
+
 @import url('./components/Card/Card.css');
 @import url('./components/CardsList//CardsList.css');
 @import url('./components/AuthForm/AuthForm.css');
@@ -7,11 +7,13 @@
 @import url('./components/Slider/Slider.css');
 @import url('./components/Header/Header.css');
 @import url('./components/Loader/Loader.css');
+@import url('./components/GridBlock/GridBlock.css');
+@import url('./components/ConfirmModal/ConfirmModal.css');
+
+@import url('./pages/MainPage/MainPage.css');
 @import url('./pages/AuthPage/AuthPage.css');
 @import url('./pages/RegPage/RegPage.css');
-@import url('./components/GridBlock/GridBlock.css');
 @import url('./pages/CategoryPage/CategoryPage.css');
-@import url('./components/ConfirmModal/ConfirmModal.css');
 
 body {
   margin: 0;
@@ -45,7 +47,6 @@ body {
 
 main {
   width: 100%;
-  /* min-height: 100vh; */
   height: 100px;
   flex-grow: 1;
 }

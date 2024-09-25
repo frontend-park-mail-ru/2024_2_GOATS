@@ -1,17 +1,11 @@
 .active {
-  /* text-decoration: underline;
-
-  text-decoration-color: red; */
   border-bottom: 2px solid #a143ff;
   padding-bottom: 3px;
 }
 
 .header {
-  /* height: 100px; */
   background-color: rgba(0, 0, 0, 0);
-
   padding: 8px 0px;
-  /* border-bottom: 1px solid #fff; */
 }
 
 .header__container {
