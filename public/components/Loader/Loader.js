@@ -11,7 +11,6 @@ export class Loader {
 
   render() {
     const template = Handlebars.templates['Loader.hbs'];
-    console.log('parent is', this.#parent);
     this.#parent.innerHTML = template();
   }
 

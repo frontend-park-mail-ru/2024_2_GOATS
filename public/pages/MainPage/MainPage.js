@@ -44,7 +44,6 @@ export class MainPage {
     });
 
     this.#trendMovies = response;
-    console.log(this.#trendMovies);
   }
 
   async getBestMovies() {

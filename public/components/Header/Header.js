@@ -20,7 +20,6 @@ export class Header {
     this.renderTemplate();
   }
 
-  // items - страницы-линки в хэдере
   get items() {
     return Object.entries(this.config.pages);
   }

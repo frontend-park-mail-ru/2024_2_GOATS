@@ -11,7 +11,7 @@
   color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -22,6 +22,16 @@
 
 .form-reg__input {
   width: 100%;
+  position: relative;
+}
+.form-reg__input_label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  width: fit-content;
+
+  margin-bottom: 0.2em;
   position: relative;
 }
 
@@ -39,17 +49,41 @@
   filter: invert(100%);
 }
 
-.form-reg__input_error {
+.note {
   position: absolute;
-  bottom: -45%;
-  left: 0;
-  font-size: 12px;
+  right: -10px;
+  bottom: 3px;
+  transform: translate(100%, 0);
 
-  display: none;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+
+  font-size: 14px;
+
+  width: max-content;
 }
 
-.visible {
-  display: block;
+.reg__email_note,
+.reg__login_note,
+.reg__password_note {
+  opacity: 0;
+  transition: opacity 0.1s linear;
+}
+
+.form-reg__email-note_icon:hover + .reg__email_note {
+  opacity: 1;
+}
+.form-reg__login-note_icon:hover + .reg__login_note {
+  opacity: 1;
+}
+.form-reg__password-note_icon:hover + .reg__password_note {
+  opacity: 1;
+}
+
+.error {
+  outline: 1px solid red;
 }
 
 .form-reg__button {

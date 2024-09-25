@@ -36,7 +36,6 @@ export class CategoryPage {
     const main = document.querySelector('main');
 
     backButton.addEventListener('click', () => {
-      console.log('aaa');
       main.innerHTML = '';
       const mainPage = new MainPage(main);
       mainPage.render();

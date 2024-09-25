@@ -1,9 +1,12 @@
 import { goToPage } from '../..';
+import { apiClient } from '../../modules/ApiClient';
+
 import {
   validateEmailAddress,
   validatePassword,
   validateLogin,
 } from '../../modules/Validators';
+
 export class RegForm {
   #parent;
   #config;
@@ -17,62 +20,67 @@ export class RegForm {
   }
 
   validateFormFields(loginValue, emailValue, passwordValue, confirmValue) {
-    const emailError = document.getElementById('form-reg-email-error');
-    const passwordError = document.getElementById('form-reg-password-error');
-    const loginError = document.getElementById('form-reg-login-error');
-    const confirmError = document.getElementById('form-reg-confirm-error');
+    const emailInput = document.getElementById('form-reg-email');
+    const loginInput = document.getElementById('form-reg-login');
+    const passwordInput = document.getElementById('form-reg-password');
+    const passwordConfirmInput = document.getElementById(
+      'form-reg-password-confirm',
+    );
 
     if (
       !validateEmailAddress(emailValue) ||
       !validatePassword(passwordValue) ||
-      !validateLogin(loginValue)
+      !validateLogin(loginValue) ||
+      passwordValue != confirmValue
     ) {
       if (!validateEmailAddress(emailValue)) {
-        emailError.innerText = 'Некорректный e-mail';
-        emailError.classList.add('visible');
+        emailInput.classList.add('error');
       } else {
-        emailError.innerText = '';
-      }
-      if (!validatePassword(passwordValue)) {
-        passwordError.classList.add('visible');
-        passwordError.innerText = 'Пароль должен содержать минимум 8 символов';
-      } else {
-        passwordError.innerText = '';
+        emailInput.classList.remove('error');
       }
 
       if (!validateLogin(loginValue)) {
-        loginError.classList.add('visible');
-        loginError.innerText = 'Минимум 6 символов – латиница, цифры и точка.';
+        loginInput.classList.add('error');
       } else {
-        loginError.innerText = '';
+        loginInput.classList.remove('error');
       }
 
-      if (passwordValue != confirmValue) {
-        confirmError.classList.add('visible');
-        confirmError.innerText = 'Неверный пароль';
+      if (!validatePassword(passwordValue)) {
+        passwordInput.classList.add('error');
       } else {
-        confirmError.innerText = '';
+        passwordInput.classList.remove('error');
+      }
+      if (passwordValue != confirmValue) {
+        passwordConfirmInput.classList.add('error');
+      } else {
+        passwordConfirmInput.classList.remove('error');
       }
       return false;
     } else {
-      passwordError.classList.remove('visible');
-      emailError.classList.remove('visible');
-      loginError.classList.remove('visible');
-      confirmError.classList.remove('visible');
-
-      emailError.innerText = '';
-      passwordError.innerText = '';
-      loginError.innerText = '';
-      confirmError.innerText = '';
+      emailInput.classList.remove('error');
+      loginInput.classList.remove('error');
+      passwordInput.classList.remove('error');
+      passwordConfirmInput.classList.remove('error');
 
       return true;
     }
   }
 
-  onButtonClick() {
+  async regRequest(loginValue, emailValue, passwordValue, confirmValue) {
+    const response = await apiClient.post({
+      path: 'tasks',
+      body: {
+        email: emailValue,
+        login: loginValue,
+        password: passwordValue,
+        passwordConfirm: confirmValue,
+      },
+    });
+  }
+
+  onRegButtonClick() {
     const regBtn = document.getElementById('form-reg-btn');
-    console.log(regBtn);
-    regBtn.addEventListener('click', (e) => {
+    regBtn.addEventListener('click', async (e) => {
       e.preventDefault();
 
       const emailValue = document.getElementById('form-reg-email').value;
@@ -92,60 +100,26 @@ export class RegForm {
       ) {
         return;
       }
-
-      console.log('clicked!', emailValue, passwordValue);
-      const fetchData = async () => {
-        const response = await fetch(
-          'https://6681cdf504acc3545a079ff2.mockapi.io/tasks/',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: emailValue,
-              password: passwordValue,
-            }),
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error('Auth error');
-        }
-
-        await response.json();
-      };
-
-      fetchData().catch((error) => {
-        throw error;
-      });
+      this.regRequest(loginValue, emailValue, passwordValue, confirmValue);
     });
   }
 
-  render() {
-    this.renderTemplate();
-    this.onButtonClick();
-    this.goToAuth();
-  }
-
-  renderTemplate() {
-    const template = Handlebars.templates['RegForm.hbs'];
-    this.#parent.innerHTML = template();
-  }
-
-  goToAuth() {
-    // const authLink = document.getElementById('form-reg-auth-link');
-    // authLink.addEventListener('click', (e) => {
-    //   e.preventDefault();
-    //   this.#parent.innerHTML = '';
-    //   const authForm = new AuthForm(this.#parent);
-    //   authForm.render();
-    // });
-
+  handleAuthLinkClick() {
     const authLink = document.getElementById('form-reg-auth-link');
     authLink.addEventListener('click', (e) => {
       e.preventDefault();
       goToPage(document.querySelector(`[data-section="login"]`));
     });
+  }
+
+  render() {
+    this.renderTemplate();
+    this.onRegButtonClick();
+    this.handleAuthLinkClick();
+  }
+
+  renderTemplate() {
+    const template = Handlebars.templates['RegForm.hbs'];
+    this.#parent.innerHTML = template();
   }
 }

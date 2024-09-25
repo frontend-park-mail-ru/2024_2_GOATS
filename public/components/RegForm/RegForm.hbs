@@ -3,41 +3,131 @@
   <form class='form-reg' action='submit'>
     <h1 class='form-reg__title'>РЕГИСТРАЦИЯ</h1>
     <div class='form-reg__input'>
-      <input
-        placeholder='e-mail'
-        class='input form-reg__input_field'
-        id='form-reg-email'
-        type='email'
-      />
-      <span class='form-reg__input_error' id='form-reg-email-error'></span>
+      <label for='form-reg-email'>
+        <div class='form-reg__input_label'>
+          <span>Email</span>
+          <svg
+            width='16'
+            height='16'
+            viewBox='0 0 16 16'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+            class='form-reg__email-note_icon'
+          >
+            <path
+              d='M8.66667 10.6667H8V8H7.33333M8 5.33333H8.00667M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z'
+              stroke='white'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </svg>
+          <div class='note reg__email_note'>
+            Укажите корректный
+            <br />почтовый адрес
+          </div>
+        </div>
+        <input
+          name='form-reg-email'
+          placeholder='Введите e-mail'
+          class='input form-reg__input_field'
+          id='form-reg-email'
+          type='email'
+        />
+      </label>
+
     </div>
 
     <div class='form-reg__input'>
-      <input
-        placeholder='Логин'
-        class='input form-reg__input_field'
-        id='form-reg-login'
-        type='text'
-      />
-      <span class='form-reg__input_error' id='form-reg-login-error'></span>
+      <label for='form-reg-login'>
+        <div class='form-auth__input_label'>
+          <span>Логин</span>
+          <svg
+            width='16'
+            height='16'
+            viewBox='0 0 16 16'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+            class='form-reg__login-note_icon'
+          >
+            <path
+              d='M8.66667 10.6667H8V8H7.33333M8 5.33333H8.00667M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z'
+              stroke='white'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </svg>
+
+          <div class='note reg__login_note'>
+            Логин может содержать:
+            <br />
+            – Больше 6 символов;<br />
+            – Символы латинского алфавита и цифры;<br />
+            – Символ “.”
+          </div>
+        </div>
+        <input
+          name='form-reg-login'
+          placeholder='Введите логин'
+          class='input form-reg__input_field'
+          id='form-reg-login'
+          type='text'
+        />
+      </label>
+
     </div>
     <div class='form-reg__input'>
-      <input
-        placeholder='Пароль'
-        class='input form-reg__input_field'
-        id='form-reg-password'
-        type='password'
-      />
-      <span class='form-reg__input_error' id='form-reg-password-error'></span>
+      <label for='form-reg-password'>
+        <div class='form-reg__input_label'>
+          <span>Пароль</span>
+          <svg
+            width='16'
+            height='16'
+            viewBox='0 0 16 16'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+            class='form-reg__password-note_icon'
+          >
+            <path
+              d='M8.66667 10.6667H8V8H7.33333M8 5.33333H8.00667M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z'
+              stroke='white'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </svg>
+
+          <div class='note reg__password_note'>
+            Пароль должен содержать:
+            <br />– 8-24 символов;
+            <br />– Хотя бы одну цифру;
+          </div>
+        </div>
+        <input
+          name='form-reg-password'
+          placeholder='Введите пароль'
+          class='input form-reg__input_field'
+          id='form-reg-password'
+          type='password'
+        />
+      </label>
+
     </div>
     <div class='form-reg__input'>
-      <input
-        placeholder='Подтвердите пароль'
-        class='input form-reg__input_field'
-        id='form-reg-password-confirm'
-        type='password'
-      />
-      <span class='form-reg__input_error' id='form-reg-confirm-error'></span>
+      <label for='form-reg-password-confirm'>
+        <div class='form-reg__input_label'>
+          <span>Повторите пароль</span>
+        </div>
+        <input
+          name='form-reg-password-confirm'
+          placeholder='Повторите пароль'
+          class='input form-reg__input_field'
+          id='form-reg-password-confirm'
+          type='password'
+        />
+      </label>
+
     </div>
 
     <button class='button form-reg__button' id='form-reg-btn'>Создать аккаунт</button>

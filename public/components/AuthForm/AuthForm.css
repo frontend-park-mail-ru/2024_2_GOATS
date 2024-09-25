@@ -10,7 +10,7 @@
   color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -23,36 +23,57 @@
   width: 100%;
   position: relative;
 }
+.form-auth__input_label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  width: fit-content;
 
+  margin-bottom: 0.2em;
+  position: relative;
+}
 .form-auth__input_field {
   width: 100%;
   font-size: 16px;
   outline: 1px solid #fff;
 }
-
 .form-auth__input_field:focus {
   outline: 2px solid #fff;
 }
-
 .form-auth__input_field::-ms-reveal {
   filter: invert(100%);
 }
 
-.form-auth__input_error {
+.note {
   position: absolute;
-  bottom: -45%;
-  left: 0;
-  font-size: 12px;
+  right: -10px;
+  bottom: 3px;
+  transform: translate(100%, 0);
 
-  display: none;
-  /* transform: translateY(-50%); */
-  /* background-color: #fff; */
-  /* padding: 2px 5px; */
-  /* border-radius: 3px; */
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+
+  font-size: 14px;
+
+  width: max-content;
+}
+.auth__email_note,
+.auth__password_note {
+  opacity: 0;
+  transition: opacity 0.1s linear;
+}
+.form-auth__email-note_icon:hover + .auth__email_note {
+  opacity: 1;
+}
+.form-auth__password-note_icon:hover + .auth__password_note {
+  opacity: 1;
 }
 
-.visible {
-  display: block;
+.error {
+  outline: 1px solid red;
 }
 
 .form-auth__button {
@@ -67,6 +88,7 @@
 .form-auth__button:hover {
   background-color: #590da6;
 }
+
 .form-auth__footer {
   font-size: 11px;
   font-weight: 300;

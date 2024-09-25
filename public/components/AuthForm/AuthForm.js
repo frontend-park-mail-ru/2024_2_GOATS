@@ -17,36 +17,38 @@ export class AuthForm {
     return this.#config;
   }
 
-  // TODO: привести в порядок
   validateFormFields(emailValue, passwordValue) {
-    const emailError = document.getElementById('form-auth-email-error');
-    const passwordError = document.getElementById('form-auth-password-error');
+    const emailInput = document.getElementById('form-auth-email');
+    const passwordInput = document.getElementById('form-auth-password');
 
     if (!validateEmailAddress(emailValue) || !validatePassword(passwordValue)) {
       if (!validateEmailAddress(emailValue)) {
-        emailError.innerText = 'Некорректный e-mail';
-        emailError.classList.add('visible');
+        emailInput.classList.add('error');
       } else {
-        emailError.innerText = '';
+        emailInput.classList.remove('error');
       }
       if (!validatePassword(passwordValue)) {
-        passwordError.classList.add('visible');
-        passwordError.innerText = 'Пароль должен содержать минимум 8 символов';
+        passwordInput.classList.add('error');
       } else {
-        passwordError.innerText = '';
+        passwordInput.classList.remove('error');
       }
       return false;
     } else {
-      passwordError.classList.remove('visible');
-      emailError.classList.remove('visible');
+      emailInput.classList.remove('error');
+      passwordInput.classList.remove('error');
 
-      emailError.innerText = '';
-      passwordError.innerText = '';
       return true;
     }
   }
 
-  onButtonClick() {
+  async authRequest(emailValue, passwordValue) {
+    const response = await apiClient.post({
+      path: 'tasks',
+      body: { email: emailValue, password: passwordValue },
+    });
+  }
+
+  onAuthButtonClick() {
     const authBtn = document.getElementById('form-auth-btn');
     authBtn.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -57,41 +59,26 @@ export class AuthForm {
         return;
       }
 
-      const response = await apiClient.post({
-        path: 'tasks',
-        body: { email: emailValue, password: passwordValue },
-      });
-
-      console.log(response);
-
-      console.log('clicked!', emailValue, passwordValue);
+      this.authRequest(emailValue, passwordValue);
     });
   }
 
-  render() {
-    this.renderTemplate();
-    this.onButtonClick();
-    this.goToRegistration();
-  }
-
-  renderTemplate() {
-    const template = Handlebars.templates['AuthForm.hbs'];
-    this.#parent.innerHTML = template();
-  }
-
-  goToRegistration() {
-    // const regLink = document.getElementById('form-auth-reg-link');
-    //   regLink.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     this.#parent.innerHTML = '';
-    //     const regForm = new RegForm(this.#parent);
-    //     regForm.render();
-    //   });
-
+  handleRegLinkClick() {
     const regLink = document.getElementById('form-auth-reg-link');
     regLink.addEventListener('click', (e) => {
       e.preventDefault();
       goToPage(document.querySelector(`[data-section="signup"]`));
     });
+  }
+
+  render() {
+    this.renderTemplate();
+    this.onAuthButtonClick();
+    this.handleRegLinkClick();
+  }
+
+  renderTemplate() {
+    const template = Handlebars.templates['AuthForm.hbs'];
+    this.#parent.innerHTML = template();
   }
 }

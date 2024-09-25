@@ -47,8 +47,8 @@ function renderHeader() {
       target.tagName.toLowerCase() === 'a' ||
       target instanceof HTMLAnchorElement
     ) {
-      e.preventDefault();
       console.log(target);
+      e.preventDefault();
       goToPage(target);
     }
   });
@@ -65,10 +65,14 @@ function renderRegPage() {
 }
 
 export function goToPage(headerLinkElement) {
-  pageElement.innerHTML = '';
-  console.log(headerLinkElement);
+  if (
+    headerLinkElement.dataset.section ==
+    header.state.activeHeaderLink?.dataset.section
+  ) {
+    return;
+  }
 
-  // на первом рэндере activeHeaderLink в header остается пустым, поэтому класс active не пропадает, пока мы не перейдем на главную еще раз
+  pageElement.innerHTML = '';
   Object.values(header.state.navElements).forEach((el) =>
     el.classList.remove('active'),
   );
@@ -77,8 +81,6 @@ export function goToPage(headerLinkElement) {
   headerLinkElement.classList.add('active');
   header.state.activeHeaderLink = headerLinkElement;
   config.pages[headerLinkElement.dataset.section].render();
-
-  console.log(headerLinkElement.dataset.section);
 }
 
 renderHeader();
