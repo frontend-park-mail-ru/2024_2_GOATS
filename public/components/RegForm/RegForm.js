@@ -6,6 +6,7 @@ import {
   validatePassword,
   validateLogin,
 } from '../../modules/Validators';
+import { Notifier } from '../Notifier/Notifier';
 
 export class RegForm {
   #parent;
@@ -112,10 +113,20 @@ export class RegForm {
     });
   }
 
+  test() {
+    const testEl = document.getElementsByClassName('form-reg__title')[0];
+    testEl.addEventListener('click', () => {
+      const note = new Notifier('success', 'Успешно', 3000);
+
+      note.render();
+    });
+  }
+
   render() {
     this.renderTemplate();
     this.onRegButtonClick();
     this.handleAuthLinkClick();
+    this.test();
   }
 
   renderTemplate() {

@@ -19,19 +19,27 @@ export class Notifier {
 
     setTimeout(() => {
       notifierBlock.classList.add('visible');
-    }, 100);
+    });
 
     setTimeout(() => {
       this.hideNotifier();
     }, this.#liveTime);
   }
 
+  handleCloseButtonClick() {
+    const closeButton = document.getElementById('notifier-close-button');
+    closeButton.addEventListener('click', () => {
+      this.hideNotifier();
+    });
+  }
+
   hideNotifier() {
     const notifierBlock = document.getElementById('notifier-block');
     notifierBlock.classList.remove('visible');
 
+    const notifierWrapper = document.getElementById('notifier');
     setTimeout(() => {
-      notifierBlock.innerHTML = '';
+      notifierWrapper.innerHTML = '';
     }, 300);
   }
 
@@ -43,5 +51,6 @@ export class Notifier {
       notificationType: this.#type,
       notificationText: this.#content,
     });
+    this.handleCloseButtonClick();
   }
 }

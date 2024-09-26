@@ -1,5 +1,7 @@
 .notifier-block {
-  width: 200px;
+  width: auto;
+  max-width: 300px;
+  min-width: 200px;
   height: 50px;
   position: fixed;
   top: -100px;
@@ -39,7 +41,7 @@
   justify-content: center;
   height: 100%;
   width: 20%;
-  background-color: #ffffffb9;
+  background-color: #ffffffad;
   border-radius: 8px 0 0 8px;
 }
 
@@ -48,7 +50,8 @@
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 8px;
+  padding: 4px 8px;
+
   width: 80%;
 }
 
@@ -56,5 +59,7 @@
   display: inline-block;
 }
 .notifier-block__content__close {
-  height: fit-content;
+  svg {
+    display: block;
+  }
 }
