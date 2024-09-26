@@ -1,6 +1,7 @@
 import { CardsList } from '../../components/CardsList/CardsList';
 import { apiClient } from '../../modules/ApiClient';
 import { MainPage } from '../MainPage/MainPage';
+import template from './CategoryPage.hbs';
 
 export class CategoryPage {
   #parent;
@@ -43,7 +44,6 @@ export class CategoryPage {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['CategoryPage.hbs'];
     this.#parent.innerHTML = template({
       title: this.#pageTitle,
     });

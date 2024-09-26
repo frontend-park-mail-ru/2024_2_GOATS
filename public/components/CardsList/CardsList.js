@@ -1,4 +1,5 @@
 import { Card } from '../Card/Card';
+import template from './CardsList.hbs';
 
 export class CardsList {
   #parent;
@@ -16,8 +17,6 @@ export class CardsList {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['CardsList.hbs'];
-
     this.#parent.insertAdjacentHTML('beforeend', template({ id: this.#id }));
 
     const cardsList = document.getElementById(`cards-list-${this.#id}`);

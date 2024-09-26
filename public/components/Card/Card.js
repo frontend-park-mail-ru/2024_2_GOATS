@@ -1,3 +1,5 @@
+import template from './Card.hbs';
+
 export class Card {
   #parent;
   #movie;
@@ -12,10 +14,9 @@ export class Card {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['Card.hbs'];
     this.#parent.insertAdjacentHTML(
       'beforeend',
-      template({ movie: this.#movie })
+      template({ movie: this.#movie }),
     );
   }
 }

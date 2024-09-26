@@ -1,4 +1,5 @@
 import { CategoryPage } from '../../pages/CategoryPage/CategoryPage';
+import template from './GridBlock.hbs';
 
 export class GridBlock {
   #parent;
@@ -31,7 +32,6 @@ export class GridBlock {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['GridBlock.hbs'];
     this.#parent.innerHTML = template({
       items: this.getTop(),
       title: this.#blockTitle,

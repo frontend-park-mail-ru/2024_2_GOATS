@@ -3,6 +3,7 @@ import { CardsList } from '../../components/CardsList/CardsList';
 import { GridBlock } from '../../components/GridBlock/GridBlock';
 import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
+import template from './MainPage.hbs';
 
 import bb from '../../assets/mockImages/bb2.jpg';
 import mh from '../../assets/mockImages/mh.jpg';
@@ -95,7 +96,6 @@ export class MainPage {
     rootElem.classList.add('root-black');
     rootElem.classList.remove('root-image');
 
-    const template = Handlebars.templates['MainPage.hbs'];
     this.#parent.innerHTML = template();
 
     this.#loader = new Loader(this.#parent, template());

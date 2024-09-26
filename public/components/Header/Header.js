@@ -1,3 +1,5 @@
+import template from './Header.hbs';
+
 export class Header {
   #parent;
   #config;
@@ -25,7 +27,6 @@ export class Header {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['Header.hbs'];
     const items = this.items.map(([key, { text, href }], index) => {
       let className = '';
       if (index === 0) {

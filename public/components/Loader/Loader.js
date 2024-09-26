@@ -1,3 +1,5 @@
+import template from './Loader.hbs';
+
 export class Loader {
   // parent нужен для того, чтобы понимать где отображать лоадер
   #parent;
@@ -10,7 +12,6 @@ export class Loader {
   }
 
   render() {
-    const template = Handlebars.templates['Loader.hbs'];
     this.#parent.innerHTML = template();
   }
 

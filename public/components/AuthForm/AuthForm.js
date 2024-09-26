@@ -1,5 +1,7 @@
 import { goToPage } from '../..';
 import { apiClient } from '../../modules/ApiClient';
+import template from './AuthForm.hbs';
+
 import {
   validateEmailAddress,
   validatePassword,
@@ -78,7 +80,6 @@ export class AuthForm {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['AuthForm.hbs'];
     this.#parent.innerHTML = template();
   }
 }

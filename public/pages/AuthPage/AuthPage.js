@@ -1,4 +1,5 @@
 import { AuthForm } from '../../components/AuthForm/AuthForm';
+import template from './AuthPage.hbs';
 
 export class AuthPage {
   #parent;
@@ -16,7 +17,6 @@ export class AuthPage {
     rootElem.classList.remove('root-black');
     rootElem.classList.add('root-image');
 
-    const template = Handlebars.templates['AuthPage.hbs'];
     this.#parent.innerHTML = template();
 
     const authForm = document.getElementById('auth-page-form-block');

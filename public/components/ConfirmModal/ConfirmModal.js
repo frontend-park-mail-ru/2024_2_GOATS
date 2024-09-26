@@ -1,3 +1,5 @@
+import template from './ConfirmModal.hbs';
+
 export class ConfirmModal {
   #text;
   #onConfirm;
@@ -10,7 +12,6 @@ export class ConfirmModal {
   }
 
   render() {
-    const template = Handlebars.templates['ConfirmModal.hbs'];
     const root = document.getElementById('root');
     root.insertAdjacentHTML('beforeend', template({ text: this.#text }));
     root.style.overflow = 'hidden';

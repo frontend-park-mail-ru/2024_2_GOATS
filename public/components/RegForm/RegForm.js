@@ -1,5 +1,6 @@
 import { goToPage } from '../..';
 import { apiClient } from '../../modules/ApiClient';
+import template from './RegForm.hbs';
 
 import {
   validateEmailAddress,
@@ -119,7 +120,6 @@ export class RegForm {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['RegForm.hbs'];
     this.#parent.innerHTML = template();
   }
 }
