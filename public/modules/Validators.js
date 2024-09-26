@@ -1,3 +1,8 @@
+/**
+ * Email validation
+ * @param {string} emailAddress - email value
+ * @returns {boolean} - true if email value is valid
+ */
 export function validateEmailAddress(emailAddress) {
   let atSymbol = emailAddress.indexOf('@');
   let dotSymbol = emailAddress.lastIndexOf('.');
@@ -20,6 +25,11 @@ export function validateEmailAddress(emailAddress) {
   }
 }
 
+/**
+ * Password validation
+ * @param {string} password - password value
+ * @returns {boolean} - true if password value is valid
+ */
 export function validatePassword(password) {
   if (password.length < 8) {
     return false;
@@ -37,6 +47,11 @@ export function validatePassword(password) {
 }
 
 // TODO: уточнить (сейчас проверяем на длину, только англ символы и разрешение .)
+/**
+ * Login validation
+ * @param {string} username - username value
+ * @returns {boolean} - true if username value is valid
+ */
 export function validateLogin(username) {
   if (username.length <= 5) {
     return false;

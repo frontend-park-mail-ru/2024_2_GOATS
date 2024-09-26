@@ -21,6 +21,11 @@ export class CategoryPage {
     return this.#movies.slice(0, 3);
   }
 
+  /**
+   * Send get movies from category request
+   * @param {}
+   * @returns {}
+   */
   async getCategoryMovies() {
     const response = await apiClient.get({
       path: 'movies',
@@ -32,6 +37,11 @@ export class CategoryPage {
     moviesList.render();
   }
 
+  /**
+   * Navigate to previous page
+   * @param {}
+   * @returns {}
+   */
   goBack() {
     const backButton = document.getElementById('category-page-button-back');
     const main = document.querySelector('main');

@@ -65,6 +65,11 @@ export class MainPage {
     this.#newMovies = response;
   }
 
+  /**
+   * Render movies blocks
+   * @param {}
+   * @returns {}
+   */
   async renderBlocks() {
     await Promise.all([
       this.getTrendMovies(),

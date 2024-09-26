@@ -21,6 +21,11 @@ export class GridBlock {
     return this.#movies.slice(0, 3);
   }
 
+  /**
+   * Navigate to category page
+   * @param {}
+   * @returns {}
+   */
   onMoreClick() {
     const more = document.getElementById('grid-block-header-more');
     const main = document.querySelector('main');

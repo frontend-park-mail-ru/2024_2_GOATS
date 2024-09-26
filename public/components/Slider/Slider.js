@@ -20,6 +20,11 @@ export class Slider {
     this.renderTemplate();
   }
 
+  /**
+   * checking the slider's boundary values
+   * @param {}
+   * @returns {}
+   */
   checkBtns() {
     const btnNext = document.getElementById('slider-btn-next');
     const btnPrev = document.getElementById('slider-btn-prev');

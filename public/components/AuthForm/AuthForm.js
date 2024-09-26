@@ -19,6 +19,12 @@ export class AuthForm {
     return this.#config;
   }
 
+  /**
+   * Authorization fields validation
+   * @param {string} emailValue - email value entered by user
+   * @param {string} passwordValue - password value entered by user
+   * @returns {boolean} - true if the entered fields are valid
+   */
   validateFormFields(emailValue, passwordValue) {
     const emailInput = document.getElementById('form-auth-email');
     const passwordInput = document.getElementById('form-auth-password');
@@ -43,6 +49,12 @@ export class AuthForm {
     }
   }
 
+  /**
+   * Send authorization request
+   * @param {string} emailValue - email value entered by user
+   * @param {string} passwordValue - password value entered by user
+   * @returns {}
+   */
   async authRequest(emailValue, passwordValue) {
     const response = await apiClient.post({
       path: 'tasks',
@@ -50,6 +62,11 @@ export class AuthForm {
     });
   }
 
+  /**
+   * Processing of clicking on the authorization button
+   * @param {}
+   * @returns {}
+   */
   onAuthButtonClick() {
     const authBtn = document.getElementById('form-auth-btn');
     authBtn.addEventListener('click', async (e) => {
@@ -65,6 +82,11 @@ export class AuthForm {
     });
   }
 
+  /**
+   * Navigate to registration
+   * @param {}
+   * @returns {}
+   */
   handleRegLinkClick() {
     const regLink = document.getElementById('form-auth-reg-link');
     regLink.addEventListener('click', (e) => {

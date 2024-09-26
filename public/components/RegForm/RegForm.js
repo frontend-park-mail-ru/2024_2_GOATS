@@ -20,6 +20,14 @@ export class RegForm {
     return this.#config;
   }
 
+  /**
+   * Registration fields validation
+   * @param {string} loginValue - login value entered by user
+   * @param {string} emailValue - email value entered by user
+   * @param {string} passwordValue - password value entered by user
+   * @param {string} passwordConfirmInput - password confirmation value entered by user
+   * @returns {boolean} - true if the entered fields are valid
+   */
   validateFormFields(loginValue, emailValue, passwordValue, confirmValue) {
     const emailInput = document.getElementById('form-reg-email');
     const loginInput = document.getElementById('form-reg-login');
@@ -67,6 +75,14 @@ export class RegForm {
     }
   }
 
+  /**
+   * Send registration request
+   * @param {string} loginValue - login value entered by user
+   * @param {string} emailValue - email value entered by user
+   * @param {string} passwordValue - password value entered by user
+   * @param {string} passwordConfirmInput - password confirmation value entered by user
+   * @returns {}
+   */
   async regRequest(loginValue, emailValue, passwordValue, confirmValue) {
     const response = await apiClient.post({
       path: 'tasks',
@@ -79,6 +95,11 @@ export class RegForm {
     });
   }
 
+  /**
+   * Processing of clicking on the registration button
+   * @param {}
+   * @returns {}
+   */
   onRegButtonClick() {
     const regBtn = document.getElementById('form-reg-btn');
     regBtn.addEventListener('click', async (e) => {
@@ -105,6 +126,11 @@ export class RegForm {
     });
   }
 
+  /**
+   * Navigate to authorization
+   * @param {}
+   * @returns {}
+   */
   handleAuthLinkClick() {
     const authLink = document.getElementById('form-reg-auth-link');
     authLink.addEventListener('click', (e) => {
