@@ -10,6 +10,10 @@ export default [
         Handlebars: 'readonly',
       },
     },
+    files: ['webpack.config.js'],
+    env: {
+      node: true,
+    },
   },
   pluginJs.configs.recommended,
   eslintConfigPrettier,
