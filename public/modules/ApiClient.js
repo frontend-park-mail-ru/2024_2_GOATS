@@ -6,6 +6,14 @@ const HTTP_METHOD_PUT = 'PUT';
 const HTTP_METHOD_DELETE = 'DELETE';
 
 class ApiClient {
+  /**
+   * GET request
+   * @param {Object} params - request parameters
+   * @param {string} params.path - API endpoint path
+   * @param {number} params.id - item ID (optional)
+   * @returns {Promise<Object>} - response from the API
+   * @throws {Error} - if the request fails
+   */
   get({ path, id }) {
     return this._apiClient({
       method: HTTP_METHOD_GET,
@@ -14,6 +22,14 @@ class ApiClient {
     });
   }
 
+  /**
+   * POST request
+   * @param {Object} params - request parameters
+   * @param {string} params.path - API endpoint path
+   * @param {Object} params.body - request payload (data to be sent)
+   * @returns {Promise<Object>} - response from the API
+   * @throws {Error} - if the request fails
+   */
   post({ path, body }) {
     return this._apiClient({
       method: HTTP_METHOD_POST,
@@ -22,6 +38,15 @@ class ApiClient {
     });
   }
 
+  /**
+   * PUT request
+   * @param {Object} params - request parameters
+   * @param {string} params.path - API endpoint path
+   * @param {number|string} params.id - item ID to update
+   * @param {Object} params.body - request payload (data to be updated)
+   * @returns {Promise<Object>} - response from the API
+   * @throws {Error} - if the request fails
+   */
   put({ path, id, body }) {
     return this._apiClient({
       method: HTTP_METHOD_PUT,
@@ -31,6 +56,14 @@ class ApiClient {
     });
   }
 
+  /**
+   * DELETE request
+   * @param {Object} params - request parameters
+   * @param {string} params.path - API endpoint path
+   * @param {number|string} params.id - item ID to delete
+   * @returns {Promise<Object>} - response from the API
+   * @throws {Error} - if the request fails
+   */
   delete({ path, id }) {
     return this._apiClient({
       method: HTTP_METHOD_DELETE,
@@ -39,6 +72,17 @@ class ApiClient {
     });
   }
 
+  /**
+   * Send request to API
+   * @param {Object} params - request parameters
+   * @param {string} params.method - HTTP method (GET, POST, PUT, DELETE)
+   * @param {string} params.path - API endpoint path
+   * @param {number|string} [params.id=null] - item ID (optional)
+   * @param {Object} [params.body=null] - request payload (optional)
+   * @returns {Promise<Object>} - response from the API
+   * @throws {Error} - if the request fails
+   * @private
+   */
   async _apiClient({ method, path, id = null, body = null }) {
     const url = API_URL + path + (id ? `/${id}` : '');
     const response = await fetch(url, {

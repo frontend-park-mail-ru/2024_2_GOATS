@@ -1,5 +1,6 @@
 import { goToPage } from '../..';
 import { apiClient } from '../../modules/ApiClient';
+import template from './RegForm.hbs';
 
 import {
   validateEmailAddress,
@@ -113,6 +114,11 @@ export class RegForm {
     }
   }
 
+  /**
+   * Processing of clicking on the registration button
+   * @param {}
+   * @returns {}
+   */
   onRegButtonClick() {
     const regBtn = document.getElementById('form-reg-btn');
     regBtn.addEventListener('click', async (e) => {
@@ -146,6 +152,11 @@ export class RegForm {
     });
   }
 
+  /**
+   * Navigate to authorization
+   * @param {}
+   * @returns {}
+   */
   handleAuthLinkClick() {
     const authLink = document.getElementById('form-reg-auth-link');
     authLink.addEventListener('click', (e) => {
@@ -161,7 +172,6 @@ export class RegForm {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['RegForm.hbs'];
     this.#parent.innerHTML = template();
   }
 }

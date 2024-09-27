@@ -1,4 +1,5 @@
 import { Card } from '../Card/Card';
+import template from './Slider.hbs';
 
 export class Slider {
   #parent;
@@ -19,6 +20,11 @@ export class Slider {
     this.renderTemplate();
   }
 
+  /**
+   * checking the slider's boundary values
+   * @param {}
+   * @returns {}
+   */
   checkBtns() {
     const btnNext = document.getElementById('slider-btn-next');
     const btnPrev = document.getElementById('slider-btn-prev');
@@ -37,8 +43,6 @@ export class Slider {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['Slider.hbs'];
-
     this.#parent.insertAdjacentHTML('beforeend', template({ id: this.#id }));
 
     const container = document.querySelector('.slider__container');

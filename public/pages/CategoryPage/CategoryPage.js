@@ -1,6 +1,7 @@
 import { CardsList } from '../../components/CardsList/CardsList';
 import { apiClient } from '../../modules/ApiClient';
 import { MainPage } from '../MainPage/MainPage';
+import template from './CategoryPage.hbs';
 
 export class CategoryPage {
   #parent;
@@ -20,6 +21,11 @@ export class CategoryPage {
     return this.#movies.slice(0, 3);
   }
 
+  /**
+   * Send get movies from category request
+   * @param {}
+   * @returns {}
+   */
   async getCategoryMovies() {
     const response = await apiClient.get({
       path: 'movies',
@@ -31,6 +37,11 @@ export class CategoryPage {
     moviesList.render();
   }
 
+  /**
+   * Navigate to previous page
+   * @param {}
+   * @returns {}
+   */
   goBack() {
     const backButton = document.getElementById('category-page-button-back');
     const main = document.querySelector('main');
@@ -43,7 +54,6 @@ export class CategoryPage {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['CategoryPage.hbs'];
     this.#parent.innerHTML = template({
       title: this.#pageTitle,
     });

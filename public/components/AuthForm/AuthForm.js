@@ -1,5 +1,7 @@
 import { goToPage } from '../..';
 import { apiClient } from '../../modules/ApiClient';
+import template from './AuthForm.hbs';
+
 import {
   validateEmailAddress,
   validatePassword,
@@ -73,6 +75,11 @@ export class AuthForm {
     }
   }
 
+  /**
+   * Processing of clicking on the authorization button
+   * @param {}
+   * @returns {}
+   */
   onAuthButtonClick() {
     const authBtn = document.getElementById('form-auth-btn');
     authBtn.addEventListener('click', async (e) => {
@@ -93,6 +100,11 @@ export class AuthForm {
     });
   }
 
+  /**
+   * Navigate to registration
+   * @param {}
+   * @returns {}
+   */
   handleRegLinkClick() {
     const regLink = document.getElementById('form-auth-reg-link');
     regLink.addEventListener('click', (e) => {
@@ -108,7 +120,6 @@ export class AuthForm {
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['AuthForm.hbs'];
     this.#parent.innerHTML = template();
   }
 }
