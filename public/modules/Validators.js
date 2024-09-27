@@ -1,8 +1,19 @@
+import {
+  CHAR_0_CODE,
+  CHAR_9_CODE,
+  CHAR_A_CODE,
+  CHAR_Z_CODE,
+  CHAR_a_CODE,
+  CHAR_z_CODE,
+  passwordValidationRules,
+  loginValidationRules,
+} from '../consts';
+
 export function validateEmailAddress(emailAddress) {
-  let atSymbol = emailAddress.indexOf('@');
-  let dotSymbol = emailAddress.lastIndexOf('.');
-  let spaceSymbol = emailAddress.indexOf(' ');
-  let doubleDotSymbol = emailAddress.indexOf('..');
+  const atSymbol = emailAddress.indexOf('@');
+  const dotSymbol = emailAddress.lastIndexOf('.');
+  const spaceSymbol = emailAddress.indexOf(' ');
+  const doubleDotSymbol = emailAddress.indexOf('..');
 
   if (
     atSymbol != -1 &&
@@ -21,38 +32,52 @@ export function validateEmailAddress(emailAddress) {
 }
 
 export function validatePassword(password) {
-  if (password.length < 8) {
-    return false;
+  passwordValidationRules.reset();
+
+  if (password.length > 7) {
+    passwordValidationRules.minLength.pass = true;
   }
 
-  let hasDigit = false;
   for (let i = 0; i < password.length; i++) {
     if (!isNaN(password[i])) {
-      hasDigit = true;
+      passwordValidationRules.hasDigit.pass = true;
       break;
     }
   }
 
-  return hasDigit;
+  for (const rule in passwordValidationRules) {
+    if (!passwordValidationRules[rule].pass) {
+      return passwordValidationRules[rule].errorMessage;
+    }
+  }
 }
 
 export function validateLogin(username) {
-  if (username.length <= 5) {
-    return false;
+  loginValidationRules.reset();
+  if (username.length >= 6) {
+    loginValidationRules.minLength.pass = true;
+  }
+
+  if (username.length <= 24) {
+    loginValidationRules.maxLength.pass = true;
   }
 
   let isValid = true;
   for (let i = 0; i < username.length; i++) {
-    let char = username[i];
+    const char = username[i];
 
     if (
-      (char.charCodeAt(0) >= 65 && char.charCodeAt(0) <= 90) ||
-      (char.charCodeAt(0) >= 97 && char.charCodeAt(0) <= 122)
+      (char.charCodeAt(0) >= CHAR_A_CODE &&
+        char.charCodeAt(0) <= CHAR_Z_CODE) ||
+      (char.charCodeAt(0) >= CHAR_a_CODE && char.charCodeAt(0) <= CHAR_z_CODE)
     ) {
       continue;
     }
 
-    if (char.charCodeAt(0) >= 48 && char.charCodeAt(0) <= 57) {
+    if (
+      char.charCodeAt(0) >= CHAR_0_CODE &&
+      char.charCodeAt(0) <= CHAR_9_CODE
+    ) {
       continue;
     }
 
@@ -64,5 +89,11 @@ export function validateLogin(username) {
     break;
   }
 
-  return isValid;
+  loginValidationRules.hasNoSpec.pass = isValid;
+
+  for (const rule in loginValidationRules) {
+    if (!loginValidationRules[rule].pass) {
+      return loginValidationRules[rule].errorMessage;
+    }
+  }
 }

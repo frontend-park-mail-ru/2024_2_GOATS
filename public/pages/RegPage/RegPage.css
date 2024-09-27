@@ -14,6 +14,7 @@
 }
 
 .reg-page__container_intro-text {
+  text-transform: uppercase;
   width: 50%;
   h1 {
     font-size: 48px;

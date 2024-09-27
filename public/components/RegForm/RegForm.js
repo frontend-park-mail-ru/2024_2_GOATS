@@ -20,69 +20,104 @@ export class RegForm {
     return this.#config;
   }
 
-  validateFormFields(loginValue, emailValue, passwordValue, confirmValue) {
+  validateEmailField(emailValue) {
     const emailInput = document.getElementById('form-reg-email');
-    const loginInput = document.getElementById('form-reg-login');
-    const passwordInput = document.getElementById('form-reg-password');
-    const passwordConfirmInput = document.getElementById(
-      'form-reg-password-confirm',
-    );
+    const emailError = document.getElementById('form-reg-email-error');
 
-    if (
-      !validateEmailAddress(emailValue) ||
-      !validatePassword(passwordValue) ||
-      !validateLogin(loginValue) ||
-      passwordValue != confirmValue
-    ) {
-      if (!validateEmailAddress(emailValue)) {
-        emailInput.classList.add('input-error');
-      } else {
-        emailInput.classList.remove('input-error');
-      }
-
-      if (!validateLogin(loginValue)) {
-        loginInput.classList.add('input-error');
-      } else {
-        loginInput.classList.remove('input-error');
-      }
-
-      if (!validatePassword(passwordValue)) {
-        passwordInput.classList.add('input-error');
-      } else {
-        passwordInput.classList.remove('input-error');
-      }
-      if (passwordValue != confirmValue) {
-        passwordConfirmInput.classList.add('input-error');
-      } else {
-        passwordConfirmInput.classList.remove('input-error');
-      }
+    if (!validateEmailAddress(emailValue)) {
+      emailInput.classList.add('input-error');
+      emailError.innerText = 'Некорректный e-mail';
       return false;
     } else {
       emailInput.classList.remove('input-error');
-      loginInput.classList.remove('input-error');
-      passwordInput.classList.remove('input-error');
-      passwordConfirmInput.classList.remove('input-error');
-
+      emailError.innerText = '';
       return true;
     }
   }
 
+  validateLoginField(loginValue) {
+    const loginInput = document.getElementById('form-reg-login');
+    const loginError = document.getElementById('form-reg-login-error');
+    if (validateLogin(loginValue)) {
+      loginInput.classList.add('input-error');
+      loginError.innerText = validateLogin(loginValue);
+      return false;
+    } else {
+      loginInput.classList.remove('input-error');
+      loginError.innerText = '';
+      return true;
+    }
+  }
+
+  validatePasswordField(passwordValue) {
+    const passwordInput = document.getElementById('form-reg-password');
+    const passwordError = document.getElementById('form-reg-password-error');
+
+    if (validatePassword(passwordValue)) {
+      passwordInput.classList.add('input-error');
+      passwordError.innerText = validatePassword(passwordValue);
+
+      return false;
+    } else {
+      passwordInput.classList.remove('input-error');
+      passwordError.innerText = '';
+      return true;
+    }
+  }
+
+  validatePasswordConrirmField(passwordValue, passwordConfirmValue) {
+    const passwordConfirmInput = document.getElementById(
+      'form-reg-password-confirm',
+    );
+    const passwordConfirmError = document.getElementById(
+      'form-reg-password-confirm-error',
+    );
+
+    if (passwordValue !== passwordConfirmValue) {
+      passwordConfirmInput.classList.add('input-error');
+      passwordConfirmError.innerText = 'Пароли должны совпадать';
+      return false;
+    } else {
+      passwordConfirmInput.classList.remove('input-error');
+      passwordConfirmError.innerText = '';
+      return true;
+    }
+  }
+
+  throwRegError(authErrorMessage) {
+    const errorBlock = document.getElementById('reg-error');
+    errorBlock.innerHTML = authErrorMessage;
+    errorBlock.classList.add('visible');
+  }
+
+  removeRegError() {
+    const errorBlock = document.getElementById('reg-error');
+    errorBlock.innerHTML = '';
+    errorBlock.classList.remove('visible');
+  }
+
   async regRequest(loginValue, emailValue, passwordValue, confirmValue) {
-    const response = await apiClient.post({
-      path: 'tasks',
-      body: {
-        email: emailValue,
-        login: loginValue,
-        password: passwordValue,
-        passwordConfirm: confirmValue,
-      },
-    });
+    try {
+      const response = await apiClient.post({
+        path: 'tasks',
+        body: {
+          email: emailValue,
+          login: loginValue,
+          password: passwordValue,
+          passwordConfirm: confirmValue,
+        },
+      });
+      // throw Error; // TODO: нужен бэк
+    } catch {
+      this.throwRegError('Пользователь с таким e-mail уже есть');
+    }
   }
 
   onRegButtonClick() {
     const regBtn = document.getElementById('form-reg-btn');
     regBtn.addEventListener('click', async (e) => {
       e.preventDefault();
+      this.removeRegError();
 
       const emailValue = document.getElementById('form-reg-email').value;
       const loginValue = document.getElementById('form-reg-login').value;
@@ -91,13 +126,19 @@ export class RegForm {
         'form-reg-password-confirm',
       ).value;
 
+      const isEmailValid = this.validateEmailField(emailValue);
+      const isLoginValid = this.validateLoginField(loginValue);
+      const isPasswordValid = this.validatePasswordField(passwordValue);
+      const isPasswordConfirmValid = this.validatePasswordConrirmField(
+        passwordValue,
+        confirmValue,
+      );
+
       if (
-        !this.validateFormFields(
-          loginValue,
-          emailValue,
-          passwordValue,
-          confirmValue,
-        )
+        !isEmailValid ||
+        !isPasswordValid ||
+        !isLoginValid ||
+        !isPasswordConfirmValid
       ) {
         return;
       }
@@ -113,20 +154,10 @@ export class RegForm {
     });
   }
 
-  test() {
-    const testEl = document.getElementsByClassName('form-reg__title')[0];
-    testEl.addEventListener('click', () => {
-      const note = new Notifier('success', 'Успешно', 3000);
-
-      note.render();
-    });
-  }
-
   render() {
     this.renderTemplate();
     this.onRegButtonClick();
     this.handleAuthLinkClick();
-    this.test();
   }
 
   renderTemplate() {

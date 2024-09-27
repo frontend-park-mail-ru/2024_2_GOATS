@@ -86,5 +86,4 @@ export function goToPage(headerLinkElement) {
 }
 
 renderHeader();
-renderAuthPage();
-// renderMainPage();
+renderMainPage();

@@ -34,6 +34,8 @@
           id='form-auth-email'
           type='email'
         />
+        <span class='form-auth__input_error' id='form-auth-email-error'></span>
+
       </label>
     </div>
     <div class='form-auth__input'>
@@ -69,9 +71,20 @@
           id='form-auth-password'
           type='password'
         />
+        <span
+          class='form-auth__input_error'
+          id='form-auth-password-error'
+        ></span>
       </label>
     </div>
-    <button class='button form-auth__button' id='form-auth-btn'>Войти</button>
+    <div class='form-auth__submit'>
+      <button
+        class='button form-auth__submit_button'
+        id='form-auth-btn'
+      >Войти</button>
+      <span id='auth-error' class='auth-error'></span>
+
+    </div>
   </form>
   <div class='form-auth__footer'>
     <span>У Вас нет аккаунта?

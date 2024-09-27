@@ -18,45 +18,74 @@ export class AuthForm {
     return this.#config;
   }
 
-  validateFormFields(emailValue, passwordValue) {
-    const emailInput = document.getElementById('form-auth-email');
+  validatePasswordField(passwordValue) {
     const passwordInput = document.getElementById('form-auth-password');
+    const passwordError = document.getElementById('form-auth-password-error');
 
-    if (!validateEmailAddress(emailValue) || !validatePassword(passwordValue)) {
-      if (!validateEmailAddress(emailValue)) {
-        emailInput.classList.add('input-error');
-      } else {
-        emailInput.classList.remove('input-error');
-      }
-      if (!validatePassword(passwordValue)) {
-        passwordInput.classList.add('input-error');
-      } else {
-        passwordInput.classList.remove('input-error');
-      }
+    if (validatePassword(passwordValue)) {
+      passwordInput.classList.add('input-error');
+      passwordError.innerText = validatePassword(passwordValue);
+      console.log(validatePassword(passwordValue));
       return false;
     } else {
-      emailInput.classList.remove('input-error');
       passwordInput.classList.remove('input-error');
-
+      passwordError.innerText = '';
       return true;
     }
   }
 
+  validateEmailField(emailValue) {
+    const emailInput = document.getElementById('form-auth-email');
+    const emailError = document.getElementById('form-auth-email-error');
+
+    if (!validateEmailAddress(emailValue)) {
+      emailInput.classList.add('input-error');
+      emailError.innerText = 'Некорректный e-mail';
+      return false;
+    } else {
+      emailInput.classList.remove('input-error');
+      emailError.innerText = '';
+      return true;
+    }
+  }
+
+  throwAuthError(authErrorMessage) {
+    const errorBlock = document.getElementById('auth-error');
+    errorBlock.innerHTML = authErrorMessage;
+    errorBlock.classList.add('visible');
+  }
+
+  removeAuthError() {
+    const errorBlock = document.getElementById('auth-error');
+    errorBlock.innerHTML = '';
+    errorBlock.classList.remove('visible');
+  }
+
   async authRequest(emailValue, passwordValue) {
-    const response = await apiClient.post({
-      path: 'tasks',
-      body: { email: emailValue, password: passwordValue },
-    });
+    try {
+      const response = await apiClient.post({
+        path: 'tasks',
+        body: { email: emailValue, password: passwordValue },
+      });
+      // throw Error; // TODO: нужен бэк
+    } catch {
+      this.throwAuthError('Пользователь с таким e-mail не найден');
+    }
   }
 
   onAuthButtonClick() {
     const authBtn = document.getElementById('form-auth-btn');
     authBtn.addEventListener('click', async (e) => {
       e.preventDefault();
+      this.removeAuthError();
+
       const emailValue = document.getElementById('form-auth-email').value;
       const passwordValue = document.getElementById('form-auth-password').value;
 
-      if (!this.validateFormFields(emailValue, passwordValue)) {
+      const isEmailValid = this.validateEmailField(emailValue);
+      const isPasswordValid = this.validatePasswordField(passwordValue);
+
+      if (!isEmailValid || !isPasswordValid) {
         return;
       }
 
@@ -72,24 +101,10 @@ export class AuthForm {
     });
   }
 
-  test() {
-    const testEl = document.getElementsByClassName('form-auth__title')[0];
-    testEl.addEventListener('click', () => {
-      const note = new Notifier(
-        'error',
-        'Нет пользователя с таким e-mail',
-        3000,
-      );
-
-      note.render();
-    });
-  }
-
   render() {
     this.renderTemplate();
     this.onAuthButtonClick();
     this.handleRegLinkClick();
-    this.test();
   }
 
   renderTemplate() {

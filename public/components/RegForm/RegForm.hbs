@@ -34,6 +34,7 @@
           id='form-reg-email'
           type='email'
         />
+        <span class='form-reg__input_error' id='form-reg-email-error'></span>
       </label>
 
     </div>
@@ -74,6 +75,7 @@
           id='form-reg-login'
           type='text'
         />
+        <span class='form-reg__input_error' id='form-reg-login-error'></span>
       </label>
 
     </div>
@@ -111,6 +113,7 @@
           id='form-reg-password'
           type='password'
         />
+        <span class='form-reg__input_error' id='form-reg-password-error'></span>
       </label>
 
     </div>
@@ -126,11 +129,19 @@
           id='form-reg-password-confirm'
           type='password'
         />
+        <span
+          class='form-reg__input_error'
+          id='form-reg-password-confirm-error'
+        ></span>
+
       </label>
 
     </div>
-
-    <button class='button form-reg__button' id='form-reg-btn'>Создать аккаунт</button>
+    <div class='form-reg__submit'>
+      <button class='button form-reg__submit_button' id='form-reg-btn'>Создать
+        аккаунт</button>
+      <span id='reg-error' class='reg-error'></span>
+    </div>
   </form>
   <div class='form-reg__footer'>
     <span>Уже есть аккаунт?

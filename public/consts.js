@@ -38,3 +38,54 @@ export const movies = [
     rating: 6.6,
   },
 ];
+
+export const CHAR_A_CODE = 65;
+export const CHAR_Z_CODE = 90;
+export const CHAR_a_CODE = 97;
+export const CHAR_z_CODE = 122;
+export const CHAR_0_CODE = 48;
+export const CHAR_9_CODE = 57;
+
+export const passwordValidationRules = {
+  minLength: {
+    pass: false,
+    errorMessage: 'Пароль должен содержать минимум 8 символов',
+  },
+  hasDigit: {
+    pass: false,
+    errorMessage: 'Пароль должен содержать хотя бы одну цифру',
+  },
+
+  reset() {
+    const fields = Object.values(this);
+    fields.forEach((field) => {
+      field.pass = false;
+    });
+    return this;
+  },
+};
+
+export const loginValidationRules = {
+  minLength: {
+    pass: false,
+    errorMessage: 'Логин должен содержать минимум 6 символов',
+  },
+
+  maxLength: {
+    pass: false,
+    errorMessage: 'Логин должен содержать максимум 24 символов',
+  },
+
+  hasNoSpec: {
+    pass: false,
+    errorMessage: 'Разрешены символы латинского алфавита, цифры и "."',
+  },
+
+  reset() {
+    const fields = Object.values(this);
+    fields.forEach((field) => {
+      field.pass = false;
+    });
+    return this;
+  },
+};
