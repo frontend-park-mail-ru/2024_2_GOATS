@@ -1,4 +1,5 @@
-export const API_URL = 'https://6681cdf504acc3545a079ff2.mockapi.io/';
+// export const API_URL = 'https://6681cdf504acc3545a079ff2.mockapi.io/';
+export const API_URL = 'http://185.241.195.151/api/';
 
 export const movies = [
   {

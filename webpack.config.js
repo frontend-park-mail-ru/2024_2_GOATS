@@ -54,7 +54,6 @@ module.exports = {
     extensions: ['.js'],
   },
   devServer: {
-    host: '127.0.0.1',
     port: 3000,
     watchFiles: path.join(publicPath, 'public'),
     client: {
