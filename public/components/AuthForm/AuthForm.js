@@ -65,8 +65,8 @@ export class AuthForm {
 
   async authRequest(emailValue, passwordValue) {
     try {
-      const response = await apiClient.post({
-        path: 'tasks',
+      await apiClient.post({
+        path: 'auth/login',
         body: { email: emailValue, password: passwordValue },
       });
 
@@ -77,6 +77,12 @@ export class AuthForm {
     } catch {
       this.throwAuthError('Пользователь с таким e-mail не найден');
     }
+  }
+
+  async logoutRequest() {
+    await apiClient.post({
+      path: 'auth/logout',
+    });
   }
 
   /**
@@ -101,6 +107,7 @@ export class AuthForm {
       }
 
       this.authRequest(emailValue, passwordValue);
+      // this.logoutRequest();
     });
   }
 

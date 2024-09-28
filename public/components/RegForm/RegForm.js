@@ -99,13 +99,13 @@ export class RegForm {
 
   async regRequest(loginValue, emailValue, passwordValue, confirmValue) {
     try {
-      const response = await apiClient.post({
-        path: 'tasks',
+      await apiClient.post({
+        path: 'auth/signup',
         body: {
           email: emailValue,
-          login: loginValue,
+          username: loginValue,
           password: passwordValue,
-          passwordConfirm: confirmValue,
+          passwordConfirmation: confirmValue,
         },
       });
       // throw Error; // TODO: нужен бэк

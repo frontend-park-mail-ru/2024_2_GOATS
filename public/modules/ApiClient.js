@@ -87,7 +87,9 @@ class ApiClient {
     const url = API_URL + path + (id ? `/${id}` : '');
     const response = await fetch(url, {
       method: method,
-      headers: body ? { 'Content-Type': 'application/json' } : {},
+      headers: body
+        ? { 'Content-Type': 'application/json' }
+        : { 'Content-Type': 'application/json' },
       body: body && JSON.stringify(body),
       mode: 'cors',
       credentials: 'include',
