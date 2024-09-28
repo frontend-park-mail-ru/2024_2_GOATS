@@ -1,4 +1,6 @@
 import template from './Header.hbs';
+import { goToPage } from '../..';
+import { mockUser } from '../..';
 
 export class Header {
   #parent;
@@ -14,8 +16,12 @@ export class Header {
     };
   }
 
-  get config() {
+  get getConfig() {
     return this.#config;
+  }
+
+  set setConfig(config) {
+    this.#config = config;
   }
 
   render() {
@@ -23,19 +29,22 @@ export class Header {
   }
 
   get items() {
-    return Object.entries(this.config.pages);
+    return Object.entries(this.getConfig.pages);
   }
 
   renderTemplate() {
-    const items = this.items.map(([key, { text, href }], index) => {
-      let className = '';
-      if (index === 0) {
-        className += 'active';
-      }
+    console.log(this.getConfig.pages);
+    const items = this.items.map(
+      ([key, { text, href, isAvailable, id }], index) => {
+        let className = '';
+        if (index === 0) {
+          className += 'active';
+        }
 
-      return { key, text, href, className };
-    });
-    this.#parent.innerHTML = template({ items });
+        return { key, text, href, className, id, isAvailable };
+      },
+    );
+    this.#parent.innerHTML = template({ items, mockUser });
     this.#parent.querySelectorAll('a').forEach((element) => {
       this.state.navElements[element.dataset.section] = element;
     });

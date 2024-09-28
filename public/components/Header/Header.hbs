@@ -4,14 +4,22 @@
 
       <span>Cassette</span>
     </div>
+    <div id='inin'>in</div>
+
     <div class='header__container_nav'>
       {{#each items}}
-        <a
-          class='header__container_item {{this.className}}'
-          href='{{this.href}}'
-          data-section='{{this.key}}'
-        >{{this.text}}</a>
+        {{#if this.isAvailable}}
+          <a
+            class='header__container_item {{this.className}}'
+            href='{{this.href}}'
+            id='{{this.id}}'
+            data-section='{{this.key}}'
+          >{{this.text}}</a>{{/if}}
       {{/each}}
     </div>
+    {{#if mockUser.isAuthorised}}
+      <span>{{mockUser.login}}</span>
+      <span id='exit-button'>Выйти</span>
+    {{/if}}
   </div>
 </div>

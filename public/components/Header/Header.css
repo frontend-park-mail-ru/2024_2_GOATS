@@ -33,6 +33,7 @@
   font-size: 20px;
   font-weight: 600;
   display: flex;
-  width: 40%;
+
+  gap: 20px;
   justify-content: space-between;
 }
