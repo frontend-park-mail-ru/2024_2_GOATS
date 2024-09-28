@@ -6,7 +6,8 @@ import {
   validateEmailAddress,
   validatePassword,
 } from '../../modules/Validators';
-import { Notifier } from '../Notifier/Notifier';
+import { mockUser } from '../..';
+// import { Notifier } from '../Notifier/Notifier';
 
 export class AuthForm {
   #parent;
@@ -27,7 +28,6 @@ export class AuthForm {
     if (validatePassword(passwordValue)) {
       passwordInput.classList.add('input-error');
       passwordError.innerText = validatePassword(passwordValue);
-      console.log(validatePassword(passwordValue));
       return false;
     } else {
       passwordInput.classList.remove('input-error');
@@ -69,6 +69,10 @@ export class AuthForm {
         path: 'tasks',
         body: { email: emailValue, password: passwordValue },
       });
+
+      //TESTING HEADER
+      // goToPage(document.querySelector(`[data-section="films"]`));
+
       // throw Error; // TODO: нужен бэк
     } catch {
       this.throwAuthError('Пользователь с таким e-mail не найден');

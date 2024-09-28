@@ -89,3 +89,38 @@ export const loginValidationRules = {
     return this;
   },
 };
+
+export function setPagesConfig(
+  user,
+  renderMainPage,
+  renderAuthPage,
+  renderRegPage,
+) {
+  return {
+    pages: {
+      films: {
+        text: 'Подборка фильмов',
+        href: '/main',
+        id: 'main-page-nav',
+        render: renderMainPage,
+        isAvailable: true,
+      },
+      login: {
+        text: 'Авторизация',
+        href: '/auth',
+        id: 'login-page-nav',
+
+        render: renderAuthPage,
+        isAvailable: !user.isAuthorised,
+      },
+      signup: {
+        text: 'Регистрация',
+        href: '/register',
+        id: 'signup-page-nav',
+
+        render: renderRegPage,
+        isAvailable: !user.isAuthorised,
+      },
+    },
+  };
+}

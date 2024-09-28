@@ -4,6 +4,7 @@ import { AuthPage } from './pages/AuthPage/AuthPage.js';
 import './index.css';
 import { Header } from './components/Header/Header.js';
 import { RegPage } from './pages/RegPage/RegPage.js';
+import { setPagesConfig } from './consts.js';
 
 const rootElement = document.getElementById('root');
 const headerElement = document.createElement('header');
@@ -16,33 +17,73 @@ rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
 rootElement.appendChild(notifierElement);
 
-const pagesConfig = {
-  pages: {
-    films: {
-      text: 'Подборка фильмов',
-      href: '/main',
-      render: renderMainPage,
-    },
-    login: {
-      text: 'Авторизация',
-      href: '/auth',
-      render: renderAuthPage,
-    },
-    signup: {
-      text: 'Регистрация',
-      href: '/register',
-      render: renderRegPage,
-    },
-  },
+export const mockUser = {
+  login: '',
+  isAuthorised: false,
 };
+
+// const pagesConfig = {
+//   pages: {
+//     films: {
+//       text: 'Подборка фильмов',
+//       href: '/main',
+//       render: renderMainPage,
+//     },
+//     login: {
+//       text: 'Авторизация',
+//       href: '/auth',
+//       render: renderAuthPage,
+//     },
+//     signup: {
+//       text: 'Регистрация',
+//       href: '/register',
+//       render: renderRegPage,
+//     },
+//   },
+// };
+
+const pagesConfig = setPagesConfig(
+  mockUser,
+  renderMainPage,
+  renderAuthPage,
+  renderRegPage,
+);
+
+function updatePagesConfig(config, mockUser) {
+  config.pages.login.isAvailable = !mockUser.isAuthorised;
+  config.pages.signup.isAvailable = !mockUser.isAuthorised;
+}
 
 const header = new Header(headerElement, pagesConfig);
 const mainPage = new MainPage(pageElement);
 const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
 
+//TEST
+function imitateLogin() {
+  const logImitatorButton = document.getElementById('inin');
+
+  logImitatorButton.addEventListener('click', () => {
+    mockUser.isAuthorised = true;
+    mockUser.login = 'Tamik';
+
+    updatePagesConfig(pagesConfig, mockUser);
+    renderHeader();
+  });
+}
+function imitateExit() {
+  const logoutImitatorButton = document.getElementById('exit-button');
+  logoutImitatorButton.addEventListener('click', () => {
+    console.log('aaaaaaa');
+    mockUser.isAuthorised = false;
+    updatePagesConfig(pagesConfig, mockUser);
+    renderHeader();
+  });
+}
+
 function renderHeader() {
   header.render();
+
   headerElement.addEventListener('click', (e) => {
     const { target } = e;
 
@@ -50,10 +91,15 @@ function renderHeader() {
       target.tagName.toLowerCase() === 'a' ||
       target instanceof HTMLAnchorElement
     ) {
+      console.log('9999');
       e.preventDefault();
       goToPage(target);
     }
   });
+
+  //TEST
+  imitateLogin();
+  imitateExit();
 }
 
 function renderMainPage() {
@@ -85,5 +131,5 @@ export function goToPage(headerLinkElement) {
   pagesConfig.pages[headerLinkElement.dataset.section].render();
 }
 
-renderHeader();
 renderMainPage();
+renderHeader();
