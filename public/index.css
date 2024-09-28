@@ -10,6 +10,7 @@
 @import url('./components/GridBlock/GridBlock.css');
 @import url('./components/ConfirmModal/ConfirmModal.css');
 @import url('./components/Notifier/Notifier.css');
+@import url('./components/VideoPlayer/VideoPlayer.css');
 
 @import url('./pages/MainPage/MainPage.css');
 @import url('./pages/AuthPage/AuthPage.css');

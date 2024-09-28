@@ -8,7 +8,7 @@ handlebars ./public/components/RegForm/RegForm.hbs -f ./public/components/RegFor
 handlebars ./public/components/Slider/Slider.hbs -f ./public/components/Slider/Slider.precompiled.js
 handlebars ./public/components/ConfirmModal/ConfirmModal.hbs -f ./public/components/ConfirmModal/ConfirmModal.precompiled.js
 handlebars ./public/components/Notifier/Notifier.hbs -f ./public/components/Notifier/Notifier.precompiled.js
-
+handlebars ./public/components/VideoPlayer/VideoPlayer.hbs -f ./public/components/VideoPlayer/VideoPlayer.precompiled.js
 
 handlebars ./public/pages/AuthPage/AuthPage.hbs -f ./public/pages/AuthPage/AuthPage.precompiled.js
 handlebars ./public/pages/CategoryPage/CategoryPage.hbs -f ./public/pages/CategoryPage/CategoryPage.precompiled.js
