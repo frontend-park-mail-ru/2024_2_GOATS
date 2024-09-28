@@ -112,7 +112,7 @@ export function setPagesConfig(
         id: 'login-page-nav',
 
         render: renderAuthPage,
-        isAvailable: !user.isAuthorised,
+        isAvailable: !user.username,
       },
       signup: {
         text: 'Регистрация',
@@ -120,7 +120,7 @@ export function setPagesConfig(
         id: 'signup-page-nav',
 
         render: renderRegPage,
-        isAvailable: !user.isAuthorised,
+        isAvailable: !user.username,
       },
     },
   };

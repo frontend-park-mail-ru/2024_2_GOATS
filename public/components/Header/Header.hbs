@@ -17,8 +17,8 @@
           >{{this.text}}</a>{{/if}}
       {{/each}}
     </div>
-    {{#if mockUser.isAuthorised}}
-      <span>{{mockUser.login}}</span>
+    {{#if mockUser.username}}
+      <span>{{mockUser.username}}</span>
       <span id='exit-button'>Выйти</span>
     {{/if}}
   </div>

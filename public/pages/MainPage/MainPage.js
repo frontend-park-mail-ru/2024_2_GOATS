@@ -19,15 +19,15 @@ export class MainPage {
     this.renderTemplate();
   }
 
-  async checkAuth() {
-    try {
-      await apiClient.get({
-        path: 'auth/session',
-      });
-    } catch {
-      throw new Error('hello');
-    }
-  }
+  // async checkAuth() {
+  //   try {
+  //     await apiClient.get({
+  //       path: 'auth/session',
+  //     });
+  //   } catch {
+  //     throw new Error('hello');
+  //   }
+  // }
 
   async getTrendMovies() {
     const response = await apiClient.get({
@@ -75,7 +75,7 @@ export class MainPage {
 
     this.#loader = new Loader(this.#parent, template());
     this.#loader.render();
-    this.checkAuth();
+    // this.checkAuth();
     this.renderBlocks();
   }
 }

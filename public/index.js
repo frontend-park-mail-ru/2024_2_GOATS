@@ -6,6 +6,8 @@ import { Header } from './components/Header/Header.js';
 import { RegPage } from './pages/RegPage/RegPage.js';
 import { setPagesConfig } from './consts.js';
 
+import { apiClient } from './modules/ApiClient.js';
+
 const rootElement = document.getElementById('root');
 const headerElement = document.createElement('header');
 const pageElement = document.createElement('main');
@@ -16,6 +18,8 @@ notifierElement.id = 'notifier';
 rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
 rootElement.appendChild(notifierElement);
+
+let currentUser = {};
 
 export const mockUser = {
   login: '',
@@ -49,9 +53,27 @@ const pagesConfig = setPagesConfig(
   renderRegPage,
 );
 
+const checkAuth = async () => {
+  try {
+    const response = await apiClient.get({
+      path: 'auth/session',
+    });
+
+    currentUser = response.user_data;
+    // TODO: Добавить в finally
+    updatePagesConfig(pagesConfig, currentUser);
+  } catch {
+    updatePagesConfig(pagesConfig, currentUser);
+    throw new Error('hello');
+  }
+};
+
+checkAuth();
+
 function updatePagesConfig(config, mockUser) {
-  config.pages.login.isAvailable = !mockUser.isAuthorised;
-  config.pages.signup.isAvailable = !mockUser.isAuthorised;
+  config.pages.login.isAvailable = !mockUser.username;
+  config.pages.signup.isAvailable = !mockUser.username;
+  renderHeader();
 }
 
 const header = new Header(headerElement, pagesConfig);
@@ -60,6 +82,7 @@ const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
 
 //TEST
+
 function imitateLogin() {
   const logImitatorButton = document.getElementById('inin');
 
@@ -68,7 +91,7 @@ function imitateLogin() {
     mockUser.login = 'Tamik';
 
     updatePagesConfig(pagesConfig, mockUser);
-    renderHeader();
+    // renderHeader();
   });
 }
 // function imitateExit() {
@@ -98,7 +121,7 @@ function renderHeader() {
   });
 
   //TEST
-  imitateLogin();
+  // imitateLogin();
   // imitateExit();
 }
 
@@ -132,4 +155,4 @@ export function goToPage(headerLinkElement) {
 }
 
 renderMainPage();
-renderHeader();
+// renderHeader();
