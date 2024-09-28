@@ -60,9 +60,11 @@ const checkAuth = async () => {
     });
 
     currentUser = response.user_data;
+    console.log(currentUser);
     // TODO: Добавить в finally
     updatePagesConfig(pagesConfig, currentUser);
   } catch {
+    currentUser = {};
     updatePagesConfig(pagesConfig, currentUser);
     throw new Error('hello');
   }
