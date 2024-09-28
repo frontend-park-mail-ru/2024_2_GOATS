@@ -3,22 +3,7 @@ import { GridBlock } from '../../components/GridBlock/GridBlock';
 import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
-
-import bb from '../../assets/mockImages/bb2.jpg';
-import mh from '../../assets/mockImages/mh.jpg';
-import sopranos from '../../assets/mockImages/sopranos.png';
-
-// const trendMoviesMock = [
-//   {
-//     src: bb,
-//   },
-//   {
-//     src: mh,
-//   },
-//   {
-//     src: sopranos,
-//   },
-// ];
+import { serializeCollections } from '../../modules/Serializer';
 
 export class MainPage {
   #parent;
@@ -49,8 +34,9 @@ export class MainPage {
       path: 'movie_collections/',
     });
 
-    this.#movieSelections = response;
-    console.log(response);
+    this.#movieSelections = serializeCollections(response.collections);
+    console.log(response.collections);
+    console.log(this.#movieSelections);
   }
 
   /**
@@ -59,19 +45,28 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    await this.getTrendMovies(), this.#loader.kill();
+    await this.getTrendMovies();
+    this.#loader.kill();
 
-    // const trendMoviesBlock = document.getElementById('trend-movies-block');
-    // const trendMoviesList = new GridBlock(
-    //   trendMoviesBlock,
-    //   trendMoviesMock,
-    //   'Сейчас в тренде',
-    // );
-    // trendMoviesList.render();
+    const trendMoviesBlock = document.getElementById('trend-movies-block');
+    const trendMoviesList = new GridBlock(
+      trendMoviesBlock,
+      this.#movieSelections[0].movies,
+      this.#movieSelections[0].title,
+    );
+    trendMoviesList.render();
 
-    // const bestMoviesBlock = document.getElementById('best-movies-block');
-    // const bestMoviesSlider = new Slider(bestMoviesBlock, this.#bestMovies, 1);
-    // bestMoviesSlider.render();
+    const mainPageBlocks = document.querySelector('.main-page__blocks');
+    console.log(mainPageBlocks);
+    this.#movieSelections.slice(1).forEach((selection) => {
+      const newBlock = document.createElement('div');
+      newBlock.classList.add('main-page__block');
+      newBlock.id = `main-page-block-${selection.id}`;
+      mainPageBlocks.appendChild(newBlock);
+
+      const slider = new Slider(newBlock, selection);
+      slider.render();
+    });
   }
 
   renderTemplate() {

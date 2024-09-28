@@ -1,13 +1,12 @@
 <div class='card'>
   <div class='card__overlay'>
-    <span class='card__overlay_rating'>{{this.movie.rating}}</span>
-    <span class='card__overlay_about'>2024, Россия, комедия</span>
+    <span class='card__overlay_rating'>{{movie.rating}}</span>
+    <span class='card__overlay_about'>{{movie.country}}</span>
 
     {{!-- <span>{{this.movie.createdAt}}</span> --}}
 
   </div>
-  <span class='card__position'>{{this.movie.position}}</span>
-  <img class='card__image' src={{this.movie.src}} alt='card' />
-  <span class='card__rating'>{{this.movie.rating}}</span>
-
+  <span class='card__position'>{{movie.position}}</span>
+  <img class='card__image' src={{movie.cardImage}} alt='card' />
+  {{!-- <span class='card__rating'>{{movie.rating}}</span> --}}
 </div>

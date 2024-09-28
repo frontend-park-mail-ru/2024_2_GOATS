@@ -71,7 +71,7 @@ export class AuthForm {
       });
 
       //TESTING HEADER
-      // goToPage(document.querySelector(`[data-section="films"]`));
+      goToPage(document.querySelector(`[data-section="films"]`));
 
       // throw Error; // TODO: нужен бэк
     } catch {

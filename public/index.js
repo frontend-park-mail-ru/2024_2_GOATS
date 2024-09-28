@@ -71,15 +71,15 @@ function imitateLogin() {
     renderHeader();
   });
 }
-function imitateExit() {
-  const logoutImitatorButton = document.getElementById('exit-button');
-  logoutImitatorButton.addEventListener('click', () => {
-    console.log('aaaaaaa');
-    mockUser.isAuthorised = false;
-    updatePagesConfig(pagesConfig, mockUser);
-    renderHeader();
-  });
-}
+// function imitateExit() {
+//   const logoutImitatorButton = document.getElementById('exit-button');
+//   logoutImitatorButton.addEventListener('click', () => {
+//     console.log('aaaaaaa');
+//     mockUser.isAuthorised = false;
+//     updatePagesConfig(pagesConfig, mockUser);
+//     renderHeader();
+//   });
+// }
 
 function renderHeader() {
   header.render();
@@ -99,7 +99,7 @@ function renderHeader() {
 
   //TEST
   imitateLogin();
-  imitateExit();
+  // imitateExit();
 }
 
 function renderMainPage() {
