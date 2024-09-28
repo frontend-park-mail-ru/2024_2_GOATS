@@ -35,8 +35,6 @@ export class MainPage {
     });
 
     this.#movieSelections = serializeCollections(response.collections);
-    console.log(response.collections);
-    console.log(this.#movieSelections);
   }
 
   /**
@@ -57,7 +55,6 @@ export class MainPage {
     trendMoviesList.render();
 
     const mainPageBlocks = document.querySelector('.main-page__blocks');
-    console.log(mainPageBlocks);
     this.#movieSelections.slice(1).forEach((selection) => {
       const newBlock = document.createElement('div');
       newBlock.classList.add('main-page__block');
