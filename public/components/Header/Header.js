@@ -35,14 +35,6 @@ export class Header {
     return Object.entries(this.getConfig.pages);
   }
 
-  onExitClick() {
-    const exitButton = document.getElementById('exit-button');
-
-    exitButton.addEventListener('click', () => {
-      this.logout();
-    });
-  }
-
   async logout() {
     try {
       await apiClient.post({
@@ -52,6 +44,14 @@ export class Header {
     } catch {
       throw new Error('logout error');
     }
+  }
+
+  onExitClick() {
+    const exitButton = document.getElementById('exit-button');
+
+    exitButton.addEventListener('click', () => {
+      this.logout();
+    });
   }
 
   renderTemplate() {
@@ -70,5 +70,7 @@ export class Header {
     this.#parent.querySelectorAll('a').forEach((element) => {
       this.state.navElements[element.dataset.section] = element;
     });
+
+    this.onExitClick();
   }
 }
