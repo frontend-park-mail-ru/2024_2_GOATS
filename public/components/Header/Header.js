@@ -18,6 +18,11 @@ export class Header {
     };
   }
 
+  /**
+   * Get header config
+   * @param {}
+   * @returns {}
+   */
   get getConfig() {
     return this.#config;
   }
@@ -26,10 +31,20 @@ export class Header {
     this.renderTemplate();
   }
 
+  /**
+   * Get header items
+   * @param {}
+   * @returns {}
+   */
   get items() {
     return Object.entries(this.getConfig.pages);
   }
 
+  /**
+   * Send logout request
+   * @param {}
+   * @returns {Promise<Object>} - response from the API
+   */
   async logout() {
     try {
       await apiClient.post({
@@ -41,6 +56,11 @@ export class Header {
     }
   }
 
+  /**
+   * Add listener on exit button
+   * @param {}
+   * @returns {}
+   */
   onExitClick() {
     if (currentUser.username) {
       const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {

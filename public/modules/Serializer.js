@@ -1,5 +1,5 @@
 /**
- * Send request to API
+ * Movie serializer
  * @param {Object} movie - movie data from API
  * @returns {Object} - serialized movie data
  */
@@ -18,7 +18,7 @@ export const serializeMovie = (movie) => {
 };
 
 /**
- * Send request to API
+ * Collection serializer
  * @param {Object} collection - collection data from API
  * @returns {Object} - serialized collection data
  */

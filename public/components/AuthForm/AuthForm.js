@@ -19,6 +19,11 @@ export class AuthForm {
     return this.#config;
   }
 
+  /**
+   * Password value validation
+   * @param {string} passwordValue - password value entered by user
+   * @returns {boolean} - true if password value is valid
+   */
   validatePasswordField(passwordValue) {
     const passwordInput = document.getElementById('form-auth-password');
     const passwordError = document.getElementById('form-auth-password-error');
@@ -34,6 +39,11 @@ export class AuthForm {
     }
   }
 
+  /**
+   *  Email value validation
+   * @param {string} emailValue - email value entered by user
+   * @returns {boolean} - true if email value is valid
+   */
   validateEmailField(emailValue) {
     const emailInput = document.getElementById('form-auth-email');
     const emailError = document.getElementById('form-auth-email-error');
@@ -49,18 +59,34 @@ export class AuthForm {
     }
   }
 
+  /**
+   * Show error to user
+   * @param {string} authErrorMessage - error message for showing to user
+   * @returns {}
+   */
   throwAuthError(authErrorMessage) {
     const errorBlock = document.getElementById('auth-error');
     errorBlock.innerHTML = authErrorMessage;
     errorBlock.classList.add('visible');
   }
 
+  /**
+   * Remove error from auth form
+   * @param {}
+   * @returns {}
+   */
   removeAuthError() {
     const errorBlock = document.getElementById('auth-error');
     errorBlock.innerHTML = '';
     errorBlock.classList.remove('visible');
   }
 
+  /**
+   * Send auth request
+   * @param {string} emailValue - email value entered by user
+   * @param {string} passwordValue - password value entered by user
+   * @returns {Promise<Object>} - response from the API
+   */
   async authRequest(emailValue, passwordValue) {
     try {
       await apiClient.post({
