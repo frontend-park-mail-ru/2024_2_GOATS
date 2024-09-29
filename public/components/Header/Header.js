@@ -47,11 +47,13 @@ export class Header {
   }
 
   onExitClick() {
-    const exitButton = document.getElementById('exit-button');
+    if (currentUser.username) {
+      const exitButton = document.getElementById('exit-button');
 
-    exitButton.addEventListener('click', () => {
-      this.logout();
-    });
+      exitButton.addEventListener('click', () => {
+        this.logout();
+      });
+    }
   }
 
   renderTemplate() {
@@ -66,11 +68,11 @@ export class Header {
         return { key, text, href, className, id, isAvailable };
       },
     );
+
+    this.onExitClick();
     this.#parent.innerHTML = template({ items, currentUser });
     this.#parent.querySelectorAll('a').forEach((element) => {
       this.state.navElements[element.dataset.section] = element;
     });
-
-    this.onExitClick();
   }
 }
