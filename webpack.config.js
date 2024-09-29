@@ -41,15 +41,6 @@ module.exports = {
         test: /\.(css)$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
-      // {
-      //   test: /\.(png|svg|jpg)$/,
-      //   type: 'asset',
-      //   parser: {
-      //     dataUrlCondition: {
-      //       maxSize: 10 * 1024,
-      //     },
-      //   },
-      // },
       {
         test: /\.(png|svg|jpg)$/,
         type: 'asset',
@@ -57,16 +48,15 @@ module.exports = {
           dataUrlCondition: {
             maxSize: 10 * 1024,
           },
-          mimetype: 'image/svg+xml',
         },
       },
-      // {
-      //   test: /\.svg$/,
-      //   type: 'asset/resource',
-      //   generator: {
-      //     filename: path.join('images', '[name].[contenthash][ext]'),
-      //   },
-      // },
+      {
+        test: /\.svg$/,
+        type: 'asset/resource',
+        generator: {
+          filename: path.join('images', '[name].[contenthash][ext]'),
+        },
+      },
     ],
   },
   resolve: {
