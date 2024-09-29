@@ -100,7 +100,7 @@ function updatePagesConfig(config, currentUser) {
 const mainPage = new MainPage(pageElement);
 const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
-
+console.log('teest');
 //TEST
 
 // function imitateLogin() {
