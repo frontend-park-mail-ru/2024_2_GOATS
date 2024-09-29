@@ -20,6 +20,11 @@ export class RegForm {
     return this.#config;
   }
 
+  /**
+   *  Email value validation
+   * @param {string} emailValue - email value entered by user
+   * @returns {boolean} - true if email value is valid
+   */
   validateEmailField(emailValue) {
     const emailInput = document.getElementById('form-reg-email');
     const emailError = document.getElementById('form-reg-email-error');
@@ -35,6 +40,11 @@ export class RegForm {
     }
   }
 
+  /**
+   * Login value validation
+   * @param {string} passwordValue - login value entered by user
+   * @returns {boolean} - true if login value is valid
+   */
   validateLoginField(loginValue) {
     const loginInput = document.getElementById('form-reg-login');
     const loginError = document.getElementById('form-reg-login-error');
@@ -49,6 +59,11 @@ export class RegForm {
     }
   }
 
+  /**
+   * Password value validation
+   * @param {string} passwordValue - password value entered by user
+   * @returns {boolean} - true if password value is valid
+   */
   validatePasswordField(passwordValue) {
     const passwordInput = document.getElementById('form-reg-password');
     const passwordError = document.getElementById('form-reg-password-error');
@@ -65,6 +80,11 @@ export class RegForm {
     }
   }
 
+  /**
+   * Password confirmation value validation
+   * @param {string} passwordValue - password confirmation value entered by user
+   * @returns {boolean} - true if password confirmation value is valid
+   */
   validatePasswordConrirmField(passwordValue, passwordConfirmValue) {
     const passwordConfirmInput = document.getElementById(
       'form-reg-password-confirm',
@@ -84,18 +104,36 @@ export class RegForm {
     }
   }
 
+  /**
+   * Show error to user
+   * @param {string} authErrorMessage - error message for showing to user
+   * @returns {}
+   */
   throwRegError(authErrorMessage) {
     const errorBlock = document.getElementById('reg-error');
     errorBlock.innerHTML = authErrorMessage;
     errorBlock.classList.add('visible');
   }
 
+  /**
+   * Remove error from registration form
+   * @param {}
+   * @returns {}
+   */
   removeRegError() {
     const errorBlock = document.getElementById('reg-error');
     errorBlock.innerHTML = '';
     errorBlock.classList.remove('visible');
   }
 
+  /**
+   * Send registration request
+   * @param {string} loginValue - login value entered by user
+   * @param {string} emailValue - email value entered by user
+   * @param {string} passwordValue - password value entered by user
+   * @param {string} confirmValue - password confirmation value entered by user
+   * @returns {Promise<Object>} - response from the API
+   */
   async regRequest(loginValue, emailValue, passwordValue, confirmValue) {
     try {
       await apiClient.post({
