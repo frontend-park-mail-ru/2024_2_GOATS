@@ -29,6 +29,11 @@ const pagesConfig = setPagesConfig(
   renderRegPage,
 );
 
+/**
+ * check if user authorised using cookies
+ * @param {}
+ * @returns {}
+ */
 export const checkAuth = async () => {
   try {
     const response = await apiClient.get({
@@ -43,6 +48,12 @@ export const checkAuth = async () => {
   }
 };
 
+/**
+ * check if user authorised using cookies
+ * @param {Object} config - current pages config
+ * @param {Object} currentUser - current user
+ * @returns {}
+ */
 function updatePagesConfig(config, currentUser) {
   config.pages.login.isAvailable = !currentUser.username;
   config.pages.signup.isAvailable = !currentUser.username;
@@ -54,6 +65,11 @@ const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
 const header = new Header(headerElement, pagesConfig);
 
+/**
+ * rendering header
+ * @param {}
+ * @returns {}
+ */
 function renderHeader() {
   header.render();
 
@@ -80,6 +96,11 @@ function renderRegPage() {
   regPage.render();
 }
 
+/**
+ * rerender header and page after navigation action
+ * @param {HTMLElement} headerLinkElement - nav-link that was clicked
+ * @returns {}
+ */
 export function goToPage(headerLinkElement) {
   if (
     headerLinkElement.dataset.section ==
