@@ -1,68 +1,41 @@
 import { apiClient } from '../../modules/ApiClient';
-import { CardsList } from '../../components/CardsList/CardsList';
 import { GridBlock } from '../../components/GridBlock/GridBlock';
 import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
-
-import bb from '../../assets/mockImages/bb2.jpg';
-import mh from '../../assets/mockImages/mh.jpg';
-import sopranos from '../../assets/mockImages/sopranos.png';
-
-const trendMoviesMock = [
-  {
-    src: bb,
-  },
-  {
-    src: mh,
-  },
-  {
-    src: sopranos,
-  },
-];
+import { serializeCollections } from '../../modules/Serializer';
+import { checkAuth } from '../..';
 
 export class MainPage {
   #parent;
-  #bestMovies;
-  #newMovies;
-  #trendMovies;
+  #movieSelections;
   #loader;
 
   constructor(parent) {
     this.#parent = parent;
-    this.#bestMovies = [];
-    this.#newMovies = [];
-    this.#trendMovies = [];
+    this.#movieSelections = [];
   }
 
   render() {
     this.renderTemplate();
   }
 
+  // async checkAuth() {
+  //   try {
+  //     await apiClient.get({
+  //       path: 'auth/session',
+  //     });
+  //   } catch {
+  //     throw new Error('hello');
+  //   }
+  // }
+
   async getTrendMovies() {
     const response = await apiClient.get({
-      path: 'movies',
+      path: 'movie_collections/',
     });
 
-    this.#trendMovies = response;
-  }
-
-  async getBestMovies() {
-    const response = await apiClient.get({
-      path: 'movies',
-    });
-
-    this.#bestMovies = response.map((movie, index) => {
-      return { ...movie, position: index + 1 };
-    });
-  }
-
-  async getNewMovies() {
-    const response = await apiClient.get({
-      path: 'movies',
-    });
-
-    this.#newMovies = response;
+    this.#movieSelections = serializeCollections(response.collections);
   }
 
   /**
@@ -71,29 +44,28 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    await Promise.all([
-      this.getTrendMovies(),
-      this.getBestMovies(),
-      this.getNewMovies(),
-    ]);
-
+    await Promise.allSettled([checkAuth(), this.getTrendMovies()]);
+    // await this.getTrendMovies();
     this.#loader.kill();
 
     const trendMoviesBlock = document.getElementById('trend-movies-block');
     const trendMoviesList = new GridBlock(
       trendMoviesBlock,
-      trendMoviesMock,
-      'Сейчас в тренде',
+      this.#movieSelections[0].movies,
+      this.#movieSelections[0].title,
     );
     trendMoviesList.render();
 
-    const bestMoviesBlock = document.getElementById('best-movies-block');
-    const bestMoviesSlider = new Slider(bestMoviesBlock, this.#bestMovies, 1);
-    bestMoviesSlider.render();
+    const mainPageBlocks = document.querySelector('.main-page__blocks');
+    this.#movieSelections.slice(1).forEach((selection) => {
+      const newBlock = document.createElement('div');
+      newBlock.classList.add('main-page__block');
+      newBlock.id = `main-page-block-${selection.id}`;
+      mainPageBlocks.appendChild(newBlock);
 
-    const newMoviesBlock = document.getElementById('new-movies-block');
-    const newMoviesList = new CardsList(newMoviesBlock, this.#newMovies, 2);
-    newMoviesList.render();
+      const slider = new Slider(newBlock, selection);
+      slider.render();
+    });
   }
 
   renderTemplate() {
@@ -105,7 +77,7 @@ export class MainPage {
 
     this.#loader = new Loader(this.#parent, template());
     this.#loader.render();
-
+    // this.checkAuth();
     this.renderBlocks();
   }
 }

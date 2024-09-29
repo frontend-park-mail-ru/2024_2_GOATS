@@ -10,6 +10,7 @@
 @import url('./components/GridBlock/GridBlock.css');
 @import url('./components/ConfirmModal/ConfirmModal.css');
 @import url('./components/Notifier/Notifier.css');
+@import url('./components/VideoPlayer/VideoPlayer.css');
 
 @import url('./pages/MainPage/MainPage.css');
 @import url('./pages/AuthPage/AuthPage.css');
@@ -30,11 +31,11 @@ body {
 }
 
 #root {
-  min-height: 100vh;
+  min-height: 100dvh;
 
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 .root-black {
   background-color: #000;

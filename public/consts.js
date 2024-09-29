@@ -1,4 +1,5 @@
-export const API_URL = 'https://6681cdf504acc3545a079ff2.mockapi.io/';
+// export const API_URL = 'https://6681cdf504acc3545a079ff2.mockapi.io/';
+export const API_URL = 'http://185.241.195.151/api/';
 
 export const movies = [
   {
@@ -111,7 +112,7 @@ export function setPagesConfig(
         id: 'login-page-nav',
 
         render: renderAuthPage,
-        isAvailable: !user.isAuthorised,
+        isAvailable: !user.username,
       },
       signup: {
         text: 'Регистрация',
@@ -119,7 +120,7 @@ export function setPagesConfig(
         id: 'signup-page-nav',
 
         render: renderRegPage,
-        isAvailable: !user.isAuthorised,
+        isAvailable: !user.username,
       },
     },
   };

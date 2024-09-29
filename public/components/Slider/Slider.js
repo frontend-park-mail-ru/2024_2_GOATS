@@ -3,15 +3,16 @@ import template from './Slider.hbs';
 
 export class Slider {
   #parent;
-  #movies;
+  #selection;
   #id;
   #leftDiff;
   #rightDiff;
 
-  constructor(parent, movies, id) {
+  constructor(parent, selection) {
     this.#parent = parent;
-    this.#movies = movies;
-    this.#id = id;
+    this.#selection = selection;
+
+    this.#id = selection.id;
     this.#leftDiff = 0;
     this.#rightDiff = 0;
   }
@@ -26,9 +27,9 @@ export class Slider {
    * @returns {}
    */
   checkBtns() {
-    const btnNext = document.getElementById('slider-btn-next');
-    const btnPrev = document.getElementById('slider-btn-prev');
-
+    const btnNext = document.getElementById(`slider-btn-next-${this.#id}`);
+    const btnPrev = document.getElementById(`slider-btn-prev-${this.#id}`);
+    console.log(this.#id);
     if (this.#rightDiff <= 0) {
       btnNext.disabled = true;
     } else {
@@ -43,14 +44,18 @@ export class Slider {
   }
 
   renderTemplate() {
-    this.#parent.insertAdjacentHTML('beforeend', template({ id: this.#id }));
+    this.#parent.insertAdjacentHTML(
+      'beforeend',
+      template({ id: this.#id, title: this.#selection.title }),
+    );
 
     const container = document.querySelector('.slider__container');
     const track = document.getElementById(`slider-${this.#id}`);
-    const btnNext = document.getElementById('slider-btn-next');
-    const btnPrev = document.getElementById('slider-btn-prev');
+    const btnNext = document.getElementById(`slider-btn-next-${this.#id}`);
+    const btnPrev = document.getElementById(`slider-btn-prev-${this.#id}`);
     const gapValue = parseInt(window.getComputedStyle(track).gap);
 
+    console.log(btnNext);
     btnNext.addEventListener('click', () => {
       // Проверяем, на сколько пикселей нужно двигать (на всю ширину блока или на остаток)
       if (this.#rightDiff >= container.clientWidth) {
@@ -87,8 +92,7 @@ export class Slider {
 
       this.checkBtns();
     });
-
-    this.#movies.forEach((movie) => {
+    this.#selection.movies.forEach((movie) => {
       const card = new Card(track, movie);
       card.render();
     });

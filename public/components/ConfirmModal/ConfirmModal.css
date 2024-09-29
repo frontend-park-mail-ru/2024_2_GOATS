@@ -1,6 +1,6 @@
 .modal {
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 100dvh;
+  min-width: 100dvw;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;

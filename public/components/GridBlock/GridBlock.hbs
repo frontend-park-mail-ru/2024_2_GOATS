@@ -7,7 +7,11 @@
   <div class='grid-block__content'>
     {{#each items}}
       <div class='grid-block__element'>
-        <img class='grid-block__element_image' src={{this.src}} alt='card' />
+        <img
+          class='grid-block__element_image'
+          src={{this.albumImage}}
+          alt='card'
+        />
       </div>
     {{/each}}
   </div>

@@ -1,6 +1,9 @@
 import template from './Header.hbs';
-import { goToPage } from '../..';
-import { mockUser } from '../..';
+// import { goToPage } from '../..';
+// import { mockUser } from '../..';
+import { currentUser } from '../..';
+import { apiClient } from '../../modules/ApiClient';
+import { checkAuth } from '../..';
 
 export class Header {
   #parent;
@@ -32,6 +35,27 @@ export class Header {
     return Object.entries(this.getConfig.pages);
   }
 
+  async logout() {
+    try {
+      await apiClient.post({
+        path: 'auth/logout',
+      });
+      checkAuth();
+    } catch {
+      throw new Error('logout error');
+    }
+  }
+
+  onExitClick() {
+    if (currentUser.username) {
+      const exitButton = document.getElementById('exit-button');
+
+      exitButton.addEventListener('click', () => {
+        this.logout();
+      });
+    }
+  }
+
   renderTemplate() {
     console.log(this.getConfig.pages);
     const items = this.items.map(
@@ -44,7 +68,9 @@ export class Header {
         return { key, text, href, className, id, isAvailable };
       },
     );
-    this.#parent.innerHTML = template({ items, mockUser });
+
+    this.onExitClick();
+    this.#parent.innerHTML = template({ items, currentUser });
     this.#parent.querySelectorAll('a').forEach((element) => {
       this.state.navElements[element.dataset.section] = element;
     });

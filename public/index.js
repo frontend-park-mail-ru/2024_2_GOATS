@@ -6,6 +6,8 @@ import { Header } from './components/Header/Header.js';
 import { RegPage } from './pages/RegPage/RegPage.js';
 import { setPagesConfig } from './consts.js';
 
+import { apiClient } from './modules/ApiClient.js';
+
 const rootElement = document.getElementById('root');
 const headerElement = document.createElement('header');
 const pageElement = document.createElement('main');
@@ -17,10 +19,12 @@ rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
 rootElement.appendChild(notifierElement);
 
-export const mockUser = {
-  login: '',
-  isAuthorised: false,
-};
+export let currentUser = {};
+
+// export const mockUser = {
+//   login: '',
+//   isAuthorised: false,
+// };
 
 // const pagesConfig = {
 //   pages: {
@@ -43,43 +47,65 @@ export const mockUser = {
 // };
 
 const pagesConfig = setPagesConfig(
-  mockUser,
+  currentUser,
   renderMainPage,
   renderAuthPage,
   renderRegPage,
 );
 
-function updatePagesConfig(config, mockUser) {
-  config.pages.login.isAvailable = !mockUser.isAuthorised;
-  config.pages.signup.isAvailable = !mockUser.isAuthorised;
+export const checkAuth = async () => {
+  try {
+    const response = await apiClient.get({
+      path: 'auth/session',
+    });
+
+    currentUser = response.user_data;
+    console.log(currentUser);
+    // TODO: Добавить в finally
+    updatePagesConfig(pagesConfig, currentUser);
+  } catch {
+    currentUser = {};
+    updatePagesConfig(pagesConfig, currentUser);
+    throw new Error('checking auth error');
+  }
+};
+
+// checkAuth();
+
+function updatePagesConfig(config, currentUser) {
+  config.pages.login.isAvailable = !currentUser.username;
+  config.pages.signup.isAvailable = !currentUser.username;
+  renderHeader();
 }
 
-const header = new Header(headerElement, pagesConfig);
+// const header = new Header(headerElement, pagesConfig);
 const mainPage = new MainPage(pageElement);
 const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
 
 //TEST
-function imitateLogin() {
-  const logImitatorButton = document.getElementById('inin');
 
-  logImitatorButton.addEventListener('click', () => {
-    mockUser.isAuthorised = true;
-    mockUser.login = 'Tamik';
+// function imitateLogin() {
+//   const logImitatorButton = document.getElementById('inin');
 
-    updatePagesConfig(pagesConfig, mockUser);
-    renderHeader();
-  });
-}
-function imitateExit() {
-  const logoutImitatorButton = document.getElementById('exit-button');
-  logoutImitatorButton.addEventListener('click', () => {
-    console.log('aaaaaaa');
-    mockUser.isAuthorised = false;
-    updatePagesConfig(pagesConfig, mockUser);
-    renderHeader();
-  });
-}
+//   logImitatorButton.addEventListener('click', () => {
+//     mockUser.isAuthorised = true;
+//     mockUser.login = 'Tamik';
+
+//     updatePagesConfig(pagesConfig, mockUser);
+//     // renderHeader();
+//   });
+// }
+// function imitateExit() {
+//   const logoutImitatorButton = document.getElementById('exit-button');
+//   logoutImitatorButton.addEventListener('click', () => {
+//     console.log('aaaaaaa');
+//     mockUser.isAuthorised = false;
+//     updatePagesConfig(pagesConfig, mockUser);
+//     renderHeader();
+//   });
+// }
+const header = new Header(headerElement, pagesConfig);
 
 function renderHeader() {
   header.render();
@@ -91,15 +117,14 @@ function renderHeader() {
       target.tagName.toLowerCase() === 'a' ||
       target instanceof HTMLAnchorElement
     ) {
-      console.log('9999');
       e.preventDefault();
       goToPage(target);
     }
   });
 
   //TEST
-  imitateLogin();
-  imitateExit();
+  // imitateLogin();
+  // imitateExit();
 }
 
 function renderMainPage() {
@@ -132,4 +157,4 @@ export function goToPage(headerLinkElement) {
 }
 
 renderMainPage();
-renderHeader();
+// renderHeader();
