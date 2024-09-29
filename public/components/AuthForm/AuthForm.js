@@ -79,12 +79,6 @@ export class AuthForm {
     }
   }
 
-  async logoutRequest() {
-    await apiClient.post({
-      path: 'auth/logout',
-    });
-  }
-
   /**
    * Processing of clicking on the authorization button
    * @param {}
@@ -107,7 +101,6 @@ export class AuthForm {
       }
 
       this.authRequest(emailValue, passwordValue);
-      // this.logoutRequest();
     });
   }
 

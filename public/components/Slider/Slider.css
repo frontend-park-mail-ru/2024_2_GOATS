@@ -26,7 +26,9 @@
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
   padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    0 6px 20px rgba(0, 0, 0, 0.4);
   transition: background-color 0.2s ease;
 }
 
@@ -42,6 +44,6 @@
   transform: rotate(180deg);
 }
 
-#slider-btn-next {
+.slider__btn_next {
   right: 0;
 }
