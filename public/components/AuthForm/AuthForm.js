@@ -71,8 +71,12 @@ export class AuthForm {
       });
 
       goToPage(document.querySelector(`[data-section="films"]`));
-    } catch {
-      this.throwAuthError('Пользователь с таким e-mail не найден');
+    } catch (e) {
+      if (e.status === 404) {
+        this.throwAuthError('Пользователь с таким e-mail не найден');
+      } else {
+        this.throwAuthError('Что-то пошло не так. Попробуйте позже');
+      }
     }
   }
 

@@ -1,4 +1,3 @@
-import { CategoryPage } from '../../pages/CategoryPage/CategoryPage';
 import template from './GridBlock.hbs';
 
 export class GridBlock {
@@ -14,26 +13,10 @@ export class GridBlock {
 
   render() {
     this.renderTemplate();
-    this.onMoreClick();
   }
 
   getTop() {
     return this.#movies.slice(0, 3);
-  }
-
-  /**
-   * Navigate to category page
-   * @param {}
-   * @returns {}
-   */
-  onMoreClick() {
-    const more = document.getElementById('grid-block-header-more');
-    const main = document.querySelector('main');
-    more.addEventListener('click', () => {
-      main.innerHTML = '';
-      const category = new CategoryPage(main, this.#blockTitle);
-      category.render();
-    });
   }
 
   renderTemplate() {
