@@ -5,7 +5,6 @@
       <span>Cassette</span>
       <img src='../../assets/icons/logoIcon.svg' alt='' />
     </div>
-    <div id='inin'>in</div>
 
     <div class='header__container_nav'>
       {{#each items}}
@@ -20,7 +19,10 @@
     </div>
     {{#if currentUser.username}}
       <span>{{currentUser.username}}</span>
-      <span id='exit-button'>Выйти</span>
+      <button
+        id='exit-button'
+        class='button header__container_exit_btn'
+      >Выйти</button>
     {{/if}}
   </div>
 </div>

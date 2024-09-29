@@ -20,22 +20,14 @@ export class MainPage {
     this.renderTemplate();
   }
 
-  // async checkAuth() {
-  //   try {
-  //     await apiClient.get({
-  //       path: 'auth/session',
-  //     });
-  //   } catch {
-  //     throw new Error('hello');
-  //   }
-  // }
-
-  async getTrendMovies() {
+  async getCollection() {
     const response = await apiClient.get({
       path: 'movie_collections/',
     });
 
-    this.#movieSelections = serializeCollections(response.collections);
+    this.#movieSelections = serializeCollections(response.collections).sort(
+      (selection1, selection2) => selection1.id - selection2.id,
+    );
   }
 
   /**
@@ -44,7 +36,7 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    await Promise.allSettled([checkAuth('main'), this.getTrendMovies()]);
+    await Promise.allSettled([checkAuth('main'), this.getCollection()]);
     // await this.getTrendMovies();
     this.#loader.kill();
 
@@ -78,7 +70,6 @@ export class MainPage {
     this.#loader = new Loader(this.#parent, template());
     this.#loader.render();
 
-    // this.checkAuth();
     this.renderBlocks();
   }
 }

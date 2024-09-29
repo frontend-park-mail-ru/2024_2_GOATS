@@ -70,10 +70,7 @@ export class AuthForm {
         body: { email: emailValue, password: passwordValue },
       });
 
-      //TESTING HEADER
       goToPage(document.querySelector(`[data-section="films"]`));
-
-      // throw Error; // TODO: нужен бэк
     } catch {
       this.throwAuthError('Пользователь с таким e-mail не найден');
     }

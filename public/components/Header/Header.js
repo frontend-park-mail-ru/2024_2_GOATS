@@ -33,7 +33,6 @@ export class Header {
 
   async logout() {
     try {
-      console.log('logout');
       await apiClient.post({
         path: 'auth/logout',
       });

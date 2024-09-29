@@ -22,18 +22,21 @@
   display: flex;
   align-items: center;
   gap: 10px;
-
-  span {
-    font-size: 36px;
-    font-weight: 700;
-  }
+  font-size: 36px;
+  font-weight: 700;
 }
 
 .header__container_nav {
   font-size: 20px;
   font-weight: 600;
   display: flex;
-
   gap: 20px;
   justify-content: space-between;
+}
+
+.header__container_exit_btn {
+  background-color: #a143ff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
 }

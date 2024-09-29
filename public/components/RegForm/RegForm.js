@@ -7,7 +7,7 @@ import {
   validatePassword,
   validateLogin,
 } from '../../modules/Validators';
-import { Notifier } from '../Notifier/Notifier';
+// import { Notifier } from '../Notifier/Notifier';
 
 export class RegForm {
   #parent;
@@ -108,7 +108,8 @@ export class RegForm {
           passwordConfirmation: confirmValue,
         },
       });
-      // throw Error; // TODO: нужен бэк
+
+      goToPage(document.querySelector(`[data-section="films"]`));
     } catch {
       this.throwRegError('Пользователь с таким e-mail уже есть');
     }

@@ -22,39 +22,6 @@ rootElement.appendChild(notifierElement);
 export let currentUser = {};
 export let isAuthorised = false;
 
-// const response = {
-//   user_data: {
-//     id: 100,
-//     username: 'tamik',
-//     email: 'rara@mail.ru',
-//   },
-// };
-
-// export const mockUser = {
-//   login: '',
-//   isAuthorised: false,
-// };
-
-// const pagesConfig = {
-//   pages: {
-//     films: {
-//       text: 'Подборка фильмов',
-//       href: '/main',
-//       render: renderMainPage,
-//     },
-//     login: {
-//       text: 'Авторизация',
-//       href: '/auth',
-//       render: renderAuthPage,
-//     },
-//     signup: {
-//       text: 'Регистрация',
-//       href: '/register',
-//       render: renderRegPage,
-//     },
-//   },
-// };
-
 const pagesConfig = setPagesConfig(
   currentUser,
   renderMainPage,
@@ -68,61 +35,24 @@ export const checkAuth = async () => {
       path: 'auth/session',
     });
 
-    // const number = Math.floor(Math.random() * 10) + 1;
-    // if (number % 2 !== 0) {
-    //   console.log('auth', number);
-    // } else {
-    //   console.log('not auth', number);
-    //   throw new Error('Получено четное число');
-    // }
-
     currentUser = response.user_data;
-    console.log('auth', currentUser);
     // TODO: Добавить в finally
     updatePagesConfig(pagesConfig, currentUser);
   } catch {
-    console.log('not auth');
     currentUser = {};
     updatePagesConfig(pagesConfig, currentUser);
   }
 };
 
-// checkAuth();
-
 function updatePagesConfig(config, currentUser) {
-  console.log(currentUser.username);
   config.pages.login.isAvailable = !currentUser.username;
   config.pages.signup.isAvailable = !currentUser.username;
   renderHeader();
 }
 
-// const header = new Header(headerElement, pagesConfig);
 const mainPage = new MainPage(pageElement);
 const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
-console.log('teest');
-//TEST
-
-// function imitateLogin() {
-//   const logImitatorButton = document.getElementById('inin');
-
-//   logImitatorButton.addEventListener('click', () => {
-//     mockUser.isAuthorised = true;
-//     mockUser.login = 'Tamik';
-
-//     updatePagesConfig(pagesConfig, mockUser);
-//     // renderHeader();
-//   });
-// }
-// function imitateExit() {
-//   const logoutImitatorButton = document.getElementById('exit-button');
-//   logoutImitatorButton.addEventListener('click', () => {
-//     console.log('aaaaaaa');
-//     mockUser.isAuthorised = false;
-//     updatePagesConfig(pagesConfig, mockUser);
-//     renderHeader();
-//   });
-// }
 const header = new Header(headerElement, pagesConfig);
 
 function renderHeader() {
@@ -175,4 +105,3 @@ export function goToPage(headerLinkElement) {
 }
 
 renderMainPage();
-// renderHeader();
