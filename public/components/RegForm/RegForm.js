@@ -7,7 +7,6 @@ import {
   validatePassword,
   validateLogin,
 } from '../../modules/Validators';
-// import { Notifier } from '../Notifier/Notifier';
 
 export class RegForm {
   #parent;

@@ -36,8 +36,7 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    await Promise.allSettled([checkAuth('main'), this.getCollection()]);
-    // await this.getTrendMovies();
+    await Promise.allSettled([checkAuth(), this.getCollection()]);
     this.#loader.kill();
 
     const trendMoviesBlock = document.getElementById('trend-movies-block');

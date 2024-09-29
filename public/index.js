@@ -36,10 +36,9 @@ export const checkAuth = async () => {
     });
 
     currentUser = response.user_data;
-    // TODO: Добавить в finally
-    updatePagesConfig(pagesConfig, currentUser);
   } catch {
     currentUser = {};
+  } finally {
     updatePagesConfig(pagesConfig, currentUser);
   }
 };
@@ -69,10 +68,6 @@ function renderHeader() {
       goToPage(target);
     }
   });
-
-  //TEST
-  // imitateLogin();
-  // imitateExit();
 }
 
 function renderMainPage() {

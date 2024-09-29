@@ -1,3 +1,8 @@
+/**
+ * Send request to API
+ * @param {Object} movie - movie data from API
+ * @returns {Object} - serialized movie data
+ */
 export const serializeMovie = (movie) => {
   return {
     id: movie.id,
@@ -12,6 +17,11 @@ export const serializeMovie = (movie) => {
   };
 };
 
+/**
+ * Send request to API
+ * @param {Object} collection - collection data from API
+ * @returns {Object} - serialized collection data
+ */
 export const serializeCollections = (collections) => {
   return collections.map((collection) => ({
     id: collection.id,

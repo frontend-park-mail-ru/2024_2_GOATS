@@ -6,8 +6,6 @@ import {
   validateEmailAddress,
   validatePassword,
 } from '../../modules/Validators';
-// import { mockUser } from '../..';
-// import { Notifier } from '../Notifier/Notifier';
 
 export class AuthForm {
   #parent;

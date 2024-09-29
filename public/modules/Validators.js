@@ -62,7 +62,6 @@ export function validatePassword(password) {
   }
 }
 
-// TODO: уточнить (сейчас проверяем на длину, только англ символы и разрешение .)
 /**
  * Login validation
  * @param {string} username - username value
