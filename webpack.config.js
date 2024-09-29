@@ -1,23 +1,25 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const buildPath = path.resolve(__dirname, 'dist');
-const publicPath = path.resolve(__dirname, 'public');
+// const buildPath = path.resolve(__dirname, 'dist');
+// const publicPath = path.resolve(__dirname, 'public');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: path.join(publicPath, 'index.js'),
+  entry: path.join(__dirname, 'public'),
   output: {
-    path: buildPath,
-    filename: 'bundle.js',
+    path: path.join(__dirname, 'dist'),
+    assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(publicPath, 'index.html'),
+      template: path.join(__dirname, 'public', 'index.html'),
+      filename: 'index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: '[name]-[hash].css',
+      filename: '[name]-[contenthash].css',
     }),
   ],
   module: {
@@ -48,6 +50,13 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.svg$/,
+        type: 'asset/resource',
+        generator: {
+          filename: path.join('images', '[name].[contenthash][ext]'),
+        },
+      },
     ],
   },
   resolve: {
@@ -55,7 +64,7 @@ module.exports = {
   },
   devServer: {
     port: 3000,
-    watchFiles: path.join(publicPath, 'public'),
+    watchFiles: path.join(__dirname, 'public'),
     client: {
       overlay: false,
     },
