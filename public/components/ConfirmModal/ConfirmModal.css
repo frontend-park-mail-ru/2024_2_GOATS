@@ -24,11 +24,31 @@
   width: auto;
   transform: scale(0.5);
   transition: 0.4s all;
-  background-color: #a143ff;
-  padding: 50px;
+  background-color: #575656;
+  padding: 40px;
   border-radius: 10px;
 }
 
 .modal__content_active {
   transform: scale(1);
+}
+
+.modal__content_text {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.modal__content_actions {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.modal__content_btn {
+  background-color: #a143ff;
+  width: 100px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
 }

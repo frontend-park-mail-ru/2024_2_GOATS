@@ -4,6 +4,7 @@ import template from './Header.hbs';
 import { currentUser } from '../..';
 import { apiClient } from '../../modules/ApiClient';
 import { checkAuth } from '../..';
+import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 
 export class Header {
   #parent;
@@ -44,12 +45,28 @@ export class Header {
 
   onExitClick() {
     if (currentUser.username) {
+      const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
+        this.logout();
+      });
+
       const exitButton = document.getElementById('exit-button');
 
       exitButton.addEventListener('click', () => {
-        this.logout();
+        modal.render();
       });
+
+      // exitButton.addEventListener('click', () => {
+      //   this.logout();
+      // });
     }
+
+    // const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
+    //   this.logout();
+    // });
+    // const showButton = document.getElementById('test-button');
+    // showButton.addEventListener('click', () => {
+    //   modal.render();
+    // });
   }
 
   renderTemplate() {
