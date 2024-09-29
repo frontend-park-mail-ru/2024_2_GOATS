@@ -35,8 +35,9 @@
 }
 
 .header__container_auth {
-  font-size: 24px;
+  font-size: 20px;
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 
@@ -45,4 +46,8 @@
   color: #fff;
   font-size: 16px;
   font-weight: 600;
+}
+
+.header__container_exit_btn:hover {
+  background-color: #590da6;
 }

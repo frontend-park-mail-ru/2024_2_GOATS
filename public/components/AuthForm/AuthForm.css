@@ -101,7 +101,9 @@
 
   font-size: 16px;
   font-weight: 600;
+  transition: background-color 0.2s ease;
 }
+
 .form-auth__submit_button:hover {
   background-color: #590da6;
 }
