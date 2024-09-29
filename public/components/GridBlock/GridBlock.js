@@ -15,6 +15,11 @@ export class GridBlock {
     this.renderTemplate();
   }
 
+  /**
+   * get first three objects for displaying
+   * @param {}
+   * @returns {}
+   */
   getTop() {
     return this.#movies.slice(0, 3);
   }
