@@ -1,6 +1,4 @@
 import template from './Header.hbs';
-// import { goToPage } from '../..';
-// import { mockUser } from '../..';
 import { currentUser } from '../..';
 import { apiClient } from '../../modules/ApiClient';
 import { checkAuth } from '../..';
@@ -54,19 +52,7 @@ export class Header {
       exitButton.addEventListener('click', () => {
         modal.render();
       });
-
-      // exitButton.addEventListener('click', () => {
-      //   this.logout();
-      // });
     }
-
-    // const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-    //   this.logout();
-    // });
-    // const showButton = document.getElementById('test-button');
-    // showButton.addEventListener('click', () => {
-    //   modal.render();
-    // });
   }
 
   renderTemplate() {

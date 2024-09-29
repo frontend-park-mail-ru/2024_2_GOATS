@@ -34,6 +34,12 @@
   justify-content: space-between;
 }
 
+.header__container_auth {
+  font-size: 24px;
+  display: flex;
+  gap: 20px;
+}
+
 .header__container_exit_btn {
   background-color: #a143ff;
   color: #fff;

@@ -18,11 +18,13 @@
       {{/each}}
     </div>
     {{#if currentUser.username}}
-      <span>{{currentUser.username}}</span>
-      <button
-        id='exit-button'
-        class='button header__container_exit_btn'
-      >Выйти</button>
+      <div class='header__container_auth'>
+        <span>{{currentUser.username}}</span>
+        <button
+          id='exit-button'
+          class='button header__container_exit_btn'
+        >Выйти</button>
+      </div>
     {{/if}}
   </div>
 </div>
