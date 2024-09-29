@@ -66,7 +66,7 @@ export const checkAuth = async () => {
   } catch {
     currentUser = {};
     updatePagesConfig(pagesConfig, currentUser);
-    throw new Error('hello');
+    throw new Error('checking auth error');
   }
 };
 
@@ -78,7 +78,7 @@ function updatePagesConfig(config, currentUser) {
   renderHeader();
 }
 
-const header = new Header(headerElement, pagesConfig);
+// const header = new Header(headerElement, pagesConfig);
 const mainPage = new MainPage(pageElement);
 const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
@@ -105,6 +105,7 @@ const regPage = new RegPage(pageElement);
 //     renderHeader();
 //   });
 // }
+const header = new Header(headerElement, pagesConfig);
 
 function renderHeader() {
   header.render();
@@ -116,7 +117,6 @@ function renderHeader() {
       target.tagName.toLowerCase() === 'a' ||
       target instanceof HTMLAnchorElement
     ) {
-      console.log('9999');
       e.preventDefault();
       goToPage(target);
     }

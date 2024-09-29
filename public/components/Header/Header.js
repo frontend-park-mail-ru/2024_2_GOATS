@@ -1,7 +1,9 @@
 import template from './Header.hbs';
-import { goToPage } from '../..';
+// import { goToPage } from '../..';
 // import { mockUser } from '../..';
 import { currentUser } from '../..';
+import { apiClient } from '../../modules/ApiClient';
+import { checkAuth } from '../..';
 
 export class Header {
   #parent;
@@ -31,6 +33,25 @@ export class Header {
 
   get items() {
     return Object.entries(this.getConfig.pages);
+  }
+
+  onExitClick() {
+    const exitButton = document.getElementById('exit-button');
+
+    exitButton.addEventListener('click', () => {
+      this.logout();
+    });
+  }
+
+  async logout() {
+    try {
+      await apiClient.post({
+        path: 'auth/logout',
+      });
+      checkAuth();
+    } catch {
+      throw new Error('logout error');
+    }
   }
 
   renderTemplate() {
