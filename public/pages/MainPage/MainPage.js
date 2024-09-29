@@ -4,6 +4,7 @@ import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
 import { serializeCollections } from '../../modules/Serializer';
+import { checkAuth } from '../..';
 
 export class MainPage {
   #parent;
@@ -43,7 +44,8 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    await this.getTrendMovies();
+    await Promise.all([checkAuth(), this.getTrendMovies()]);
+    // await this.getTrendMovies();
     this.#loader.kill();
 
     const trendMoviesBlock = document.getElementById('trend-movies-block');

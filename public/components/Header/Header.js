@@ -1,6 +1,7 @@
 import template from './Header.hbs';
 import { goToPage } from '../..';
-import { mockUser } from '../..';
+// import { mockUser } from '../..';
+import { currentUser } from '../..';
 
 export class Header {
   #parent;
@@ -44,7 +45,7 @@ export class Header {
         return { key, text, href, className, id, isAvailable };
       },
     );
-    this.#parent.innerHTML = template({ items, mockUser });
+    this.#parent.innerHTML = template({ items, currentUser });
     this.#parent.querySelectorAll('a').forEach((element) => {
       this.state.navElements[element.dataset.section] = element;
     });

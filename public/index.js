@@ -19,12 +19,12 @@ rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
 rootElement.appendChild(notifierElement);
 
-let currentUser = {};
+export let currentUser = {};
 
-export const mockUser = {
-  login: '',
-  isAuthorised: false,
-};
+// export const mockUser = {
+//   login: '',
+//   isAuthorised: false,
+// };
 
 // const pagesConfig = {
 //   pages: {
@@ -47,13 +47,13 @@ export const mockUser = {
 // };
 
 const pagesConfig = setPagesConfig(
-  mockUser,
+  currentUser,
   renderMainPage,
   renderAuthPage,
   renderRegPage,
 );
 
-const checkAuth = async () => {
+export const checkAuth = async () => {
   try {
     const response = await apiClient.get({
       path: 'auth/session',
@@ -70,11 +70,11 @@ const checkAuth = async () => {
   }
 };
 
-checkAuth();
+// checkAuth();
 
-function updatePagesConfig(config, mockUser) {
-  config.pages.login.isAvailable = !mockUser.username;
-  config.pages.signup.isAvailable = !mockUser.username;
+function updatePagesConfig(config, currentUser) {
+  config.pages.login.isAvailable = !currentUser.username;
+  config.pages.signup.isAvailable = !currentUser.username;
   renderHeader();
 }
 
@@ -85,17 +85,17 @@ const regPage = new RegPage(pageElement);
 
 //TEST
 
-function imitateLogin() {
-  const logImitatorButton = document.getElementById('inin');
+// function imitateLogin() {
+//   const logImitatorButton = document.getElementById('inin');
 
-  logImitatorButton.addEventListener('click', () => {
-    mockUser.isAuthorised = true;
-    mockUser.login = 'Tamik';
+//   logImitatorButton.addEventListener('click', () => {
+//     mockUser.isAuthorised = true;
+//     mockUser.login = 'Tamik';
 
-    updatePagesConfig(pagesConfig, mockUser);
-    // renderHeader();
-  });
-}
+//     updatePagesConfig(pagesConfig, mockUser);
+//     // renderHeader();
+//   });
+// }
 // function imitateExit() {
 //   const logoutImitatorButton = document.getElementById('exit-button');
 //   logoutImitatorButton.addEventListener('click', () => {
