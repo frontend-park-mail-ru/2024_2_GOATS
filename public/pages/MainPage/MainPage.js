@@ -44,7 +44,7 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    await Promise.allSettled([checkAuth(), this.getTrendMovies()]);
+    await Promise.allSettled([checkAuth('main'), this.getTrendMovies()]);
     // await this.getTrendMovies();
     this.#loader.kill();
 
@@ -77,6 +77,7 @@ export class MainPage {
 
     this.#loader = new Loader(this.#parent, template());
     this.#loader.render();
+
     // this.checkAuth();
     this.renderBlocks();
   }

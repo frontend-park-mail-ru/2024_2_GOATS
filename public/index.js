@@ -20,6 +20,15 @@ rootElement.appendChild(pageElement);
 rootElement.appendChild(notifierElement);
 
 export let currentUser = {};
+export let isAuthorised = false;
+
+const response = {
+  user_data: {
+    id: 100,
+    username: 'tamik',
+    email: 'rara@mail.ru',
+  },
+};
 
 // export const mockUser = {
 //   login: '',
@@ -55,24 +64,33 @@ const pagesConfig = setPagesConfig(
 
 export const checkAuth = async () => {
   try {
-    const response = await apiClient.get({
-      path: 'auth/session',
-    });
+    // const response = await apiClient.get({
+    //   path: 'auth/session',
+    // });
+
+    const number = Math.floor(Math.random() * 10) + 1;
+    if (number % 2 !== 0) {
+      console.log('auth', number);
+    } else {
+      console.log('not auth', number);
+      throw new Error('Получено четное число');
+    }
 
     currentUser = response.user_data;
-    console.log(currentUser);
+    console.log('auth', currentUser);
     // TODO: Добавить в finally
     updatePagesConfig(pagesConfig, currentUser);
   } catch {
+    console.log('not auth');
     currentUser = {};
     updatePagesConfig(pagesConfig, currentUser);
-    throw new Error('checking auth error');
   }
 };
 
 // checkAuth();
 
 function updatePagesConfig(config, currentUser) {
+  console.log(currentUser.username);
   config.pages.login.isAvailable = !currentUser.username;
   config.pages.signup.isAvailable = !currentUser.username;
   renderHeader();

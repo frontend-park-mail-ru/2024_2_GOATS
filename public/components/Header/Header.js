@@ -23,10 +23,6 @@ export class Header {
     return this.#config;
   }
 
-  set setConfig(config) {
-    this.#config = config;
-  }
-
   render() {
     this.renderTemplate();
   }
@@ -37,6 +33,7 @@ export class Header {
 
   async logout() {
     try {
+      console.log('logout');
       await apiClient.post({
         path: 'auth/logout',
       });
@@ -57,7 +54,6 @@ export class Header {
   }
 
   renderTemplate() {
-    console.log(this.getConfig.pages);
     const items = this.items.map(
       ([key, { text, href, isAvailable, id }], index) => {
         let className = '';
@@ -69,10 +65,10 @@ export class Header {
       },
     );
 
-    this.onExitClick();
     this.#parent.innerHTML = template({ items, currentUser });
     this.#parent.querySelectorAll('a').forEach((element) => {
       this.state.navElements[element.dataset.section] = element;
     });
+    this.onExitClick();
   }
 }
