@@ -1,0 +1,65 @@
+.notifier-block {
+  width: auto;
+  max-width: 300px;
+  min-width: 200px;
+  height: 50px;
+  position: fixed;
+  top: -100px;
+  right: 10dvw;
+  font-size: 16px;
+
+  transition: all 0.3s linear;
+
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.error {
+  background-color: red;
+}
+.success {
+  background-color: green;
+}
+.info {
+  background-color: #a143ff;
+}
+
+.visible {
+  top: 70px;
+}
+
+@media (min-width: 1600px) {
+  .notifier-block {
+    right: calc(50% - 640px);
+  }
+}
+
+.notifier-block__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 20%;
+  background-color: #ffffffad;
+  border-radius: 8px 0 0 8px;
+}
+
+.notifier-block__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 4px 8px;
+
+  width: 80%;
+}
+
+.notifier-block__content_text {
+  display: inline-block;
+}
+.notifier-block__content__close {
+  svg {
+    display: block;
+  }
+}

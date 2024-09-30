@@ -1,0 +1,49 @@
+.slider {
+  justify-content: space-between;
+  position: relative;
+}
+
+.slider__container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.slider__track {
+  display: flex;
+  gap: 50px;
+  transition: transform 0.5s ease;
+}
+
+.slider__btn {
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 10px;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.2s ease;
+}
+
+.slider__btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.slider__btn:disabled {
+  display: none;
+}
+
+.slider__btn_prev-icon {
+  transform: rotate(180deg);
+}
+
+.slider__btn_next {
+  right: 0;
+}

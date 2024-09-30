@@ -1,0 +1,69 @@
+@import url('./styles/reset.css');
+
+@import url('./components/Card/Card.css');
+@import url('./components/CardsList//CardsList.css');
+@import url('./components/AuthForm/AuthForm.css');
+@import url('./components/RegForm/RegForm.css');
+@import url('./components/Slider/Slider.css');
+@import url('./components/Header/Header.css');
+@import url('./components/Loader/Loader.css');
+@import url('./components/GridBlock/GridBlock.css');
+@import url('./components/ConfirmModal/ConfirmModal.css');
+@import url('./components/Notifier/Notifier.css');
+@import url('./components/VideoPlayer/VideoPlayer.css');
+
+@import url('./pages/MainPage/MainPage.css');
+@import url('./pages/AuthPage/AuthPage.css');
+@import url('./pages/RegPage/RegPage.css');
+@import url('./pages/CategoryPage/CategoryPage.css');
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+.root-black {
+  background-color: #000;
+}
+
+.root-image {
+  background-image: url('./assets/images/background-image.png');
+  background-size: cover;
+  background-position: center;
+}
+
+main {
+  width: 100%;
+  height: 100px;
+  flex-grow: 1;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.button {
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+}
+
+.input {
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+}

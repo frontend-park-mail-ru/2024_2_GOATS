@@ -1,0 +1,94 @@
+<div class='form-auth__wrapper'>
+  <form class='form-auth' action='submit'>
+    <h1 class='form-auth__title'>Авторизация</h1>
+    <div class='form-auth__input'>
+      <label for='form-auth-email'>
+        <div class='form-auth__input_label'>
+          <span>Email</span>
+          <svg
+            class='form-auth__email-note_icon'
+            width='16'
+            height='16'
+            viewBox='0 0 16 16'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              d='M8.66667 10.6667H8V8H7.33333M8 5.33333H8.00667M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z'
+              stroke='white'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </svg>
+          <div class='note auth__email_note'>
+            Укажите корректный
+            <br />почтовый адрес
+          </div>
+        </div>
+
+        <input
+          name='form-auth-email'
+          placeholder='Введите e-mail'
+          class='input form-auth__input_field'
+          id='form-auth-email'
+          type='email'
+        />
+        <span class='form-auth__input_error' id='form-auth-email-error'></span>
+
+      </label>
+    </div>
+    <div class='form-auth__input'>
+      <label for='form-auth-password'>
+        <div class='form-auth__input_label'>
+          <span>Пароль</span>
+          <svg
+            class='form-auth__password-note_icon'
+            width='16'
+            height='16'
+            viewBox='0 0 16 16'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              d='M8.66667 10.6667H8V8H7.33333M8 5.33333H8.00667M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z'
+              stroke='white'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </svg>
+          <div class='note auth__password_note'>
+            Пароль должен содержать:
+            <br />– 8-24 символов;
+            <br />– Хотя бы одну цифру;
+          </div>
+        </div>
+        <input
+          name='form-auth-password'
+          placeholder='Введите пароль'
+          class='input form-auth__input_field'
+          id='form-auth-password'
+          type='password'
+        />
+        <span
+          class='form-auth__input_error'
+          id='form-auth-password-error'
+        ></span>
+      </label>
+    </div>
+    <div class='form-auth__submit'>
+      <button
+        class='button form-auth__submit_button'
+        id='form-auth-btn'
+      >Войти</button>
+      <span id='auth-error' class='auth-error'></span>
+
+    </div>
+  </form>
+  <div class='form-auth__footer'>
+    <span>У Вас нет аккаунта?
+      <a id='form-auth-reg-link' href=''>Зарегистрируйтесь</a>
+    </span>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class='header'>
+  <div class='header__container'>
+    <div class='header__container_logo'>
+      <span>Cassette</span>
+    </div>
+
+    <div class='header__container_nav'>
+      {{#each items}}
+        {{#if this.isAvailable}}
+          <a
+            class='header__container_item {{this.className}}'
+            href='{{this.href}}'
+            id='{{this.id}}'
+            data-section='{{this.key}}'
+          >{{this.text}}</a>{{/if}}
+      {{/each}}
+    </div>
+    {{#if currentUser.username}}
+      <div class='header__container_auth'>
+        <span>{{currentUser.username}}</span>
+        <button
+          id='exit-button'
+          class='button header__container_exit_btn'
+        >Выйти</button>
+      </div>
+    {{/if}}
+  </div>
+</div>

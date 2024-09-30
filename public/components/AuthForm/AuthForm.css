@@ -1,0 +1,136 @@
+.form-auth__wrapper {
+  border-radius: 16px;
+  background-color: #0000009c;
+  width: 100%;
+  padding: 8px 32px;
+  padding-top: 16px;
+}
+
+.form-auth {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.form-auth__title {
+  font-weight: 500;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.form-auth__input {
+  width: 100%;
+  position: relative;
+}
+.form-auth__input_label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  width: fit-content;
+
+  margin-bottom: 0.2em;
+  position: relative;
+}
+.form-auth__input_field {
+  width: 100%;
+  font-size: 16px;
+  outline: 1px solid #fff;
+}
+
+.form-auth__input_field:focus {
+  outline: 2px solid #fff;
+}
+
+.form-auth__input_field:hover {
+  cursor: text;
+}
+
+.form-auth__input_field::-ms-reveal {
+  filter: invert(100%);
+}
+
+.form-auth__input_error {
+  display: block;
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  margin-top: 2px;
+}
+
+.note {
+  position: absolute;
+  right: -10px;
+  bottom: 3px;
+  transform: translate(100%, 0);
+
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+
+  font-size: 14px;
+
+  width: max-content;
+}
+.auth__email_note,
+.auth__password_note {
+  display: none;
+}
+.form-auth__email-note_icon:hover + .auth__email_note {
+  display: block;
+}
+.form-auth__password-note_icon:hover + .auth__password_note {
+  display: block;
+}
+
+.input-error {
+  outline: 1px solid red;
+}
+
+.form-auth__submit {
+  width: 100%;
+}
+
+.form-auth__submit_button {
+  width: 100%;
+
+  background-color: #a143ff;
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.form-auth__submit_button:hover {
+  background-color: #590da6;
+}
+
+.form-auth__footer {
+  font-size: 11px;
+  font-weight: 300;
+  margin-top: 16px;
+  text-align: center;
+  color: #fff;
+
+  span {
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+}
+
+.auth-error {
+  margin-top: 5px;
+  color: red;
+  align-self: flex-start;
+  display: none;
+}
+
+.auth-error.visible {
+  display: block;
+}

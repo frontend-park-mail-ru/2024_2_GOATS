@@ -1,0 +1,21 @@
+.category-page__inner {
+  width: 80dvw;
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 16px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.category-page__inner_back {
+  width: fit-content;
+  color: #a143ff;
+  border-bottom: 1px solid #a143ff;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.category-page__inner_title {
+  margin-bottom: 16px;
+}
