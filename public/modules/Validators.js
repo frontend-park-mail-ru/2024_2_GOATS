@@ -15,25 +15,9 @@ import {
  * @returns {boolean} - true if email value is valid
  */
 export function validateEmailAddress(emailAddress) {
-  const atSymbol = emailAddress.indexOf('@');
-  const dotSymbol = emailAddress.lastIndexOf('.');
-  const spaceSymbol = emailAddress.indexOf(' ');
-  const doubleDotSymbol = emailAddress.indexOf('..');
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
 
-  if (
-    atSymbol != -1 &&
-    atSymbol != 0 &&
-    dotSymbol != -1 &&
-    dotSymbol != 0 &&
-    dotSymbol > atSymbol + 1 &&
-    emailAddress.length > dotSymbol + 1 &&
-    spaceSymbol == -1 &&
-    doubleDotSymbol == -1
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+  return regex.test(emailAddress);
 }
 
 /**
