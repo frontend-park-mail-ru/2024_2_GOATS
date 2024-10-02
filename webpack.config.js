@@ -1,42 +1,44 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: path.join(__dirname, 'public'),
   output: {
     path: path.join(__dirname, 'dist'),
-    assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
-    publicPath: '/',
+    filename: '[name].js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html'),
-      filename: 'index.html',
+      template: path.join(__dirname, './public/index.html'),
     }),
     new MiniCssExtractPlugin({
       filename: '[name]-[contenthash].css',
     }),
-  ],
+  ].filter(Boolean),
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|dist)/,
         use: 'babel-loader',
       },
       {
         test: /\.hbs$/,
-        use: 'handlebars-loader',
+        loader: 'handlebars-loader',
       },
       {
         test: /\.html$/,
         use: 'html-loader',
       },
       {
-        test: /\.(css)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        test: /\.s?css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(png|svg|jpg)$/,
@@ -45,13 +47,6 @@ module.exports = {
           dataUrlCondition: {
             maxSize: 10 * 1024,
           },
-        },
-      },
-      {
-        test: /\.svg$/,
-        type: 'asset/resource',
-        generator: {
-          filename: path.join('images', '[name].[contenthash][ext]'),
         },
       },
     ],
@@ -64,12 +59,6 @@ module.exports = {
     watchFiles: path.join(__dirname, 'public'),
     client: {
       overlay: false,
-    },
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization',
     },
   },
   performance: {
