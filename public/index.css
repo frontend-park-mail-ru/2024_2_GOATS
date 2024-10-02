@@ -1,21 +1,21 @@
-@import url('./styles/reset.css');
+@import './styles/reset.css';
 
-@import url('./components/Card/Card.css');
-@import url('./components/CardsList//CardsList.css');
-@import url('./components/AuthForm/AuthForm.css');
-@import url('./components/RegForm/RegForm.css');
-@import url('./components/Slider/Slider.css');
-@import url('./components/Header/Header.css');
-@import url('./components/Loader/Loader.css');
-@import url('./components/GridBlock/GridBlock.css');
-@import url('./components/ConfirmModal/ConfirmModal.css');
-@import url('./components/Notifier/Notifier.css');
-@import url('./components/VideoPlayer/VideoPlayer.css');
+@import './components/Card/Card.css';
+@import './components/CardsList//CardsList.css';
+@import './components/AuthForm/AuthForm.css';
+@import './components/RegForm/RegForm.css';
+@import './components/Slider/Slider.css';
+@import './components/Header/Header.css';
+@import './components/Loader/Loader.css';
+@import './components/GridBlock/GridBlock.css';
+@import './components/ConfirmModal/ConfirmModal.css';
+@import './components/Notifier/Notifier.css';
+@import './components/VideoPlayer/VideoPlayer.css';
 
-@import url('./pages/MainPage/MainPage.css');
-@import url('./pages/AuthPage/AuthPage.css');
-@import url('./pages/RegPage/RegPage.css');
-@import url('./pages/CategoryPage/CategoryPage.css');
+@import './pages/MainPage/MainPage.css';
+@import './pages/AuthPage/AuthPage.css';
+@import './pages/RegPage/RegPage.css';
+@import './pages/CategoryPage/CategoryPage.css';
 
 body {
   margin: 0;

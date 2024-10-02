@@ -149,7 +149,7 @@ export class RegForm {
       goToPage(document.querySelector(`[data-section="films"]`));
     } catch (e) {
       if (e.status === 409) {
-        this.throwRegError('Пользователь с таким e-mail уже есть');
+        this.throwRegError('Такой пользователь уже существует');
       } else {
         this.throwRegError('Что-то пошло не так. Попробуйте позже');
       }
