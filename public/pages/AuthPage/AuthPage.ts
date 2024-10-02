@@ -4,7 +4,7 @@ import template from './AuthPage.hbs';
 export class AuthPage {
   #parent;
 
-  constructor(parent) {
+  constructor(parent: HTMLElement) {
     this.#parent = parent;
   }
 
@@ -14,8 +14,10 @@ export class AuthPage {
 
   renderTemplate() {
     const rootElem = document.getElementById('root');
-    rootElem.classList.remove('root-black');
-    rootElem.classList.add('root-image');
+    if (rootElem) {
+      rootElem.classList.remove('root-black');
+      rootElem.classList.add('root-image');
+    }
 
     this.#parent.innerHTML = template();
 

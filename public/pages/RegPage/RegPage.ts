@@ -2,9 +2,9 @@ import { RegForm } from '../../components/RegForm/RegForm';
 import template from './RegPage.hbs';
 
 export class RegPage {
-  #parent;
+  #parent: HTMLElement;
 
-  constructor(parent) {
+  constructor(parent: HTMLElement) {
     this.#parent = parent;
   }
 
@@ -14,8 +14,10 @@ export class RegPage {
 
   renderTemplate() {
     const rootElem = document.getElementById('root');
-    rootElem.classList.remove('root-black');
-    rootElem.classList.add('root-image');
+    if (rootElem) {
+      rootElem.classList.remove('root-black');
+      rootElem.classList.add('root-image');
+    }
 
     this.#parent.innerHTML = template();
 

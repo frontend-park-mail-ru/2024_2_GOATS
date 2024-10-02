@@ -1,9 +1,11 @@
+import template from './Notifier.hbs';
+
 export class Notifier {
   #type;
   #content;
   #liveTime;
 
-  constructor(type, content, liveTime) {
+  constructor(type: string, content: string, liveTime: number) {
     this.#type = type;
     this.#content = content;
     this.#liveTime = liveTime;
@@ -23,7 +25,9 @@ export class Notifier {
     const notifierBlock = document.getElementById('notifier-block');
 
     setTimeout(() => {
-      notifierBlock.classList.add('visible');
+      if (notifierBlock) {
+        notifierBlock.classList.add('visible');
+      }
     });
 
     setTimeout(() => {
@@ -38,9 +42,11 @@ export class Notifier {
    */
   handleCloseButtonClick() {
     const closeButton = document.getElementById('notifier-close-button');
-    closeButton.addEventListener('click', () => {
-      this.hideNotifier();
-    });
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        this.hideNotifier();
+      });
+    }
   }
 
   /**
@@ -50,22 +56,26 @@ export class Notifier {
    */
   hideNotifier() {
     const notifierBlock = document.getElementById('notifier-block');
-    notifierBlock.classList.remove('visible');
+    if (notifierBlock) {
+      notifierBlock.classList.remove('visible');
+    }
 
     const notifierWrapper = document.getElementById('notifier');
     setTimeout(() => {
-      notifierWrapper.innerHTML = '';
+      if (notifierWrapper) {
+        notifierWrapper.innerHTML = '';
+      }
     }, 300);
   }
 
   renderTemplate() {
-    const template = Handlebars.templates['Notifier.hbs'];
-
     const notifierWrapper = document.getElementById('notifier');
-    notifierWrapper.innerHTML = template({
-      notificationType: this.#type,
-      notificationText: this.#content,
-    });
+    if (notifierWrapper) {
+      notifierWrapper.innerHTML = template({
+        notificationType: this.#type,
+        notificationText: this.#content,
+      });
+    }
     this.handleCloseButtonClick();
   }
 }

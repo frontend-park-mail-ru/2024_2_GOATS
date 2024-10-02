@@ -6,7 +6,7 @@ export class Loader {
   // Элемент позволяет вернуть содержимое parent-а после того, как контент загрузился
   #element;
 
-  constructor(parent, element) {
+  constructor(parent: HTMLElement, element: string) {
     this.#parent = parent;
     this.#element = element;
   }

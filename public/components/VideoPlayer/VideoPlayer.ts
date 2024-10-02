@@ -4,7 +4,7 @@ export class VideoPlayer {
   #parent;
   #url;
 
-  constructor(parent, url) {
+  constructor(parent: HTMLElement, url: string) {
     this.#parent = parent;
     this.#url = url;
   }
