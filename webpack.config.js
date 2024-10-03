@@ -1,12 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
+
+const buildPath = path.join(__dirname, 'dist');
+const publicPath = path.join(__dirname, 'public');
 
 module.exports = {
-  entry: path.join(__dirname, 'public'),
+  entry: publicPath,
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name].js',
+    path: buildPath,
+    filename: 'bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -15,12 +19,13 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name]-[contenthash].css',
     }),
+    new TsCheckerPlugin(),
   ].filter(Boolean),
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules|dist)/,
+        test: /\.[tj]s$/,
+        exclude: /node_modules/,
         use: 'babel-loader',
       },
       {
@@ -52,11 +57,18 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.ts'],
+    alias: {
+      pages: path.join(publicPath, 'pages'),
+      components: path.join(publicPath, 'components'),
+      styles: path.join(publicPath, 'styles'),
+      modules: path.join(publicPath, 'modules'),
+      assets: path.join(publicPath, 'assets'),
+    },
   },
   devServer: {
     port: 3000,
-    watchFiles: path.join(__dirname, 'public'),
+    watchFiles: publicPath,
     client: {
       overlay: false,
     },

@@ -1,12 +1,13 @@
 import { Card } from '../Card/Card';
 import template from './CardsList.hbs';
+import { Movie } from 'types/movie';
 
 export class CardsList {
   #parent;
   #movies;
   #id;
 
-  constructor(parent, movies, id) {
+  constructor(parent: HTMLElement, movies: Movie[], id: number) {
     this.#parent = parent;
     this.#movies = movies;
     this.#id = id;
@@ -21,9 +22,11 @@ export class CardsList {
 
     const cardsList = document.getElementById(`cards-list-${this.#id}`);
 
-    this.#movies.forEach((movie) => {
-      const card = new Card(cardsList, movie);
-      card.render();
-    });
+    if (cardsList) {
+      this.#movies.forEach((movie) => {
+        const card = new Card(cardsList, movie);
+        card.render();
+      });
+    }
   }
 }

@@ -2,13 +2,14 @@ import { CardsList } from '../../components/CardsList/CardsList';
 import { apiClient } from '../../modules/ApiClient';
 import { MainPage } from '../MainPage/MainPage';
 import template from './CategoryPage.hbs';
+import { Movie } from 'types/movie';
 
 export class CategoryPage {
   #parent;
-  #movies;
+  #movies: Movie[] = [];
   #pageTitle;
 
-  constructor(parent, pageTitle) {
+  constructor(parent: HTMLElement, pageTitle: string) {
     this.#parent = parent;
     this.#pageTitle = pageTitle;
   }
@@ -33,8 +34,10 @@ export class CategoryPage {
 
     this.#movies = response;
     const moviesBlock = document.getElementById('category-page-content');
-    const moviesList = new CardsList(moviesBlock, this.#movies, 3);
-    moviesList.render();
+    if (moviesBlock) {
+      const moviesList = new CardsList(moviesBlock, this.#movies, 3);
+      moviesList.render();
+    }
   }
 
   /**
@@ -46,11 +49,13 @@ export class CategoryPage {
     const backButton = document.getElementById('category-page-button-back');
     const main = document.querySelector('main');
 
-    backButton.addEventListener('click', () => {
-      main.innerHTML = '';
-      const mainPage = new MainPage(main);
-      mainPage.render();
-    });
+    if (backButton && main) {
+      backButton.addEventListener('click', () => {
+        main.innerHTML = '';
+        const mainPage = new MainPage(main);
+        mainPage.render();
+      });
+    }
   }
 
   renderTemplate() {

@@ -5,13 +5,14 @@ import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
 import { serializeCollections } from '../../modules/Serializer';
 import { checkAuth } from '../..';
+import { Movie, MovieSelection } from 'types/movie';
 
 export class MainPage {
   #parent;
-  #movieSelections;
-  #loader;
+  #movieSelections: MovieSelection[] = [];
+  #loader!: Loader;
 
-  constructor(parent) {
+  constructor(parent: HTMLElement) {
     this.#parent = parent;
     this.#movieSelections = [];
   }
@@ -31,7 +32,7 @@ export class MainPage {
     });
 
     this.#movieSelections = serializeCollections(response.collections).sort(
-      (selection1, selection2) => selection1.id - selection2.id,
+      (selection1: any, selection2: any) => selection1.id - selection2.id,
     );
   }
 
@@ -45,19 +46,23 @@ export class MainPage {
     this.#loader.kill();
 
     const trendMoviesBlock = document.getElementById('trend-movies-block');
-    const trendMoviesList = new GridBlock(
-      trendMoviesBlock,
-      this.#movieSelections[0].movies,
-      this.#movieSelections[0].title,
-    );
-    trendMoviesList.render();
+    if (trendMoviesBlock) {
+      const trendMoviesList = new GridBlock(
+        trendMoviesBlock,
+        this.#movieSelections[0].movies,
+        this.#movieSelections[0].title,
+      );
+      trendMoviesList.render();
+    }
 
     const mainPageBlocks = document.querySelector('.main-page__blocks');
     this.#movieSelections.slice(1).forEach((selection) => {
       const newBlock = document.createElement('div');
       newBlock.classList.add('main-page__block');
       newBlock.id = `main-page-block-${selection.id}`;
-      mainPageBlocks.appendChild(newBlock);
+      if (mainPageBlocks) {
+        mainPageBlocks.appendChild(newBlock);
+      }
 
       const slider = new Slider(newBlock, selection);
       slider.render();
@@ -66,8 +71,10 @@ export class MainPage {
 
   renderTemplate() {
     const rootElem = document.getElementById('root');
-    rootElem.classList.add('root-black');
-    rootElem.classList.remove('root-image');
+    if (rootElem) {
+      rootElem.classList.add('root-black');
+      rootElem.classList.remove('root-image');
+    }
 
     this.#parent.innerHTML = template();
 

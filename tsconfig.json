@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "public",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@components/*": ["components"],
+      "@styles/*": ["styles"],
+      "@modules/*": ["modules"],
+      "@assets/*": ["assets/*"]
+    },
+    "noEmit": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "module": "es6",
+    "target": "es6",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["public/**/*", "public/types/**/*"],
+  "exclude": ["node_modules"]
+}

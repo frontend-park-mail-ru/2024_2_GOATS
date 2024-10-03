@@ -1,12 +1,12 @@
-import { MainPage } from './pages/MainPage/MainPage.js';
-import { AuthPage } from './pages/AuthPage/AuthPage.js';
+import { MainPage } from './pages/MainPage/MainPage';
+import { AuthPage } from './pages/AuthPage/AuthPage';
 
 import './index.css';
-import { Header } from './components/Header/Header.js';
-import { RegPage } from './pages/RegPage/RegPage.js';
-import { setPagesConfig } from './consts.js';
+import { Header } from './components/Header/Header';
+import { RegPage } from './pages/RegPage/RegPage';
+import { setPagesConfig } from './consts';
 
-import { apiClient } from './modules/ApiClient.js';
+import { apiClient } from './modules/ApiClient';
 
 const rootElement = document.getElementById('root');
 const headerElement = document.createElement('header');

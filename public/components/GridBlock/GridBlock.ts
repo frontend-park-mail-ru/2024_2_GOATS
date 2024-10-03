@@ -1,3 +1,4 @@
+import { Movie } from 'types/movie';
 import template from './GridBlock.hbs';
 
 export class GridBlock {
@@ -5,7 +6,7 @@ export class GridBlock {
   #movies;
   #blockTitle;
 
-  constructor(parent, movies, blockTitle) {
+  constructor(parent: HTMLElement, movies: Movie[], blockTitle: string) {
     this.#parent = parent;
     this.#movies = movies;
     this.#blockTitle = blockTitle;
