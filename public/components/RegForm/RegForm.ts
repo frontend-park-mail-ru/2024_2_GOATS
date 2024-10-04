@@ -10,24 +10,16 @@ import {
 
 export class RegForm {
   #parent;
-  #config;
 
-  constructor(parent) {
+  constructor(parent: HTMLElement) {
     this.#parent = parent;
   }
 
-  get config() {
-    return this.#config;
-  }
-
-  /**
-   *  Email value validation
-   * @param {string} emailValue - email value entered by user
-   * @returns {boolean} - true if email value is valid
-   */
-  validateEmailField(emailValue) {
-    const emailInput = document.getElementById('form-reg-email');
-    const emailError = document.getElementById('form-reg-email-error');
+  validateEmailField(emailValue: string) {
+    const emailInput = document.getElementById('form-reg-email') as HTMLElement;
+    const emailError = document.getElementById(
+      'form-reg-email-error',
+    ) as HTMLElement;
 
     if (!validateEmailAddress(emailValue)) {
       emailInput.classList.add('input-error');
@@ -40,17 +32,17 @@ export class RegForm {
     }
   }
 
-  /**
-   * Login value validation
-   * @param {string} passwordValue - login value entered by user
-   * @returns {boolean} - true if login value is valid
-   */
-  validateLoginField(loginValue) {
-    const loginInput = document.getElementById('form-reg-login');
-    const loginError = document.getElementById('form-reg-login-error');
+  validateLoginField(loginValue: string) {
+    const loginInput = document.getElementById('form-reg-login') as HTMLElement;
+    const loginError = document.getElementById(
+      'form-reg-login-error',
+    ) as HTMLElement;
     if (validateLogin(loginValue)) {
       loginInput.classList.add('input-error');
-      loginError.innerText = validateLogin(loginValue);
+      const error = validateLogin(loginValue);
+      if (error) {
+        loginError.innerText = error;
+      }
       return false;
     } else {
       loginInput.classList.remove('input-error');
@@ -59,18 +51,20 @@ export class RegForm {
     }
   }
 
-  /**
-   * Password value validation
-   * @param {string} passwordValue - password value entered by user
-   * @returns {boolean} - true if password value is valid
-   */
-  validatePasswordField(passwordValue) {
-    const passwordInput = document.getElementById('form-reg-password');
-    const passwordError = document.getElementById('form-reg-password-error');
+  validatePasswordField(passwordValue: string) {
+    const passwordInput = document.getElementById(
+      'form-reg-password',
+    ) as HTMLElement;
+    const passwordError = document.getElementById(
+      'form-reg-password-error',
+    ) as HTMLElement;
 
     if (validatePassword(passwordValue)) {
       passwordInput.classList.add('input-error');
-      passwordError.innerText = validatePassword(passwordValue);
+      const error = validatePassword(passwordValue);
+      if (error) {
+        passwordError.innerText = error;
+      }
 
       return false;
     } else {
@@ -80,18 +74,16 @@ export class RegForm {
     }
   }
 
-  /**
-   * Password confirmation value validation
-   * @param {string} passwordValue - password confirmation value entered by user
-   * @returns {boolean} - true if password confirmation value is valid
-   */
-  validatePasswordConrirmField(passwordValue, passwordConfirmValue) {
+  validatePasswordConrirmField(
+    passwordValue: string,
+    passwordConfirmValue: string,
+  ) {
     const passwordConfirmInput = document.getElementById(
       'form-reg-password-confirm',
-    );
+    ) as HTMLElement;
     const passwordConfirmError = document.getElementById(
       'form-reg-password-confirm-error',
-    );
+    ) as HTMLElement;
 
     if (passwordValue !== passwordConfirmValue) {
       passwordConfirmInput.classList.add('input-error');
@@ -104,37 +96,24 @@ export class RegForm {
     }
   }
 
-  /**
-   * Show error to user
-   * @param {string} authErrorMessage - error message for showing to user
-   * @returns {}
-   */
-  throwRegError(authErrorMessage) {
-    const errorBlock = document.getElementById('reg-error');
+  throwRegError(authErrorMessage: string) {
+    const errorBlock = document.getElementById('reg-error') as HTMLElement;
     errorBlock.innerHTML = authErrorMessage;
     errorBlock.classList.add('visible');
   }
 
-  /**
-   * Remove error from registration form
-   * @param {}
-   * @returns {}
-   */
   removeRegError() {
-    const errorBlock = document.getElementById('reg-error');
+    const errorBlock = document.getElementById('reg-error') as HTMLElement;
     errorBlock.innerHTML = '';
     errorBlock.classList.remove('visible');
   }
 
-  /**
-   * Send registration request
-   * @param {string} loginValue - login value entered by user
-   * @param {string} emailValue - email value entered by user
-   * @param {string} passwordValue - password value entered by user
-   * @param {string} confirmValue - password confirmation value entered by user
-   * @returns {Promise<Object>} - response from the API
-   */
-  async regRequest(loginValue, emailValue, passwordValue, confirmValue) {
+  async regRequest(
+    loginValue: string,
+    emailValue: string,
+    passwordValue: string,
+    confirmValue: string,
+  ) {
     try {
       await apiClient.post({
         path: 'auth/signup',
@@ -146,8 +125,14 @@ export class RegForm {
         },
       });
 
-      goToPage(document.querySelector(`[data-section="films"]`));
-    } catch (e) {
+      const filmsNav = document.querySelector(
+        `[data-section="films"]`,
+      ) as HTMLElement;
+
+      if (filmsNav) {
+        goToPage(filmsNav);
+      }
+    } catch (e: any) {
       if (e.status === 409) {
         this.throwRegError('Такой пользователь уже существует');
       } else {
@@ -156,23 +141,24 @@ export class RegForm {
     }
   }
 
-  /**
-   * Processing of clicking on the registration button
-   * @param {}
-   * @returns {}
-   */
   onRegButtonClick() {
-    const regBtn = document.getElementById('form-reg-btn');
+    const regBtn = document.getElementById('form-reg-btn') as HTMLElement;
     regBtn.addEventListener('click', async (e) => {
       e.preventDefault();
       this.removeRegError();
 
-      const emailValue = document.getElementById('form-reg-email').value;
-      const loginValue = document.getElementById('form-reg-login').value;
-      const passwordValue = document.getElementById('form-reg-password').value;
-      const confirmValue = document.getElementById(
-        'form-reg-password-confirm',
-      ).value;
+      const emailValue = (<HTMLInputElement>(
+        document.getElementById('form-reg-email')
+      )).value;
+      const loginValue = (<HTMLInputElement>(
+        document.getElementById('form-reg-login')
+      )).value;
+      const passwordValue = (<HTMLInputElement>(
+        document.getElementById('form-reg-password')
+      )).value;
+      const confirmValue = (<HTMLInputElement>(
+        document.getElementById('form-reg-password-confirm')
+      )).value;
 
       const isEmailValid = this.validateEmailField(emailValue);
       const isLoginValid = this.validateLoginField(loginValue);
@@ -194,16 +180,18 @@ export class RegForm {
     });
   }
 
-  /**
-   * Navigate to authorization
-   * @param {}
-   * @returns {}
-   */
   handleAuthLinkClick() {
-    const authLink = document.getElementById('form-reg-auth-link');
+    const authLink = document.getElementById(
+      'form-reg-auth-link',
+    ) as HTMLElement;
     authLink.addEventListener('click', (e) => {
       e.preventDefault();
-      goToPage(document.querySelector(`[data-section="login"]`));
+      const authNav = document.querySelector(
+        `[data-section="login"]`,
+      ) as HTMLElement;
+      if (authNav) {
+        goToPage(authNav);
+      }
     });
   }
 

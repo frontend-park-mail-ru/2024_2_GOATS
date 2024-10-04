@@ -5,6 +5,11 @@ export type AuthUser = {
   passwordConfirmation?: string;
 };
 
+export type User = {
+  email?: string;
+  username?: string;
+};
+
 export type UserInfo = {
   email: string;
   username: string;

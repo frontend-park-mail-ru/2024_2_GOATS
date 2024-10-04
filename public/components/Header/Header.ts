@@ -3,27 +3,32 @@ import { currentUser } from '../..';
 import { apiClient } from '../../modules/ApiClient';
 import { checkAuth } from '../..';
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
+import { PageConfig } from 'types/pages';
+
+type State = {
+  activeHeaderLink: HTMLElement | null;
+  navElements: Record<string, HTMLElement>;
+};
 
 export class Header {
   #parent;
-  #config;
+  #config: PageConfig;
+  #state: State;
 
-  constructor(parent, config) {
+  constructor(parent: HTMLElement, config: PageConfig) {
     this.#parent = parent;
     this.#config = config;
-
-    this.state = {
+    this.#state = {
       activeHeaderLink: null,
       navElements: {},
     };
   }
 
-  /**
-   * Get header config
-   * @param {}
-   * @returns {}
-   */
-  get getConfig() {
+  get state(): State {
+    return this.#state;
+  }
+
+  get getConfig(): PageConfig {
     return this.#config;
   }
 
@@ -31,24 +36,15 @@ export class Header {
     this.renderTemplate();
   }
 
-  /**
-   * Get header items
-   * @param {}
-   * @returns {}
-   */
   get items() {
     return Object.entries(this.getConfig.pages);
   }
 
-  /**
-   * Send logout request
-   * @param {}
-   * @returns {Promise<Object>} - response from the API
-   */
   async logout() {
     try {
       await apiClient.post({
         path: 'auth/logout',
+        body: {},
       });
       checkAuth();
     } catch {
@@ -56,18 +52,13 @@ export class Header {
     }
   }
 
-  /**
-   * Add listener on exit button
-   * @param {}
-   * @returns {}
-   */
   onExitClick() {
     if (currentUser.username) {
       const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
         this.logout();
       });
 
-      const exitButton = document.getElementById('exit-button');
+      const exitButton = document.getElementById('exit-button') as HTMLElement;
 
       exitButton.addEventListener('click', () => {
         modal.render();
@@ -89,7 +80,9 @@ export class Header {
 
     this.#parent.innerHTML = template({ items, currentUser });
     this.#parent.querySelectorAll('a').forEach((element) => {
-      this.state.navElements[element.dataset.section] = element;
+      if (element.dataset.section) {
+        this.#state.navElements[element.dataset.section] = element;
+      }
     });
     this.onExitClick();
   }

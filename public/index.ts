@@ -7,8 +7,9 @@ import { RegPage } from './pages/RegPage/RegPage';
 import { setPagesConfig } from './consts';
 
 import { apiClient } from './modules/ApiClient';
+import { User } from 'types/user';
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root') as HTMLElement;
 const headerElement = document.createElement('header');
 const pageElement = document.createElement('main');
 
@@ -19,7 +20,7 @@ rootElement.appendChild(headerElement);
 rootElement.appendChild(pageElement);
 rootElement.appendChild(notifierElement);
 
-export let currentUser = {};
+export let currentUser: User = {};
 export let isAuthorised = false;
 
 const pagesConfig = setPagesConfig(
@@ -29,11 +30,6 @@ const pagesConfig = setPagesConfig(
   renderRegPage,
 );
 
-/**
- * check if user authorised using cookies
- * @param {}
- * @returns {}
- */
 export const checkAuth = async () => {
   try {
     const response = await apiClient.get({
@@ -48,13 +44,7 @@ export const checkAuth = async () => {
   }
 };
 
-/**
- * check if user authorised using cookies
- * @param {Object} config - current pages config
- * @param {Object} currentUser - current user
- * @returns {}
- */
-function updatePagesConfig(config, currentUser) {
+function updatePagesConfig(config: any, currentUser: User) {
   config.pages.login.isAvailable = !currentUser.username;
   config.pages.signup.isAvailable = !currentUser.username;
   renderHeader();
@@ -65,19 +55,14 @@ const authPage = new AuthPage(pageElement);
 const regPage = new RegPage(pageElement);
 const header = new Header(headerElement, pagesConfig);
 
-/**
- * rendering header
- * @param {}
- * @returns {}
- */
 function renderHeader() {
   header.render();
 
-  headerElement.addEventListener('click', (e) => {
+  headerElement.addEventListener('click', (e: MouseEvent) => {
     const { target } = e;
 
     if (
-      target.tagName.toLowerCase() === 'a' ||
+      (target instanceof HTMLElement && target.tagName.toLowerCase() === 'a') ||
       target instanceof HTMLAnchorElement
     ) {
       e.preventDefault();
@@ -96,12 +81,7 @@ function renderRegPage() {
   regPage.render();
 }
 
-/**
- * rerender header and page after navigation action
- * @param {HTMLElement} headerLinkElement - nav-link that was clicked
- * @returns {}
- */
-export function goToPage(headerLinkElement) {
+export function goToPage(headerLinkElement: HTMLElement) {
   if (
     headerLinkElement.dataset.section ==
     header.state.activeHeaderLink?.dataset.section
@@ -117,7 +97,11 @@ export function goToPage(headerLinkElement) {
   header.state.activeHeaderLink?.classList.remove('active');
   headerLinkElement.classList.add('active');
   header.state.activeHeaderLink = headerLinkElement;
-  pagesConfig.pages[headerLinkElement.dataset.section].render();
+  if (headerLinkElement.dataset.section) {
+    pagesConfig.pages[
+      headerLinkElement.dataset.section as keyof typeof pagesConfig.pages
+    ].render();
+  }
 }
 
 renderMainPage();

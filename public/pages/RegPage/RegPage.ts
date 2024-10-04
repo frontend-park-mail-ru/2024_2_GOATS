@@ -22,7 +22,9 @@ export class RegPage {
     this.#parent.innerHTML = template();
 
     const regForm = document.getElementById('reg-page-form-block');
-    const form = new RegForm(regForm);
-    form.render();
+    if (regForm) {
+      const form = new RegForm(regForm);
+      form.render();
+    }
   }
 }

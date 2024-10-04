@@ -1,3 +1,5 @@
+import { AuthUser, User } from 'types/user';
+
 export const API_URL = 'http://185.241.195.151/api/';
 
 export const movies = [
@@ -46,18 +48,34 @@ export const CHAR_z_CODE = 122;
 export const CHAR_0_CODE = 48;
 export const CHAR_9_CODE = 57;
 
-export const passwordValidationRules = {
-  minLength: {
-    pass: false,
-    errorMessage: 'Пароль должен содержать минимум 8 символов',
-  },
-  hasDigit: {
-    pass: false,
-    errorMessage: 'Пароль должен содержать хотя бы одну цифру',
+type ValidationInfo = {
+  pass: boolean;
+  errorMessage: string;
+};
+
+type PasswordValidationRules = {
+  rules: {
+    minLength: ValidationInfo;
+    hasDigit: ValidationInfo;
+  };
+
+  reset: () => PasswordValidationRules;
+};
+
+export const passwordValidationRules: PasswordValidationRules = {
+  rules: {
+    minLength: {
+      pass: false,
+      errorMessage: 'Пароль должен содержать минимум 8 символов',
+    },
+    hasDigit: {
+      pass: false,
+      errorMessage: 'Пароль должен содержать хотя бы одну цифру',
+    },
   },
 
   reset() {
-    const fields = Object.values(this);
+    const fields = Object.values(this.rules) as ValidationInfo[];
     fields.forEach((field) => {
       field.pass = false;
     });
@@ -65,24 +83,35 @@ export const passwordValidationRules = {
   },
 };
 
-export const loginValidationRules = {
-  minLength: {
-    pass: false,
-    errorMessage: 'Логин должен содержать минимум 6 символов',
-  },
+type LoginValidationRules = {
+  rules: {
+    minLength: ValidationInfo;
+    maxLength: ValidationInfo;
+    hasNoSpec: ValidationInfo;
+  };
+  reset: () => LoginValidationRules;
+};
 
-  maxLength: {
-    pass: false,
-    errorMessage: 'Логин должен содержать максимум 24 символов',
-  },
+export const loginValidationRules: LoginValidationRules = {
+  rules: {
+    minLength: {
+      pass: false,
+      errorMessage: 'Логин должен содержать минимум 6 символов',
+    },
 
-  hasNoSpec: {
-    pass: false,
-    errorMessage: 'Разрешены символы латинского алфавита, цифры и "."',
+    maxLength: {
+      pass: false,
+      errorMessage: 'Логин должен содержать максимум 24 символов',
+    },
+
+    hasNoSpec: {
+      pass: false,
+      errorMessage: 'Разрешены символы латинского алфавита, цифры и "."',
+    },
   },
 
   reset() {
-    const fields = Object.values(this);
+    const fields = Object.values(this.rules) as ValidationInfo[];
     fields.forEach((field) => {
       field.pass = false;
     });
@@ -91,10 +120,10 @@ export const loginValidationRules = {
 };
 
 export function setPagesConfig(
-  user,
-  renderMainPage,
-  renderAuthPage,
-  renderRegPage,
+  user: User | undefined,
+  renderMainPage: () => void,
+  renderAuthPage: () => void,
+  renderRegPage: () => void,
 ) {
   return {
     pages: {
@@ -109,9 +138,8 @@ export function setPagesConfig(
         text: 'Авторизация',
         href: '/auth',
         id: 'login-page-nav',
-
         render: renderAuthPage,
-        isAvailable: !user.username,
+        isAvailable: !user?.username,
       },
       signup: {
         text: 'Регистрация',
@@ -119,7 +147,7 @@ export function setPagesConfig(
         id: 'signup-page-nav',
 
         render: renderRegPage,
-        isAvailable: !user.username,
+        isAvailable: !user?.username,
       },
     },
   };

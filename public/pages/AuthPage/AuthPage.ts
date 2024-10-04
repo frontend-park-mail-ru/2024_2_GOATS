@@ -22,7 +22,9 @@ export class AuthPage {
     this.#parent.innerHTML = template();
 
     const authForm = document.getElementById('auth-page-form-block');
-    const form = new AuthForm(authForm);
-    form.render();
+    if (authForm) {
+      const form = new AuthForm(authForm);
+      form.render();
+    }
   }
 }
