@@ -1,0 +1,55 @@
+@import '../../styles/variables.scss';
+
+.active {
+  border-bottom: 2px solid $brand;
+  padding-bottom: 3px;
+}
+
+.header {
+  background-color: rgba(0, 0, 0, 0);
+  padding: 8px 0px;
+
+  &__container {
+    max-width: 1280px;
+    width: $content-width;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &_logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    &_nav {
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    &_auth {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    &_exit_btn {
+      background-color: $brand;
+      color: $brand-secondary;
+      font-size: 16px;
+      font-weight: 600;
+
+      &:hover {
+        background-color: $button-background-hover;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@import '../../styles/variables.scss';
+
+.main-page {
+  background-color: $background;
+  padding-bottom: 100px;
+
+  &__container {
+    max-width: 1280px;
+    width: $content-width;
+    margin: 0 auto;
+    margin-top: 16px;
+  }
+
+  &__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  &__block {
+    &_title {
+      margin-bottom: 15px;
+      font-size: 30px;
+    }
+  }
+}
