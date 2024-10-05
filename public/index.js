@@ -1,7 +1,7 @@
 import { MainPage } from './pages/MainPage/MainPage';
 import { AuthPage } from './pages/AuthPage/AuthPage';
 
-import './index.css';
+import './index.scss';
 import { Header } from './components/Header/Header';
 import { RegPage } from './pages/RegPage/RegPage';
 import { setPagesConfig } from './consts';

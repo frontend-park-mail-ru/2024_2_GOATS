@@ -1,0 +1,31 @@
+.reg-page {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  &__container {
+    max-width: 1280px;
+    width: $content-width;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &_intro-text {
+      text-transform: uppercase;
+      width: 50%;
+      h1 {
+        font-size: 48px;
+      }
+    }
+
+    &_form {
+      width: 40%;
+    }
+  }
+}
+
+.accent {
+  color: $brand;
+}
