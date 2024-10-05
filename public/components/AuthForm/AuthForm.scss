@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .form-auth__wrapper {
   border-radius: 16px;
   background-color: #0000009c;
@@ -12,52 +14,85 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
-}
 
-.form-auth__title {
-  font-weight: 500;
-  font-size: 24px;
-  text-transform: uppercase;
-}
+  &__title {
+    font-weight: 500;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
 
-.form-auth__input {
-  width: 100%;
-  position: relative;
-}
-.form-auth__input_label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 16px;
-  width: fit-content;
+  &__input {
+    width: 100%;
+    position: relative;
 
-  margin-bottom: 0.2em;
-  position: relative;
-}
-.form-auth__input_field {
-  width: 100%;
-  font-size: 16px;
-  outline: 1px solid #fff;
-}
+    &_label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 16px;
+      width: fit-content;
 
-.form-auth__input_field:focus {
-  outline: 2px solid #fff;
-}
+      margin-bottom: 0.2em;
+      position: relative;
+    }
 
-.form-auth__input_field:hover {
-  cursor: text;
-}
+    &_field {
+      width: 100%;
+      font-size: 16px;
+      outline: 1px solid #fff;
 
-.form-auth__input_field::-ms-reveal {
-  filter: invert(100%);
-}
+      &:focus {
+        outline: 2px solid #fff;
+      }
+      &:hover {
+        cursor: text;
+      }
+      &::-ms-reveal {
+        filter: invert(100%);
+      }
+    }
 
-.form-auth__input_error {
-  display: block;
-  font-size: 12px;
-  color: red;
-  position: absolute;
-  margin-top: 2px;
+    &_error {
+      display: block;
+      font-size: 12px;
+      color: $error-color;
+      position: absolute;
+      margin-top: 2px;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+
+    &_button {
+      width: 100%;
+
+      background-color: #a143ff;
+      color: $brand-secondary;
+
+      font-size: 16px;
+      font-weight: 600;
+
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #590da6;
+      }
+    }
+  }
+
+  &__footer {
+    font-size: 11px;
+    font-weight: 300;
+    margin-top: 16px;
+    text-align: center;
+    color: $brand-secondary;
+
+    &_message_link {
+      color: $brand-secondary;
+      text-decoration: underline;
+    }
+  }
 }
 
 .note {
@@ -86,51 +121,13 @@
   display: block;
 }
 
-.input-error {
-  outline: 1px solid red;
-}
-
-.form-auth__submit {
-  width: 100%;
-}
-
-.form-auth__submit_button {
-  width: 100%;
-
-  background-color: #a143ff;
-  color: #fff;
-
-  font-size: 16px;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
-}
-
-.form-auth__submit_button:hover {
-  background-color: #590da6;
-}
-
-.form-auth__footer {
-  font-size: 11px;
-  font-weight: 300;
-  margin-top: 16px;
-  text-align: center;
-  color: #fff;
-
-  span {
-    a {
-      color: #fff;
-      text-decoration: underline;
-    }
-  }
-}
-
 .auth-error {
   margin-top: 5px;
-  color: red;
+  color: $error-color;
   align-self: flex-start;
   display: none;
-}
 
-.auth-error.visible {
-  display: block;
+  &.visible {
+    display: block;
+  }
 }

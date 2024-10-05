@@ -6,7 +6,7 @@
   align-items: center;
 
   &__container {
-    max-width: 1280px;
+    max-width: $content-width-max;
     width: $content-width;
     margin: 0 auto;
     display: flex;
@@ -15,7 +15,7 @@
 
     &_intro-text {
       width: 50%;
-      h1 {
+      &_title {
         font-size: 48px;
       }
     }

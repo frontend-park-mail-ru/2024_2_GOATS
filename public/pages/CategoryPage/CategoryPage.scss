@@ -3,7 +3,7 @@
 .category-page {
   &__inner {
     width: $content-width;
-    max-width: 1280px;
+    max-width: $content-width-max;
     margin: 0 auto;
     margin-top: 16px;
 

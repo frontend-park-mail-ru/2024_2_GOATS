@@ -1,63 +1,64 @@
+@import '../../styles/variables.scss';
+
 .grid-block {
   height: fit-content;
-}
 
-.grid-block__header {
-  margin-bottom: 16px;
+  &__header {
+    margin-bottom: 16px;
 
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-}
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
 
-.grid-block__header_title {
-  font-size: 32px;
-}
+    &_title {
+      font-size: 32px;
+    }
 
-.grid-block__header_more {
-  font-size: 16px;
-  color: #a143ff;
+    &_more {
+      font-size: 16px;
+      color: $brand;
 
-  &:hover {
-    border-bottom: 1px solid #a143ff;
-    cursor: pointer;
+      &:hover {
+        border-bottom: 1px solid $brand;
+        cursor: pointer;
+      }
+    }
   }
-}
 
-.grid-block__content {
-  height: 100%;
+  &__content {
+    height: 100%;
 
-  display: grid;
-  grid-template-columns: 65% 1fr;
-  grid-template-rows: repeat(2, 1fr);
-  gap: 16px;
-}
+    display: grid;
+    grid-template-columns: 65% 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+  }
 
-.grid-block__element {
-  overflow: hidden;
+  &__element {
+    overflow: hidden;
 
-  transition: all 0.1s ease;
-}
+    transition: all 0.1s ease;
 
-.grid-block__element:hover {
-  cursor: pointer;
-  scale: 1.02;
-  box-shadow: 0px 0px 70px 40px rgba(0, 0, 0, 0.7);
-}
+    &:hover {
+      cursor: pointer;
+      scale: 1.02;
+      box-shadow: 0px 0px 70px 40px rgba(0, 0, 0, 0.7);
+    }
 
-.grid-block__content > div:first-child {
-  grid-row: span 2 / span 2;
-}
-.grid-block__content > div:nth-child(2) {
-  grid-column-start: 2;
-}
+    &_image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-.grid-block__content > div:nth-child(3) {
-  grid-column-start: 2;
-}
-
-.grid-block__element_image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    &:first-child {
+      grid-row: span 2 / span 2;
+    }
+    &:nth-child(2) {
+      grid-column-start: 2;
+    }
+    &:nth-child(3) {
+      grid-column-start: 2;
+    }
+  }
 }

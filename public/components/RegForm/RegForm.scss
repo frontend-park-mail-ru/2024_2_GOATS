@@ -1,3 +1,4 @@
+@import '../../styles/variables.scss';
 .form-reg__wrapper {
   border-radius: 16px;
   background-color: #0000009c;
@@ -12,52 +13,79 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
-}
 
-.form-reg__title {
-  font-weight: 500;
-  font-size: 24px;
-  text-transform: uppercase;
-}
+  &__title {
+    font-weight: 500;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
 
-.form-reg__input {
-  width: 100%;
-  position: relative;
-}
-.form-reg__input_label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 16px;
-  width: fit-content;
+  &__input {
+    width: 100%;
+    position: relative;
 
-  margin-bottom: 0.2em;
-  position: relative;
-}
+    &_label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 16px;
+      width: fit-content;
 
-.form-reg__input_field {
-  width: 100%;
-  font-size: 16px;
-  outline: 1px solid #fff;
-}
+      margin-bottom: 0.2em;
+      position: relative;
+    }
+    &_field {
+      width: 100%;
+      font-size: 16px;
+      outline: 1px solid #fff;
 
-.form-reg__input_field:focus {
-  outline: 2px solid #fff;
-}
-.form-reg__input_field:hover {
-  cursor: text;
-}
+      &:focus {
+        outline: 2px solid #fff;
+      }
+      &:hover {
+        cursor: text;
+      }
+      &::-ms-reveal {
+        filter: invert(100%);
+      }
+    }
+    &_error {
+      display: block;
+      font-size: 12px;
+      color: $error-color;
+      position: absolute;
+      margin-top: 2px;
+    }
+  }
 
-.form-reg__input_field::-ms-reveal {
-  filter: invert(100%);
-}
+  &__submit {
+    width: 100%;
 
-.form-reg__input_error {
-  display: block;
-  font-size: 12px;
-  color: red;
-  position: absolute;
-  margin-top: 2px;
+    &_button {
+      width: 100%;
+
+      background-color: #a143ff;
+      color: $brand-secondary;
+
+      font-size: 16px;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+      &:hover {
+        background-color: #590da6;
+      }
+    }
+  }
+  &__footer {
+    font-size: 11px;
+    font-weight: 300;
+    margin-top: 16px;
+    text-align: center;
+    color: $brand-secondary;
+    &_message_link {
+      color: $brand-secondary;
+      text-decoration: underline;
+    }
+  }
 }
 
 .note {
@@ -92,51 +120,13 @@
   display: block;
 }
 
-.input-error {
-  outline: 1px solid red;
-}
-
-.form-reg__submit {
-  width: 100%;
-}
-
-.form-reg__submit_button {
-  width: 100%;
-
-  background-color: #a143ff;
-  color: #fff;
-
-  font-size: 16px;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
-}
-
-.form-reg__submit_button:hover {
-  background-color: #590da6;
-}
-
-.form-reg__footer {
-  font-size: 11px;
-  font-weight: 300;
-  margin-top: 16px;
-  text-align: center;
-  color: #fff;
-
-  span {
-    a {
-      color: #fff;
-      text-decoration: underline;
-    }
-  }
-}
-
 .reg-error {
   margin-top: 5px;
-  color: red;
+  color: $error-color;
   align-self: flex-start;
   display: none;
-}
 
-.reg-error.visible {
-  display: block;
+  &.visible {
+    display: block;
+  }
 }

@@ -10,7 +10,7 @@
   padding: 8px 0px;
 
   &__container {
-    max-width: 1280px;
+    max-width: $content-width-max;
     width: $content-width;
     margin: 0 auto;
 
