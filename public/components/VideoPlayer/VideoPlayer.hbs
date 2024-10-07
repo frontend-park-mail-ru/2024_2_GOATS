@@ -19,15 +19,27 @@
         alt='pause'
       />
     {{/if}}
-    <span id='currenttime'>00:00</span>
+    <div class='video__controls_sound'>
+      <img
+        id='sound-button'
+        class='video__controls_icon'
+        src='../../assets/icons/soundIcon.svg'
+        alt='sound'
+      />
+      <input
+        class='video__controls_sound_input'
+        type='range'
+        id='sound'
+        min='0'
+        max='1'
+        step='0.01'
+        value='1'
+      />
+    </div>
+    <span id='current-time'>00:00</span>
     <div class='video__progress'>
       <div class='video__progress_bar'></div>
     </div>
     <span id='duration'>00:00</span>
-    <img
-      class='video__controls_icon'
-      src='../../assets/icons/soundIcon.svg'
-      alt='sound'
-    />
   </div>
 </div>

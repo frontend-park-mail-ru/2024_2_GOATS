@@ -37,13 +37,14 @@ export class VideoPlayer {
       togglePlayback: () => {
         video.paused ? video.play() : video.pause();
       },
-
       playbackline: document.querySelector('.video__progress') as HTMLElement,
       duration: document.getElementById('duration') as HTMLElement,
-      currentTime: document.getElementById('currenttime') as HTMLElement,
+      currentTime: document.getElementById('current-time') as HTMLElement,
       progressBar: document.querySelector(
         '.video__progress_bar',
       ) as HTMLElement,
+      volumeBtn: document.getElementById('sound-button') as HTMLElement,
+      volume: document.getElementById('sound') as HTMLInputElement,
     };
 
     // Определяем длительность видео
@@ -98,6 +99,19 @@ export class VideoPlayer {
       let timelineWidth = controls.playbackline.clientWidth;
       video.currentTime = (e.offsetX / timelineWidth) * video.duration;
       controls.currentTime.textContent = this.timeFormatter(video.currentTime);
+    });
+
+    controls.volumeBtn.addEventListener('click', () => {
+      if (controls.volume.style.display === 'block') {
+        controls.volume.style.display = 'none';
+      } else {
+        controls.volume.style.display = 'block';
+      }
+    });
+
+    // Изменение звука через ползунок
+    controls.volume.addEventListener('input', function () {
+      video.volume = Number(controls.volume.value);
     });
   }
 }

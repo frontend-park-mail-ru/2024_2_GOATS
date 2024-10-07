@@ -5,8 +5,7 @@
 }
 
 .video-timer {
-  position: relative;
-  top: 5.2px;
+  top: 5px;
   right: 6px;
   display: flex;
   flex-direction: row;
@@ -16,8 +15,7 @@
 }
 
 .video__progress {
-  position: relative;
-  top: 2.7px;
+  top: 3px;
   height: 4px;
   background-color: #ddd;
   width: 100%;
@@ -39,5 +37,23 @@
   &_icon {
     width: 30px;
     height: 30px;
+    cursor: pointer;
+  }
+
+  &_sound {
+    position: relative;
+
+    &_input {
+      position: absolute;
+      display: none;
+      width: 80px;
+      right: -25px;
+      bottom: 80px;
+      height: 5px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transform: rotate(270deg);
+    }
   }
 }
