@@ -1,0 +1,43 @@
+@import '../../styles/variables.scss';
+
+.video {
+  width: 100%;
+}
+
+.video-timer {
+  position: relative;
+  top: 5.2px;
+  right: 6px;
+  display: flex;
+  flex-direction: row;
+  color: #efefef;
+  margin-left: 15px;
+  font-size: 12px;
+}
+
+.video__progress {
+  position: relative;
+  top: 2.7px;
+  height: 4px;
+  background-color: #ddd;
+  width: 100%;
+  cursor: pointer;
+}
+
+.video__progress_bar {
+  height: 100%;
+  width: 0;
+  background-color: $brand;
+  transition: width 0.1s linear;
+}
+
+.video__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &_icon {
+    width: 30px;
+    height: 30px;
+  }
+}

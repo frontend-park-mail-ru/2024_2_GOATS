@@ -1,6 +1,33 @@
-<video controls>
-  <source
-    src='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4'
-    type='video/mp4'
-  />
-</video>
+<div class='video__wrapper'>
+  <video id='video' class='video'>
+    <source src={{url}} type='video/mp4' />
+  </video>
+
+  <div class='video__controls'>
+    {{#if isPlaying}}
+      <img
+        id='play-pause'
+        class='video__controls_icon'
+        src='../../assets/icons/pauseIcon.svg'
+        alt='play'
+      />
+    {{else}}
+      <img
+        id='play-pause'
+        class='video__controls_icon'
+        src='../../assets/icons/playIcon.svg'
+        alt='pause'
+      />
+    {{/if}}
+    <span id='currenttime'>00:00</span>
+    <div class='video__progress'>
+      <div class='video__progress_bar'></div>
+    </div>
+    <span id='duration'>00:00</span>
+    <img
+      class='video__controls_icon'
+      src='../../assets/icons/soundIcon.svg'
+      alt='sound'
+    />
+  </div>
+</div>
