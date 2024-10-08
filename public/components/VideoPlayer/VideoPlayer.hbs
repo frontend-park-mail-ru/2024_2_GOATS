@@ -4,21 +4,10 @@
   </video>
 
   <div class='video__controls'>
-    {{#if isPlaying}}
-      <img
-        id='play-pause'
-        class='video__controls_icon'
-        src='../../assets/icons/pauseIcon.svg'
-        alt='play'
-      />
-    {{else}}
-      <img
-        id='play-pause'
-        class='video__controls_icon'
-        src='../../assets/icons/playIcon.svg'
-        alt='pause'
-      />
-    {{/if}}
+    <span
+      id='play-pause'
+      class='video__controls_icon video__controls_icon_play'
+    ></span>
     <div class='video__controls_volume'>
       <img
         id='volume-button'

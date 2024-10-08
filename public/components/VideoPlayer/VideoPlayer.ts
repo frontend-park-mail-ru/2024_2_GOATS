@@ -76,20 +76,20 @@ export class VideoPlayer {
 
   onPlay() {
     const { playOrPause } = this.#controls;
-    playOrPause.textContent = 'Pause';
-    playOrPause.classList.add('paused');
+    playOrPause.classList.add('video__controls_icon_pause');
+    playOrPause.classList.remove('video__controls_icon_play');
   }
 
   onPause() {
     const { playOrPause } = this.#controls;
-    playOrPause.textContent = 'Play';
-    playOrPause.classList.remove('paused');
+    playOrPause.classList.add('video__controls_icon_play');
+    playOrPause.classList.remove('video__controls_icon_pause');
   }
 
   onVideoEnd() {
     const { video, playOrPause } = this.#controls;
     video.pause();
-    playOrPause.textContent = 'Play';
+    // playOrPause.textContent = 'Play';
     playOrPause.classList.remove('paused');
   }
 

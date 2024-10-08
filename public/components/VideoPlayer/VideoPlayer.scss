@@ -38,6 +38,14 @@
     width: 30px;
     height: 30px;
     cursor: pointer;
+
+    &_play {
+      background-image: url('assets/icons/playIcon.svg');
+    }
+
+    &_pause {
+      background-image: url('assets/icons/pauseIcon.svg');
+    }
   }
 
   &_volume {
