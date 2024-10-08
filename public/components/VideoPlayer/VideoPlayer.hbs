@@ -19,17 +19,17 @@
         alt='pause'
       />
     {{/if}}
-    <div class='video__controls_sound'>
+    <div class='video__controls_volume'>
       <img
-        id='sound-button'
+        id='volume-button'
         class='video__controls_icon'
         src='../../assets/icons/soundIcon.svg'
-        alt='sound'
+        alt='volume'
       />
       <input
-        class='video__controls_sound_input'
+        class='video__controls_volume_input'
         type='range'
-        id='sound'
+        id='volume'
         min='0'
         max='1'
         step='0.01'
@@ -41,5 +41,11 @@
       <div class='video__progress_bar'></div>
     </div>
     <span id='duration'>00:00</span>
+    <img
+      id='full-screen-button'
+      class='video__controls_icon'
+      src='../../assets/icons/fullscreen.svg'
+      alt='fullscreen'
+    />
   </div>
 </div>

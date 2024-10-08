@@ -1,9 +1,12 @@
 import template from './VideoPlayer.hbs';
+import { timeFormatter } from 'modules/TimeFormatter';
+import { VideoControls } from 'types/video';
 
 export class VideoPlayer {
   #parent;
   #url;
   #isPlaying;
+  #controls!: VideoControls;
 
   constructor(parent: HTMLElement, url: string) {
     this.#parent = parent;
@@ -13,14 +16,8 @@ export class VideoPlayer {
 
   render() {
     this.renderTemplate();
-  }
-
-  timeFormatter(timeInput: number) {
-    const minute = Math.floor(timeInput / 60);
-    const minuteString = minute < 10 ? '0' + minute : minute;
-    const second = Math.floor(timeInput % 60);
-    const secondString = second < 10 ? '0' + second : second;
-    return `${minuteString}:${secondString}`;
+    this.initControls();
+    this.addEventListeners();
   }
 
   renderTemplate() {
@@ -29,89 +26,123 @@ export class VideoPlayer {
       'beforeend',
       template({ url: this.#url, isPlaying }),
     );
+  }
 
-    const video = document.getElementById('video') as HTMLVideoElement;
-
-    const controls = {
+  // Инициализация всех элементов управления
+  initControls() {
+    this.#controls = {
+      video: document.getElementById('video') as HTMLVideoElement,
+      videoWrapper: document.querySelector('.video__wrapper') as HTMLElement,
       playOrPause: document.getElementById('play-pause') as HTMLElement,
-      togglePlayback: () => {
-        video.paused ? video.play() : video.pause();
-      },
       playbackline: document.querySelector('.video__progress') as HTMLElement,
       duration: document.getElementById('duration') as HTMLElement,
       currentTime: document.getElementById('current-time') as HTMLElement,
       progressBar: document.querySelector(
         '.video__progress_bar',
       ) as HTMLElement,
-      volumeBtn: document.getElementById('sound-button') as HTMLElement,
-      volume: document.getElementById('sound') as HTMLInputElement,
+      volumeBtn: document.getElementById('volume-button') as HTMLElement,
+      volume: document.getElementById('volume') as HTMLInputElement,
+      fullScreenBtn: document.getElementById(
+        'full-screen-button',
+      ) as HTMLElement,
+      isFullScreen: false,
     };
+  }
 
-    // Определяем длительность видео
-    video.addEventListener(
-      'canplay',
-      () => {
-        controls.duration.textContent = this.timeFormatter(video.duration);
-      },
-      false,
-    );
+  // Добавляем все события
+  addEventListeners() {
+    const { video, playOrPause, fullScreenBtn } = this.#controls;
 
-    // Проигрывание/пауза видео
-    controls.playOrPause.addEventListener('click', () => {
-      controls.togglePlayback();
-      this.#isPlaying = !this.#isPlaying;
-    });
+    video.addEventListener('canplay', this.updateDuration.bind(this));
+    video.addEventListener('play', this.onPlay.bind(this));
+    video.addEventListener('pause', this.onPause.bind(this));
+    video.addEventListener('timeupdate', this.updateProgress.bind(this));
+    video.addEventListener('ended', this.onVideoEnd.bind(this));
 
-    video.addEventListener('play', () => {
-      controls.playOrPause.textContent = 'Pause';
-      controls.playOrPause.classList.toggle('paused');
-    });
+    playOrPause.addEventListener('click', this.togglePlayback.bind(this));
+    video.addEventListener('click', this.togglePlayback.bind(this));
 
-    video.addEventListener('pause', () => {
-      controls.playOrPause.textContent = 'Play';
-      controls.playOrPause.classList.toggle('paused');
-    });
+    fullScreenBtn.addEventListener('click', this.toggleFullScreen.bind(this));
 
-    // Проигрывание/пауза при нажатии на само видео
-    video.addEventListener('click', () => {
-      controls.togglePlayback();
-      this.#isPlaying = !this.#isPlaying;
-    });
+    this.addVolumeControls();
+    this.addProgressControls();
+  }
 
-    // При окончании видео ставим на паузу и активируем кнопку проигрывания
-    video.addEventListener('ended', () => {
+  // Обработчики событий вынесены в отдельные методы
+  updateDuration() {
+    const { video, duration } = this.#controls;
+    duration.textContent = timeFormatter(video.duration);
+  }
+
+  onPlay() {
+    const { playOrPause } = this.#controls;
+    playOrPause.textContent = 'Pause';
+    playOrPause.classList.add('paused');
+  }
+
+  onPause() {
+    const { playOrPause } = this.#controls;
+    playOrPause.textContent = 'Play';
+    playOrPause.classList.remove('paused');
+  }
+
+  onVideoEnd() {
+    const { video, playOrPause } = this.#controls;
+    video.pause();
+    playOrPause.textContent = 'Play';
+    playOrPause.classList.remove('paused');
+  }
+
+  togglePlayback() {
+    const { video } = this.#controls;
+    if (video.paused) {
+      video.play();
+    } else {
       video.pause();
-      controls.playOrPause.textContent = 'Play';
-      controls.playOrPause.classList.toggle('paused');
+    }
+    this.#isPlaying = !this.#isPlaying;
+  }
+
+  updateProgress() {
+    const { video, progressBar, currentTime } = this.#controls;
+    const percentage = (video.currentTime / video.duration) * 100;
+    progressBar.style.width = percentage + '%';
+    currentTime.textContent = timeFormatter(video.currentTime);
+  }
+
+  toggleFullScreen() {
+    const { videoWrapper, isFullScreen } = this.#controls;
+    if (isFullScreen) {
+      document.exitFullscreen();
+      this.#controls.isFullScreen = false;
+    } else {
+      videoWrapper.requestFullscreen();
+      this.#controls.isFullScreen = true;
+    }
+  }
+
+  // Управление звуком
+  addVolumeControls() {
+    const { volumeBtn, volume, video } = this.#controls;
+
+    volumeBtn.addEventListener('click', () => {
+      volume.style.display =
+        volume.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Обновление времени и ползунка видео
-    video.addEventListener('timeupdate', () => {
-      const currentTime = video.currentTime;
-      const duration = video.duration;
-      const percentage = (currentTime / duration) * 100;
-      controls.progressBar.style.width = percentage + '%';
-      controls.currentTime.textContent = this.timeFormatter(currentTime);
+    volume.addEventListener('input', () => {
+      video.volume = Number(volume.value);
     });
+  }
 
-    // Изменение времени проигрывания видео через ползунок
-    controls.playbackline.addEventListener('click', (e) => {
-      let timelineWidth = controls.playbackline.clientWidth;
-      video.currentTime = (e.offsetX / timelineWidth) * video.duration;
-      controls.currentTime.textContent = this.timeFormatter(video.currentTime);
-    });
+  // Управление прогрессом воспроизведения
+  addProgressControls() {
+    const { playbackline, video } = this.#controls;
 
-    controls.volumeBtn.addEventListener('click', () => {
-      if (controls.volume.style.display === 'block') {
-        controls.volume.style.display = 'none';
-      } else {
-        controls.volume.style.display = 'block';
-      }
-    });
-
-    // Изменение звука через ползунок
-    controls.volume.addEventListener('input', function () {
-      video.volume = Number(controls.volume.value);
+    playbackline.addEventListener('click', (e: MouseEvent) => {
+      const timelineWidth = playbackline.clientWidth;
+      const newTime = (e.offsetX / timelineWidth) * video.duration;
+      video.currentTime = newTime;
     });
   }
 }
