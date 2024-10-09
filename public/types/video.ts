@@ -8,6 +8,6 @@ export type VideoControls = {
   progressBar: HTMLElement;
   volumeBtn: HTMLElement;
   volume: HTMLInputElement;
-  fullScreenBtn: HTMLElement;
+  fullOrSmallScreen: HTMLElement;
   isFullScreen: boolean;
 };

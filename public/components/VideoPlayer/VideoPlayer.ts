@@ -42,16 +42,14 @@ export class VideoPlayer {
       ) as HTMLElement,
       volumeBtn: document.getElementById('volume-button') as HTMLElement,
       volume: document.getElementById('volume') as HTMLInputElement,
-      fullScreenBtn: document.getElementById(
-        'full-screen-button',
-      ) as HTMLElement,
+      fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       isFullScreen: false,
     };
   }
 
   // Добавляем все события
   addEventListeners() {
-    const { video, playOrPause, fullScreenBtn } = this.#controls;
+    const { video, playOrPause, fullOrSmallScreen } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
@@ -62,7 +60,10 @@ export class VideoPlayer {
     playOrPause.addEventListener('click', this.togglePlayback.bind(this));
     video.addEventListener('click', this.togglePlayback.bind(this));
 
-    fullScreenBtn.addEventListener('click', this.toggleFullScreen.bind(this));
+    fullOrSmallScreen.addEventListener(
+      'click',
+      this.toggleFullScreen.bind(this),
+    );
 
     this.addVolumeControls();
     this.addProgressControls();
@@ -115,9 +116,21 @@ export class VideoPlayer {
     if (isFullScreen) {
       document.exitFullscreen();
       this.#controls.isFullScreen = false;
+      this.#controls.fullOrSmallScreen.classList.add(
+        'video__controls_icon_full',
+      );
+      this.#controls.fullOrSmallScreen.classList.remove(
+        'video__controls_icon_small',
+      );
     } else {
       videoWrapper.requestFullscreen();
       this.#controls.isFullScreen = true;
+      this.#controls.fullOrSmallScreen.classList.add(
+        'video__controls_icon_small',
+      );
+      this.#controls.fullOrSmallScreen.classList.remove(
+        'video__controls_icon_full',
+      );
     }
   }
 

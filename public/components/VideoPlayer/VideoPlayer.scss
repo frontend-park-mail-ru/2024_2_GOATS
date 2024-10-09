@@ -2,66 +2,71 @@
 
 .video {
   width: 100%;
-}
 
-.video-timer {
-  top: 5px;
-  right: 6px;
-  display: flex;
-  flex-direction: row;
-  color: #efefef;
-  margin-left: 15px;
-  font-size: 12px;
-}
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-.video__progress {
-  top: 3px;
-  height: 4px;
-  background-color: #ddd;
-  width: 100%;
-  cursor: pointer;
-}
+    &_icon {
+      min-width: 40px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-size: 40px;
 
-.video__progress_bar {
-  height: 100%;
-  width: 0;
-  background-color: $brand;
-  transition: width 0.1s linear;
-}
+      &_play {
+        background-image: url('assets/icons/playIcon.svg');
+      }
 
-.video__controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+      &_pause {
+        background-image: url('assets/icons/pauseIcon.svg');
+      }
 
-  &_icon {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
+      &_full {
+        background-image: url('assets/icons/fullScreenIcon.svg');
+      }
 
-    &_play {
-      background-image: url('assets/icons/playIcon.svg');
+      &_small {
+        background-image: url('assets/icons/smallScreenIcon.svg');
+      }
     }
 
-    &_pause {
-      background-image: url('assets/icons/pauseIcon.svg');
+    &_volume {
+      position: relative;
+
+      &_input {
+        position: absolute;
+        display: none;
+        width: 80px;
+        right: -25px;
+        bottom: 80px;
+        height: 5px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        transform: rotate(270deg);
+      }
+    }
+
+    &_timer {
+      width: 80px;
     }
   }
 
-  &_volume {
-    position: relative;
+  &__progress {
+    top: 3px;
+    height: 4px;
+    background-color: #ddd;
+    width: 100%;
+    cursor: pointer;
 
-    &_input {
-      position: absolute;
-      display: none;
-      width: 80px;
-      right: -25px;
-      bottom: 80px;
-      height: 5px;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      transform: rotate(270deg);
+    &_bar {
+      height: 100%;
+      width: 0;
+      background-color: $brand;
+      transition: width 0.1s linear;
     }
   }
 }

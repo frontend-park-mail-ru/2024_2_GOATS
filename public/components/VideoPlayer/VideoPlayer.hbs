@@ -12,7 +12,7 @@
       <img
         id='volume-button'
         class='video__controls_icon'
-        src='../../assets/icons/soundIcon.svg'
+        src='assets/icons/volumeUp.svg'
         alt='volume'
       />
       <input
@@ -25,16 +25,26 @@
         value='1'
       />
     </div>
-    <span id='current-time'>00:00</span>
+    <img
+      id='rewind-back-button'
+      class='video__controls_icon'
+      src='assets/icons/rewindBackIcon.svg'
+      alt='rewind-back'
+    />
+    <img
+      id='rewind-front-button'
+      class='video__controls_icon'
+      src='assets/icons/rewindFrontIcon.svg'
+      alt='rewind-back'
+    />
+    <span id='current-time' class='video__controls_timer'>00:00</span>
     <div class='video__progress'>
       <div class='video__progress_bar'></div>
     </div>
-    <span id='duration'>00:00</span>
-    <img
-      id='full-screen-button'
-      class='video__controls_icon'
-      src='../../assets/icons/fullscreen.svg'
-      alt='fullscreen'
-    />
+    <span class='video__controls_timer' id='duration'>00:00</span>
+    <span
+      id='full-small'
+      class='video__controls_icon video__controls_icon_full'
+    ></span>
   </div>
 </div>
