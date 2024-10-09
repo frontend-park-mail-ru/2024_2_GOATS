@@ -1,38 +1,32 @@
-// import { MainPage } from './pages/MainPage/MainPage';
-// import { AuthPage } from './pages/AuthPage/AuthPage';
-// import { Header } from './components/Header/Header';
-// import { RegPage } from './pages/RegPage/RegPage';
-// import { setPagesConfig } from './consts';
-
-// import { apiClient } from './modules/ApiClient';
-// import { User } from 'types/user';
-const rootElement = document.getElementById('root') as HTMLElement;
-
-const root = document.getElementById('root') as HTMLElement;
-const newEl = document.createElement('div');
-newEl.id = 'fff';
-
-root.appendChild(newEl);
-
-console.log(document.getElementById('fff'));
-
-// pageElement.id = 'page-element';
-const headerElement = document.createElement('header');
-
-rootElement.appendChild(headerElement);
-
 import './index.scss';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { initialStore } from 'flux/InitialStore';
 import { userStore } from 'flux/UserStore';
+import { authPageStore } from 'pages/AuthPage/AuthPageStore';
+
 import { headerStore } from 'components/Header/HeaderStore';
 import { router } from 'modules/Router';
+
+const root = document.getElementById('root') as HTMLElement;
+const pageElement = document.createElement('main');
+const headerElement = document.createElement('header');
+pageElement.id = 'page-element';
+root.appendChild(headerElement);
+root.appendChild(pageElement);
 
 const mockFunction = () => {
   console.log(initialStore);
   console.log(userStore);
   console.log(headerStore);
+  console.log(authPageStore);
 };
+
+const begin = async () => {
+  initialStore.start();
+  router.start();
+};
+
+begin();
 
 // const rootElement = document.getElementById('root') as HTMLElement;
 // const headerElement = document.createElement('header');
@@ -132,10 +126,3 @@ const mockFunction = () => {
 // begin();
 // async function begin() {
 // console.log(initialStore);
-
-const begin = async () => {
-  initialStore.start();
-  router.start();
-};
-
-begin();

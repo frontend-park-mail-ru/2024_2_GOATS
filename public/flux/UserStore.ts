@@ -23,10 +23,6 @@ class UserStore {
     return this.#user;
   }
 
-  setUser(user: User) {
-    (this.#user.email = user.email), (this.#user.username = user.username);
-  }
-
   setState(user: User) {
     console.log(user);
     this.#user.isAuth = true;

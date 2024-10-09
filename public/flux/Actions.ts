@@ -8,6 +8,11 @@ export const Actions = {
       type: ActionTypes.RENDER_MAIN_PAGE,
     });
   },
+  renderAuthPage() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_AUTH_PAGE,
+    });
+  },
   renderHeader(user: User) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_HEADER,

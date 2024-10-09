@@ -10,12 +10,12 @@ import { Movie, MovieSelection } from 'types/movie';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 
 export class MainPage {
-  #parent;
+  // #parent;
   #movieSelections: MovieSelection[] = [];
   #loader!: Loader;
 
-  constructor(parent: HTMLElement) {
-    this.#parent = parent;
+  constructor() {
+    // this.#parent = parent;
     this.#movieSelections = [];
   }
 
@@ -88,10 +88,12 @@ export class MainPage {
       rootElem.classList.add('root-black');
       rootElem.classList.remove('root-image');
     }
+    const pageElement = document.getElementsByTagName('main')[0];
+    pageElement.innerHTML = template();
 
-    this.#parent.innerHTML = template();
+    // this.#parent.innerHTML = template();
 
-    this.#loader = new Loader(this.#parent, template());
+    this.#loader = new Loader(pageElement, template());
     this.#loader.render();
 
     this.renderBlocks();

@@ -6,29 +6,50 @@ import { apiClient } from '../../modules/ApiClient';
 // import { checkAuth } from 'modules/RouterHandler';
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 import { PageConfig } from 'types/pages';
+import { userStore } from 'flux/UserStore';
 
 type State = {
   activeHeaderLink: HTMLElement | null;
   navElements: Record<string, HTMLElement>;
 };
 
+export function clickHandler(event: MouseEvent, config: any) {
+  if (event.target instanceof HTMLAnchorElement) {
+    event.preventDefault();
+    const targetId = event.target.id;
+    console.log(targetId);
+    let target;
+    for (let element in config.pages) {
+      if (config.pages[element].id === targetId) {
+        target = config.pages[element];
+      }
+    }
+    console.log(target);
+    target.render(target.href, '', target.parent);
+  }
+}
+
 export class Header {
-  // #parent;
+  #parent;
   #config: PageConfig;
-  #state: State;
+  // #state: State;
 
   constructor(config: PageConfig) {
-    // this.#parent = parent;
+    this.#parent = document.getElementsByTagName('header')[0];
     this.#config = config;
-    this.#state = {
-      activeHeaderLink: null,
-      navElements: {},
+    const handler = (event: MouseEvent) => {
+      clickHandler(event, this.#config);
     };
+    this.#parent.addEventListener('click', handler);
+    // this.#state = {
+    //   activeHeaderLink: null,
+    //   navElements: {},
+    // };
   }
 
-  get state(): State {
-    return this.#state;
-  }
+  // get state(): State {
+  //   return this.#state;
+  // }
 
   get getConfig(): PageConfig {
     return this.#config;
@@ -80,12 +101,14 @@ export class Header {
 
     // this.#parent.innerHTML = template({ items, currentUser });
     // this.#parent.innerHTML = template({ items, {}});
-    const HeaderEl = document.getElementsByTagName('header')[0];
-    HeaderEl.querySelectorAll('a').forEach((element) => {
-      if (element.dataset.section) {
-        this.#state.navElements[element.dataset.section] = element;
-      }
-    });
+    // const HeaderEl = document.getElementsByTagName('header')[0];
+    this.#parent.innerHTML = template({ items });
+
+    // HeaderEl.querySelectorAll('a').forEach((element) => {
+    //   if (element.dataset.section) {
+    //     this.#state.navElements[element.dataset.section] = element;
+    //   }
+    // });
     this.onExitClick();
   }
 }

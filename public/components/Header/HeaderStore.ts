@@ -6,10 +6,6 @@ import { Header } from './Header';
 import { router } from 'modules/Router';
 import { User } from 'types/user.js';
 
-// const rootElement = document.getElementById('root');
-// console.log(document.getElementsByTagName('main'));
-// const contentElement = document.querySelector('main');
-
 class HeaderStore {
   #config;
 
@@ -38,9 +34,7 @@ class HeaderStore {
           href: '/auth',
           id: 'header-auth',
           isAvailable: !userStore.getUser().isAuth,
-          render() {
-            console.log('auth');
-          },
+          render: Actions.renderAuthPage,
         },
       },
     };
@@ -48,7 +42,7 @@ class HeaderStore {
   }
 
   setState(user: User) {
-    this.#config.pages.main.isAvailable = user.isAuth;
+    this.#config.pages.main.isAvailable = true;
     this.#config.pages.reg.isAvailable = !user.isAuth;
     this.#config.pages.auth.isAvailable = !user.isAuth;
   }

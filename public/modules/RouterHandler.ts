@@ -20,7 +20,7 @@ import { Actions } from 'flux/Actions';
 
 export const Urls = {
   root: '/',
-  auth: '/login',
+  auth: '/auth',
   registration: '/registration',
 };
 
@@ -28,6 +28,9 @@ export const routerHandler = (url: URL) => {
   switch (url.pathname.toString()) {
     case Urls.root:
       Actions.renderMainPage();
+      break;
+    case Urls.auth:
+      Actions.renderAuthPage();
       break;
     // case Urls.auth:
     //   authPage.render();

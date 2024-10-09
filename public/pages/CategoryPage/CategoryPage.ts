@@ -52,7 +52,7 @@ export class CategoryPage {
     if (backButton && main) {
       backButton.addEventListener('click', () => {
         main.innerHTML = '';
-        const mainPage = new MainPage(main);
+        const mainPage = new MainPage();
         mainPage.render();
       });
     }
