@@ -1,4 +1,4 @@
-import { goToPage } from '../..';
+// import { goToPage } from '../..';
 import { apiClient } from '../../modules/ApiClient';
 import template from './AuthForm.hbs';
 
@@ -80,7 +80,7 @@ export class AuthForm {
       ) as HTMLElement;
 
       if (filmsNav) {
-        goToPage(filmsNav);
+        // goToPage(filmsNav);
       }
     } catch (e: any) {
       if (e.status === 404) {
@@ -127,7 +127,7 @@ export class AuthForm {
       ) as HTMLElement;
 
       if (regNav) {
-        goToPage(regNav);
+        // goToPage(regNav);
       }
     });
   }

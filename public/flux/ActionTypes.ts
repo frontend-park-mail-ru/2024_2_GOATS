@@ -1,0 +1,6 @@
+export const ActionTypes = {
+  RENDER_MAIN_PAGE: 'MAIN_PAGE',
+  RENDER_HEADER: 'RENDER_HEADER',
+  GET_USER: 'GET_USER',
+  LOGOUT: 'LOGOUT',
+};

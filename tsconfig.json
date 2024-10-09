@@ -6,7 +6,8 @@
       "@components/*": ["components"],
       "@styles/*": ["styles"],
       "@modules/*": ["modules"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@flux/*": ["flux/*"]
     },
     "noEmit": true,
     "allowJs": true,
@@ -18,7 +19,13 @@
     "target": "es6",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noUnusedParameters": true,
+    // "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true
   },
   "include": ["public/**/*", "public/types/**/*"],
   "exclude": ["node_modules"]

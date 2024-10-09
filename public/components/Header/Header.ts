@@ -1,7 +1,9 @@
 import template from './Header.hbs';
-import { currentUser } from '../..';
+// import { currentUser } from '../..';
+// import { currentUser } from 'modules/RouterHandler';
 import { apiClient } from '../../modules/ApiClient';
-import { checkAuth } from '../..';
+// import { checkAuth } from '../..';
+// import { checkAuth } from 'modules/RouterHandler';
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 import { PageConfig } from 'types/pages';
 
@@ -11,12 +13,12 @@ type State = {
 };
 
 export class Header {
-  #parent;
+  // #parent;
   #config: PageConfig;
   #state: State;
 
-  constructor(parent: HTMLElement, config: PageConfig) {
-    this.#parent = parent;
+  constructor(config: PageConfig) {
+    // this.#parent = parent;
     this.#config = config;
     this.#state = {
       activeHeaderLink: null,
@@ -46,24 +48,22 @@ export class Header {
         path: 'auth/logout',
         body: {},
       });
-      checkAuth();
+      // checkAuth();
     } catch {
       throw new Error('logout error');
     }
   }
 
   onExitClick() {
-    if (currentUser.username) {
-      const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-        this.logout();
-      });
-
-      const exitButton = document.getElementById('exit-button') as HTMLElement;
-
-      exitButton.addEventListener('click', () => {
-        modal.render();
-      });
-    }
+    // if (currentUser.username) {
+    //   const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
+    //     this.logout();
+    //   });
+    //   const exitButton = document.getElementById('exit-button') as HTMLElement;
+    //   exitButton.addEventListener('click', () => {
+    //     modal.render();
+    //   });
+    // }
   }
 
   renderTemplate() {
@@ -78,8 +78,10 @@ export class Header {
       },
     );
 
-    this.#parent.innerHTML = template({ items, currentUser });
-    this.#parent.querySelectorAll('a').forEach((element) => {
+    // this.#parent.innerHTML = template({ items, currentUser });
+    // this.#parent.innerHTML = template({ items, {}});
+    const HeaderEl = document.getElementsByTagName('header')[0];
+    HeaderEl.querySelectorAll('a').forEach((element) => {
       if (element.dataset.section) {
         this.#state.navElements[element.dataset.section] = element;
       }

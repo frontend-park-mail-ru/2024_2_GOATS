@@ -59,10 +59,12 @@ module.exports = {
       styles: path.join(publicPath, 'styles'),
       modules: path.join(publicPath, 'modules'),
       assets: path.join(publicPath, 'assets'),
+      flux: path.join(publicPath, 'flux'),
     },
   },
   devServer: {
     port: 3000,
+    historyApiFallback: true,
     watchFiles: publicPath,
     client: {
       overlay: false,

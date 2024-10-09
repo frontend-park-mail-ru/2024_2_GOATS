@@ -1,4 +1,4 @@
-import { goToPage } from '../..';
+// import { goToPage } from '../..';
 import { apiClient } from '../../modules/ApiClient';
 import template from './RegForm.hbs';
 
@@ -130,7 +130,7 @@ export class RegForm {
       ) as HTMLElement;
 
       if (filmsNav) {
-        goToPage(filmsNav);
+        // goToPage(filmsNav);
       }
     } catch (e: any) {
       if (e.status === 409) {
@@ -190,7 +190,7 @@ export class RegForm {
         `[data-section="login"]`,
       ) as HTMLElement;
       if (authNav) {
-        goToPage(authNav);
+        // goToPage(authNav);
       }
     });
   }

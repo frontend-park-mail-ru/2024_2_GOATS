@@ -6,8 +6,9 @@ export type AuthUser = {
 };
 
 export type User = {
-  email?: string;
-  username?: string;
+  email: string;
+  username: string;
+  isAuth: boolean;
 };
 
 export type UserInfo = {

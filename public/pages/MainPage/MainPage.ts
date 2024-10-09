@@ -4,8 +4,10 @@ import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
 import { serializeCollections } from '../../modules/Serializer';
-import { checkAuth } from '../..';
+// import { checkAuth } from '../..';
+// import { checkAuth } from 'modules/RouterHandler';
 import { Movie, MovieSelection } from 'types/movie';
+import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 
 export class MainPage {
   #parent;
@@ -42,7 +44,8 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    await Promise.allSettled([checkAuth(), this.getCollection()]);
+    // await Promise.allSettled([checkAuth(), this.getCollection()]);
+    await Promise.allSettled([this.getCollection()]);
     this.#loader.kill();
 
     const trendMoviesBlock = document.getElementById('trend-movies-block');
@@ -67,6 +70,16 @@ export class MainPage {
       const slider = new Slider(newBlock, selection);
       slider.render();
     });
+
+    // const videoContainer = document.getElementById('test-video');
+    // if (videoContainer) {
+    //   const video = new VideoPlayer(
+    //     videoContainer,
+    //     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    //   );
+
+    //   video.render();
+    // }
   }
 
   renderTemplate() {
