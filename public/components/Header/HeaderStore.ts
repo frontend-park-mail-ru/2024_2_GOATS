@@ -46,8 +46,9 @@ class HeaderStore {
   }
 
   renderHeader(user: User) {
-    const header = new Header(this.#config);
     this.setState(user);
+    console.log(this.#config);
+    const header = new Header(this.#config);
     header.render();
   }
 

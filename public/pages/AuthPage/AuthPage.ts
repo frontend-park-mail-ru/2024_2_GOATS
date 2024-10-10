@@ -1,3 +1,4 @@
+import { userStore } from 'flux/UserStore';
 import { AuthForm } from '../../components/AuthForm/AuthForm';
 import template from './AuthPage.hbs';
 
@@ -18,7 +19,7 @@ export class AuthPage {
       rootElem.classList.remove('root-black');
       rootElem.classList.add('root-image');
     }
-
+    console.log(userStore.getUser());
     this.#parent.innerHTML = template();
 
     const authForm = document.getElementById('auth-page-form-block');

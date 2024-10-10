@@ -24,7 +24,7 @@ export const Actions = {
       user,
     });
   },
-  getUser() {
+  async getUser() {
     dispatcher.dispatch({
       type: ActionTypes.GET_USER,
     });

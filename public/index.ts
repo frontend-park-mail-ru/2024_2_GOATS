@@ -24,7 +24,7 @@ const mockFunction = () => {
 };
 
 const begin = async () => {
-  initialStore.start();
+  await initialStore.start();
   router.start();
 };
 

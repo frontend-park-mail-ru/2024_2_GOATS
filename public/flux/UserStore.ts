@@ -8,7 +8,7 @@ import { User } from 'types/user';
 const headerElement = document.createElement('header');
 
 class UserStore {
-  #user;
+  #user: any;
 
   constructor() {
     this.#user = {
@@ -24,13 +24,12 @@ class UserStore {
   }
 
   setState(user: User) {
-    console.log(user);
-    this.#user.isAuth = true;
+    this.#user.isAuth = user.isAuth;
     this.#user.email = user.email;
     this.#user.username = user.username;
   }
 
-  async reduce(action: any) {
+  reduce(action: any) {
     switch (action.type) {
       case ActionTypes.GET_USER:
         this.checkAuth();
@@ -50,15 +49,22 @@ class UserStore {
       const response = await apiClient.get({
         path: 'auth/session',
       });
-
-      this.setState(response.user_data);
-    } catch {
       this.setState({
-        email: '',
-        username: '',
-        isAuth: false,
+        email: 'aa',
+        username: 'aa',
+        isAuth: true,
       });
+
+      // this.setState(response.user_data);
+    } catch {
+      // this.setState({
+      //   email: 'aa',
+      //   username: 'aa',
+      //   isAuth: true,
+      // });
+      console.log('auth request failed');
     } finally {
+      Actions.renderHeader(this.#user);
       // updatePagesConfig(pagesConfig, currentUser);
     }
   }

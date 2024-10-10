@@ -25,7 +25,9 @@ class InitialStore {
   }
 
   async start() {
-    const user = userStore.getUser();
+    await Actions.getUser();
+    // const user = userStore.getUser();
+    // console.log(user);
 
     // try {
     //   if (!userIn.isAuth) {
@@ -37,10 +39,7 @@ class InitialStore {
     // } catch (err) {
     //   console.log(err);
     // }
-    // console.log(user);
-    Actions.getUser();
-
-    Actions.renderHeader(user);
+    // Actions.renderHeader(user);
   }
 }
 

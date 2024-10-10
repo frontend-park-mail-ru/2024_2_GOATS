@@ -17,14 +17,12 @@ export function clickHandler(event: MouseEvent, config: any) {
   if (event.target instanceof HTMLAnchorElement) {
     event.preventDefault();
     const targetId = event.target.id;
-    console.log(targetId);
     let target;
     for (let element in config.pages) {
       if (config.pages[element].id === targetId) {
         target = config.pages[element];
       }
     }
-    console.log(target);
     target.render(target.href, '', target.parent);
   }
 }
@@ -102,6 +100,7 @@ export class Header {
     // this.#parent.innerHTML = template({ items, currentUser });
     // this.#parent.innerHTML = template({ items, {}});
     // const HeaderEl = document.getElementsByTagName('header')[0];
+    console.log(userStore.getUser());
     this.#parent.innerHTML = template({ items });
 
     // HeaderEl.querySelectorAll('a').forEach((element) => {
