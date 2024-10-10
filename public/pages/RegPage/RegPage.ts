@@ -4,8 +4,8 @@ import template from './RegPage.hbs';
 export class RegPage {
   #parent: HTMLElement;
 
-  constructor(parent: HTMLElement) {
-    this.#parent = parent;
+  constructor() {
+    this.#parent = document.getElementsByTagName('main')[0];
   }
 
   render() {

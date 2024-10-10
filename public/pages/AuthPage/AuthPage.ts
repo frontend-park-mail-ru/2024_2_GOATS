@@ -2,10 +2,10 @@ import { AuthForm } from '../../components/AuthForm/AuthForm';
 import template from './AuthPage.hbs';
 
 export class AuthPage {
-  // #parent;
+  #parent;
 
   constructor() {
-    // this.#parent = parent;
+    this.#parent = document.getElementsByTagName('main')[0];
   }
 
   render() {
@@ -18,10 +18,8 @@ export class AuthPage {
       rootElem.classList.remove('root-black');
       rootElem.classList.add('root-image');
     }
-    const pageElement = document.getElementsByTagName('main')[0];
-    pageElement.innerHTML = template();
 
-    // this.#parent.innerHTML = template();
+    this.#parent.innerHTML = template();
 
     const authForm = document.getElementById('auth-page-form-block');
     if (authForm) {

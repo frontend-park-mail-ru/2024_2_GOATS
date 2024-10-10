@@ -13,6 +13,11 @@ export const Actions = {
       type: ActionTypes.RENDER_AUTH_PAGE,
     });
   },
+  renderRegPage() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_REG_PAGE,
+    });
+  },
   renderHeader(user: User) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_HEADER,

@@ -18,23 +18,21 @@ class HeaderStore {
           href: '/',
           id: 'header-main',
           isAvailable: userStore.getUser().isAuth,
-          render: Actions.renderMainPage,
+          render: () => router.go('/'),
         },
         reg: {
           text: 'Регистрация',
           href: '/register',
           id: 'header-reg',
           isAvailable: !userStore.getUser().isAuth,
-          render() {
-            console.log('reg');
-          },
+          render: () => router.go('/registration'),
         },
         auth: {
           text: 'Авторизация',
           href: '/auth',
           id: 'header-auth',
           isAvailable: !userStore.getUser().isAuth,
-          render: Actions.renderAuthPage,
+          render: () => router.go('/auth'),
         },
       },
     };

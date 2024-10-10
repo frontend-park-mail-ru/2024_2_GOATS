@@ -32,6 +32,9 @@ export const routerHandler = (url: URL) => {
     case Urls.auth:
       Actions.renderAuthPage();
       break;
+    case Urls.registration:
+      Actions.renderRegPage();
+      break;
     // case Urls.auth:
     //   authPage.render();
     //   break;

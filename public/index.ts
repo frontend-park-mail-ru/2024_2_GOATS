@@ -3,6 +3,7 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { initialStore } from 'flux/InitialStore';
 import { userStore } from 'flux/UserStore';
 import { authPageStore } from 'pages/AuthPage/AuthPageStore';
+import { regPageStore } from 'pages/RegPage/RegPageStore';
 
 import { headerStore } from 'components/Header/HeaderStore';
 import { router } from 'modules/Router';
@@ -19,6 +20,7 @@ const mockFunction = () => {
   console.log(userStore);
   console.log(headerStore);
   console.log(authPageStore);
+  console.log(regPageStore);
 };
 
 const begin = async () => {
