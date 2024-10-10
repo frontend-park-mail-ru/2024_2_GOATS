@@ -8,6 +8,7 @@ import { serializeCollections } from '../../modules/Serializer';
 // import { checkAuth } from 'modules/RouterHandler';
 import { Movie, MovieSelection } from 'types/movie';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
+import { mainPageStore } from './MainPageStore';
 
 export class MainPage {
   // #parent;
@@ -21,6 +22,7 @@ export class MainPage {
 
   render() {
     this.renderTemplate();
+    console.log('selections', mainPageStore.getSelections());
   }
 
   /**

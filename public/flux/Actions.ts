@@ -4,6 +4,7 @@ import { dispatcher } from './Dispatcher';
 
 export const Actions = {
   renderMainPage() {
+    console.log('render main page action');
     dispatcher.dispatch({
       type: ActionTypes.RENDER_MAIN_PAGE,
     });
@@ -27,6 +28,12 @@ export const Actions = {
   getUser() {
     dispatcher.dispatch({
       type: ActionTypes.GET_USER,
+    });
+  },
+  getSelections() {
+    console.log('get selection action');
+    dispatcher.dispatch({
+      type: ActionTypes.GET_SELECTIONS,
     });
   },
 };
