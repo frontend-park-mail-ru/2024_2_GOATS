@@ -5,9 +5,21 @@ class InitialStore {
   constructor() {}
 
   async start() {
-    const user = userStore.getUser();
-    Actions.getUser();
-    Actions.renderHeader(user);
+    await Actions.getUser();
+    // const user = userStore.getUser();
+    // console.log(user);
+
+    // try {
+    //   if (!userIn.isAuth) {
+    //     const response = await apiClient.get({ path: 'auth/session' });
+    //     if (response.user_data.email) {
+    //       console.log(response.user_data);
+    //     }
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    // Actions.renderHeader(user);
   }
 }
 

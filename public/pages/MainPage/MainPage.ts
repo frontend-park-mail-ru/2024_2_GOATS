@@ -21,23 +21,8 @@ export class MainPage {
   }
 
   render() {
+    this.#movieSelections = mainPageStore.getSelections();
     this.renderTemplate();
-    console.log('selections', mainPageStore.getSelections());
-  }
-
-  /**
-   * send request for movies collection
-   * @param {}
-   * @returns {}
-   */
-  async getCollection() {
-    const response = await apiClient.get({
-      path: 'movie_collections/',
-    });
-
-    this.#movieSelections = serializeCollections(response.collections).sort(
-      (selection1: any, selection2: any) => selection1.id - selection2.id,
-    );
   }
 
   /**
@@ -46,9 +31,9 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    // await Promise.allSettled([checkAuth(), this.getCollection()]);
-    await Promise.allSettled([this.getCollection()]);
-    this.#loader.kill();
+    // awaitPromise.allSettled([checkAuth(), this.getCollection()]);
+    // await Promise.allSettled([this.getCollection()]);
+    // this.#loader.kill();
 
     const trendMoviesBlock = document.getElementById('trend-movies-block');
     if (trendMoviesBlock) {
@@ -95,8 +80,8 @@ export class MainPage {
 
     // this.#parent.innerHTML = template();
 
-    this.#loader = new Loader(pageElement, template());
-    this.#loader.render();
+    // this.#loader = new Loader(pageElement, template());
+    // this.#loader.render();
 
     this.renderBlocks();
   }

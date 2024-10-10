@@ -2,6 +2,7 @@ import { dispatcher } from 'flux/Dispatcher';
 import { ActionTypes } from 'flux/ActionTypes';
 import { Actions } from 'flux/Actions';
 import { MainPage } from './MainPage';
+import { Loader } from '../../components/Loader/Loader';
 import { apiClient } from 'modules/ApiClient';
 import { MovieSelection } from 'types/movie';
 import { serializeCollections } from 'modules/Serializer';
@@ -41,17 +42,22 @@ class MainPageStore {
     this.setState(serializedSelections);
   }
 
-  reduce(action: any) {
+  async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MAIN_PAGE:
+        // const root = document.getElementById('root') as HTMLElement;
+        // const pageElement = document.getElementsByTagName(
+        //   'main',
+        // )[0] as HTMLElement;
+        // console.log(pageElement.outerHTML);
+        // const loader = new Loader(root, pageElement.outerHTML);
+        // loader.render();
+        await this.getCollection();
         mainPage.render();
-        console.log('render main page');
         break;
-
-      case ActionTypes.GET_SELECTIONS:
-        this.getCollection();
-        break;
-
+      //   case ActionTypes.GET_SELECTIONS:
+      //     this.getCollection();
+      //     break;
       default:
         break;
     }
