@@ -9,12 +9,12 @@
     gap: 10px;
 
     &_icon {
-      min-width: 40px;
-      width: 40px;
-      height: 40px;
+      min-width: 32px;
+      width: 32px;
+      height: 32px;
       cursor: pointer;
       background-repeat: no-repeat;
-      background-size: 40px;
+      background-size: 32px;
 
       &_play {
         background-image: url('assets/icons/playIcon.svg');
