@@ -39,25 +39,23 @@ class MainPageStore {
       response.collections,
     ).sort((selection1: any, selection2: any) => selection1.id - selection2.id);
 
-    this.setState(serializedSelections);
+    console.log('INFO:', serializedSelections, this.#movieSelections);
+    if (serializedSelections.length !== this.#movieSelections.length) {
+      this.setState(serializedSelections);
+      mainPage.render();
+    } else {
+      this.setState(serializedSelections);
+
+    }
+
   }
 
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MAIN_PAGE:
-        // const root = document.getElementById('root') as HTMLElement;
-        // const pageElement = document.getElementsByTagName(
-        //   'main',
-        // )[0] as HTMLElement;
-        // console.log(pageElement.outerHTML);
-        // const loader = new Loader(root, pageElement.outerHTML);
-        // loader.render();
-        await this.getCollection();
         mainPage.render();
+        await this.getCollection();
         break;
-      //   case ActionTypes.GET_SELECTIONS:
-      //     this.getCollection();
-      //     break;
       default:
         break;
     }

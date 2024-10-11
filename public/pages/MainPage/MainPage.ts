@@ -1,28 +1,22 @@
-import { apiClient } from '../../modules/ApiClient';
 import { GridBlock } from '../../components/GridBlock/GridBlock';
 import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
-import { serializeCollections } from '../../modules/Serializer';
-// import { checkAuth } from '../..';
-// import { checkAuth } from 'modules/RouterHandler';
-import { Movie, MovieSelection } from 'types/movie';
+import { MovieSelection } from 'types/movie';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { mainPageStore } from './MainPageStore';
 
 export class MainPage {
-  // #parent;
   #movieSelections: MovieSelection[] = [];
   #loader!: Loader;
 
   constructor() {
-    // this.#parent = parent;
     this.#movieSelections = [];
   }
 
   render() {
     this.#movieSelections = mainPageStore.getSelections();
-    this.renderTemplate();
+    this.renderTemplate()
   }
 
   /**
@@ -31,10 +25,6 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    // awaitPromise.allSettled([checkAuth(), this.getCollection()]);
-    // await Promise.allSettled([this.getCollection()]);
-    // this.#loader.kill();
-
     const trendMoviesBlock = document.getElementById('trend-movies-block');
     if (trendMoviesBlock) {
       const trendMoviesList = new GridBlock(
@@ -58,15 +48,15 @@ export class MainPage {
       slider.render();
     });
 
-    // const videoContainer = document.getElementById('test-video');
-    // if (videoContainer) {
-    //   const video = new VideoPlayer(
-    //     videoContainer,
-    //     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    //   );
+    const videoContainer = document.getElementById('test-video');
+    if (videoContainer) {
+      const video = new VideoPlayer(
+        videoContainer,
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      );
 
-    //   video.render();
-    // }
+      video.render();
+    }
   }
 
   renderTemplate() {
@@ -76,12 +66,14 @@ export class MainPage {
       rootElem.classList.remove('root-image');
     }
     const pageElement = document.getElementsByTagName('main')[0];
-    pageElement.innerHTML = template();
-
-    // this.#parent.innerHTML = template();
-
-    // this.#loader = new Loader(pageElement, template());
-    // this.#loader.render();
+    
+    this.#loader = new Loader(pageElement, template());
+    if (this.#movieSelections.length) {
+      pageElement.innerHTML = template();
+    } else {
+      console.log('LOADER');
+      this.#loader.render();
+    }
 
     this.renderBlocks();
   }
