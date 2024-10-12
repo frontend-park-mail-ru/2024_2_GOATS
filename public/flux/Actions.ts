@@ -1,4 +1,4 @@
-import { User } from 'types/user';
+import { User, AuthUser } from 'types/user';
 import { ActionTypes } from './ActionTypes';
 import { dispatcher } from './Dispatcher';
 
@@ -29,10 +29,16 @@ export const Actions = {
       type: ActionTypes.GET_USER,
     });
   },
-  // getSelections() {
-  //   console.log('get selection action');
-  //   dispatcher.dispatch({
-  //     type: ActionTypes.GET_SELECTIONS,
-  //   });
-  // },
+  auth(authData: AuthUser) {
+    dispatcher.dispatch({
+      type: ActionTypes.AUTH,
+      authData,
+    });
+  },
+  register(registrationData: AuthUser) {
+    dispatcher.dispatch({
+      type: ActionTypes.REGISTER,
+      registrationData,
+    });
+  },
 };
