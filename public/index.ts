@@ -8,7 +8,7 @@ import { headerStore } from 'components/Header/HeaderStore';
 import { mainPageStore } from 'pages/MainPage/MainPageStore';
 import { router } from 'modules/Router';
 // const { EventEmitter } = require('events')
-import { EventEmitter } from 'events'
+import { EventEmitter } from 'events';
 
 class ShoeStore extends EventEmitter {
   constructor() {
@@ -16,7 +16,7 @@ class ShoeStore extends EventEmitter {
   }
 
   getShoes(): string {
-    return "dfdf";
+    return 'dfdf';
   }
 
   emitChange(): void {
@@ -51,7 +51,10 @@ const mockFunction = () => {
 const test = new ShoeStore();
 
 initialStore.start();
-router.start();
+
+setTimeout(() => {
+  router.start();
+}, 200);
 
 // const rootElement = document.getElementById('root') as HTMLElement;
 // const headerElement = document.createElement('header');

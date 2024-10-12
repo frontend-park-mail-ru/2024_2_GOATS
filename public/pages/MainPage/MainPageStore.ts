@@ -6,6 +6,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { apiClient } from 'modules/ApiClient';
 import { MovieSelection } from 'types/movie';
 import { serializeCollections } from 'modules/Serializer';
+import { EventEmitter } from 'events';
 
 const mainPage = new MainPage();
 
@@ -13,7 +14,6 @@ class MainPageStore {
   #movieSelections: MovieSelection[] = [];
 
   constructor() {
-    console.log('constructor header');
     dispatcher.register(this.reduce.bind(this));
   }
 
@@ -39,15 +39,13 @@ class MainPageStore {
       response.collections,
     ).sort((selection1: any, selection2: any) => selection1.id - selection2.id);
 
-    console.log('INFO:', serializedSelections, this.#movieSelections);
+    // console.log('INFO:', serializedSelections, this.#movieSelections);
     if (serializedSelections.length !== this.#movieSelections.length) {
       this.setState(serializedSelections);
       mainPage.render();
     } else {
       this.setState(serializedSelections);
-
     }
-
   }
 
   async reduce(action: any) {

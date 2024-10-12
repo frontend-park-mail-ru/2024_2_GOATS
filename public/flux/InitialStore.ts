@@ -5,10 +5,9 @@ class InitialStore {
   constructor() {}
 
   async start() {
-    await Actions.getUser();
+    Actions.getUser();
     // const user = userStore.getUser();
     // console.log(user);
-
     // try {
     //   if (!userIn.isAuth) {
     //     const response = await apiClient.get({ path: 'auth/session' });

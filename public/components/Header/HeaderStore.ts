@@ -10,8 +10,6 @@ class HeaderStore {
   #config;
 
   constructor() {
-    console.log('constructor header');
-
     this.#config = {
       pages: {
         main: {
@@ -49,11 +47,7 @@ class HeaderStore {
   renderHeader(url: string) {
     const user = userStore.getUser();
     this.setState(user);
-
-    const a = document.getElementsByTagName('header')[0];
-    a.innerHTML = '';
-
-    console.log(url);
+    console.log(this.#config);
 
     const header = new Header(this.#config, url);
     header.render();

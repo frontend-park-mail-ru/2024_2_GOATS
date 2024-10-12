@@ -27,11 +27,7 @@ export const Urls = {
 export const routerHandler = (url: URL) => {
   switch (url.pathname.toString()) {
     case Urls.root:
-<<<<<<< HEAD
       Actions.renderHeader(Urls.root);
-=======
-      // Actions.getSelections();
->>>>>>> ashurov-dev
       Actions.renderMainPage();
       break;
     case Urls.auth:

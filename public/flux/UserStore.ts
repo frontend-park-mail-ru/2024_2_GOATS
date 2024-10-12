@@ -4,11 +4,13 @@ import { apiClient } from 'modules/ApiClient';
 import { Actions } from './Actions';
 import { router } from 'modules/Router';
 import { User } from 'types/user';
+import { EventEmitter } from 'events';
 
 const headerElement = document.createElement('header');
 
 class UserStore {
   #user: any;
+  // #emitter: EventEmitter;
 
   constructor() {
     this.#user = {
@@ -16,8 +18,20 @@ class UserStore {
       username: '',
       isAuth: false,
     };
+    // this.#emitter = new EventEmitter();
     dispatcher.register(this.reduce.bind(this));
+    // this.#emitter.on('change', () => {
+    //   Actions.renderHeader('/');
+    // });
   }
+
+  // subscribe(callback: () => void): any {
+  //   return this.#emitter.on('change', callback);
+  // }
+
+  // unsubscribe(callback: () => void): void {
+  //   this.#emitter.removeListener('change', callback);
+  // }
 
   getUser() {
     return this.#user;
@@ -27,6 +41,9 @@ class UserStore {
     this.#user.isAuth = user.isAuth;
     this.#user.email = user.email;
     this.#user.username = user.username;
+    // const url = new URL(window.location.href);
+    // Actions.renderHeader(url.pathname.toString());
+    // this.#emitter.emit('change');
   }
 
   reduce(action: any) {
@@ -60,7 +77,7 @@ class UserStore {
       this.setState({
         email: 'aa',
         username: 'aa',
-        isAuth: true, // toggle to imitate login
+        isAuth: false, // toggle to imitate login
       });
       console.log('auth request failed');
     } finally {

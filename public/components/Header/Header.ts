@@ -13,13 +13,13 @@ type State = {
   navElements: Record<string, HTMLElement>;
 };
 
-export function clickHandler(event: MouseEvent, config: any) {
+function clickHandler(event: MouseEvent, config: any) {
   if (event.target instanceof HTMLAnchorElement) {
     event.preventDefault();
     const targetId = event.target.id;
 
-    // const a = document.getElementById(targetId);
-    // a?.classList.add('active');
+    const a = document.getElementById(targetId);
+    a?.classList.add('active');
 
     let target;
     for (let element in config.pages) {
@@ -27,7 +27,7 @@ export function clickHandler(event: MouseEvent, config: any) {
         target = config.pages[element];
       }
     }
-    target.render(target.href, '', target.parent);
+    target.render();
   }
 }
 
@@ -35,15 +35,15 @@ export class Header {
   #parent;
   #config: PageConfig;
   #activeLink;
+  #handler;
 
   constructor(config: PageConfig, currentUrl: string) {
     this.#parent = document.getElementsByTagName('header')[0];
     this.#config = config;
     this.#activeLink = currentUrl;
-    const handler = (event: MouseEvent) => {
+    this.#handler = (event: MouseEvent) => {
       clickHandler(event, this.#config);
     };
-    this.#parent.addEventListener('click', handler);
   }
 
   get getConfig(): PageConfig {
@@ -83,8 +83,11 @@ export class Header {
   }
 
   renderTemplate() {
+    this.#parent.innerHTML = '';
+    console.log(this.#activeLink);
     const items = this.items.map(([key, { text, href, isAvailable, id }]) => {
       let className = '';
+
       if (href === this.#activeLink) {
         className += 'active';
       }
@@ -98,6 +101,7 @@ export class Header {
     const user = userStore.getUser();
     this.#parent.innerHTML = template({ items: items, currentUser: user });
 
+    document.getElementById('header')?.addEventListener('click', this.#handler);
     // HeaderEl.querySelectorAll('a').forEach((element) => {
     //   if (element.dataset.section) {
     //     this.#state.navElements[element.dataset.section] = element;

@@ -5,6 +5,7 @@ import template from './MainPage.hbs';
 import { MovieSelection } from 'types/movie';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { mainPageStore } from './MainPageStore';
+import { EventEmitter } from 'events';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -16,7 +17,7 @@ export class MainPage {
 
   render() {
     this.#movieSelections = mainPageStore.getSelections();
-    this.renderTemplate()
+    this.renderTemplate();
   }
 
   /**
@@ -66,12 +67,11 @@ export class MainPage {
       rootElem.classList.remove('root-image');
     }
     const pageElement = document.getElementsByTagName('main')[0];
-    
     this.#loader = new Loader(pageElement, template());
     if (this.#movieSelections.length) {
       pageElement.innerHTML = template();
     } else {
-      console.log('LOADER');
+      // console.log('LOADER');
       this.#loader.render();
     }
 
