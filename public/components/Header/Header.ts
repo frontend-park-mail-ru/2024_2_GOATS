@@ -17,6 +17,10 @@ export function clickHandler(event: MouseEvent, config: any) {
   if (event.target instanceof HTMLAnchorElement) {
     event.preventDefault();
     const targetId = event.target.id;
+
+    // const a = document.getElementById(targetId);
+    // a?.classList.add('active');
+
     let target;
     for (let element in config.pages) {
       if (config.pages[element].id === targetId) {
@@ -30,24 +34,17 @@ export function clickHandler(event: MouseEvent, config: any) {
 export class Header {
   #parent;
   #config: PageConfig;
-  // #state: State;
+  #activeLink;
 
-  constructor(config: PageConfig) {
+  constructor(config: PageConfig, currentUrl: string) {
     this.#parent = document.getElementsByTagName('header')[0];
     this.#config = config;
+    this.#activeLink = currentUrl;
     const handler = (event: MouseEvent) => {
       clickHandler(event, this.#config);
     };
     this.#parent.addEventListener('click', handler);
-    // this.#state = {
-    //   activeHeaderLink: null,
-    //   navElements: {},
-    // };
   }
-
-  // get state(): State {
-  //   return this.#state;
-  // }
 
   get getConfig(): PageConfig {
     return this.#config;
@@ -74,34 +71,32 @@ export class Header {
   }
 
   onExitClick() {
-    // if (currentUser.username) {
-    //   const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-    //     this.logout();
-    //   });
-    //   const exitButton = document.getElementById('exit-button') as HTMLElement;
-    //   exitButton.addEventListener('click', () => {
-    //     modal.render();
-    //   });
-    // }
+    if (userStore.getUser().isAuth) {
+      const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
+        this.logout();
+      });
+      const exitButton = document.getElementById('exit-button') as HTMLElement;
+      exitButton.addEventListener('click', () => {
+        modal.render();
+      });
+    }
   }
 
   renderTemplate() {
-    const items = this.items.map(
-      ([key, { text, href, isAvailable, id }], index) => {
-        let className = '';
-        if (index === 0) {
-          className += 'active';
-        }
+    const items = this.items.map(([key, { text, href, isAvailable, id }]) => {
+      let className = '';
+      if (href === this.#activeLink) {
+        className += 'active';
+      }
 
-        return { key, text, href, className, id, isAvailable };
-      },
-    );
+      return { key, text, href, className, id, isAvailable };
+    });
 
     // this.#parent.innerHTML = template({ items, currentUser });
     // this.#parent.innerHTML = template({ items, {}});
     // const HeaderEl = document.getElementsByTagName('header')[0];
-    console.log(userStore.getUser());
-    this.#parent.innerHTML = template({ items });
+    const user = userStore.getUser();
+    this.#parent.innerHTML = template({ items: items, currentUser: user });
 
     // HeaderEl.querySelectorAll('a').forEach((element) => {
     //   if (element.dataset.section) {

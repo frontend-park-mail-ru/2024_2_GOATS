@@ -15,7 +15,7 @@
           >{{this.text}}</a>{{/if}}
       {{/each}}
     </div>
-    {{#if currentUser.username}}
+    {{#if currentUser.isAuth}}
       <div class='header__container_auth'>
         <span>{{currentUser.username}}</span>
         <button

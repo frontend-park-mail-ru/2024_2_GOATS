@@ -18,10 +18,10 @@ export const Actions = {
       type: ActionTypes.RENDER_REG_PAGE,
     });
   },
-  renderHeader(user: User) {
+  renderHeader(url: string) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_HEADER,
-      user,
+      payload: url,
     });
   },
   async getUser() {

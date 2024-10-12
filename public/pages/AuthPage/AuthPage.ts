@@ -19,7 +19,6 @@ export class AuthPage {
       rootElem.classList.remove('root-black');
       rootElem.classList.add('root-image');
     }
-    console.log(userStore.getUser());
     this.#parent.innerHTML = template();
 
     const authForm = document.getElementById('auth-page-form-block');

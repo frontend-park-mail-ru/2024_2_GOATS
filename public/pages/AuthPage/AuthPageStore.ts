@@ -1,6 +1,7 @@
 import { ActionTypes } from 'flux/ActionTypes';
 import { dispatcher } from 'flux/Dispatcher';
 import { AuthPage } from './AuthPage';
+import { Actions } from 'flux/Actions';
 
 class AuthPageStore {
   constructor() {
@@ -8,6 +9,7 @@ class AuthPageStore {
   }
 
   renderAuth() {
+    // Actions.renderHeader();
     const authPage = new AuthPage();
     authPage.render();
   }

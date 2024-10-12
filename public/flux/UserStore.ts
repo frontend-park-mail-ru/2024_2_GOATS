@@ -49,22 +49,22 @@ class UserStore {
       const response = await apiClient.get({
         path: 'auth/session',
       });
-      this.setState({
-        email: 'aa',
-        username: 'aa',
-        isAuth: true,
-      });
-
-      // this.setState(response.user_data);
-    } catch {
       // this.setState({
       //   email: 'aa',
       //   username: 'aa',
       //   isAuth: true,
       // });
+
+      // this.setState(response.user_data);
+    } catch {
+      this.setState({
+        email: 'aa',
+        username: 'aa',
+        isAuth: true, // toggle to imitate login
+      });
       console.log('auth request failed');
     } finally {
-      Actions.renderHeader(this.#user);
+      // Actions.renderHeader('/');
       // updatePagesConfig(pagesConfig, currentUser);
     }
   }

@@ -27,12 +27,15 @@ export const Urls = {
 export const routerHandler = (url: URL) => {
   switch (url.pathname.toString()) {
     case Urls.root:
+      Actions.renderHeader(Urls.root);
       Actions.renderMainPage();
       break;
     case Urls.auth:
+      Actions.renderHeader(Urls.auth);
       Actions.renderAuthPage();
       break;
     case Urls.registration:
+      Actions.renderHeader(Urls.registration);
       Actions.renderRegPage();
       break;
     // case Urls.auth:

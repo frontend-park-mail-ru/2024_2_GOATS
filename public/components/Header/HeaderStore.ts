@@ -11,6 +11,7 @@ class HeaderStore {
 
   constructor() {
     console.log('constructor header');
+
     this.#config = {
       pages: {
         main: {
@@ -22,7 +23,7 @@ class HeaderStore {
         },
         reg: {
           text: 'Регистрация',
-          href: '/register',
+          href: '/registration',
           id: 'header-reg',
           isAvailable: !userStore.getUser().isAuth,
           render: () => router.go('/registration'),
@@ -45,17 +46,26 @@ class HeaderStore {
     this.#config.pages.auth.isAvailable = !user.isAuth;
   }
 
-  renderHeader(user: User) {
+  renderHeader(url: string) {
+    const user = userStore.getUser();
     this.setState(user);
-    console.log(this.#config);
-    const header = new Header(this.#config);
+
+    const a = document.getElementsByTagName('header')[0];
+    a.innerHTML = '';
+
+    console.log(url);
+
+    const header = new Header(this.#config, url);
     header.render();
+
+    // const header = new Header(this.#config, url);
+    // header.render();
   }
 
   reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_HEADER:
-        this.renderHeader(action.user);
+        this.renderHeader(action.payload);
         break;
 
       default:

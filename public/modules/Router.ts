@@ -17,7 +17,6 @@ class Router {
 
   go(path: string) {
     let url = new URL(path, window.location.href);
-    console.log(url);
     routerHandler(url);
     window.history.pushState({}, path, path);
 
