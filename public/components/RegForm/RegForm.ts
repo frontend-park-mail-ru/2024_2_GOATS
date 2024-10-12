@@ -1,6 +1,7 @@
 // import { goToPage } from '../..';
 import { apiClient } from '../../modules/ApiClient';
 import template from './RegForm.hbs';
+import { Actions } from 'flux/Actions';
 
 import {
   validateEmailAddress,
@@ -96,56 +97,10 @@ export class RegForm {
     }
   }
 
-  throwRegError(authErrorMessage: string) {
-    const errorBlock = document.getElementById('reg-error') as HTMLElement;
-    errorBlock.innerHTML = authErrorMessage;
-    errorBlock.classList.add('visible');
-  }
-
-  removeRegError() {
-    const errorBlock = document.getElementById('reg-error') as HTMLElement;
-    errorBlock.innerHTML = '';
-    errorBlock.classList.remove('visible');
-  }
-
-  async regRequest(
-    loginValue: string,
-    emailValue: string,
-    passwordValue: string,
-    confirmValue: string,
-  ) {
-    try {
-      await apiClient.post({
-        path: 'auth/signup',
-        body: {
-          email: emailValue,
-          username: loginValue,
-          password: passwordValue,
-          passwordConfirmation: confirmValue,
-        },
-      });
-
-      const filmsNav = document.querySelector(
-        `[data-section="films"]`,
-      ) as HTMLElement;
-
-      if (filmsNav) {
-        // goToPage(filmsNav);
-      }
-    } catch (e: any) {
-      if (e.status === 409) {
-        this.throwRegError('Такой пользователь уже существует');
-      } else {
-        this.throwRegError('Что-то пошло не так. Попробуйте позже');
-      }
-    }
-  }
-
   onRegButtonClick() {
     const regBtn = document.getElementById('form-reg-btn') as HTMLElement;
     regBtn.addEventListener('click', async (e) => {
       e.preventDefault();
-      this.removeRegError();
 
       const emailValue = (<HTMLInputElement>(
         document.getElementById('form-reg-email')
@@ -176,7 +131,13 @@ export class RegForm {
       ) {
         return;
       }
-      this.regRequest(loginValue, emailValue, passwordValue, confirmValue);
+
+      Actions.register({
+        email: emailValue,
+        username: loginValue,
+        password: passwordValue,
+        passwordConfirmation: confirmValue,
+      });
     });
   }
 

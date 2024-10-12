@@ -4,9 +4,33 @@ import { initialStore } from 'flux/InitialStore';
 import { userStore } from 'flux/UserStore';
 import { authPageStore } from 'pages/AuthPage/AuthPageStore';
 import { regPageStore } from 'pages/RegPage/RegPageStore';
-
 import { headerStore } from 'components/Header/HeaderStore';
+import { mainPageStore } from 'pages/MainPage/MainPageStore';
 import { router } from 'modules/Router';
+// const { EventEmitter } = require('events')
+import { EventEmitter } from 'events'
+
+class ShoeStore extends EventEmitter {
+  constructor() {
+    super();
+  }
+
+  getShoes(): string {
+    return "dfdf";
+  }
+
+  emitChange(): void {
+    this.emit('change');
+  }
+
+  addChangeListener(callback: (event: any) => void): void {
+    this.on('change', callback);
+  }
+
+  removeChangeListener(callback: (event: any) => void): void {
+    this.removeListener('change', callback);
+  }
+}
 
 const root = document.getElementById('root') as HTMLElement;
 const pageElement = document.createElement('main');
@@ -21,14 +45,13 @@ const mockFunction = () => {
   console.log(headerStore);
   console.log(authPageStore);
   console.log(regPageStore);
+  console.log(mainPageStore);
 };
 
-const begin = async () => {
-  await initialStore.start();
-  router.start();
-};
+const test = new ShoeStore();
 
-begin();
+initialStore.start();
+router.start();
 
 // const rootElement = document.getElementById('root') as HTMLElement;
 // const headerElement = document.createElement('header');

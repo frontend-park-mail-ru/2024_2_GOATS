@@ -1,41 +1,22 @@
-import { apiClient } from '../../modules/ApiClient';
 import { GridBlock } from '../../components/GridBlock/GridBlock';
 import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
-import { serializeCollections } from '../../modules/Serializer';
-// import { checkAuth } from '../..';
-// import { checkAuth } from 'modules/RouterHandler';
-import { Movie, MovieSelection } from 'types/movie';
+import { MovieSelection } from 'types/movie';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
+import { mainPageStore } from './MainPageStore';
 
 export class MainPage {
-  // #parent;
   #movieSelections: MovieSelection[] = [];
   #loader!: Loader;
 
   constructor() {
-    // this.#parent = parent;
     this.#movieSelections = [];
   }
 
   render() {
-    this.renderTemplate();
-  }
-
-  /**
-   * send request for movies collection
-   * @param {}
-   * @returns {}
-   */
-  async getCollection() {
-    const response = await apiClient.get({
-      path: 'movie_collections/',
-    });
-
-    this.#movieSelections = serializeCollections(response.collections).sort(
-      (selection1: any, selection2: any) => selection1.id - selection2.id,
-    );
+    this.#movieSelections = mainPageStore.getSelections();
+    this.renderTemplate()
   }
 
   /**
@@ -44,10 +25,6 @@ export class MainPage {
    * @returns {}
    */
   async renderBlocks() {
-    // await Promise.allSettled([checkAuth(), this.getCollection()]);
-    await Promise.allSettled([this.getCollection()]);
-    this.#loader.kill();
-
     const trendMoviesBlock = document.getElementById('trend-movies-block');
     if (trendMoviesBlock) {
       const trendMoviesList = new GridBlock(
@@ -71,15 +48,15 @@ export class MainPage {
       slider.render();
     });
 
-    // const videoContainer = document.getElementById('test-video');
-    // if (videoContainer) {
-    //   const video = new VideoPlayer(
-    //     videoContainer,
-    //     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    //   );
+    const videoContainer = document.getElementById('test-video');
+    if (videoContainer) {
+      const video = new VideoPlayer(
+        videoContainer,
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      );
 
-    //   video.render();
-    // }
+      video.render();
+    }
   }
 
   renderTemplate() {
@@ -89,12 +66,14 @@ export class MainPage {
       rootElem.classList.remove('root-image');
     }
     const pageElement = document.getElementsByTagName('main')[0];
-    pageElement.innerHTML = template();
-
-    // this.#parent.innerHTML = template();
-
+    
     this.#loader = new Loader(pageElement, template());
-    this.#loader.render();
+    if (this.#movieSelections.length) {
+      pageElement.innerHTML = template();
+    } else {
+      console.log('LOADER');
+      this.#loader.render();
+    }
 
     this.renderBlocks();
   }

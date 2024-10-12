@@ -1,28 +1,8 @@
-import { dispatcher } from './Dispatcher';
-import { ActionTypes } from './ActionTypes';
-import { apiClient } from 'modules/ApiClient';
 import { Actions } from './Actions';
-import { MainPage } from 'pages/MainPage/MainPage';
 import { userStore } from './UserStore';
-import { headerStore } from 'components/Header/HeaderStore';
-
-const mainPage = new MainPage();
 
 class InitialStore {
-  constructor() {
-    dispatcher.register(this.reduce.bind(this));
-  }
-
-  reduce(action: any) {
-    switch (action.type) {
-      case ActionTypes.RENDER_MAIN_PAGE:
-        mainPage.render();
-        break;
-
-      default:
-        break;
-    }
-  }
+  constructor() {}
 
   async start() {
     await Actions.getUser();
