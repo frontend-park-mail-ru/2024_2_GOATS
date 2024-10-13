@@ -10,4 +10,6 @@ export type VideoControls = {
   volume: HTMLInputElement;
   fullOrSmallScreen: HTMLElement;
   isFullScreen: boolean;
+  rewindBackButton: HTMLElement;
+  rewindFrontButton: HTMLElement;
 };

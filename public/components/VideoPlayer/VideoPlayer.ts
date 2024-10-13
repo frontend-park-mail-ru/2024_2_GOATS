@@ -44,12 +44,24 @@ export class VideoPlayer {
       volume: document.getElementById('volume') as HTMLInputElement,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       isFullScreen: false,
+      rewindBackButton: document.getElementById(
+        'rewind-back-button',
+      ) as HTMLElement,
+      rewindFrontButton: document.getElementById(
+        'rewind-front-button',
+      ) as HTMLElement,
     };
   }
 
   // Добавляем все события
   addEventListeners() {
-    const { video, playOrPause, fullOrSmallScreen } = this.#controls;
+    const {
+      video,
+      playOrPause,
+      fullOrSmallScreen,
+      rewindBackButton,
+      rewindFrontButton,
+    } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
@@ -59,6 +71,15 @@ export class VideoPlayer {
 
     playOrPause.addEventListener('click', this.togglePlayback.bind(this));
     video.addEventListener('click', this.togglePlayback.bind(this));
+
+    rewindBackButton.addEventListener(
+      'click',
+      this.addRewindBackControl.bind(this),
+    );
+    rewindFrontButton.addEventListener(
+      'click',
+      this.addRewindFrontControl.bind(this),
+    );
 
     fullOrSmallScreen.addEventListener(
       'click',
@@ -157,5 +178,15 @@ export class VideoPlayer {
       const newTime = (e.offsetX / timelineWidth) * video.duration;
       video.currentTime = newTime;
     });
+  }
+
+  addRewindBackControl() {
+    const { video } = this.#controls;
+    video.currentTime -= 15;
+  }
+
+  addRewindFrontControl() {
+    const { video } = this.#controls;
+    video.currentTime += 15;
   }
 }
