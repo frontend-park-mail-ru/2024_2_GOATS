@@ -6,40 +6,134 @@ export const movies = [
   {
     id: 1,
     title: 'Movie 1',
-    src: 'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
     rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
   },
   {
     id: 2,
-    title: 'Movie 2',
-    src: 'https://megaobzor.com/uploads/old/load/stati/myfilm1.jpg',
-    rating: 8.5,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
   },
   {
     id: 3,
-    title: 'Movie 3',
-    src: 'https://img.freepik.com/premium-vector/retro-design-cinema-week-invitation-poster-with-popcorn-tickets-clapper-reels-realistic-vertical-vector-illustration_1284-77075.jpg',
-    rating: 3.2,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
   },
   {
     id: 4,
-    title: 'Movie 4',
-    src: 'https://img.utorrentfilmi.fun/uploads/posts/2024-08/1723484924_jk3s9.jpg',
-    rating: 9.1,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
   },
   {
     id: 5,
-    title: 'Movie 5',
-    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fCU-_5jLdMKFex1KPrxBMxlGFt_BSlUtwQ&s',
-    rating: 10.0,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
   },
   {
     id: 6,
-    title: 'Movie 6',
-    src: 'https://s3.afisha.ru/mediastorage/2a/33/d281002d901a4f7d84337489332a.jpg',
-    rating: 6.6,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
+  },
+  {
+    id: 7,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
+  },
+  {
+    id: 8,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
+  },
+  {
+    id: 9,
+    title: 'Movie 1',
+    description: '',
+    cardImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    albumImage:
+      'https://img.utorrentfilmi.fun/uploads/posts/2024-06/1719383380_i5rnp.jpg',
+    rating: 7.6,
+    releaseDate: '2009-12-10T00:00:00Z',
+    movieType: '',
+    country: 'США',
   },
 ];
+
+export const mockActor = {
+  id: 1,
+  name: 'Джеймс Гандольфини',
+  career: 'Актер',
+  birth_date: '18 сентября 1961',
+  born_place: 'Вествуд, Нью-Джерси, США',
+  genres: 'Драма, криминал, триллер',
+  biography:
+    'Джеймс Гандольфини — американский актёр, наиболее известный за роль Тони Сопрано, главы мафиозной «семьи», в сериале «Сопрано», за которую он был удостоен трёх премий «Эмми». Помимо телевизионных ролей, Гандольфини снимался в многочисленных фильмах, включая «Настоящая любовь», «Багровый прилив», «Достать коротышку», «Гражданский иск», «Последний замок», «Любовь и сигареты», «Там, где живут чудовища». Он также известен своими ролями на Бродвее в постановках «Трамвай „Желание“», «В порту» и «Бог резни». Джеймс Гандольфини — американский актёр, наиболее известный за роль Тони Сопрано, главы мафиозной «семьи», в сериале «Сопрано», за которую он был удостоен трёх премий «Эмми». Помимо телевизионных ролей, Гандольфини снимался в многочисленных фильмах, включая «Настоящая любовь», «Багровый прилив», «Достать коротышку», «Гражданский иск», «Последний замок», «Любовь и сигареты», «Там, где живут чудовища». Он также известен своими ролями на Бродвее в постановках «Трамвай „Желание“», «В порту» и «Бог резни». Джеймс Гандольфини — американский актёр, наиболее известный за роль Тони Сопрано, главы мафиозной «семьи», в сериале «Сопрано», за которую он был удостоен трёх премий «Эмми». Помимо телевизионных ролей, Гандольфини снимался в многочисленных фильмах, включая «Настоящая любовь», «Багровый прилив», «Достать коротышку», «Гражданский иск», «Последний замок», «Любовь и сигареты», «Там, где живут чудовища». Он также известен своими ролями на Бродвее в постановках «Трамвай „Желание“», «В порту» и «Бог резни».',
+  image: 'assets/mockImages/gandolfini_actor_page.png',
+  movies: movies,
+};
 
 export const CHAR_A_CODE = 65;
 export const CHAR_Z_CODE = 90;

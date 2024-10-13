@@ -11,6 +11,7 @@ export const Urls = {
   root: '/',
   auth: '/auth',
   registration: '/registration',
+  actor: '/person',
 };
 
 export const routerHandler = (url: URL) => {
@@ -26,6 +27,10 @@ export const routerHandler = (url: URL) => {
     case Urls.registration:
       Actions.renderHeader(Urls.registration);
       Actions.renderRegPage();
+      break;
+    case Urls.actor:
+      // Actions.renderHeader(Urls.registration);
+      Actions.renderActorPage();
       break;
 
     default:

@@ -3,6 +3,7 @@ import { apiClient } from '../../modules/ApiClient';
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 import { PageConfig } from 'types/pages';
 import { userStore } from 'store/UserStore';
+import Handlebars from 'handlebars';
 
 function clickHandler(event: MouseEvent, config: any) {
   if (event.target instanceof HTMLAnchorElement) {

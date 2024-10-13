@@ -1,11 +1,11 @@
 export type Movie = {
-  id: number;
-  title: string;
-  description: string;
-  cardImage: string;
-  albumImage: string;
-  rating: number;
-  releaseDate: Date;
+  id: number; //
+  title: string; //
+  description: string; //
+  cardImage: string; //
+  albumImage: string; //
+  rating: number; //
+  releaseDate: Date | string;
   movieType: string;
   country: string;
 };
