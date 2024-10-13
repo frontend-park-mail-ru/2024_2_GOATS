@@ -7,17 +7,6 @@ import { apiClient } from './ApiClient';
 import { setPagesConfig } from '../consts';
 import { Actions } from 'flux/Actions';
 
-// const rootElement = document.getElementById('root') as HTMLElement;
-// const pageElement = document.createElement('main');
-
-// pageElement.id = 'page-element';
-// const headerElement = document.createElement('header');
-// rootElement.appendChild(pageElement);
-// rootElement.appendChild(headerElement);
-
-// const authPage = new AuthPage(pageElement);
-// const regPage = new RegPage(pageElement);
-
 export const Urls = {
   root: '/',
   auth: '/auth',
@@ -27,7 +16,6 @@ export const Urls = {
 export const routerHandler = (url: URL) => {
   switch (url.pathname.toString()) {
     case Urls.root:
-      console.log('rerere');
       Actions.renderHeader(Urls.root);
       Actions.renderMainPage();
       break;
@@ -39,12 +27,7 @@ export const routerHandler = (url: URL) => {
       Actions.renderHeader(Urls.registration);
       Actions.renderRegPage();
       break;
-    // case Urls.auth:
-    //   authPage.render();
-    //   break;
-    // case Urls.registration:
-    //   regPage.render();
-    //   break;
+
     default:
       console.log('error', url.pathname);
   }

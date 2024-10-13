@@ -1,8 +1,9 @@
 import { ActionTypes } from 'flux/ActionTypes';
 import { dispatcher } from 'flux/Dispatcher';
-import { RegPage } from './RegPage';
+import { RegPage } from 'pages/RegPage/RegPage';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
+import { userStore } from 'store/UserStore';
 
 class RegPageStore {
   constructor() {
@@ -44,13 +45,8 @@ class RegPageStore {
         },
       });
 
-      // const filmsNav = document.querySelector(
-      //   `[data-section="films"]`,
-      // ) as HTMLElement;
-
-      // if (filmsNav) {
+      userStore.checkAuth(true);
       router.go('/');
-      // }
     } catch (e: any) {
       if (e.status === 409) {
         this.throwRegError('Такой пользователь уже существует');

@@ -1,8 +1,8 @@
 import { dispatcher } from 'flux/Dispatcher';
 import { ActionTypes } from 'flux/ActionTypes';
-import { userStore } from 'flux/UserStore';
+import { userStore } from 'store/UserStore';
 import { Actions } from 'flux/Actions';
-import { Header } from './Header';
+import { Header } from 'components/Header/Header';
 import { router } from 'modules/Router';
 import { User } from 'types/user.js';
 
@@ -52,9 +52,6 @@ class HeaderStore {
       const header = new Header(this.#config, url);
       header.render();
     }
-
-    // const header = new Header(this.#config, url);
-    // header.render();
   }
 
   reduce(action: any) {

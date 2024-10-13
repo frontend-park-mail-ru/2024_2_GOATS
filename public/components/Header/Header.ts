@@ -1,12 +1,8 @@
 import template from './Header.hbs';
-// import { currentUser } from '../..';
-// import { currentUser } from 'modules/RouterHandler';
 import { apiClient } from '../../modules/ApiClient';
-// import { checkAuth } from '../..';
-// import { checkAuth } from 'modules/RouterHandler';
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 import { PageConfig } from 'types/pages';
-import { userStore } from 'flux/UserStore';
+import { userStore } from 'store/UserStore';
 
 function clickHandler(event: MouseEvent, config: any) {
   if (event.target instanceof HTMLAnchorElement) {
@@ -59,8 +55,8 @@ export class Header {
         path: 'auth/logout',
         body: {},
       });
-      // checkAuth();
     } catch {
+      userStore.checkAuth(false);
       throw new Error('logout error');
     }
   }
@@ -90,18 +86,11 @@ export class Header {
       return { key, text, href, className, id, isAvailable };
     });
 
-    // this.#parent.innerHTML = template({ items, currentUser });
-    // this.#parent.innerHTML = template({ items, {}});
-    // const HeaderEl = document.getElementsByTagName('header')[0];
     const user = userStore.getUser();
     this.#parent.innerHTML = template({ items: items, currentUser: user });
 
     document.getElementById('header')?.addEventListener('click', this.#handler);
-    // HeaderEl.querySelectorAll('a').forEach((element) => {
-    //   if (element.dataset.section) {
-    //     this.#state.navElements[element.dataset.section] = element;
-    //   }
-    // });
+
     this.onExitClick();
   }
 }

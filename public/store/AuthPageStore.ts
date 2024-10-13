@@ -1,9 +1,10 @@
 import { ActionTypes } from 'flux/ActionTypes';
 import { dispatcher } from 'flux/Dispatcher';
-import { AuthPage } from './AuthPage';
+import { AuthPage } from 'pages/AuthPage/AuthPage';
 import { apiClient } from 'modules/ApiClient';
 import { Actions } from 'flux/Actions';
 import { router } from 'modules/Router';
+import { userStore } from 'store/UserStore';
 
 class AuthPageStore {
   constructor() {
@@ -11,7 +12,6 @@ class AuthPageStore {
   }
 
   renderAuth() {
-    // Actions.renderHeader();
     const authPage = new AuthPage();
     authPage.render();
   }
@@ -36,13 +36,8 @@ class AuthPageStore {
         body: { email: emailValue, password: passwordValue },
       });
 
-      // const filmsNav = document.querySelector(
-      //   `[data-section="films"]`,
-      // ) as HTMLElement;
-
-      // if (filmsNav) {
+      userStore.checkAuth(true);
       router.go('/');
-      // }
     } catch (e: any) {
       if (e.status === 404) {
         this.throwAuthError('Пользователь с таким e-mail не найден');

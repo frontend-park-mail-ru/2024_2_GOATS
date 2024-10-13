@@ -1,4 +1,4 @@
-import { userStore } from 'flux/UserStore';
+import { userStore } from 'store/UserStore';
 import { AuthForm } from '../../components/AuthForm/AuthForm';
 import template from './AuthPage.hbs';
 

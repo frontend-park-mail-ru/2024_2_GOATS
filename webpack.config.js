@@ -60,6 +60,7 @@ module.exports = {
       modules: path.join(publicPath, 'modules'),
       assets: path.join(publicPath, 'assets'),
       flux: path.join(publicPath, 'flux'),
+      store: path.join(publicPath, 'store'),
     },
   },
   devServer: {

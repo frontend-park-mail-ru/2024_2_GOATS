@@ -4,7 +4,7 @@ import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
 import { MovieSelection } from 'types/movie';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
-import { mainPageStore } from './MainPageStore';
+import { mainPageStore } from 'store/MainPageStore';
 import { EventEmitter } from 'events';
 
 export class MainPage {
@@ -71,7 +71,6 @@ export class MainPage {
     if (this.#movieSelections.length) {
       pageElement.innerHTML = template();
     } else {
-      // console.log('LOADER');
       this.#loader.render();
     }
 

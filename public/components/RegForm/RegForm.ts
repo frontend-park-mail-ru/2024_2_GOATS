@@ -1,5 +1,3 @@
-// import { goToPage } from '../..';
-import { apiClient } from '../../modules/ApiClient';
 import template from './RegForm.hbs';
 import { Actions } from 'flux/Actions';
 
@@ -8,6 +6,7 @@ import {
   validatePassword,
   validateLogin,
 } from '../../modules/Validators';
+import { router } from 'modules/Router';
 
 export class RegForm {
   #parent;
@@ -147,12 +146,7 @@ export class RegForm {
     ) as HTMLElement;
     authLink.addEventListener('click', (e) => {
       e.preventDefault();
-      const authNav = document.querySelector(
-        `[data-section="login"]`,
-      ) as HTMLElement;
-      if (authNav) {
-        // goToPage(authNav);
-      }
+      router.go('/auth');
     });
   }
 
