@@ -4,6 +4,7 @@ import { RegPage } from 'pages/RegPage/RegPage';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { userStore } from 'store/UserStore';
+import { throwBackendError, removeBackendError } from 'modules/BackendErrors';
 
 class RegPageStore {
   constructor() {
@@ -15,18 +16,6 @@ class RegPageStore {
     regPage.render();
   }
 
-  throwRegError(authErrorMessage: string) {
-    const errorBlock = document.getElementById('reg-error') as HTMLElement;
-    errorBlock.innerHTML = authErrorMessage;
-    errorBlock.classList.add('visible');
-  }
-
-  removeRegError() {
-    const errorBlock = document.getElementById('reg-error') as HTMLElement;
-    errorBlock.innerHTML = '';
-    errorBlock.classList.remove('visible');
-  }
-
   async regRequest(
     emailValue: string,
     loginValue: string,
@@ -34,7 +23,7 @@ class RegPageStore {
     confirmValue: string,
   ) {
     try {
-      this.removeRegError();
+      removeBackendError('reg');
       await apiClient.post({
         path: 'auth/signup',
         body: {
@@ -49,9 +38,9 @@ class RegPageStore {
       router.go('/');
     } catch (e: any) {
       if (e.status === 409) {
-        this.throwRegError('Такой пользователь уже существует');
+        throwBackendError('reg', 'Такой пользователь уже существует');
       } else {
-        this.throwRegError('Что-то пошло не так. Попробуйте позже');
+        throwBackendError('reg', 'Что-то пошло не так. Попробуйте позже');
       }
     }
   }
