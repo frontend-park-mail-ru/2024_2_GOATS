@@ -61,6 +61,8 @@ export class VideoPlayer {
       fullOrSmallScreen,
       rewindBackButton,
       rewindFrontButton,
+      volume,
+      playbackline,
     } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
@@ -72,22 +74,24 @@ export class VideoPlayer {
     playOrPause.addEventListener('click', this.togglePlayback.bind(this));
     video.addEventListener('click', this.togglePlayback.bind(this));
 
-    rewindBackButton.addEventListener(
-      'click',
-      this.addRewindBackControl.bind(this),
-    );
-    rewindFrontButton.addEventListener(
-      'click',
-      this.addRewindFrontControl.bind(this),
-    );
+    rewindBackButton.addEventListener('click', this.rewindBack.bind(this));
+    rewindFrontButton.addEventListener('click', this.rewindFront.bind(this));
 
     fullOrSmallScreen.addEventListener(
       'click',
       this.toggleFullScreen.bind(this),
     );
 
-    this.addVolumeControls();
-    this.addProgressControls();
+    volume.addEventListener('input', this.updateVolumeByClick.bind(this));
+
+    playbackline.addEventListener('click', (e: MouseEvent) =>
+      this.updateProgressByClick(e),
+    );
+
+    document.addEventListener(
+      'fullscreenchange',
+      this.checkScreenButton.bind(this),
+    );
   }
 
   // Обработчики событий вынесены в отдельные методы
@@ -154,30 +158,39 @@ export class VideoPlayer {
     }
   }
 
-  addVolumeControls() {
+  checkScreenButton() {
+    const { isFullScreen } = this.#controls;
+    if (document.fullscreenElement === null && isFullScreen) {
+      this.#controls.isFullScreen = false;
+      this.#controls.fullOrSmallScreen.classList.add(
+        'video__controls_icon_full',
+      );
+      this.#controls.fullOrSmallScreen.classList.remove(
+        'video__controls_icon_small',
+      );
+    }
+  }
+
+  updateVolumeByClick() {
     const { volume, video } = this.#controls;
-    volume.addEventListener('input', () => {
-      video.volume = Number(volume.value);
-    });
+    video.volume = Number(volume.value);
   }
 
   // Управление прогрессом воспроизведения
-  addProgressControls() {
+  updateProgressByClick(e: MouseEvent) {
     const { playbackline, video } = this.#controls;
 
-    playbackline.addEventListener('click', (e: MouseEvent) => {
-      const timelineWidth = playbackline.clientWidth;
-      const newTime = (e.offsetX / timelineWidth) * video.duration;
-      video.currentTime = newTime;
-    });
+    const timelineWidth = playbackline.clientWidth;
+    const newTime = (e.offsetX / timelineWidth) * video.duration;
+    video.currentTime = newTime;
   }
 
-  addRewindBackControl() {
+  rewindBack() {
     const { video } = this.#controls;
     video.currentTime -= 15;
   }
 
-  addRewindFrontControl() {
+  rewindFront() {
     const { video } = this.#controls;
     video.currentTime += 15;
   }
