@@ -40,8 +40,8 @@ export class VideoPlayer {
       progressBar: document.querySelector(
         '.video__progress_bar',
       ) as HTMLElement,
-      volumeBtn: document.getElementById('volume-button') as HTMLElement,
-      volume: document.getElementById('volume') as HTMLInputElement,
+      volume: document.getElementById('volume-input') as HTMLInputElement,
+      isVolumeOpened: false,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       isFullScreen: false,
       rewindBackButton: document.getElementById(
@@ -111,7 +111,6 @@ export class VideoPlayer {
   onVideoEnd() {
     const { video, playOrPause } = this.#controls;
     video.pause();
-    // playOrPause.textContent = 'Play';
     playOrPause.classList.remove('paused');
   }
 
@@ -155,15 +154,8 @@ export class VideoPlayer {
     }
   }
 
-  // Управление звуком
   addVolumeControls() {
-    const { volumeBtn, volume, video } = this.#controls;
-
-    volumeBtn.addEventListener('click', () => {
-      volume.style.display =
-        volume.style.display === 'block' ? 'none' : 'block';
-    });
-
+    const { volume, video } = this.#controls;
     volume.addEventListener('input', () => {
       video.volume = Number(volume.value);
     });

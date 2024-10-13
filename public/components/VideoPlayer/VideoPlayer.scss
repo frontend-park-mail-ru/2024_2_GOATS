@@ -5,16 +5,41 @@
 
   &__controls {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
+    padding: 5px 20px 20px 20px;
+
+    &_progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &_actions {
+      display: flex;
+      justify-content: space-between;
+
+      &_right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &_left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
 
     &_icon {
-      min-width: 32px;
-      width: 32px;
-      height: 32px;
+      display: inline-block;
+      min-width: 36px;
+      width: 36px;
+      height: 36px;
       cursor: pointer;
       background-repeat: no-repeat;
-      background-size: 32px;
+      background-size: 36px;
 
       &_play {
         background-image: url('assets/icons/playIcon.svg');
@@ -34,24 +59,28 @@
     }
 
     &_volume {
-      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
       &_input {
-        position: absolute;
-        display: none;
+        -webkit-appearance: none;
         width: 80px;
-        right: -25px;
-        bottom: 80px;
         height: 5px;
-        background-color: transparent;
+        background-color: #fff;
         border: none;
         cursor: pointer;
-        transform: rotate(270deg);
-      }
-    }
+        border-radius: 5px;
 
-    &_timer {
-      width: 80px;
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 15px;
+          height: 15px;
+          background-color: $brand;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
     }
   }
 
@@ -69,4 +98,8 @@
       transition: width 0.1s linear;
     }
   }
+}
+
+#prev-series-button {
+  transform: rotate(180deg);
 }

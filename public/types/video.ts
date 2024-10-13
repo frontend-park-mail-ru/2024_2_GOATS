@@ -6,8 +6,8 @@ export type VideoControls = {
   duration: HTMLElement;
   currentTime: HTMLElement;
   progressBar: HTMLElement;
-  volumeBtn: HTMLElement;
   volume: HTMLInputElement;
+  isVolumeOpened: boolean;
   fullOrSmallScreen: HTMLElement;
   isFullScreen: boolean;
   rewindBackButton: HTMLElement;
