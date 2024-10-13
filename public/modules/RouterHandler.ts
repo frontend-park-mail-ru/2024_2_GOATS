@@ -27,6 +27,7 @@ export const Urls = {
 export const routerHandler = (url: URL) => {
   switch (url.pathname.toString()) {
     case Urls.root:
+      console.log('rerere');
       Actions.renderHeader(Urls.root);
       Actions.renderMainPage();
       break;

@@ -16,7 +16,7 @@ class HeaderStore {
           text: 'Главная',
           href: '/',
           id: 'header-main',
-          isAvailable: userStore.getUser().isAuth,
+          isAvailable: true,
           render: () => router.go('/'),
         },
         reg: {
@@ -45,12 +45,13 @@ class HeaderStore {
   }
 
   renderHeader(url: string) {
-    const user = userStore.getUser();
-    this.setState(user);
-    console.log(this.#config);
+    if (!userStore.getIsLoading()) {
+      const user = userStore.getUser();
+      this.setState(user);
 
-    const header = new Header(this.#config, url);
-    header.render();
+      const header = new Header(this.#config, url);
+      header.render();
+    }
 
     // const header = new Header(this.#config, url);
     // header.render();

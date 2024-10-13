@@ -10,6 +10,7 @@ const headerElement = document.createElement('header');
 
 class UserStore {
   #user: any;
+  #isLoading: boolean;
   // #emitter: EventEmitter;
 
   constructor() {
@@ -18,6 +19,7 @@ class UserStore {
       username: '',
       isAuth: false,
     };
+    this.#isLoading = true;
     // this.#emitter = new EventEmitter();
     dispatcher.register(this.reduce.bind(this));
     // this.#emitter.on('change', () => {
@@ -37,12 +39,18 @@ class UserStore {
     return this.#user;
   }
 
+  getIsLoading() {
+    return this.#isLoading;
+  }
+
   setState(user: User) {
     this.#user.isAuth = user.isAuth;
     this.#user.email = user.email;
     this.#user.username = user.username;
-    // const url = new URL(window.location.href);
-    // Actions.renderHeader(url.pathname.toString());
+
+    this.#isLoading = false;
+    const url = new URL(window.location.href);
+    Actions.renderHeader(url.pathname.toString());
     // this.#emitter.emit('change');
   }
 
@@ -62,6 +70,7 @@ class UserStore {
   }
 
   async checkAuth() {
+    this.#isLoading = true;
     try {
       const response = await apiClient.get({
         path: 'auth/session',

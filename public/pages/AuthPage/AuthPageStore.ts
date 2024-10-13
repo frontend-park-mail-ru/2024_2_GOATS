@@ -3,6 +3,7 @@ import { dispatcher } from 'flux/Dispatcher';
 import { AuthPage } from './AuthPage';
 import { apiClient } from 'modules/ApiClient';
 import { Actions } from 'flux/Actions';
+import { router } from 'modules/Router';
 
 class AuthPageStore {
   constructor() {
@@ -35,13 +36,13 @@ class AuthPageStore {
         body: { email: emailValue, password: passwordValue },
       });
 
-      const filmsNav = document.querySelector(
-        `[data-section="films"]`,
-      ) as HTMLElement;
+      // const filmsNav = document.querySelector(
+      //   `[data-section="films"]`,
+      // ) as HTMLElement;
 
-      if (filmsNav) {
-        // goToPage(filmsNav);
-      }
+      // if (filmsNav) {
+      router.go('/');
+      // }
     } catch (e: any) {
       if (e.status === 404) {
         this.throwAuthError('Пользователь с таким e-mail не найден');

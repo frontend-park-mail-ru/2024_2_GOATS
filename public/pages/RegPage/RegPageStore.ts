@@ -2,6 +2,7 @@ import { ActionTypes } from 'flux/ActionTypes';
 import { dispatcher } from 'flux/Dispatcher';
 import { RegPage } from './RegPage';
 import { apiClient } from 'modules/ApiClient';
+import { router } from 'modules/Router';
 
 class RegPageStore {
   constructor() {
@@ -43,13 +44,13 @@ class RegPageStore {
         },
       });
 
-      const filmsNav = document.querySelector(
-        `[data-section="films"]`,
-      ) as HTMLElement;
+      // const filmsNav = document.querySelector(
+      //   `[data-section="films"]`,
+      // ) as HTMLElement;
 
-      if (filmsNav) {
-        // goToPage(filmsNav);
-      }
+      // if (filmsNav) {
+      router.go('/');
+      // }
     } catch (e: any) {
       if (e.status === 409) {
         this.throwRegError('Такой пользователь уже существует');

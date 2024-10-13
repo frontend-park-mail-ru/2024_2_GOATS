@@ -10,28 +10,6 @@ import { router } from 'modules/Router';
 // const { EventEmitter } = require('events')
 import { EventEmitter } from 'events';
 
-class ShoeStore extends EventEmitter {
-  constructor() {
-    super();
-  }
-
-  getShoes(): string {
-    return 'dfdf';
-  }
-
-  emitChange(): void {
-    this.emit('change');
-  }
-
-  addChangeListener(callback: (event: any) => void): void {
-    this.on('change', callback);
-  }
-
-  removeChangeListener(callback: (event: any) => void): void {
-    this.removeListener('change', callback);
-  }
-}
-
 const root = document.getElementById('root') as HTMLElement;
 const pageElement = document.createElement('main');
 const headerElement = document.createElement('header');
@@ -48,13 +26,11 @@ const mockFunction = () => {
   console.log(mainPageStore);
 };
 
-const test = new ShoeStore();
-
 initialStore.start();
 
-setTimeout(() => {
-  router.start();
-}, 200);
+// setTimeout(() => {
+router.start();
+// }, 200);
 
 // const rootElement = document.getElementById('root') as HTMLElement;
 // const headerElement = document.createElement('header');

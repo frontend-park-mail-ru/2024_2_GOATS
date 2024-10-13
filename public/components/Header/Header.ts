@@ -8,11 +8,6 @@ import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 import { PageConfig } from 'types/pages';
 import { userStore } from 'flux/UserStore';
 
-type State = {
-  activeHeaderLink: HTMLElement | null;
-  navElements: Record<string, HTMLElement>;
-};
-
 function clickHandler(event: MouseEvent, config: any) {
   if (event.target instanceof HTMLAnchorElement) {
     event.preventDefault();
