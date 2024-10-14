@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.series-card {
+  width: 320px;
+  cursor: pointer;
+
+  &__image {
+    width: 100%;
+    height: 180px;
+  }
+
+  &__title {
+    padding-top: 5px;
+    font-size: 18px;
+  }
+}
