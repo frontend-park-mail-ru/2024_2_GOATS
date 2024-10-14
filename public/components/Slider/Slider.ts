@@ -1,12 +1,14 @@
 import { Card } from 'components/Card/Card';
 import { SeriesCard } from 'components/SeriesCard/SeriesCard';
+import { PersonCard } from 'components/PersonCard/PersonCard';
 import template from './Slider.hbs';
-import { MovieSelection, Series } from 'types/movie';
+import { MovieSelection, Person, Series } from 'types/movie';
 
 export class Slider {
   #parent;
   #selection;
   #series;
+  #persons;
   #id;
   #leftDiff;
   #rightDiff;
@@ -15,15 +17,19 @@ export class Slider {
     parent: HTMLElement,
     selection?: MovieSelection,
     series?: Series[],
+    persons?: Person[],
   ) {
     this.#parent = parent;
     this.#selection = selection;
     this.#series = series;
+    this.#persons = persons;
 
     if (selection) {
       this.#id = selection.id;
     } else if (series) {
       this.#id = series[0].id;
+    } else if (persons) {
+      this.#id = persons[0].id + 10;
     }
     this.#leftDiff = 0;
     this.#rightDiff = 0;
@@ -58,16 +64,19 @@ export class Slider {
 
   renderTemplate() {
     if (this.#selection) {
-      console.log('selections slider');
       this.#parent.insertAdjacentHTML(
         'beforeend',
         template({ id: this.#id, title: this.#selection.title }),
       );
     } else if (this.#series) {
-      console.log('series slider');
       this.#parent.insertAdjacentHTML(
         'beforeend',
         template({ id: this.#id, title: '' }),
+      );
+    } else if (this.#persons) {
+      this.#parent.insertAdjacentHTML(
+        'beforeend',
+        template({ id: this.#id, title: 'Актеры и создатели' }),
       );
     }
 
@@ -125,6 +134,11 @@ export class Slider {
         this.#series.forEach((series) => {
           const seriesCard = new SeriesCard(track, series);
           seriesCard.render();
+        });
+      } else if (this.#persons) {
+        this.#persons.forEach((person) => {
+          const personCard = new PersonCard(track, person);
+          personCard.render();
         });
       }
 

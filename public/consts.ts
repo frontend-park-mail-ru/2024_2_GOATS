@@ -152,3 +152,93 @@ export function setPagesConfig(
     },
   };
 }
+
+export const mockSeries = [
+  {
+    id: 1,
+    position: 1,
+    title: 'Серия 1',
+    image:
+      'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+  },
+  {
+    id: 2,
+    position: 2,
+    title: 'Серия 2',
+    image:
+      'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+  },
+  {
+    id: 3,
+    position: 3,
+    title: 'Серия 3',
+    image:
+      'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+  },
+  {
+    id: 4,
+    position: 4,
+    title: 'Серия 4',
+    image:
+      'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+  },
+  {
+    id: 5,
+    position: 5,
+    title: 'Серия 5',
+    image:
+      'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+  },
+];
+
+export const mockPersons = [
+  {
+    id: 1,
+    name: 'Джеймс Гандольфини',
+    image:
+      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
+    isDirector: true,
+  },
+  {
+    id: 2,
+    name: 'Джеймс Гандольфини',
+    image:
+      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
+    isDirector: true,
+  },
+  {
+    id: 3,
+    name: 'Джеймс Гандольфини',
+    image:
+      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
+    isDirector: false,
+  },
+  {
+    id: 4,
+    name: 'Джеймс Гандольфини',
+    image:
+      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
+    isDirector: false,
+  },
+  {
+    id: 5,
+    name: 'Джеймс Гандольфини',
+    image:
+      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
+    isDirector: false,
+  },
+  {
+    id: 6,
+    name: 'Джеймс Гандольфини',
+    image:
+      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
+    isDirector: false,
+  },
+  {
+    id: 7,
+    name: 'Джеймс Гандольфини',
+    image:
+      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
+    isDirector: false,
+  },
+];

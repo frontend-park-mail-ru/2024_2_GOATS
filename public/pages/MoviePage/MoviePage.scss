@@ -19,7 +19,7 @@
     gap: 10px;
 
     &_title {
-      font-size: 24px;
+      font-size: 30px;
 
       &_block {
         display: flex;
@@ -41,5 +41,9 @@
     &_text {
       font-size: 16px;
     }
+  }
+
+  &__persons {
+    padding-top: 30px;
   }
 }
