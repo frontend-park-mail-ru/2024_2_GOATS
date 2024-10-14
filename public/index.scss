@@ -12,11 +12,13 @@
 @import './components/ConfirmModal/ConfirmModal.scss';
 @import './components/Notifier/Notifier.scss';
 @import './components/VideoPlayer/VideoPlayer.scss';
+@import './components/MovieDescription/MovieDescription.scss';
 
 @import './pages/MainPage/MainPage.scss';
 @import './pages/AuthPage/AuthPage.scss';
 @import './pages/RegPage/RegPage.scss';
 @import './pages/CategoryPage/CategoryPage.scss';
+@import './pages//MoviePage/MoviePage.scss';
 
 body {
   margin: 0;

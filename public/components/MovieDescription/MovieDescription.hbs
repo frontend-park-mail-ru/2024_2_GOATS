@@ -1,0 +1,30 @@
+<div class='movie-description'>
+  <div class='movie-description__container'>
+    <div class='movie-description__wrapper'>
+      <img class='movie-description__title' src={{movie.titleImage}} alt='' />
+      <div class='movie-description__info'>
+        <span class='movie-description__info_rating'>{{movie.rating}}</span>
+        <span class='movie-description__info_text'>{{movie.releaseDate}},
+          {{movie.country}}
+        </span>
+      </div>
+      <p class='movie-description__text'>{{movie.shortDescription}}</p>
+      <p class='movie-description__persons'><span
+          class='movie-description__info_text'
+        >Режиссёр:</span>
+        {{movie.director}}</p>
+      <div class='movie-description__actions'>
+        <button
+          class='button movie-description__actions_show_btn'
+        >Смотреть</button>
+        <button class='button movie-description__actions_favorites_btn'>В
+          избранное</button>
+      </div>
+    </div>
+    <img
+      class='movie-description__image'
+      src={{movie.image}}
+      alt='movie-image'
+    />
+  </div>
+</div>

@@ -15,3 +15,17 @@ export type MovieSelection = {
   title: string;
   movies: Movie[];
 };
+
+export type MovieDetailed = {
+  id: number;
+  title: string;
+  titleImage: string;
+  shortDescription: string;
+  longDescription: string;
+  image: string;
+  rating: number;
+  releaseDate: string; // TODO: поменять на Date
+  country: string;
+  director: string;
+  isSerial: boolean;
+};

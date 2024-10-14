@@ -11,6 +11,7 @@ export const Urls = {
   root: '/',
   auth: '/auth',
   registration: '/registration',
+  movie: '/movie',
 };
 
 export const routerHandler = (url: URL) => {
@@ -26,6 +27,9 @@ export const routerHandler = (url: URL) => {
     case Urls.registration:
       Actions.renderHeader(Urls.registration);
       Actions.renderRegPage();
+      break;
+    case Urls.movie:
+      Actions.renderMoviePage();
       break;
 
     default:
