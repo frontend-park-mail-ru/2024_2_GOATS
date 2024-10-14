@@ -29,3 +29,10 @@ export type MovieDetailed = {
   director: string;
   isSerial: boolean;
 };
+
+export type Series = {
+  id: number;
+  position: number;
+  image: string;
+  title: string;
+};

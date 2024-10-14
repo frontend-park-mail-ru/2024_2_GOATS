@@ -1,19 +1,30 @@
-import { Card } from '../Card/Card';
+import { Card } from 'components/Card/Card';
+import { SeriesCard } from 'components/SeriesCard/SeriesCard';
 import template from './Slider.hbs';
-import { Movie, MovieSelection } from 'types/movie';
+import { MovieSelection, Series } from 'types/movie';
 
 export class Slider {
   #parent;
   #selection;
+  #series;
   #id;
   #leftDiff;
   #rightDiff;
 
-  constructor(parent: HTMLElement, selection: MovieSelection) {
+  constructor(
+    parent: HTMLElement,
+    selection?: MovieSelection,
+    series?: Series[],
+  ) {
     this.#parent = parent;
     this.#selection = selection;
+    this.#series = series;
 
-    this.#id = selection.id;
+    if (selection) {
+      this.#id = selection.id;
+    } else if (series) {
+      this.#id = series[0].id;
+    }
     this.#leftDiff = 0;
     this.#rightDiff = 0;
   }
@@ -22,11 +33,6 @@ export class Slider {
     this.renderTemplate();
   }
 
-  /**
-   * checking the slider's boundary values
-   * @param {}
-   * @returns {}
-   */
   checkBtns() {
     const btnNext = document.getElementById(
       `slider-btn-next-${this.#id}`,
@@ -51,10 +57,19 @@ export class Slider {
   }
 
   renderTemplate() {
-    this.#parent.insertAdjacentHTML(
-      'beforeend',
-      template({ id: this.#id, title: this.#selection.title }),
-    );
+    if (this.#selection) {
+      console.log('selections slider');
+      this.#parent.insertAdjacentHTML(
+        'beforeend',
+        template({ id: this.#id, title: this.#selection.title }),
+      );
+    } else if (this.#series) {
+      console.log('series slider');
+      this.#parent.insertAdjacentHTML(
+        'beforeend',
+        template({ id: this.#id, title: '' }),
+      );
+    }
 
     const container = document.querySelector('.slider__container');
     const track = document.getElementById(`slider-${this.#id}`);
@@ -100,10 +115,18 @@ export class Slider {
 
         this.checkBtns();
       });
-      this.#selection.movies.forEach((movie) => {
-        const card = new Card(track, movie);
-        card.render();
-      });
+
+      if (this.#selection) {
+        this.#selection.movies.forEach((movie) => {
+          const card = new Card(track, movie);
+          card.render();
+        });
+      } else if (this.#series) {
+        this.#series.forEach((series) => {
+          const seriesCard = new SeriesCard(track, series);
+          seriesCard.render();
+        });
+      }
 
       // Записываем разницу между track и container для скролла вправо
       this.#rightDiff = track.clientWidth - container.clientWidth;
