@@ -7,6 +7,7 @@ import { regPageStore } from 'store/RegPageStore';
 import { headerStore } from 'store/HeaderStore';
 import { mainPageStore } from 'store/MainPageStore';
 import { moviePageStore } from 'store/MoviePageStore';
+import { videoPageStore } from 'store/VideoPageStore';
 import { router } from 'modules/Router';
 
 const root = document.getElementById('root') as HTMLElement;
@@ -24,6 +25,7 @@ const mockFunction = () => {
   console.log(regPageStore);
   console.log(mainPageStore);
   console.log(moviePageStore);
+  console.log(videoPageStore);
 };
 
 initialStore.start();

@@ -12,6 +12,7 @@ export const Urls = {
   auth: '/auth',
   registration: '/registration',
   movie: '/movie',
+  video: '/video',
 };
 
 export const routerHandler = (url: URL) => {
@@ -31,7 +32,9 @@ export const routerHandler = (url: URL) => {
     case Urls.movie:
       Actions.renderMoviePage();
       break;
-
+    case Urls.video:
+      Actions.renderVideoPage();
+      break;
     default:
       console.log('error', url.pathname);
   }

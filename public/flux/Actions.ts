@@ -23,6 +23,11 @@ export const Actions = {
       type: ActionTypes.RENDER_MOVIE_PAGE,
     });
   },
+  renderVideoPage() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_VIDEO_PAGE,
+    });
+  },
   renderHeader(url: string) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_HEADER,
