@@ -1,8 +1,12 @@
 <div class='video__wrapper'>
-  <video id='video' class='video'>
-    <source src={{url}} type='video/mp4' />
-  </video>
-
+  <span class='video__back'>
+    Назад
+  </span>
+  <div class='video__container'>
+    <video id='video' class='video'>
+      <source src={{url}} type='video/mp4' />
+    </video>
+  </div>
   <div class='video__controls'>
     <div class='video__controls_progress'>
       <span id='current-time' class='video__controls_timer'>00:00</span>
@@ -19,10 +23,13 @@
           src='assets/icons/nextSeries.svg'
           alt='prev-series'
         />
-        <span
-          id='play-pause'
-          class='video__controls_icon video__controls_icon_play'
-        ></span>
+        <span class='video__controls_icon_wrapper'>
+          <span
+            id='play-pause'
+            class='video__controls_icon video__controls_icon_play'
+          ></span>
+        </span>
+
         <img
           id='next-series-button'
           class='video__controls_icon'
