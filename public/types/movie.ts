@@ -36,3 +36,11 @@ export type Series = {
   image: string;
   title: string;
 };
+
+//TODO: После мержа перенести
+export type Person = {
+  id: number;
+  name: string;
+  image: string;
+  isDirector: boolean;
+};
