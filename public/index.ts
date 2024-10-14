@@ -12,9 +12,12 @@ import { router } from 'modules/Router';
 const root = document.getElementById('root') as HTMLElement;
 const pageElement = document.createElement('main');
 const headerElement = document.createElement('header');
+const footerElement = document.createElement('footer');
+
 pageElement.id = 'page-element';
 root.appendChild(headerElement);
 root.appendChild(pageElement);
+root.appendChild(footerElement);
 
 const mockFunction = () => {
   console.log(initialStore);

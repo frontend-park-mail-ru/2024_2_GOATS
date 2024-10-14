@@ -6,6 +6,7 @@ import { User } from 'types/user';
 import { apiClient } from './ApiClient';
 import { setPagesConfig } from '../consts';
 import { Actions } from 'flux/Actions';
+import { footer } from 'components/Footer/Footer';
 
 export const Urls = {
   root: '/',
@@ -19,18 +20,23 @@ export const routerHandler = (url: URL) => {
     case Urls.root:
       Actions.renderHeader(Urls.root);
       Actions.renderMainPage();
+      footer.render(Urls.root);
       break;
     case Urls.auth:
       Actions.renderHeader(Urls.auth);
       Actions.renderAuthPage();
+      footer.render(Urls.auth);
       break;
     case Urls.registration:
       Actions.renderHeader(Urls.registration);
       Actions.renderRegPage();
+      footer.render(Urls.registration);
+
       break;
     case Urls.actor:
       // Actions.renderHeader(Urls.registration);
       Actions.renderActorPage();
+      footer.render(Urls.actor);
       break;
 
     default:
