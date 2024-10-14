@@ -23,7 +23,10 @@ export class MoviePage {
     const movieDescriptionContainer = document.getElementById(
       'movie-description-container',
     ) as HTMLElement;
-    const movieDescription = new MovieDescription(movieDescriptionContainer);
+    const movieDescription = new MovieDescription(
+      movieDescriptionContainer,
+      () => console.log('favorite'),
+    );
     movieDescription.render();
 
     const seriesBlock = document.getElementById(
