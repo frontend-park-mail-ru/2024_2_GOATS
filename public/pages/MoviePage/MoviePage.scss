@@ -10,4 +10,36 @@
     margin: 0 auto;
     margin-top: 16px;
   }
+
+  &__description {
+    width: 60%;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &_title {
+      font-size: 24px;
+
+      &_block {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+    }
+
+    &_warning {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      &_text {
+        font-size: 14px;
+        color: $brand-dull;
+      }
+    }
+    &_text {
+      font-size: 16px;
+    }
+  }
 }

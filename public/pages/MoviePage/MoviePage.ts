@@ -75,7 +75,9 @@ export class MoviePage {
     const pageElement = document.getElementsByTagName('main')[0];
     this.#loader = new Loader(pageElement, template());
     if (this.#movie) {
-      pageElement.innerHTML = template();
+      pageElement.innerHTML = template({
+        longDescription: this.#movie.longDescription,
+      });
       this.renderBlocks();
     } else {
       this.#loader.render();
