@@ -42,6 +42,7 @@ export const routerHandler = (url: URL) => {
       break;
     case Urls.movie:
       Actions.renderMoviePage();
+      footer.render(Urls.movie);
       break;
     case Urls.video:
       Actions.renderVideoPage();
