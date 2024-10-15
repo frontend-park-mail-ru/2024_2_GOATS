@@ -7,11 +7,14 @@ export class VideoPlayer {
   #url;
   #isPlaying;
   #controls!: VideoControls;
+  #hideControlsTimeout!: number;
+  #onBackClick;
 
-  constructor(parent: HTMLElement, url: string) {
+  constructor(parent: HTMLElement, url: string, onBackClick: () => void) {
     this.#parent = parent;
     this.#url = url;
     this.#isPlaying = false;
+    this.#onBackClick = onBackClick;
   }
 
   render() {
@@ -40,16 +43,34 @@ export class VideoPlayer {
       progressBar: document.querySelector(
         '.video__progress_bar',
       ) as HTMLElement,
-      volumeBtn: document.getElementById('volume-button') as HTMLElement,
-      volume: document.getElementById('volume') as HTMLInputElement,
+      volume: document.getElementById('volume-input') as HTMLInputElement,
+      isVolumeOpened: false,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       isFullScreen: false,
+      rewindBackButton: document.getElementById(
+        'rewind-back-button',
+      ) as HTMLElement,
+      rewindFrontButton: document.getElementById(
+        'rewind-front-button',
+      ) as HTMLElement,
+      videoBackButton: document.getElementById(
+        'video-back-button',
+      ) as HTMLElement,
+      videoControls: document.getElementById('video-controls') as HTMLElement,
     };
   }
 
   // Добавляем все события
   addEventListeners() {
-    const { video, playOrPause, fullOrSmallScreen } = this.#controls;
+    const {
+      video,
+      playOrPause,
+      fullOrSmallScreen,
+      rewindBackButton,
+      rewindFrontButton,
+      volume,
+      playbackline,
+    } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
@@ -60,16 +81,42 @@ export class VideoPlayer {
     playOrPause.addEventListener('click', this.togglePlayback.bind(this));
     video.addEventListener('click', this.togglePlayback.bind(this));
 
+    rewindBackButton.addEventListener('click', this.rewindBack.bind(this));
+    rewindFrontButton.addEventListener('click', this.rewindFront.bind(this));
+
     fullOrSmallScreen.addEventListener(
       'click',
       this.toggleFullScreen.bind(this),
     );
 
-    this.addVolumeControls();
-    this.addProgressControls();
+    volume.addEventListener('input', this.updateVolumeByClick.bind(this));
+
+    playbackline.addEventListener('click', (e: MouseEvent) =>
+      this.updateProgressByClick(e),
+    );
+
+    document.addEventListener(
+      'fullscreenchange',
+      this.checkScreenButton.bind(this),
+    );
+
+    this.initAutoHideControls();
+    this.handleBackButtonClick();
+
+    document.addEventListener('keydown', this.handleKeyPress.bind(this));
   }
 
-  // Обработчики событий вынесены в отдельные методы
+  handleKeyPress(event: KeyboardEvent) {
+    const { video, playOrPause } = this.#controls;
+
+    if (event.key === ' ') {
+      console.log('space');
+      event.preventDefault(); // Предотвращаем стандартное поведение нажатия пробела
+      this.togglePlayback();
+    }
+  }
+
+  // Обработчики событий в отдельных методах
   updateDuration() {
     const { video, duration } = this.#controls;
     duration.textContent = timeFormatter(video.duration);
@@ -90,11 +137,11 @@ export class VideoPlayer {
   onVideoEnd() {
     const { video, playOrPause } = this.#controls;
     video.pause();
-    // playOrPause.textContent = 'Play';
     playOrPause.classList.remove('paused');
   }
 
   togglePlayback() {
+    console.log('play-back');
     const { video } = this.#controls;
     if (video.paused) {
       video.play();
@@ -134,28 +181,71 @@ export class VideoPlayer {
     }
   }
 
-  // Управление звуком
-  addVolumeControls() {
-    const { volumeBtn, volume, video } = this.#controls;
+  checkScreenButton() {
+    const { isFullScreen } = this.#controls;
+    if (document.fullscreenElement === null && isFullScreen) {
+      this.#controls.isFullScreen = false;
+      this.#controls.fullOrSmallScreen.classList.add(
+        'video__controls_icon_full',
+      );
+      this.#controls.fullOrSmallScreen.classList.remove(
+        'video__controls_icon_small',
+      );
+    }
+  }
 
-    volumeBtn.addEventListener('click', () => {
-      volume.style.display =
-        volume.style.display === 'block' ? 'none' : 'block';
-    });
-
-    volume.addEventListener('input', () => {
-      video.volume = Number(volume.value);
-    });
+  updateVolumeByClick() {
+    const { volume, video } = this.#controls;
+    video.volume = Number(volume.value);
   }
 
   // Управление прогрессом воспроизведения
-  addProgressControls() {
+  updateProgressByClick(e: MouseEvent) {
     const { playbackline, video } = this.#controls;
 
-    playbackline.addEventListener('click', (e: MouseEvent) => {
-      const timelineWidth = playbackline.clientWidth;
-      const newTime = (e.offsetX / timelineWidth) * video.duration;
-      video.currentTime = newTime;
+    const timelineWidth = playbackline.clientWidth;
+    const newTime = (e.offsetX / timelineWidth) * video.duration;
+    video.currentTime = newTime;
+  }
+
+  rewindBack() {
+    const { video } = this.#controls;
+    video.currentTime -= 15;
+  }
+
+  rewindFront() {
+    const { video } = this.#controls;
+    video.currentTime += 15;
+  }
+
+  initAutoHideControls() {
+    const { videoWrapper } = this.#controls;
+
+    videoWrapper.addEventListener(
+      'mousemove',
+      this.resetHideControlsTimer.bind(this),
+    );
+    this.resetHideControlsTimer();
+  }
+
+  // Показываем и скрываем плеер по таймеру
+  resetHideControlsTimer() {
+    clearTimeout(this.#hideControlsTimeout);
+
+    this.#controls.videoControls.classList.remove('video__controls_hidden');
+    this.#controls.videoBackButton.classList.remove('video__controls_hidden');
+
+    this.#hideControlsTimeout = window.setTimeout(() => {
+      this.#controls.videoControls.classList.add('video__controls_hidden');
+      this.#controls.videoBackButton.classList.add('video__controls_hidden');
+    }, 3000);
+  }
+
+  handleBackButtonClick() {
+    this.#controls.videoBackButton.addEventListener('click', (event) => {
+      console.log('button');
+      event.stopPropagation();
+      this.#onBackClick();
     });
   }
 }

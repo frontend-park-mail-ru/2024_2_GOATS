@@ -3,18 +3,77 @@
 .video {
   width: 100%;
 
-  &__controls {
+  &__wrapper {
+    height: 100%;
+    position: relative;
+    width: 100%;
+    z-index: 10;
+    background-color: $background;
+  }
+
+  &__container {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
+  }
+
+  &__controls {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
+    padding: 10px 50px 20px 50px;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    transition: opacity 0.5s ease;
+
+    &_progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &_actions {
+      display: flex;
+      justify-content: space-between;
+
+      &_right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &_left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
 
     &_icon {
-      min-width: 32px;
-      width: 32px;
-      height: 32px;
+      display: inline-block;
+      min-width: 36px;
+      width: 36px;
+      height: 36px;
       cursor: pointer;
       background-repeat: no-repeat;
-      background-size: 32px;
+      background-size: 36px;
+
+      &_wrapper {
+        background-color: $brand;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
 
       &_play {
         background-image: url('assets/icons/playIcon.svg');
@@ -33,31 +92,47 @@
       }
     }
 
+    &_timer {
+      width: 50px;
+      // color: $text-secondary;
+    }
+
     &_volume {
-      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
       &_input {
-        position: absolute;
-        display: none;
+        -webkit-appearance: none;
         width: 80px;
-        right: -25px;
-        bottom: 80px;
         height: 5px;
-        background-color: transparent;
+        background-color: #fff;
         border: none;
         cursor: pointer;
-        transform: rotate(270deg);
+        border-radius: 5px;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 15px;
+          height: 15px;
+          background-color: $brand;
+          border-radius: 50%;
+          cursor: pointer;
+        }
       }
     }
 
-    &_timer {
-      width: 80px;
+    &_hidden {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
     }
   }
 
   &__progress {
     top: 3px;
-    height: 4px;
+    height: 6px;
+    border-radius: 10px;
     background-color: #ddd;
     width: 100%;
     cursor: pointer;
@@ -67,6 +142,32 @@
       width: 0;
       background-color: $brand;
       transition: width 0.1s linear;
+      border-radius: 10px;
     }
   }
+
+  &__back {
+    cursor: pointer;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+  }
 }
+
+#prev-series-button {
+  transform: rotate(180deg);
+}
+
+// .hidden {
+//   opacity: 0;
+//   transition: opacity 0.5s ease;
+//   pointer-events: none;
+// }
+
+// #video-controls {
+//   opacity: 1;
+//   transition: opacity 0.5s ease;
+// }

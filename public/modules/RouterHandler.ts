@@ -12,6 +12,8 @@ export const Urls = {
   root: '/',
   auth: '/auth',
   registration: '/registration',
+  movie: '/movie',
+  video: '/video',
   actor: '/person',
 };
 
@@ -37,6 +39,12 @@ export const routerHandler = (url: URL) => {
       // Actions.renderHeader(Urls.registration);
       Actions.renderActorPage();
       footer.render(Urls.actor);
+      break;
+    case Urls.movie:
+      Actions.renderMoviePage();
+      break;
+    case Urls.video:
+      Actions.renderVideoPage();
       break;
 
     default:

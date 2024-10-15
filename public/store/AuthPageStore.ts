@@ -2,9 +2,9 @@ import { ActionTypes } from 'flux/ActionTypes';
 import { dispatcher } from 'flux/Dispatcher';
 import { AuthPage } from 'pages/AuthPage/AuthPage';
 import { apiClient } from 'modules/ApiClient';
-import { Actions } from 'flux/Actions';
 import { router } from 'modules/Router';
 import { userStore } from 'store/UserStore';
+import { throwBackendError, removeBackendError } from 'modules/BackendErrors';
 
 class AuthPageStore {
   constructor() {
@@ -16,21 +16,9 @@ class AuthPageStore {
     authPage.render();
   }
 
-  throwAuthError(authErrorMessage: string): void {
-    const errorBlock = document.getElementById('auth-error') as HTMLElement;
-    errorBlock.innerHTML = authErrorMessage;
-    errorBlock.classList.add('visible');
-  }
-
-  removeAuthError(): void {
-    const errorBlock = document.getElementById('auth-error') as HTMLElement;
-    errorBlock.innerHTML = '';
-    errorBlock.classList.remove('visible');
-  }
-
   async authRequest(emailValue: string, passwordValue: string) {
     try {
-      this.removeAuthError();
+      removeBackendError('auth');
       await apiClient.post({
         path: 'auth/login',
         body: { email: emailValue, password: passwordValue },
@@ -40,9 +28,9 @@ class AuthPageStore {
       router.go('/');
     } catch (e: any) {
       if (e.status === 404) {
-        this.throwAuthError('Пользователь с таким e-mail не найден');
+        throwBackendError('auth', 'Пользователь с таким e-mail не найден');
       } else {
-        this.throwAuthError('Что-то пошло не так. Попробуйте позже');
+        throwBackendError('auth', 'Что-то пошло не так. Попробуйте позже');
       }
     }
   }

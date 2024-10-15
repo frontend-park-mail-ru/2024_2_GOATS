@@ -1,50 +1,79 @@
 <div class='video__wrapper'>
-  <video id='video' class='video'>
-    <source src={{url}} type='video/mp4' />
-  </video>
+  <img
+    id='video-back-button'
+    class='video__back'
+    src='assets/icons/closeIcon.svg'
+  />
+  <div class='video__container'>
+    <video id='video' class='video'>
+      <source src={{url}} type='video/mp4' />
+    </video>
+  </div>
+  <div id='video-controls' class='video__controls'>
+    <div class='video__controls_progress'>
+      <span id='current-time' class='video__controls_timer'>00:00</span>
+      <div class='video__progress'>
+        <div class='video__progress_bar'></div>
+      </div>
+      <span class='video__controls_timer' id='duration'>00:00</span>
+    </div>
+    <div class='video__controls_actions'>
+      <div class='video__controls_actions_left'>
+        <img
+          id='prev-series-button'
+          class='video__controls_icon'
+          src='assets/icons/nextSeries.svg'
+          alt='prev-series'
+        />
+        <span class='video__controls_icon_wrapper'>
+          <span
+            id='play-pause'
+            class='video__controls_icon video__controls_icon_play'
+          ></span>
+        </span>
 
-  <div class='video__controls'>
-    <span
-      id='play-pause'
-      class='video__controls_icon video__controls_icon_play'
-    ></span>
-    <div class='video__controls_volume'>
-      <img
-        id='volume-button'
-        class='video__controls_icon'
-        src='assets/icons/volumeUp.svg'
-        alt='volume'
-      />
-      <input
-        class='video__controls_volume_input'
-        type='range'
-        id='volume'
-        min='0'
-        max='1'
-        step='0.01'
-        value='1'
-      />
+        <img
+          id='next-series-button'
+          class='video__controls_icon'
+          src='assets/icons/nextSeries.svg'
+          alt='next-series'
+        />
+      </div>
+
+      <div class='video__controls_actions_right'>
+        <img
+          id='rewind-back-button'
+          class='video__controls_icon'
+          src='assets/icons/rewindBackIcon.svg'
+          alt='rewind-back'
+        />
+        <img
+          id='rewind-front-button'
+          class='video__controls_icon'
+          src='assets/icons/rewindFrontIcon.svg'
+          alt='rewind-back'
+        />
+        <div id='volume-block' class='video__controls_volume'>
+          <img
+            class='video__controls_icon'
+            src='assets/icons/volumeUp.svg'
+            alt='volume'
+          />
+          <input
+            class='video__controls_volume_input'
+            type='range'
+            id='volume-input'
+            min='0'
+            max='1'
+            step='0.01'
+            value='1'
+          />
+        </div>
+        <span
+          id='full-small'
+          class='video__controls_icon video__controls_icon_full'
+        ></span>
+      </div>
     </div>
-    <img
-      id='rewind-back-button'
-      class='video__controls_icon'
-      src='assets/icons/rewindBackIcon.svg'
-      alt='rewind-back'
-    />
-    <img
-      id='rewind-front-button'
-      class='video__controls_icon'
-      src='assets/icons/rewindFrontIcon.svg'
-      alt='rewind-back'
-    />
-    <span id='current-time' class='video__controls_timer'>00:00</span>
-    <div class='video__progress'>
-      <div class='video__progress_bar'></div>
-    </div>
-    <span class='video__controls_timer' id='duration'>00:00</span>
-    <span
-      id='full-small'
-      class='video__controls_icon video__controls_icon_full'
-    ></span>
   </div>
 </div>

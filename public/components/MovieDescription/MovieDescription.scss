@@ -1,0 +1,83 @@
+@import '../../styles/variables.scss';
+
+.movie-description {
+  width: 100%;
+  padding-left: calc((100vw - $content-width) / 2);
+
+  &__container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    z-index: 1;
+    box-shadow:
+      344px 17px 97px 0px rgba(0, 0, 0, 0.02),
+      220px 11px 88px 0px rgba(0, 0, 0, 0.15),
+      124px 6px 74px 0px rgba(0, 0, 0, 0.5),
+      55px 3px 55px 0px rgba(0, 0, 0, 0.85),
+      14px 1px 30px 0px rgba(0, 0, 0, 0.98);
+  }
+
+  &__title {
+    // font-size: 70px;
+    width: 80%;
+    height: auto;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    &_rating {
+      padding: 2px 10px;
+      text-align: center;
+      color: $brand-secondary;
+      background-color: $card-high-rating;
+      border-radius: 10px;
+    }
+
+    &_text {
+      color: $brand-dull;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 30px;
+
+    &_show_btn,
+    &_favorites_btn {
+      color: $brand-secondary;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    &_show_btn {
+      background-color: $brand;
+
+      &:hover {
+        background-color: $button-background-hover;
+      }
+    }
+
+    &_favorites_btn {
+      background-color: $button-background-secondary;
+
+      &:hover {
+        background-color: $button-background-secondary-hover;
+      }
+    }
+  }
+
+  &__image {
+    width: 65%;
+    height: auto;
+    object-fit: cover;
+  }
+}

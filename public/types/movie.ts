@@ -15,3 +15,32 @@ export type MovieSelection = {
   title: string;
   movies: Movie[];
 };
+
+export type MovieDetailed = {
+  id: number;
+  title: string;
+  titleImage: string;
+  shortDescription: string;
+  longDescription: string;
+  image: string;
+  rating: number;
+  releaseDate: string; // TODO: поменять на Date
+  country: string;
+  director: string;
+  isSerial: boolean;
+};
+
+export type Series = {
+  id: number;
+  position: number;
+  image: string;
+  title: string;
+};
+
+//TODO: После мержа перенести
+export type Person = {
+  id: number;
+  name: string;
+  image: string;
+  isDirector: boolean;
+};

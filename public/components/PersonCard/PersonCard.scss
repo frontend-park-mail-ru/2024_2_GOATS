@@ -1,0 +1,25 @@
+@import '../../styles/variables.scss';
+
+.person-card {
+  width: 180px;
+  cursor: pointer;
+
+  &__image {
+    width: 100%;
+    height: 180px;
+    border-radius: 50%;
+  }
+
+  &__title {
+    text-align: center;
+    padding-top: 5px;
+    font-size: 16px;
+  }
+
+  &__subtitle {
+    padding-top: 2px;
+    font-size: 14px;
+    color: $brand-dull;
+    text-align: center;
+  }
+}

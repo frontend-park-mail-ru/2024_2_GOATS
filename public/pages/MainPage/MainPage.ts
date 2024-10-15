@@ -3,9 +3,7 @@ import { Slider } from '../../components/Slider/Slider';
 import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
 import { MovieSelection } from 'types/movie';
-import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { mainPageStore } from 'store/MainPageStore';
-import { EventEmitter } from 'events';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -20,11 +18,6 @@ export class MainPage {
     this.renderTemplate();
   }
 
-  /**
-   * Render movies blocks
-   * @param {}
-   * @returns {}
-   */
   async renderBlocks() {
     const trendMoviesBlock = document.getElementById('trend-movies-block');
     if (trendMoviesBlock) {
@@ -48,16 +41,6 @@ export class MainPage {
       const slider = new Slider(newBlock, selection);
       slider.render();
     });
-
-    const videoContainer = document.getElementById('test-video');
-    if (videoContainer) {
-      const video = new VideoPlayer(
-        videoContainer,
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      );
-
-      video.render();
-    }
   }
 
   renderTemplate() {

@@ -12,6 +12,9 @@
 @import './components/ConfirmModal/ConfirmModal.scss';
 @import './components/Notifier/Notifier.scss';
 @import './components/VideoPlayer/VideoPlayer.scss';
+@import './components/MovieDescription/MovieDescription.scss';
+@import './components/SeriesCard/SeriesCard.scss';
+@import './components/PersonCard/PersonCard.scss';
 @import './components/Footer/Footer.scss';
 
 @import './pages/MainPage/MainPage.scss';
@@ -19,6 +22,8 @@
 @import './pages/RegPage/RegPage.scss';
 @import './pages/CategoryPage/CategoryPage.scss';
 @import './pages/ActorPage/ActorPage.scss';
+@import './pages/MoviePage/MoviePage.scss';
+@import './pages/VideoPage/VideoPage.scss';
 
 body {
   margin: 0;
