@@ -9,6 +9,7 @@ import { mainPageStore } from 'store/MainPageStore';
 import { moviePageStore } from 'store/MoviePageStore';
 import { videoPageStore } from 'store/VideoPageStore';
 import { actorPageStore } from 'store/ActorPageStore';
+import { profilePageStore } from 'store/ProfilePageStore';
 import { router } from 'modules/Router';
 
 const root = document.getElementById('root') as HTMLElement;
@@ -31,6 +32,7 @@ const mockFunction = () => {
   console.log(moviePageStore);
   console.log(videoPageStore);
   console.log(actorPageStore);
+  console.log(profilePageStore);
 };
 
 initialStore.start();

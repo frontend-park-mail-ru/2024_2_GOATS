@@ -44,11 +44,6 @@ export class ActorPage {
   }
 
   renderTemplate() {
-    const rootElem = document.getElementById('root');
-    if (rootElem) {
-      rootElem.classList.add('root-black');
-      rootElem.classList.remove('root-image');
-    }
     const pageElement = document.getElementsByTagName('main')[0];
     pageElement.innerHTML = template({ actor: this.getActorInfo() });
 
