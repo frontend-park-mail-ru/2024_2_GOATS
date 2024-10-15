@@ -102,16 +102,18 @@ export class VideoPlayer {
 
     this.initAutoHideControls();
     this.handleBackButtonClick();
+
+    document.addEventListener('keydown', this.handleKeyPress.bind(this));
   }
 
-  initAutoHideControls() {
-    const { videoWrapper } = this.#controls;
+  handleKeyPress(event: KeyboardEvent) {
+    const { video, playOrPause } = this.#controls;
 
-    videoWrapper.addEventListener(
-      'mousemove',
-      this.resetHideControlsTimer.bind(this),
-    );
-    this.resetHideControlsTimer();
+    if (event.key === ' ') {
+      console.log('space');
+      event.preventDefault(); // Предотвращаем стандартное поведение нажатия пробела
+      this.togglePlayback();
+    }
   }
 
   // Обработчики событий в отдельных методах
@@ -139,6 +141,7 @@ export class VideoPlayer {
   }
 
   togglePlayback() {
+    console.log('play-back');
     const { video } = this.#controls;
     if (video.paused) {
       video.play();
@@ -215,6 +218,16 @@ export class VideoPlayer {
     video.currentTime += 15;
   }
 
+  initAutoHideControls() {
+    const { videoWrapper } = this.#controls;
+
+    videoWrapper.addEventListener(
+      'mousemove',
+      this.resetHideControlsTimer.bind(this),
+    );
+    this.resetHideControlsTimer();
+  }
+
   // Показываем и скрываем плеер по таймеру
   resetHideControlsTimer() {
     clearTimeout(this.#hideControlsTimeout);
@@ -230,6 +243,7 @@ export class VideoPlayer {
 
   handleBackButtonClick() {
     this.#controls.videoBackButton.addEventListener('click', (event) => {
+      console.log('button');
       event.stopPropagation();
       this.#onBackClick();
     });

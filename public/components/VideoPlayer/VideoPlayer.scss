@@ -7,7 +7,7 @@
     height: 100%;
     position: relative;
     width: 100%;
-    z-index: 1000;
+    z-index: 10;
     background-color: $background;
   }
 
@@ -147,6 +147,10 @@
   }
 
   &__back {
+    cursor: pointer;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
     position: absolute;
     top: 50px;
     left: 50px;
