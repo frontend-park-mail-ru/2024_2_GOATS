@@ -12,4 +12,6 @@ export type VideoControls = {
   isFullScreen: boolean;
   rewindBackButton: HTMLElement;
   rewindFrontButton: HTMLElement;
+  videoControls: HTMLElement;
+  videoBackButton: HTMLElement;
 };

@@ -1,3 +1,4 @@
+import { router } from 'modules/Router';
 import { Loader } from '../../components/Loader/Loader';
 import template from './VideoPage.hbs';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
@@ -22,7 +23,9 @@ export class VideoPage {
       const videoPage = document.getElementById(
         'video-page-container',
       ) as HTMLElement;
-      const video = new VideoPlayer(videoPage, this.#video);
+      const video = new VideoPlayer(videoPage, this.#video, () =>
+        router.go('/movie'),
+      );
       video.render();
     } else {
       this.#loader.render();

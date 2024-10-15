@@ -31,6 +31,7 @@
       rgba(0, 0, 0, 0.7) 0%,
       rgba(0, 0, 0, 0) 100%
     );
+    transition: opacity 0.5s ease;
 
     &_progress {
       display: flex;
@@ -120,6 +121,12 @@
         }
       }
     }
+
+    &_hidden {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
   }
 
   &__progress {
@@ -149,3 +156,14 @@
 #prev-series-button {
   transform: rotate(180deg);
 }
+
+// .hidden {
+//   opacity: 0;
+//   transition: opacity 0.5s ease;
+//   pointer-events: none;
+// }
+
+// #video-controls {
+//   opacity: 1;
+//   transition: opacity 0.5s ease;
+// }

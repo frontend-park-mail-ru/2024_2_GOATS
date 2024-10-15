@@ -7,11 +7,14 @@ export class VideoPlayer {
   #url;
   #isPlaying;
   #controls!: VideoControls;
+  #hideControlsTimeout!: number;
+  #onBackClick;
 
-  constructor(parent: HTMLElement, url: string) {
+  constructor(parent: HTMLElement, url: string, onBackClick: () => void) {
     this.#parent = parent;
     this.#url = url;
     this.#isPlaying = false;
+    this.#onBackClick = onBackClick;
   }
 
   render() {
@@ -50,6 +53,10 @@ export class VideoPlayer {
       rewindFrontButton: document.getElementById(
         'rewind-front-button',
       ) as HTMLElement,
+      videoBackButton: document.getElementById(
+        'video-back-button',
+      ) as HTMLElement,
+      videoControls: document.getElementById('video-controls') as HTMLElement,
     };
   }
 
@@ -92,9 +99,22 @@ export class VideoPlayer {
       'fullscreenchange',
       this.checkScreenButton.bind(this),
     );
+
+    this.initAutoHideControls();
+    this.handleBackButtonClick();
   }
 
-  // Обработчики событий вынесены в отдельные методы
+  initAutoHideControls() {
+    const { videoWrapper } = this.#controls;
+
+    videoWrapper.addEventListener(
+      'mousemove',
+      this.resetHideControlsTimer.bind(this),
+    );
+    this.resetHideControlsTimer();
+  }
+
+  // Обработчики событий в отдельных методах
   updateDuration() {
     const { video, duration } = this.#controls;
     duration.textContent = timeFormatter(video.duration);
@@ -193,5 +213,25 @@ export class VideoPlayer {
   rewindFront() {
     const { video } = this.#controls;
     video.currentTime += 15;
+  }
+
+  // Показываем и скрываем плеер по таймеру
+  resetHideControlsTimer() {
+    clearTimeout(this.#hideControlsTimeout);
+
+    this.#controls.videoControls.classList.remove('video__controls_hidden');
+    this.#controls.videoBackButton.classList.remove('video__controls_hidden');
+
+    this.#hideControlsTimeout = window.setTimeout(() => {
+      this.#controls.videoControls.classList.add('video__controls_hidden');
+      this.#controls.videoBackButton.classList.add('video__controls_hidden');
+    }, 3000);
+  }
+
+  handleBackButtonClick() {
+    this.#controls.videoBackButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      this.#onBackClick();
+    });
   }
 }
