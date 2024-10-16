@@ -14,6 +14,13 @@ export type User = {
   isAuth: boolean;
 };
 
+export type UserData = {
+  email: string;
+  username: string;
+  name?: string;
+  avatar?: string;
+};
+
 // export type UserInfo = {
 //   email: string;
 //   username: string;

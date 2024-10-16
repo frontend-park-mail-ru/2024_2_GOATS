@@ -1,4 +1,4 @@
-import { User, AuthUser } from 'types/user';
+import { User, AuthUser, UserData } from 'types/user';
 import { ActionTypes } from './ActionTypes';
 import { dispatcher } from './Dispatcher';
 
@@ -59,6 +59,22 @@ export const Actions = {
     dispatcher.dispatch({
       type: ActionTypes.REGISTER,
       registrationData,
+    });
+  },
+  changeUserInfo(userData: UserData) {
+    dispatcher.dispatch({
+      type: ActionTypes.CHANGE_USER_INFO,
+      userData,
+    });
+  },
+  changePassword(passwordChangeData: {
+    prevPasswordValue: string;
+    newPasswordValue: string;
+    newPasswordComfirmValue: string;
+  }) {
+    dispatcher.dispatch({
+      type: ActionTypes.CHANGE_PASSWORD,
+      passwordChangeData,
     });
   },
 };

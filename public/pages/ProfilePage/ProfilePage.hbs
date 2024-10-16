@@ -2,20 +2,16 @@
   <div class='profile-page__container'>
     <div class='profile-page__profile-block'>
       <h2 class='profile-page__profile-block_title'>Управление профилем</h2>
-      <form class='profile-page__profile-block_content'>
-        <div class='user__image-field'>
-          <img
-            class='user__image-field_image'
-            src='assets/mockImages/user-profile_image.png'
-            alt=''
-          />
+      <div class='profile-page__profile-block_content'>
+        <div class="">
+          <div id='user-profile-avatar-container' class='user__image-field'></div>
+          <input id="upload-avatar-input" type="file">
         </div>
         <div class='user__text-fields'>
           <div class='user__input'>
             <label for='user-change-name'>
               <div class='user__input_label'>
                 <span>Имя</span>
-
               </div>
               <input
                 name='user-change-name'
@@ -23,6 +19,7 @@
                 class='input user__input_field'
                 id='user-change-name'
                 type='text'
+                value="{{#if user.name}}{{user.name}}{{else}}{{/if}}"
               />
               <span
                 class='user__input_error'
@@ -44,6 +41,7 @@
                 class='input user__input_field'
                 id='user-change-login'
                 type='text'
+                value={{user.username}}
               />
               <span
                 class='user__input_error'
@@ -64,6 +62,7 @@
                 class='input user__input_field'
                 id='user-change-email'
                 type='email'
+                value={{user.email}}
               />
               <span
                 class='user__input_error'
@@ -80,7 +79,7 @@
           </div>
         </div>
 
-      </form>
+      </div>
     </div>
     <div class='profile-page__security-block'>
       <h2 class='profile-page__security-block_title'>Управление доступом</h2>

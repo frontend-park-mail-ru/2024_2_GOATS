@@ -1,5 +1,5 @@
 export const throwBackendError = (
-  form: 'auth' | 'reg',
+  form: 'auth' | 'reg' | 'change-password',
   errorMessage: string,
 ) => {
   let errorBlock;
@@ -8,6 +8,10 @@ export const throwBackendError = (
     errorBlock = document.getElementById('auth-error') as HTMLElement;
   } else if (form === 'reg') {
     errorBlock = document.getElementById('reg-error') as HTMLElement;
+  } else if (form === 'change-password') {
+    errorBlock = document.getElementById(
+      'change-password-error',
+    ) as HTMLElement;
   }
 
   if (errorBlock) {
