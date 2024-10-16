@@ -4,14 +4,23 @@ import { Person } from 'types/movie';
 export class PersonCard {
   #parent;
   #person;
+  #onCardClick;
 
-  constructor(parent: HTMLElement, person: Person) {
+  constructor(parent: HTMLElement, person: Person, onCardClick: () => void) {
     this.#parent = parent;
     this.#person = person;
+    this.#onCardClick = onCardClick;
   }
 
   render() {
     this.renderTemplate();
+  }
+
+  handleCardClick() {
+    const card = document.getElementById(
+      `person-card-${this.#person.id}`,
+    ) as HTMLElement;
+    card.addEventListener('click', this.#onCardClick);
   }
 
   renderTemplate() {
@@ -19,5 +28,7 @@ export class PersonCard {
       'beforeend',
       template({ person: this.#person }),
     );
+
+    this.handleCardClick();
   }
 }

@@ -3,6 +3,7 @@ import { SeriesCard } from 'components/SeriesCard/SeriesCard';
 import { PersonCard } from 'components/PersonCard/PersonCard';
 import template from './Slider.hbs';
 import { MovieSelection, Person, Series } from 'types/movie';
+import { router } from 'modules/Router';
 
 export class Slider {
   #parent;
@@ -127,17 +128,25 @@ export class Slider {
 
       if (this.#selection) {
         this.#selection.movies.forEach((movie) => {
-          const card = new Card(track, movie);
+          const card = new Card(track, movie, () => {
+            console.log('movie id is', movie.id);
+            router.go('/movie'); // TODO: Исправить на переход по /:id
+          });
           card.render();
         });
       } else if (this.#series) {
         this.#series.forEach((series) => {
-          const seriesCard = new SeriesCard(track, series);
+          const seriesCard = new SeriesCard(track, series, () => {
+            console.log('series id is', series.id);
+          });
           seriesCard.render();
         });
       } else if (this.#persons) {
         this.#persons.forEach((person) => {
-          const personCard = new PersonCard(track, person);
+          const personCard = new PersonCard(track, person, () => {
+            console.log('person id is', person.id);
+            router.go('/person'); // TODO: Исправить на переход по /:id
+          });
           personCard.render();
         });
       }

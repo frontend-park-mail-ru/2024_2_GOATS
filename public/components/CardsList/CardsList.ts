@@ -24,7 +24,9 @@ export class CardsList {
 
     if (cardsList) {
       this.#movies.forEach((movie) => {
-        const card = new Card(cardsList, movie);
+        const card = new Card(cardsList, movie, () => {
+          console.log('card clicked');
+        });
         card.render();
       });
     }
