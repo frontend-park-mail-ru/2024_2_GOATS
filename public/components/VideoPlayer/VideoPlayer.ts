@@ -29,6 +29,8 @@ export class VideoPlayer {
       'beforeend',
       template({ url: this.#url, isPlaying }),
     );
+    const root = document.getElementById('root') as HTMLElement;
+    root.classList.add('lock');
   }
 
   // Инициализация всех элементов управления
@@ -110,8 +112,7 @@ export class VideoPlayer {
     const { video, playOrPause } = this.#controls;
 
     if (event.key === ' ') {
-      console.log('space');
-      event.preventDefault(); // Предотвращаем стандартное поведение нажатия пробела
+      event.preventDefault();
       this.togglePlayback();
     }
   }
@@ -141,7 +142,6 @@ export class VideoPlayer {
   }
 
   togglePlayback() {
-    console.log('play-back');
     const { video } = this.#controls;
     if (video.paused) {
       video.play();
@@ -243,9 +243,10 @@ export class VideoPlayer {
 
   handleBackButtonClick() {
     this.#controls.videoBackButton.addEventListener('click', (event) => {
-      console.log('button');
       event.stopPropagation();
       this.#onBackClick();
+      const root = document.getElementById('root') as HTMLElement;
+      root.classList.remove('lock');
     });
   }
 }

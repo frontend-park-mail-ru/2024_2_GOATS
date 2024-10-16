@@ -13,7 +13,7 @@ export const Urls = {
   auth: '/auth',
   registration: '/registration',
   movie: '/movie',
-  video: '/video',
+  // video: '/video',
   actor: '/person',
 };
 
@@ -33,7 +33,6 @@ export const routerHandler = (url: URL) => {
       Actions.renderHeader(Urls.registration);
       Actions.renderRegPage();
       footer.render(Urls.registration);
-
       break;
     case Urls.actor:
       // Actions.renderHeader(Urls.registration);
@@ -43,9 +42,6 @@ export const routerHandler = (url: URL) => {
     case Urls.movie:
       Actions.renderMoviePage();
       footer.render(Urls.movie);
-      break;
-    case Urls.video:
-      Actions.renderVideoPage();
       break;
 
     default:

@@ -28,6 +28,7 @@ export type MovieDetailed = {
   country: string;
   director: string;
   isSerial: boolean;
+  video: string;
 };
 
 export type Series = {
@@ -35,6 +36,7 @@ export type Series = {
   position: number;
   image: string;
   title: string;
+  video: string;
 };
 
 //TODO: После мержа перенести

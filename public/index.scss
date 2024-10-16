@@ -23,7 +23,6 @@
 @import './pages/CategoryPage/CategoryPage.scss';
 @import './pages/ActorPage/ActorPage.scss';
 @import './pages/MoviePage/MoviePage.scss';
-@import './pages/VideoPage/VideoPage.scss';
 
 body {
   margin: 0;
@@ -77,4 +76,9 @@ main {
   color: $brand-secondary;
   padding: 0.5em 1em;
   border-radius: 0.5em;
+}
+
+.lock {
+  max-height: 100dvh;
+  overflow: hidden;
 }

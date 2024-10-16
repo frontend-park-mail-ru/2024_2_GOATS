@@ -254,6 +254,8 @@ export const mockSeries = [
     title: 'Серия 1',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+    video:
+      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 2,
@@ -261,6 +263,8 @@ export const mockSeries = [
     title: 'Серия 2',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+    video:
+      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 3,
@@ -268,6 +272,8 @@ export const mockSeries = [
     title: 'Серия 3',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+    video:
+      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 4,
@@ -275,6 +281,8 @@ export const mockSeries = [
     title: 'Серия 4',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+    video:
+      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 5,
@@ -282,6 +290,8 @@ export const mockSeries = [
     title: 'Серия 5',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
+    video:
+      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
 ];
 

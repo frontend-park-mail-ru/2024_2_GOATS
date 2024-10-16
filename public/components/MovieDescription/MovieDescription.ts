@@ -2,6 +2,7 @@ import template from './MovieDescription.hbs';
 import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDetailed } from 'types/movie';
 import { router } from 'modules/Router';
+import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 
 export class MovieDescription {
   #parent;
@@ -23,7 +24,11 @@ export class MovieDescription {
       'show-movie-btn',
     ) as HTMLButtonElement;
     showBtn.addEventListener('click', () => {
-      router.go('/video');
+      const moviePage = document.getElementById('movie-page') as HTMLElement;
+      const video = new VideoPlayer(moviePage, this.#movie.video, () =>
+        router.go('/movie'),
+      );
+      video.render();
     });
   }
 

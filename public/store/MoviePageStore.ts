@@ -43,6 +43,8 @@ class MoviePageStore {
       country: 'США',
       director: 'Тимоти Ван Паттен',
       isSerial: false,
+      video:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     };
 
     this.setState(movie);

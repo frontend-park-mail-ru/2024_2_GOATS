@@ -3,12 +3,25 @@
 .video {
   width: 100%;
 
+  &__container {
+    height: 100dvh;
+    min-width: 100dvw;
+    background-color: $background;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
   &__wrapper {
     height: 100%;
     position: relative;
+    top: 0;
     width: 100%;
     z-index: 10;
-    background-color: $background;
   }
 
   &__container {
@@ -32,6 +45,7 @@
       rgba(0, 0, 0, 0) 100%
     );
     transition: opacity 0.5s ease;
+    z-index: 10;
 
     &_progress {
       display: flex;
@@ -64,16 +78,6 @@
       cursor: pointer;
       background-repeat: no-repeat;
       background-size: 36px;
-
-      &_wrapper {
-        background-color: $brand;
-        width: 45px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-      }
 
       &_play {
         background-image: url('assets/icons/playIcon.svg');

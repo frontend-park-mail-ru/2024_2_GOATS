@@ -1,6 +1,7 @@
 import { Card } from 'components/Card/Card';
 import { SeriesCard } from 'components/SeriesCard/SeriesCard';
 import { PersonCard } from 'components/PersonCard/PersonCard';
+import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import template from './Slider.hbs';
 import { MovieSelection, Person, Series } from 'types/movie';
 import { router } from 'modules/Router';
@@ -138,6 +139,13 @@ export class Slider {
         this.#series.forEach((series) => {
           const seriesCard = new SeriesCard(track, series, () => {
             console.log('series id is', series.id);
+            const moviePage = document.getElementById(
+              'movie-page',
+            ) as HTMLElement;
+            const video = new VideoPlayer(moviePage, series.video, () =>
+              router.go('/movie'),
+            );
+            video.render();
           });
           seriesCard.render();
         });
