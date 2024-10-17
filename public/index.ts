@@ -16,11 +16,14 @@ const root = document.getElementById('root') as HTMLElement;
 const pageElement = document.createElement('main');
 const headerElement = document.createElement('header');
 const footerElement = document.createElement('footer');
+const notifierElement = document.createElement('div');
+notifierElement.id = 'notifier';
 
 pageElement.id = 'page-element';
 root.appendChild(headerElement);
 root.appendChild(pageElement);
 root.appendChild(footerElement);
+root.appendChild(notifierElement);
 
 const mockFunction = () => {
   console.log(initialStore);

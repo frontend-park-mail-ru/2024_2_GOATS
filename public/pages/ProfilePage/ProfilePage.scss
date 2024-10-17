@@ -54,21 +54,45 @@
 
 .user {
   &__image-field {
-    // border-radius: 100%;
-    // height: fit-content;
-    // overflow: hidden;
-    width: 300px;
-    height: 300px;
-    // &_image {
-    //   width: 100%;
-    // }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    &_avatar {
+      width: 300px;
+      height: 300px;
+    }
+
+    &_input {
+      display: none;
+
+      &_label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        border: 1.5px solid $brand;
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          cursor: pointer;
+          transform: scale(1.02);
+        }
+
+        &_icon {
+          width: 24px;
+        }
+      }
+    }
   }
 
   &__text-fields {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 16px;
+    gap: 20px;
   }
 
   &__input {

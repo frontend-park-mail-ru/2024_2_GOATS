@@ -17,8 +17,8 @@ export type User = {
 export type UserData = {
   email: string;
   username: string;
-  name?: string;
-  avatar?: string;
+  name: string;
+  avatar: string;
 };
 
 // export type UserInfo = {

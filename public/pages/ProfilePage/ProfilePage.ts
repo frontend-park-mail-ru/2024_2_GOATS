@@ -4,6 +4,7 @@ import { PasswordChangeModal } from 'components/PasswordChangeModal/PasswordChan
 import { Actions } from 'flux/Actions';
 import { AvatarComponent } from 'components/AvatarComponent/AvatarComponent';
 import { UserData } from 'types/user';
+import { validateEmailAddress, validateLogin } from 'modules/Validators';
 
 const mockUser = {
   email: 'sasa@mail.ru',
@@ -15,11 +16,11 @@ const mockUser = {
 const defAvatar = 'assets/mockImages/defAvatar.png';
 
 export class ProfilePage {
-  #user: UserData;
+  // #user: UserData;
   #userAvatar!: string;
 
   constructor() {
-    this.#user = profilePageStore.getUserInfo();
+    // this.#user = profilePageStore.getUserInfo();
   }
 
   render() {
@@ -36,6 +37,46 @@ export class ProfilePage {
     });
   }
 
+  validateLoginField(loginValue: string) {
+    const loginInput = document.getElementById(
+      'user-change-login',
+    ) as HTMLElement;
+    const loginError = document.getElementById(
+      'user-change-login-error',
+    ) as HTMLElement;
+    if (validateLogin(loginValue)) {
+      loginInput.classList.add('input-error');
+      const error = validateLogin(loginValue);
+      if (error) {
+        loginError.innerText = error;
+      }
+      return false;
+    } else {
+      loginInput.classList.remove('input-error');
+      loginError.innerText = '';
+      return true;
+    }
+  }
+
+  validateEmailField(emailValue: string) {
+    const emailInput = document.getElementById(
+      'user-change-email',
+    ) as HTMLElement;
+    const emailError = document.getElementById(
+      'user-change-email-error',
+    ) as HTMLElement;
+
+    if (!validateEmailAddress(emailValue)) {
+      emailInput.classList.add('input-error');
+      emailError.innerText = 'Некорректный e-mail';
+      return false;
+    } else {
+      emailInput.classList.remove('input-error');
+      emailError.innerText = '';
+      return true;
+    }
+  }
+
   handleUserInfoChangeClick() {
     const userInfoChangeButton = document.getElementById(
       'user-change-btn',
@@ -43,8 +84,31 @@ export class ProfilePage {
 
     userInfoChangeButton.addEventListener('click', (e) => {
       e.preventDefault;
+
+      const emailValue = (<HTMLInputElement>(
+        document.getElementById('user-change-email')
+      )).value;
+      const loginValue = (<HTMLInputElement>(
+        document.getElementById('user-change-login')
+      )).value;
+      const nameValue = (<HTMLInputElement>(
+        document.getElementById('user-change-name')
+      )).value;
+
+      const isEmailValid = this.validateEmailField(emailValue);
+      const isLoginValid = this.validateLoginField(loginValue);
+
+      if (!isEmailValid || !isLoginValid) {
+        return;
+      }
       // mockUser.avatar = this.#userAvatar; //!!!!!!!!!!!!!!!
-      Actions.changeUserInfo(this.#user);
+      console.log('avatar', this.#userAvatar);
+      Actions.changeUserInfo({
+        email: emailValue,
+        username: loginValue,
+        name: nameValue,
+        avatar: this.#userAvatar,
+      });
     });
   }
 
@@ -61,17 +125,21 @@ export class ProfilePage {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files[0]) {
       const avatarUrl = URL.createObjectURL(fileInput.files[0]);
-      this.#user.avatar = avatarUrl;
+      this.#userAvatar = avatarUrl;
       this.renderAvatar(avatarUrl);
     }
   }
 
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
-    const avatar = this.#user.avatar ? this.#user.avatar : defAvatar;
+
     pageElement.innerHTML = template({
-      user: this.#user,
+      user: profilePageStore.getUserInfo(),
     });
+
+    const avatar = profilePageStore.getUserInfo().avatar
+      ? profilePageStore.getUserInfo().avatar
+      : defAvatar;
     this.renderAvatar(avatar);
 
     this.handlePasswordChangeClick();

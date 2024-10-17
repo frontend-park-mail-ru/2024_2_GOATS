@@ -5,12 +5,14 @@ import { dispatcher } from 'flux/Dispatcher';
 import { apiClient } from 'modules/ApiClient';
 import { Emitter } from 'modules/Emmiter';
 import { throwBackendError } from 'modules/BackendErrors';
+import { Notifier } from 'components/Notifier/Notifier';
+import { router } from 'modules/Router';
 
-const mockUser = {
+let mockUser = {
   email: 'tkoibaev@mail.ru',
   username: 'tkoibaev',
   name: '',
-  avatar: '', //assets/mockImages/user-profile_image.png
+  avatar: '', //  assets/mockImages/user-profile_image.png
 };
 
 export class ProfilePageStore {
@@ -61,8 +63,12 @@ export class ProfilePageStore {
       // const response = await apiClient.get({
       //   path: 'movie_collection/',
       // });
-      alert(userData);
+      // alert(userData);
+      mockUser = userData;
       console.log(userData);
+      router.go('/profile');
+      const not = new Notifier('success', 'Данные успешно обновлены', 2000);
+      not.render();
     } catch {
       alert('error');
     }
