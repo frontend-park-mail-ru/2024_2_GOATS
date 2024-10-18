@@ -1,23 +1,25 @@
 export const throttle = (fn: Function, ms: number): Function => {
   let isThrottled: boolean = false;
-  let savedArgs: any[];
-  let savedThis: any;
+  let savedArgs: any[] | null = null;
+  let savedThis: any | null = null;
 
   function wait(this: any, ...args: any[]) {
     if (isThrottled) {
-      savedArgs = Array.from(arguments);
+      savedArgs = args;
       savedThis = this;
       return;
     }
 
-    fn.apply(this, arguments);
+    fn.apply(this, args);
     isThrottled = true;
 
     setTimeout(() => {
       isThrottled = false;
-      wait.apply(savedThis, savedArgs);
-      savedArgs = [];
-      savedThis = null;
+      if (savedArgs) {
+        wait.apply(savedThis, savedArgs);
+        savedArgs = null;
+        savedThis = null;
+      }
     }, ms);
   }
 

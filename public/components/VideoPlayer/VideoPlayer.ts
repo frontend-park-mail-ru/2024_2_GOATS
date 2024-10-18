@@ -9,6 +9,7 @@ export class VideoPlayer {
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
   #onBackClick;
+  #isDragging = false; // Флаг для отслеживания перемещения ползунка
 
   constructor(parent: HTMLElement, url: string, onBackClick: () => void) {
     this.#parent = parent;
@@ -39,7 +40,6 @@ export class VideoPlayer {
       video: document.getElementById('video') as HTMLVideoElement,
       videoWrapper: document.querySelector('.video__wrapper') as HTMLElement,
       playOrPause: document.getElementById('play-pause') as HTMLElement,
-      playbackline: document.querySelector('.video__progress') as HTMLElement,
       duration: document.getElementById('duration') as HTMLElement,
       currentTime: document.getElementById('current-time') as HTMLElement,
       progressBar: document.querySelector(
@@ -71,7 +71,6 @@ export class VideoPlayer {
       rewindBackButton,
       rewindFrontButton,
       volume,
-      playbackline,
     } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
@@ -93,10 +92,6 @@ export class VideoPlayer {
 
     volume.addEventListener('input', this.updateVolumeByClick.bind(this));
 
-    playbackline.addEventListener('click', (e: MouseEvent) =>
-      this.updateProgressByClick(e),
-    );
-
     document.addEventListener(
       'fullscreenchange',
       this.checkScreenButton.bind(this),
@@ -110,64 +105,46 @@ export class VideoPlayer {
     const slider = document.getElementById(
       'progress-slider',
     ) as HTMLInputElement;
-    // Пользователь начал перемещение ползунка
     slider.addEventListener('input', this.updateSliderByInput.bind(this));
 
-    // Пользователь отпустил ползунок
     slider.addEventListener('change', this.setVideoTimeBySlider.bind(this));
+
+    slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
+    slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
+  }
+
+  onSliderMouseDown() {
+    console.log('MOUSE DOWN');
+    this.#isDragging = true;
+  }
+
+  onSliderMouseUp() {
+    console.log('MOUSE UP');
+    this.#isDragging = false;
   }
 
   updateProgress() {
     console.log('update progress');
+    if (this.#isDragging) return;
     const { video } = this.#controls;
     const slider = document.getElementById(
       'progress-slider',
     ) as HTMLInputElement;
 
-    // Рассчитываем процент текущего времени видео
-    // const percentage = (video.currentTime / video.duration) * 100;
-    const percentage = ((video.currentTime / video.duration) * 100).toFixed(2);
-    console.log(percentage);
+    const percentage = ((video.currentTime / video.duration) * 100).toFixed(3);
 
-    // Устанавливаем новое значение для ползунка
+    if (Number(percentage) <= 40) {
+      slider.style.setProperty(
+        '--progress-value',
+        `calc(${slider.value}% + 5px)`,
+      );
+    } else {
+      slider.style.setProperty('--progress-value', `${slider.value}%`);
+    }
+
     slider.value = percentage.toString();
-
-    // Обновляем CSS-переменную для визуализации прогресса
-    slider.style.setProperty('--progress-value', `${percentage}%`);
     this.#controls.currentTime.textContent = timeFormatter(video.currentTime);
   }
-  // updateProgress() {
-  //   const { video, progressBar, currentTime } = this.#controls;
-  //   const percentage = (video.currentTime / video.duration) * 100;
-
-  //   // Обновляем ширину прогресс-бара
-  //   progressBar.style.width = `${percentage}%`;
-
-  //   // Обновляем положение ползунка
-  //   const slider = document.getElementById(
-  //     'progress-slider',
-  //   ) as HTMLInputElement;
-  //   slider.value = percentage.toString();
-
-  //   // Обновляем текущее время
-  //   currentTime.textContent = timeFormatter(video.currentTime);
-  // }
-  // updateProgress() {
-  //   const { video, progressBar, currentTime } = this.#controls;
-  //   const percentage = (video.currentTime / video.duration) * 100;
-
-  //   // Обновляем ширину прогресс-бара
-  //   progressBar.style.width = `${percentage}%`;
-
-  //   // Обновляем положение ползунка
-  //   const slider = document.getElementById(
-  //     'progress-slider',
-  //   ) as HTMLInputElement;
-  //   slider.value = percentage.toString();
-
-  //   // Обновляем текущее время
-  //   currentTime.textContent = timeFormatter(video.currentTime);
-  // }
 
   updateSliderByInput() {
     console.log('update slider by input');
@@ -176,39 +153,11 @@ export class VideoPlayer {
     ) as HTMLInputElement;
     const percentage = slider.value;
 
-    // Обновляем CSS-переменную для отображения прогресса
-    slider.style.setProperty(
-      '--progress-value',
-      `${Number(percentage) + 0.2}%`,
-    );
+    slider.style.setProperty('--progress-value', `${Number(percentage)}%`);
   }
-  // updateSliderByInput() {
-  //   const { progressBar } = this.#controls;
-  //   const slider = document.getElementById(
-  //     'progress-slider',
-  //   ) as HTMLInputElement;
-
-  //   // Рассчитываем процент, соответствующий положению ползунка
-  //   const percentage = Number(slider.value);
-
-  //   // Обновляем визуальный прогресс-бaр
-  //   // progressBar.style.width = `${percentage}%`;
-  // }
-  // updateSliderByInput() {
-  //   const { video } = this.#controls;
-  //   const slider = document.getElementById(
-  //     'progress-slider',
-  //   ) as HTMLInputElement;
-
-  //   // Рассчитываем новое время на основе положения ползунка
-  //   const newTime = (Number(slider.value) / 100) * video.duration;
-  //   video.currentTime = newTime;
-
-  //   // Обновляем прогресс бар
-  //   this.updateProgress();
-  // }
 
   setVideoTimeBySlider() {
+    console.log('SET VIDEO TIME BY SLIDER');
     const { video, progressBar } = this.#controls;
     const slider = document.getElementById(
       'progress-slider',
@@ -223,16 +172,6 @@ export class VideoPlayer {
     // Обновляем прогресс бар
     this.updateProgress();
   }
-  // setVideoTimeBySlider() {
-  //   const { video } = this.#controls;
-  //   const slider = document.getElementById(
-  //     'progress-slider',
-  //   ) as HTMLInputElement;
-
-  //   // Обновляем текущее время видео
-  //   const newTime = (Number(slider.value) / 100) * video.duration;
-  //   video.currentTime = newTime;
-  // }
 
   handleKeyPress(event: KeyboardEvent) {
     const { video, playOrPause } = this.#controls;
@@ -277,13 +216,6 @@ export class VideoPlayer {
     this.#isPlaying = !this.#isPlaying;
   }
 
-  // updateProgress() {
-  //   const { video, progressBar, currentTime } = this.#controls;
-  //   const percentage = (video.currentTime / video.duration) * 100;
-  //   progressBar.style.width = percentage + '%';
-  //   currentTime.textContent = timeFormatter(video.currentTime);
-  // }
-
   toggleFullScreen() {
     const { videoWrapper, isFullScreen } = this.#controls;
     if (isFullScreen) {
@@ -325,15 +257,6 @@ export class VideoPlayer {
     video.volume = Number(volume.value);
   }
 
-  // Управление прогрессом воспроизведения
-  updateProgressByClick(e: MouseEvent) {
-    const { playbackline, video } = this.#controls;
-
-    const timelineWidth = playbackline.clientWidth;
-    const newTime = (e.offsetX / timelineWidth) * video.duration;
-    video.currentTime = newTime;
-  }
-
   rewindBack() {
     const { video } = this.#controls;
     video.currentTime -= 15;
@@ -364,7 +287,7 @@ export class VideoPlayer {
     this.#hideControlsTimeout = window.setTimeout(() => {
       this.#controls.videoControls.classList.add('video__controls_hidden');
       this.#controls.videoBackButton.classList.add('video__controls_hidden');
-    }, 10000);
+    }, 1000000);
   }
 
   handleBackButtonClick() {
