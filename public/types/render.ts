@@ -1,7 +1,7 @@
-import { UserInfo } from './user';
+import { User } from './user';
 
 export type PagesConfig = {
-  currentUser: UserInfo;
+  currentUser: User;
   renderMainPage: () => void;
   renderAuthPage: () => void;
   renderRegPage: () => void;

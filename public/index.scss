@@ -16,6 +16,8 @@
 @import './components/SeriesCard/SeriesCard.scss';
 @import './components/PersonCard/PersonCard.scss';
 @import './components/Footer/Footer.scss';
+@import './components/PasswordChangeModal/PasswordChangeModal.scss';
+@import './components/AvatarComponent/AvatarComponent.scss';
 
 @import './pages/MainPage/MainPage.scss';
 @import './pages/AuthPage/AuthPage.scss';
@@ -23,6 +25,7 @@
 @import './pages/CategoryPage/CategoryPage.scss';
 @import './pages/ActorPage/ActorPage.scss';
 @import './pages/MoviePage/MoviePage.scss';
+@import './pages/ProfilePage/ProfilePage.scss';
 
 body {
   margin: 0;

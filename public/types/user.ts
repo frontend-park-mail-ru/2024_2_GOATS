@@ -8,10 +8,21 @@ export type AuthUser = {
 export type User = {
   email: string;
   username: string;
+  name?: string;
+  birthDate?: Date;
+  avatar?: string;
   isAuth: boolean;
 };
 
-export type UserInfo = {
+export type UserData = {
   email: string;
   username: string;
+  name: string;
+  avatar: string;
 };
+
+// export type UserInfo = {
+//   email: string;
+//   username: string;
+
+// };
