@@ -103,7 +103,10 @@ export class VideoPlayer {
     );
 
     this.initAutoHideControls();
-    this.handleBackButtonClick();
+
+    if (this.#isModal) {
+      this.handleBackButtonClick();
+    }
 
     document.addEventListener('keydown', this.handleKeyPress.bind(this));
 
@@ -279,12 +282,17 @@ export class VideoPlayer {
     clearTimeout(this.#hideControlsTimeout);
 
     this.#controls.videoControls.classList.remove('video__controls_hidden');
-    this.#controls.videoBackButton.classList.remove('video__controls_hidden');
+    if (this.#isModal) {
+      this.#controls.videoBackButton.classList.remove('video__controls_hidden');
+    }
 
     this.#hideControlsTimeout = window.setTimeout(() => {
       this.#controls.videoControls.classList.add('video__controls_hidden');
-      this.#controls.videoBackButton.classList.add('video__controls_hidden');
-    }, 1000000);
+
+      if (this.#isModal) {
+        this.#controls.videoBackButton.classList.add('video__controls_hidden');
+      }
+    }, 3000);
   }
 
   handleBackButtonClick() {
