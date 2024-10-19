@@ -24,11 +24,14 @@ export class MovieDescription {
       'show-movie-btn',
     ) as HTMLButtonElement;
     showBtn.addEventListener('click', () => {
-      const moviePage = document.getElementById('movie-page') as HTMLElement;
-      const video = new VideoPlayer(moviePage, this.#movie.video, () =>
+      const videoContainer = document.getElementById(
+        'video-container',
+      ) as HTMLElement;
+      const video = new VideoPlayer(videoContainer, this.#movie.video, () =>
         router.go('/movie'),
       );
       video.render();
+      videoContainer.style.zIndex = '10';
     });
   }
 

@@ -9,13 +9,15 @@ export class VideoPlayer {
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
   #onBackClick;
-  #isDragging = false; // Флаг для отслеживания перемещения ползунка
+  #isDragging = false;
+  #isModal;
 
-  constructor(parent: HTMLElement, url: string, onBackClick: () => void) {
+  constructor(parent: HTMLElement, url: string, onBackClick?: () => void) {
     this.#parent = parent;
     this.#url = url;
     this.#isPlaying = false;
     this.#onBackClick = onBackClick;
+    this.#isModal = onBackClick ? true : false;
   }
 
   render() {
@@ -26,12 +28,15 @@ export class VideoPlayer {
 
   renderTemplate() {
     const isPlaying = this.#isPlaying;
-    this.#parent.insertAdjacentHTML(
-      'beforeend',
-      template({ url: this.#url, isPlaying }),
-    );
+    this.#parent.innerHTML = template({
+      url: this.#url,
+      isPlaying,
+      isModal: this.#isModal,
+    });
     const root = document.getElementById('root') as HTMLElement;
-    root.classList.add('lock');
+    if (this.#isModal) {
+      root.classList.add('lock');
+    }
   }
 
   // Инициализация всех элементов управления
@@ -114,17 +119,14 @@ export class VideoPlayer {
   }
 
   onSliderMouseDown() {
-    console.log('MOUSE DOWN');
     this.#isDragging = true;
   }
 
   onSliderMouseUp() {
-    console.log('MOUSE UP');
     this.#isDragging = false;
   }
 
   updateProgress() {
-    console.log('update progress');
     if (this.#isDragging) return;
     const { video } = this.#controls;
     const slider = document.getElementById(
@@ -147,7 +149,6 @@ export class VideoPlayer {
   }
 
   updateSliderByInput() {
-    console.log('update slider by input');
     const slider = document.getElementById(
       'progress-slider',
     ) as HTMLInputElement;
@@ -157,19 +158,15 @@ export class VideoPlayer {
   }
 
   setVideoTimeBySlider() {
-    console.log('SET VIDEO TIME BY SLIDER');
-    const { video, progressBar } = this.#controls;
+    const { video } = this.#controls;
     const slider = document.getElementById(
       'progress-slider',
     ) as HTMLInputElement;
 
-    // Рассчитываем новое время на основе положения ползунка
     const newTime = (Number(slider.value) / 100) * video.duration;
 
-    // Обновляем текущее время видео
     video.currentTime = newTime;
 
-    // Обновляем прогресс бар
     this.updateProgress();
   }
 
@@ -293,7 +290,9 @@ export class VideoPlayer {
   handleBackButtonClick() {
     this.#controls.videoBackButton.addEventListener('click', (event) => {
       event.stopPropagation();
-      this.#onBackClick();
+      if (this.#onBackClick) {
+        this.#onBackClick();
+      }
       const root = document.getElementById('root') as HTMLElement;
       root.classList.remove('lock');
     });
