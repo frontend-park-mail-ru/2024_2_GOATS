@@ -1,0 +1,52 @@
+@import '../../styles/variables.scss';
+
+.room-page {
+  background-color: $background;
+  padding-bottom: 100px;
+
+  &__container {
+    max-width: $content-width-max;
+    width: $content-width;
+    margin: 0 auto;
+    margin-top: 16px;
+  }
+
+  &__title {
+    font-size: 30px;
+    padding-bottom: 20px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 30px;
+  }
+
+  &__video {
+    width: 70%;
+  }
+
+  &__info {
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &_description {
+      background-color: $block-background;
+      color: $text-secondary-color;
+      padding: 20px;
+      border-radius: 10px;
+
+      &_title {
+        width: 60%;
+      }
+    }
+
+    &_list {
+      height: 200px;
+      background-color: $block-background;
+      border-radius: 10px;
+    }
+  }
+}

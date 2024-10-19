@@ -39,6 +39,12 @@ export const Actions = {
       type: ActionTypes.RENDER_PROFILE_PAGE,
     });
   },
+  renderRoomPage() {
+    console.log('ACTION RENDER ROOM PAGE');
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_ROOM_PAGE,
+    });
+  },
   getUser() {
     dispatcher.dispatch({
       type: ActionTypes.GET_USER,
