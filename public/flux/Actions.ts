@@ -1,6 +1,7 @@
 import { User, AuthUser, UserData } from 'types/user';
 import { ActionTypes } from './ActionTypes';
 import { dispatcher } from './Dispatcher';
+import { Action } from 'types/room';
 
 export const Actions = {
   renderMainPage() {
@@ -40,7 +41,6 @@ export const Actions = {
     });
   },
   renderRoomPage() {
-    console.log('ACTION RENDER ROOM PAGE');
     dispatcher.dispatch({
       type: ActionTypes.RENDER_ROOM_PAGE,
     });
@@ -76,6 +76,12 @@ export const Actions = {
     dispatcher.dispatch({
       type: ActionTypes.CHANGE_PASSWORD,
       passwordChangeData,
+    });
+  },
+  sendActionMessage(actionData: Action) {
+    dispatcher.dispatch({
+      type: ActionTypes.SEND_ACTION_MESSAGE,
+      actionData,
     });
   },
 };

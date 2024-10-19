@@ -1,19 +1,28 @@
 import template from './RoomPage.hbs';
-import { Movie } from 'types/movie';
-import { roomPageStore } from '@store/RoomPageStore';
-import { movie } from '../../consts';
+import { roomPageStore } from 'store/RoomPageStore';
+// import { movie } from '../../consts';
 import { Loader } from '../../components/Loader/Loader';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
+import { Actions } from 'flux/Actions';
+import { Room } from 'types/room';
 
 export class RoomPage {
   #movie!: any; // TODO: поменять на тип фильма
+  #room!: Room;
   #loader!: Loader;
 
   constructor() {}
 
   render() {
-    // this.#movieSelections = mainPageStore.getSelections();
+    this.#room = roomPageStore.getRoom();
+    console.log('ROOM FROM ROOM PAGE', this.#room);
     this.renderTemplate();
+  }
+
+  onPauseClick() {
+    Actions.sendActionMessage({
+      name: 'pause',
+    });
   }
 
   renderTemplate() {
@@ -23,16 +32,23 @@ export class RoomPage {
       rootElem.classList.remove('root-image');
     }
     const pageElement = document.getElementsByTagName('main')[0];
-    pageElement.innerHTML = template({ movie });
-    const videoContainer = document.getElementById('room-video') as HTMLElement;
-    const video = new VideoPlayer(videoContainer, movie.video);
-    video.render();
+    this.#loader = new Loader(pageElement, template());
+    if (this.#room) {
+      pageElement.innerHTML = template({ movie: this.#room.movie });
 
-    // this.#loader = new Loader(pageElement, template());
-    // if (this.#movieSelections.length) {
-    //   pageElement.innerHTML = template();
-    // } else {
-    //   this.#loader.render();
-    // }
+      const videoContainer = document.getElementById(
+        'room-video',
+      ) as HTMLElement;
+      const video = new VideoPlayer(
+        videoContainer,
+        this.#room.movie.video,
+        undefined,
+        this.onPauseClick,
+      );
+      video.render();
+    } else {
+      this.#loader.render();
+    }
+    // pageElement.innerHTML = template({ movie });
   }
 }

@@ -9,14 +9,21 @@ export class VideoPlayer {
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
   #onBackClick;
+  #onPlayOrPauseClick;
   #isDragging = false;
   #isModal;
 
-  constructor(parent: HTMLElement, url: string, onBackClick?: () => void) {
+  constructor(
+    parent: HTMLElement,
+    url: string,
+    onBackClick?: () => void,
+    onPlayOrPauseClick?: () => void,
+  ) {
     this.#parent = parent;
     this.#url = url;
     this.#isPlaying = false;
     this.#onBackClick = onBackClick;
+    this.#onPlayOrPauseClick = onPlayOrPauseClick;
     this.#isModal = onBackClick ? true : false;
   }
 
@@ -189,12 +196,18 @@ export class VideoPlayer {
   }
 
   onPlay() {
+    if (this.#onPlayOrPauseClick) {
+      this.#onPlayOrPauseClick();
+    }
     const { playOrPause } = this.#controls;
     playOrPause.classList.add('video__controls_icon_pause');
     playOrPause.classList.remove('video__controls_icon_play');
   }
 
   onPause() {
+    if (this.#onPlayOrPauseClick) {
+      this.#onPlayOrPauseClick();
+    }
     const { playOrPause } = this.#controls;
     playOrPause.classList.add('video__controls_icon_play');
     playOrPause.classList.remove('video__controls_icon_pause');
