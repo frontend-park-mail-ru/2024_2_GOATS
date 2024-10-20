@@ -74,7 +74,10 @@ class UserStore {
         username: 'aa',
         isAuth: emit || false, // toggle to imitate login
       });
-      console.log('auth request failed');
+
+      // this.setState(users[this.getRandomInt(1, 10)]);
+      // console.log(this.getRandomInt(1, 10));
+      console.log('auth request failed', emit);
     }
   }
 
