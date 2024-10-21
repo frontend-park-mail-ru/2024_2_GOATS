@@ -33,13 +33,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    &_rating {
-      padding: 2px 10px;
-      text-align: center;
-      color: $brand-secondary;
-      background-color: $card-high-rating;
-      border-radius: 10px;
-    }
+    // &_rating {
+    //   padding: 2px 10px;
+    //   text-align: center;
+    //   color: $brand-secondary;
+    //   background-color: $card-high-rating;
+    //   border-radius: 10px;
+    // }
 
     &_text {
       color: $brand-dull;
@@ -80,4 +80,12 @@
     height: auto;
     object-fit: cover;
   }
+}
+
+.rating {
+  padding: 2px 10px;
+  text-align: center;
+  color: $brand-secondary;
+  background-color: $card-high-rating;
+  border-radius: 10px;
 }

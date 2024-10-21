@@ -41,9 +41,13 @@ export class MovieDescription {
       'watch-together-btn',
     ) as HTMLButtonElement;
 
-    const modal = new RoomModal('Вы уверены, что хотите выйти?', () => {
-      console.log('send');
-    });
+    const modal = new RoomModal(
+      'Создание комнаты для совместного просмотра',
+      this.#movie,
+      () => {
+        console.log('send');
+      },
+    );
 
     watchTogetherBtn.addEventListener('click', () => {
       modal.render();
