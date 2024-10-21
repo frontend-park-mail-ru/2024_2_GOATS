@@ -21,6 +21,17 @@ export type UserData = {
   avatar: string;
 };
 
+// TODO: Прогнать через сериализатор
+export type UserNew = {
+  id: number;
+  email: string;
+  username: string;
+  birthdate?: string; // TODO: переделать в Date
+  sex?: string; // TODO: перепроверить
+  avatar_url?: string;
+  isAdmin?: boolean;
+};
+
 // export type UserInfo = {
 //   email: string;
 //   username: string;

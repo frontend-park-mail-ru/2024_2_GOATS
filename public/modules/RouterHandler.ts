@@ -16,6 +16,7 @@ export const Urls = {
   // video: '/video',
   actor: '/person',
   profile: '/profile',
+  room: '/room',
 };
 
 export const routerHandler = (url: URL) => {
@@ -46,6 +47,9 @@ export const routerHandler = (url: URL) => {
       break;
     case Urls.profile:
       Actions.renderProfilePage();
+      break;
+    case Urls.room:
+      Actions.renderRoomPage();
       break;
 
     default:

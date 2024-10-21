@@ -9,14 +9,27 @@ export class VideoPlayer {
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
   #onBackClick;
+  #onPauseClick;
+  #onPlayClick;
+  #handleRewindVideo;
   #isDragging = false;
   #isModal;
 
-  constructor(parent: HTMLElement, url: string, onBackClick?: () => void) {
+  constructor(
+    parent: HTMLElement,
+    url: string,
+    onBackClick?: () => void,
+    onPlayClick?: () => void,
+    onPauseClick?: (timeCode: number) => void,
+    handleRewindVideo?: (timeCode: number) => void,
+  ) {
     this.#parent = parent;
     this.#url = url;
     this.#isPlaying = false;
     this.#onBackClick = onBackClick;
+    this.#onPlayClick = onPlayClick;
+    this.#onPauseClick = onPauseClick;
+    this.#handleRewindVideo = handleRewindVideo;
     this.#isModal = onBackClick ? true : false;
   }
 
@@ -103,7 +116,10 @@ export class VideoPlayer {
     );
 
     this.initAutoHideControls();
-    this.handleBackButtonClick();
+
+    if (this.#isModal) {
+      this.handleBackButtonClick();
+    }
 
     document.addEventListener('keydown', this.handleKeyPress.bind(this));
 
@@ -118,6 +134,29 @@ export class VideoPlayer {
     slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
   }
 
+  // Вспомогательные функции для использования снаружи
+  getCurrentVideoTime() {
+    const { video } = this.#controls;
+    return video.currentTime;
+  }
+
+  videoPlay() {
+    const { video } = this.#controls;
+    video.play();
+  }
+
+  videoPause(timeCode: number) {
+    const { video } = this.#controls;
+    video.pause();
+    video.currentTime = timeCode;
+  }
+
+  videoRewind(timeCode: number) {
+    const { video } = this.#controls;
+    video.currentTime = timeCode;
+  }
+
+  // Обработчики событий
   onSliderMouseDown() {
     this.#isDragging = true;
   }
@@ -165,6 +204,9 @@ export class VideoPlayer {
 
     const newTime = (Number(slider.value) / 100) * video.duration;
 
+    if (this.#handleRewindVideo) {
+      this.#handleRewindVideo(newTime);
+    }
     video.currentTime = newTime;
 
     this.updateProgress();
@@ -186,12 +228,18 @@ export class VideoPlayer {
   }
 
   onPlay() {
+    if (this.#onPlayClick) {
+      this.#onPlayClick();
+    }
     const { playOrPause } = this.#controls;
     playOrPause.classList.add('video__controls_icon_pause');
     playOrPause.classList.remove('video__controls_icon_play');
   }
 
   onPause() {
+    if (this.#onPauseClick) {
+      this.#onPauseClick(this.#controls.video.currentTime);
+    }
     const { playOrPause } = this.#controls;
     playOrPause.classList.add('video__controls_icon_play');
     playOrPause.classList.remove('video__controls_icon_pause');
@@ -210,6 +258,10 @@ export class VideoPlayer {
     } else {
       video.pause();
     }
+    // console.log(
+    //   'current time on pause or play',
+    //   this.#controls.video.currentTime,
+    // );
     this.#isPlaying = !this.#isPlaying;
   }
 
@@ -256,11 +308,17 @@ export class VideoPlayer {
 
   rewindBack() {
     const { video } = this.#controls;
+    if (this.#handleRewindVideo) {
+      this.#handleRewindVideo(video.currentTime - 15);
+    }
     video.currentTime -= 15;
   }
 
   rewindFront() {
     const { video } = this.#controls;
+    if (this.#handleRewindVideo) {
+      this.#handleRewindVideo(video.currentTime + 15);
+    }
     video.currentTime += 15;
   }
 
@@ -279,12 +337,17 @@ export class VideoPlayer {
     clearTimeout(this.#hideControlsTimeout);
 
     this.#controls.videoControls.classList.remove('video__controls_hidden');
-    this.#controls.videoBackButton.classList.remove('video__controls_hidden');
+    if (this.#isModal) {
+      this.#controls.videoBackButton.classList.remove('video__controls_hidden');
+    }
 
     this.#hideControlsTimeout = window.setTimeout(() => {
       this.#controls.videoControls.classList.add('video__controls_hidden');
-      this.#controls.videoBackButton.classList.add('video__controls_hidden');
-    }, 1000000);
+
+      if (this.#isModal) {
+        this.#controls.videoBackButton.classList.add('video__controls_hidden');
+      }
+    }, 3000);
   }
 
   handleBackButtonClick() {

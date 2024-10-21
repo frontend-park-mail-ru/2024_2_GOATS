@@ -1,6 +1,7 @@
 import { AuthUser, User } from 'types/user';
 
 export const API_URL = 'http://185.241.195.151/api/';
+// export const API_URL = 'http://localhost:8080/api/';
 
 export const movies = [
   {
@@ -346,3 +347,23 @@ export const mockPersons = [
     isDirector: false,
   },
 ];
+
+export const movie = {
+  id: 1,
+  title: 'Сопрано',
+  titleImage:
+    'https://i.pinimg.com/originals/93/c7/54/93c754126bcdecb6e540e02631f5eda1.png',
+  shortDescription:
+    'Мафиозный босс Нью-Джерси обращается за помощью к психологу. Культовый сериал, ставший образцом гангстерскогокино',
+  longDescription:
+    'Сюжет и Основная Идея: "Клан Сопрано" предлагает зрителю уникальную возможность погрузиться в жизнь Тони Сопрано, главы мафиозной семьи в Нью-Джерси. Великолепно сыгранный Джеймсом Гандольфини, Тони Сопрано становится центром вселенной, где переплетаются его внутренние конфликты, семейные проблемы и криминальные дела.',
+  image:
+    'https://avatars.mds.yandex.net/i?id=47e4f9e1d2423964f4db57f4db284b2e_l-5350095-images-thumbs&n=13',
+  rating: 10,
+  releaseDate: '13.09.1999',
+  country: 'США',
+  director: 'Тимоти Ван Паттен',
+  isSerial: false,
+  video:
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+};
