@@ -17,12 +17,41 @@
           >{{movie.shortDescription}}</p>
         </div>
 
-        <div class='room-page__info_list'>
-        </div>
+        <div class='room-page__info_list_wrapper'>
+          <div class='room-page__info_list_header'>
+            <h4 class='room-page__info_list_header_title'>Участники</h4>
+            <button
+              id='invitation-btn'
+              class='button room-page__info_list_header_btn'
+            >
+              Добавить
+            </button>
+          </div>
 
-        <button class='button test__btn'>Кликни, чтобы работало</button>
+          <ul class='room-page__info_list'>
+            {{#each members}}
+              <li class='room-page__info_list_item'>
+                <img
+                  class='room-page__info_list_item_image'
+                  src={{this.avatar_url}}
+                  alt='avatar'
+                />
+
+                <div class='room-page__info_list_item_title_block'>
+                  <p
+                    class='room-page__info_list_item_title'
+                  >{{this.username}}</p>
+                  {{#if this.isAdmin}}
+                    <p class='room-page__info_list_item_subtitle'>
+                      Владелец комнаты
+                    </p>
+                  {{/if}}
+                </div>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-
 </div>
