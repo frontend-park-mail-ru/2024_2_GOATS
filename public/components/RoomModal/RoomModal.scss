@@ -1,0 +1,7 @@
+.modal {
+  &__content_room {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}

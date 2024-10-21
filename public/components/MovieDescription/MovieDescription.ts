@@ -3,6 +3,7 @@ import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDetailed } from 'types/movie';
 import { router } from 'modules/Router';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
+import { RoomModal } from 'components/RoomModal/RoomModal';
 
 export class MovieDescription {
   #parent;
@@ -35,6 +36,20 @@ export class MovieDescription {
     });
   }
 
+  handleWatchTogether() {
+    const watchTogetherBtn = document.getElementById(
+      'watch-together-btn',
+    ) as HTMLButtonElement;
+
+    const modal = new RoomModal('Вы уверены, что хотите выйти?', () => {
+      console.log('send');
+    });
+
+    watchTogetherBtn.addEventListener('click', () => {
+      modal.render();
+    });
+  }
+
   handleFavoritesClick() {
     const favoritesBtn = document.getElementById(
       'favorites-movie-btn',
@@ -45,6 +60,7 @@ export class MovieDescription {
   renderTemplate() {
     this.#parent.innerHTML = template({ movie: this.#movie });
     this.handleShowMovie();
+    this.handleWatchTogether();
     this.handleFavoritesClick();
   }
 }
