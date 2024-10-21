@@ -19,7 +19,7 @@ export const Urls = {
   room: '/room',
 };
 
-export const routerHandler = (url: URL) => {
+export const routerHandler = (url: URL, id?: string | number) => {
   switch (url.pathname.toString()) {
     case Urls.root:
       Actions.renderHeader(Urls.root);
@@ -41,8 +41,8 @@ export const routerHandler = (url: URL) => {
       Actions.renderActorPage();
       footer.render(Urls.actor);
       break;
-    case Urls.movie:
-      Actions.renderMoviePage();
+    case `${Urls.movie}/${id}`:
+      Actions.renderMoviePage(id);
       footer.render(Urls.movie);
       break;
     case Urls.profile:

@@ -21,11 +21,12 @@ class MoviePageStore {
     return this.#movie;
   }
 
-  async getMovieRequest() {
+  async getMovieRequest(id: number) {
     // Пока оставил запрос из другой страницы для теста
     const response = await apiClient.get({
       path: 'movie_collections/',
     });
+    console.log('ID ФИЛЬМА ', id);
 
     const movie = {
       id: 1,
@@ -52,11 +53,10 @@ class MoviePageStore {
   }
 
   async reduce(action: any) {
-    console.log(action);
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
         moviePage.render();
-        await this.getMovieRequest();
+        await this.getMovieRequest(action.payload);
         break;
       default:
         break;
