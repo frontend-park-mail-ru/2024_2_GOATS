@@ -46,6 +46,7 @@ export const routerHandler = (url: URL) => {
       footer.render(Urls.movie);
       break;
     case Urls.profile:
+      Actions.renderHeader(Urls.profile);
       Actions.renderProfilePage();
       break;
     case Urls.room:

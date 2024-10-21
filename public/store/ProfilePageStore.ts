@@ -7,25 +7,35 @@ import { Emitter } from 'modules/Emmiter';
 import { throwBackendError } from 'modules/BackendErrors';
 import { Notifier } from 'components/Notifier/Notifier';
 import { router } from 'modules/Router';
+import { userStore } from './UserStore';
 
-let mockUser = {
-  email: 'tkoibaev@mail.ru',
-  username: 'tkoibaev',
-  name: '',
-  avatar: '', //  assets/mockImages/user-profile_image.png
-};
+// let mockUser = {
+//   email: 'tkoibaev@mail.ru',
+//   username: 'tkoibaev',
+//   name: '',
+//   avatar: '', //  assets/mockImages/user-profile_image.png
+// };
 
 export class ProfilePageStore {
-  #user!: UserData;
+  #user!: User;
   #passwordChangedEmitter: Emitter<boolean>;
 
   constructor() {
     this.#passwordChangedEmitter = new Emitter<boolean>(false);
     dispatcher.register(this.reduce.bind(this));
+
+    const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
+      status && this.getUserInfoRequest();
+    });
+
+    this.ngOnDestroy = () => {
+      unsubscribe();
+    };
   }
+  ngOnDestroy(): void {}
 
   getUserInfoRequest() {
-    this.#user = mockUser;
+    this.#user = userStore.getUser();
   }
 
   get passwordChangedEmitter$(): Emitter<boolean> {
@@ -48,8 +58,13 @@ export class ProfilePageStore {
   ) {
     this.#passwordChangedEmitter.set(false);
     try {
-      const response = await apiClient.get({
-        path: 'movie_collections/',
+      const response = await apiClient.post({
+        path: `users/${this.#user.id}/update_password`,
+        body: {
+          oldPassword: prevPasswordValue,
+          password: newPasswordValue,
+          passwordConfirmation: confirmPasswordValue,
+        },
       });
       this.#passwordChangedEmitter.set(true);
       alert({ prevPasswordValue, newPasswordValue, confirmPasswordValue });
@@ -58,26 +73,26 @@ export class ProfilePageStore {
     }
   }
 
-  async changeUserInfoRequest(userData: UserData) {
-    try {
-      // const response = await apiClient.get({
-      //   path: 'movie_collection/',
-      // });
-      // alert(userData);
-      mockUser = userData;
-      console.log(userData);
-      router.go('/profile');
-      const not = new Notifier('success', 'Данные успешно обновлены', 2000);
-      not.render();
-    } catch {
-      alert('error');
-    }
-  }
+  // async changeUserInfoRequest(userData: UserData) {
+  //   try {
+  //     // const response = await apiClient.get({
+  //     //   path: 'movie_collection/',
+  //     // });
+  //     // alert(userData);
+  //     mockUser = userData;
+  //     console.log(userData);
+  //     router.go('/profile');
+  //     const not = new Notifier('success', 'Данные успешно обновлены', 2000);
+  //     not.render();
+  //   } catch {
+  //     alert('error');
+  //   }
+  // }
 
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_PROFILE_PAGE:
-        await this.getUserInfoRequest();
+        this.getUserInfoRequest();
         this.renderProfilePage();
 
         break;
@@ -89,7 +104,7 @@ export class ProfilePageStore {
         );
         break;
       case ActionTypes.CHANGE_USER_INFO:
-        await this.changeUserInfoRequest(action.userData);
+        // await this.changeUserInfoRequest(action.userData);
         break;
       default:
         break;

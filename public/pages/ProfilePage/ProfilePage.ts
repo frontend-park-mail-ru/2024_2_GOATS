@@ -136,11 +136,8 @@ export class ProfilePage {
     pageElement.innerHTML = template({
       user: profilePageStore.getUserInfo(),
     });
-
-    const avatar = profilePageStore.getUserInfo().avatar
-      ? profilePageStore.getUserInfo().avatar
-      : defAvatar;
-    this.renderAvatar(avatar);
+    console.log(profilePageStore.getUserInfo(), '00000000');
+    this.renderAvatar(profilePageStore.getUserInfo().avatar_url);
 
     this.handlePasswordChangeClick();
     this.handleUserInfoChangeClick();
