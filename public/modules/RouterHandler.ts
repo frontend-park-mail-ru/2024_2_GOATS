@@ -7,6 +7,7 @@ import { apiClient } from './ApiClient';
 import { setPagesConfig } from '../consts';
 import { Actions } from 'flux/Actions';
 import { footer } from 'components/Footer/Footer';
+import { router } from './Router';
 
 export const Urls = {
   root: '/',
@@ -36,13 +37,13 @@ export const routerHandler = (url: URL, id?: string | number) => {
       Actions.renderRegPage();
       footer.render(Urls.registration);
       break;
-    case Urls.actor:
+    case `${Urls.actor}/${id}`:
       // Actions.renderHeader(Urls.registration);
-      Actions.renderActorPage();
+      id && Actions.renderActorPage(id);
       footer.render(Urls.actor);
       break;
     case `${Urls.movie}/${id}`:
-      Actions.renderMoviePage(id);
+      id && Actions.renderMoviePage(id);
       footer.render(Urls.movie);
       break;
     case Urls.profile:
@@ -54,6 +55,6 @@ export const routerHandler = (url: URL, id?: string | number) => {
       break;
 
     default:
-      console.log('error', url.pathname);
+      router.go('/');
   }
 };

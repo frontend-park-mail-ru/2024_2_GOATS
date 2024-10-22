@@ -31,9 +31,10 @@ export const Actions = {
       payload: url,
     });
   },
-  renderActorPage() {
+  renderActorPage(id: number | string) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_ACTOR_PAGE,
+      payload: id,
     });
   },
   renderProfilePage() {

@@ -21,7 +21,8 @@ export class ActorPageStore {
     return this.#actor;
   }
 
-  renderActorPage() {
+  renderActorPage(id: number | string) {
+    console.log('ID АКТЕРА ', id);
     const actorPage = new ActorPage();
     actorPage.render();
   }
@@ -30,7 +31,7 @@ export class ActorPageStore {
     switch (action.type) {
       case ActionTypes.RENDER_ACTOR_PAGE:
         await this.getActorRequest();
-        this.renderActorPage();
+        this.renderActorPage(action.payload);
         // mainPage.render();
         // await this.getCollection();
         break;

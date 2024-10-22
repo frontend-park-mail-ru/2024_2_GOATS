@@ -153,7 +153,7 @@ export class Slider {
         this.#persons.forEach((person) => {
           const personCard = new PersonCard(track, person, () => {
             console.log('person id is', person.id);
-            router.go('/person'); // TODO: Исправить на переход по /:id
+            router.go('/person', person.id); // TODO: Исправить на переход по /:id
           });
           personCard.render();
         });

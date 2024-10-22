@@ -3,13 +3,14 @@ import { routerHandler } from './RouterHandler';
 class Router {
   start() {
     const url = new URL(window.location.href);
+
     routerHandler(url, decodeURIComponent(this.parseUrl(url.pathname).id));
 
     window.onpopstate = (e) => {
       if (e.state) {
-        routerHandler(new URL(window.location.href));
+        routerHandler(new URL(window.location.href), e.state.id);
       } else {
-        routerHandler(url);
+        routerHandler(new URL(window.location.href));
       }
     };
   }
@@ -18,10 +19,14 @@ class Router {
     let url = id
       ? new URL(`${path}/${id}`, window.location.href)
       : new URL(path, window.location.href);
-    id ? routerHandler(url, id) : routerHandler(url);
-    id
-      ? window.history.pushState({}, path, `${path}/${id}`)
-      : window.history.pushState({}, path, path);
+
+    if (id) {
+      routerHandler(url, id);
+      window.history.pushState({ id }, path, `${path}/${id}`);
+    } else {
+      routerHandler(url);
+      window.history.pushState({}, path, path);
+    }
   }
 
   parseUrl(url: any) {

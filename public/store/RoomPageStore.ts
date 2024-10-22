@@ -83,45 +83,45 @@ class RoomPageStore {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  wsInit() {
-    this.#user = users[this.getRandomInt(1, 10)];
-    const ws = new WebSocket(
-      `ws://localhost:8000?username=${this.#user.username}`,
-    );
+  // wsInit() {
+  //   this.#user = users[this.getRandomInt(1, 10)];
+  //   const ws = new WebSocket(
+  //     `ws://localhost:8000?username=${this.#user.username}`,
+  //   );
 
-    ws.onclose = (event) => {
-      console.log('WebSocket соединение закрыто:', event.code, event.reason);
-    };
+  //   ws.onclose = (event) => {
+  //     console.log('WebSocket соединение закрыто:', event.code, event.reason);
+  //   };
 
-    ws.onopen = () => {
-      console.log('WebSocket соединение открыто');
-    };
+  //   ws.onopen = () => {
+  //     console.log('WebSocket соединение открыто');
+  //   };
 
-    ws.onmessage = (event) => {
-      const messageData = JSON.parse(event.data);
+  //   ws.onmessage = (event) => {
+  //     const messageData = JSON.parse(event.data);
 
-      if (messageData.type === 'ROOM') {
-        this.setState(messageData.data);
-        // console.log('RERENDER ROOM PAGE', this.#room);
-        roomPage.render();
-      } else if (messageData.type === 'ACTION') {
-        switch (messageData.data.name) {
-          case 'play':
-            roomPage.videoPlay();
-            break;
-          case 'pause':
-            roomPage.videoPause(messageData.data.timeCode);
-            break;
-          case 'rewind':
-            roomPage.videoRewind(messageData.data.timeCode);
-            break;
-        }
-        console.log('Received ACTION message:', messageData);
-      }
-      // console.log('REC DATA FROM WS', messageData);
-    };
-    this.#ws = ws;
-  }
+  //     if (messageData.type === 'ROOM') {
+  //       this.setState(messageData.data);
+  //       // console.log('RERENDER ROOM PAGE', this.#room);
+  //       roomPage.render();
+  //     } else if (messageData.type === 'ACTION') {
+  //       switch (messageData.data.name) {
+  //         case 'play':
+  //           roomPage.videoPlay();
+  //           break;
+  //         case 'pause':
+  //           roomPage.videoPause(messageData.data.timeCode);
+  //           break;
+  //         case 'rewind':
+  //           roomPage.videoRewind(messageData.data.timeCode);
+  //           break;
+  //       }
+  //       console.log('Received ACTION message:', messageData);
+  //     }
+  //     // console.log('REC DATA FROM WS', messageData);
+  //   };
+  //   this.#ws = ws;
+  // }
 
   sendActionMessage(actionMessage: Action) {
     console.log('sendedAction', actionMessage);
@@ -140,7 +140,7 @@ class RoomPageStore {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
         roomPage.render();
-        this.wsInit();
+        // this.wsInit();
         break;
       case ActionTypes.SEND_ACTION_MESSAGE:
         this.sendActionMessage(action.actionData);
