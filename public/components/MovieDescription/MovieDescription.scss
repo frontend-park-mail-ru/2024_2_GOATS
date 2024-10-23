@@ -66,12 +66,10 @@
       }
     }
 
-    &_favorites_btn {
-      background-color: $button-background-secondary;
-
-      &:hover {
-        background-color: $button-background-secondary-hover;
-      }
+    &_favorites {
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
     }
   }
 
