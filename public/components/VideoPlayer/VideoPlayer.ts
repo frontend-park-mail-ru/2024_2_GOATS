@@ -19,7 +19,7 @@ export class VideoPlayer {
     parent: HTMLElement,
     url: string,
     onBackClick?: () => void,
-    onPlayClick?: () => void,
+    onPlayClick?: (timeCode: number) => void,
     onPauseClick?: (timeCode: number) => void,
     handleRewindVideo?: (timeCode: number) => void,
   ) {
@@ -229,7 +229,7 @@ export class VideoPlayer {
 
   onPlay() {
     if (this.#onPlayClick) {
-      this.#onPlayClick();
+      this.#onPlayClick(this.#controls.video.currentTime);
     }
     const { playOrPause } = this.#controls;
     playOrPause.classList.add('video__controls_icon_pause');

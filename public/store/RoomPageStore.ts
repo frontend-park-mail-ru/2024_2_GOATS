@@ -107,13 +107,13 @@ class RoomPageStore {
       } else if (messageData.type === 'ACTION') {
         switch (messageData.data.name) {
           case 'play':
-            roomPage.videoPlay();
+            roomPage.videoPlay(messageData.data.time_code);
             break;
           case 'pause':
-            roomPage.videoPause(messageData.data.timeCode);
+            roomPage.videoPause(messageData.data.time_code);
             break;
           case 'rewind':
-            roomPage.videoRewind(messageData.data.timeCode);
+            roomPage.videoRewind(messageData.data.time_code);
             break;
         }
         console.log('Received ACTION message:', messageData);
@@ -127,7 +127,6 @@ class RoomPageStore {
     console.log('sendedAction', actionMessage);
     if (this.#ws) {
       const actionData = {
-        username: this.#user.username,
         type: 'ACTION',
         data: actionMessage,
       };

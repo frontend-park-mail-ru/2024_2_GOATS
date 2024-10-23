@@ -7,5 +7,5 @@ export type Room = {
 
 export type Action = {
   name: string;
-  timeCode?: number;
+  time_code?: number;
 };
