@@ -28,9 +28,10 @@ export class MovieDescription {
       const videoContainer = document.getElementById(
         'video-container',
       ) as HTMLElement;
-      const video = new VideoPlayer(videoContainer, this.#movie.video, () =>
-        router.go('/movie'),
-      );
+      const video = new VideoPlayer(videoContainer, this.#movie.video, () => {
+        videoContainer.innerHTML = '';
+        videoContainer.style.zIndex = '-1';
+      });
       video.render();
       videoContainer.style.zIndex = '10';
     });
