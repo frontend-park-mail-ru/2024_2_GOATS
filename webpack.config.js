@@ -9,8 +9,9 @@ const publicPath = path.join(__dirname, 'public');
 module.exports = {
   entry: publicPath,
   output: {
-    path: buildPath,
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
