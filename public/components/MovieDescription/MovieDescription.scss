@@ -33,13 +33,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    &_rating {
-      padding: 2px 10px;
-      text-align: center;
-      color: $brand-secondary;
-      background-color: $card-high-rating;
-      border-radius: 10px;
-    }
+    // &_rating {
+    //   padding: 2px 10px;
+    //   text-align: center;
+    //   color: $brand-secondary;
+    //   background-color: $card-high-rating;
+    //   border-radius: 10px;
+    // }
 
     &_text {
       color: $brand-dull;
@@ -66,12 +66,10 @@
       }
     }
 
-    &_favorites_btn {
-      background-color: $button-background-secondary;
-
-      &:hover {
-        background-color: $button-background-secondary-hover;
-      }
+    &_favorites {
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
     }
   }
 
@@ -80,4 +78,12 @@
     height: auto;
     object-fit: cover;
   }
+}
+
+.rating {
+  padding: 2px 10px;
+  text-align: center;
+  color: $brand-secondary;
+  background-color: $card-high-rating;
+  border-radius: 10px;
 }

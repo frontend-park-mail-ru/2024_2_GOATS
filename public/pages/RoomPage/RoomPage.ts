@@ -73,24 +73,27 @@ export class RoomPage {
     // console.log('timecode from hander', timeCode);
     Actions.sendActionMessage({
       name: 'pause',
-      timeCode: timeCode,
+      time_code: timeCode,
     });
   }
 
   handleRewindVideo(timeCode: number) {
     Actions.sendActionMessage({
       name: 'rewind',
-      timeCode: timeCode,
+      time_code: timeCode,
     });
   }
 
-  onPlayClick() {
+  onPlayClick(timeCode: number) {
     Actions.sendActionMessage({
       name: 'play',
+      time_code: timeCode,
     });
   }
 
-  videoPlay() {
+  videoPlay(timeCode: number) {
+    // TODO: согласовать, зачем нужен timeCode
+    console.log('TIMECODE FROM VIDEO PLAY HANDLER', timeCode);
     this.#video.videoPlay();
   }
 

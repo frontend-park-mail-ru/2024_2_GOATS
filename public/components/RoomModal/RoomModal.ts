@@ -1,20 +1,31 @@
 import template from './RoomModal.hbs';
+import { MovieDetailed } from 'types/movie';
 
 export class RoomModal {
   #text;
+  #movie;
   #onConfirm;
   #onCancel;
 
-  constructor(text: string, onConfirm: () => void, onCancel?: () => void) {
+  constructor(
+    text: string,
+    movie: MovieDetailed,
+    onConfirm: () => void,
+    onCancel?: () => void,
+  ) {
     this.#text = text;
     this.#onConfirm = onConfirm;
     this.#onCancel = onCancel;
+    this.#movie = movie;
   }
 
   render() {
     const root = document.getElementById('root');
     if (root) {
-      root.insertAdjacentHTML('beforeend', template({ text: this.#text }));
+      root.insertAdjacentHTML(
+        'beforeend',
+        template({ text: this.#text, movie: this.#movie }),
+      );
       root.style.overflow = 'hidden';
     }
 

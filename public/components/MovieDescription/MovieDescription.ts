@@ -28,9 +28,10 @@ export class MovieDescription {
       const videoContainer = document.getElementById(
         'video-container',
       ) as HTMLElement;
-      const video = new VideoPlayer(videoContainer, this.#movie.video, () =>
-        router.go('/movie'),
-      );
+      const video = new VideoPlayer(videoContainer, this.#movie.video, () => {
+        videoContainer.innerHTML = '';
+        videoContainer.style.zIndex = '-1';
+      });
       video.render();
       videoContainer.style.zIndex = '10';
     });
@@ -41,9 +42,13 @@ export class MovieDescription {
       'watch-together-btn',
     ) as HTMLButtonElement;
 
-    const modal = new RoomModal('Вы уверены, что хотите выйти?', () => {
-      console.log('send');
-    });
+    const modal = new RoomModal(
+      'Создание комнаты для совместного просмотра',
+      this.#movie,
+      () => {
+        console.log('send');
+      },
+    );
 
     watchTogetherBtn.addEventListener('click', () => {
       modal.render();

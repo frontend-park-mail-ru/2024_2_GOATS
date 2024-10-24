@@ -16,3 +16,10 @@ export type ActorInfo = {
 export type Actor = ActorInfo & {
   movies: Movie[];
 };
+
+export type PersonCardData = {
+  id: number;
+  name: string;
+  image: string;
+  country: string;
+};

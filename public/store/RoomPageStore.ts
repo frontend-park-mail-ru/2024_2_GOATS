@@ -86,7 +86,7 @@ class RoomPageStore {
   wsInit() {
     this.#user = users[this.getRandomInt(1, 10)];
     const ws = new WebSocket(
-      `ws://localhost:8000?username=${this.#user.username}`,
+      `ws://localhost:8080/api/room/join?room_id=8a225776-ec7d-4b86-8bd0-6b10af01bc9c`,
     );
 
     ws.onclose = (event) => {
@@ -100,25 +100,23 @@ class RoomPageStore {
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
 
-      if (messageData.type === 'ROOM') {
-        this.setState(messageData.data);
-        // console.log('RERENDER ROOM PAGE', this.#room);
+      if (messageData.movie) {
+        this.setState(messageData);
         roomPage.render();
-      } else if (messageData.type === 'ACTION') {
-        switch (messageData.data.name) {
+      } else {
+        switch (messageData.name) {
           case 'play':
-            roomPage.videoPlay();
+            roomPage.videoPlay(messageData.time_code);
             break;
           case 'pause':
-            roomPage.videoPause(messageData.data.timeCode);
+            roomPage.videoPause(messageData.time_code);
             break;
           case 'rewind':
-            roomPage.videoRewind(messageData.data.timeCode);
+            roomPage.videoRewind(messageData.time_code);
             break;
         }
         console.log('Received ACTION message:', messageData);
       }
-      // console.log('REC DATA FROM WS', messageData);
     };
     this.#ws = ws;
   }
@@ -126,13 +124,8 @@ class RoomPageStore {
   sendActionMessage(actionMessage: Action) {
     console.log('sendedAction', actionMessage);
     if (this.#ws) {
-      const actionData = {
-        username: this.#user.username,
-        type: 'ACTION',
-        data: actionMessage,
-      };
-      console.log('SENDED DATA', actionData);
-      this.#ws.send(JSON.stringify(actionData));
+      console.log('SENDED DATA', actionMessage);
+      this.#ws.send(JSON.stringify(actionMessage));
     }
   }
 
