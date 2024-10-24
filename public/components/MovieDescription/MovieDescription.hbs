@@ -9,10 +9,18 @@
         </span>
       </div>
       <p class='movie-description__text'>{{movie.shortDescription}}</p>
-      <p class='movie-description__persons'><span
-          class='movie-description__info_text'
-        >Режиссёр:</span>
-        {{movie.director}}</p>
+      <p class='movie-description__persons'>
+        <span class='movie-description__info_text'>
+          Режиссёр:
+        </span>
+
+        {{#each movie.directors}}
+          <span class='movie-description__info_text'>
+            {{this.name}}
+          </span>
+        {{/each}}
+      </p>
+
       <div class='movie-description__actions'>
         <button
           id='show-movie-btn'
@@ -22,10 +30,6 @@
           id='watch-together-btn'
           class='button movie-description__actions_show_btn'
         >Смотреть вместе</button>
-        {{! <button
-          id='favorites-movie-btn'
-          class='button movie-description__actions_favorites_btn'
-        >В избранное</button> }}
         <img
           id='favorites-movie-btn'
           class='movie-description__actions_favorites'
@@ -37,7 +41,7 @@
     </div>
     <img
       class='movie-description__image'
-      src={{movie.image}}
+      src={{movie.albumImage}}
       alt='movie-image'
     />
   </div>
