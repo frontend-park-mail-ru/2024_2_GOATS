@@ -5,7 +5,6 @@ import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDescription } from 'components/MovieDescription/MovieDescription';
 import { Slider } from 'components/Slider/Slider';
 import { mockSeries } from '../../consts';
-import { mockPersons } from '../../consts';
 
 export class MoviePage {
   #movie!: MovieDetailed;
@@ -42,7 +41,7 @@ export class MoviePage {
       personsBlock,
       undefined,
       undefined,
-      mockPersons,
+      this.#movie.actors,
     );
     personsSlider.render();
   }

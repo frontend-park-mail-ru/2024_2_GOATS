@@ -2,13 +2,29 @@
   <div id='modal-content' class='modal__content'>
     <h4 class='modal__content_text'>{{this.text}}</h4>
     <div class='modal__content_room'>
-      <input
-        name='room-number-value'
-        placeholder='Введите название комнаты'
-        class='input password-modal__input_field'
-        id='password-prev-value'
-        type='text'
-      />
+      <label class='modal__content_room_input_label' for='room-number-value'>
+        <span class='modal__content_room_input_caption'>Название комнаты</span>
+        <input
+          name='room-number-value'
+          placeholder='Введите название комнаты'
+          class='input password-modal__input_field'
+          id='password-prev-value'
+          type='text'
+        />
+      </label>
+      {{!-- 
+      <div class='modal__content_room_movie'>
+        <img
+          class='modal__content_room_movie_image'
+          src={{movie.image}}
+          alt='movie-modal-image'
+        />
+        <div class='modal__content_room_movie_content'>
+          <p class='modal__content_room_movie_title'>{{movie.title}}</p>
+          <p class='rating'>{{movie.rating}}</p>
+        </div>
+      </div> --}}
+
       <div class='modal__content_actions'>
         <button
           id='modal-create-btn'

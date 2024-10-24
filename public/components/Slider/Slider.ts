@@ -3,7 +3,8 @@ import { SeriesCard } from 'components/SeriesCard/SeriesCard';
 import { PersonCard } from 'components/PersonCard/PersonCard';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import template from './Slider.hbs';
-import { MovieSelection, Person, Series } from 'types/movie';
+import { MovieSelection, Series } from 'types/movie';
+import { PersonCardData } from 'types/actor';
 import { router } from 'modules/Router';
 
 export class Slider {
@@ -19,7 +20,7 @@ export class Slider {
     parent: HTMLElement,
     selection?: MovieSelection,
     series?: Series[],
-    persons?: Person[],
+    persons?: PersonCardData[],
   ) {
     this.#parent = parent;
     this.#selection = selection;

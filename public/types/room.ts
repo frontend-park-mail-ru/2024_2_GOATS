@@ -1,11 +1,12 @@
 import { MovieDetailed } from './movie';
 
 export type Room = {
-  title: string;
+  status: string;
+  time_code: number;
   movie: MovieDetailed;
 };
 
 export type Action = {
   name: string;
-  timeCode?: number;
+  time_code?: number;
 };

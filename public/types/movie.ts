@@ -1,3 +1,5 @@
+import { PersonCardData } from './actor';
+
 export type Movie = {
   id: number; //
   title: string; //
@@ -22,13 +24,15 @@ export type MovieDetailed = {
   titleImage: string;
   shortDescription: string;
   longDescription: string;
-  image: string;
+  albumImage: string;
+  cardImage: string;
   rating: number;
   releaseDate: string; // TODO: поменять на Date
   country: string;
-  director: string;
   isSerial: boolean;
   video: string;
+  actors: PersonCardData[];
+  directors: PersonCardData[];
 };
 
 export type Series = {

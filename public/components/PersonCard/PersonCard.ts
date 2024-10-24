@@ -1,12 +1,16 @@
 import template from './PersonCard.hbs';
-import { Person } from 'types/movie';
+import { PersonCardData } from 'types/actor';
 
 export class PersonCard {
   #parent;
   #person;
   #onCardClick;
 
-  constructor(parent: HTMLElement, person: Person, onCardClick: () => void) {
+  constructor(
+    parent: HTMLElement,
+    person: PersonCardData,
+    onCardClick: () => void,
+  ) {
     this.#parent = parent;
     this.#person = person;
     this.#onCardClick = onCardClick;
