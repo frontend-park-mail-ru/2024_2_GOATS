@@ -6,11 +6,12 @@ export type AuthUser = {
 };
 
 export type User = {
+  id: number;
   email: string;
   username: string;
   name?: string;
   birthDate?: Date;
-  avatar?: string;
+  avatar_url: string;
   isAuth: boolean;
 };
 

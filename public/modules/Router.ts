@@ -3,21 +3,47 @@ import { routerHandler } from './RouterHandler';
 class Router {
   start() {
     const url = new URL(window.location.href);
-    routerHandler(url);
+    routerHandler(url, decodeURIComponent(this.parseUrl(url.pathname).id));
 
     window.onpopstate = (e) => {
       if (e.state) {
         routerHandler(new URL(window.location.href));
       } else {
-        routerHandler(new URL(window.location.href));
+        routerHandler(url);
       }
     };
   }
 
-  go(path: string) {
-    let url = new URL(path, window.location.href);
-    routerHandler(url);
-    window.history.pushState({}, path, path);
+  go(path: string, id?: number | string) {
+    let url = id
+      ? new URL(`${path}/${id}`, window.location.href)
+      : new URL(path, window.location.href);
+    id ? routerHandler(url, id) : routerHandler(url);
+    id
+      ? window.history.pushState({}, path, `${path}/${id}`)
+      : window.history.pushState({}, path, path);
+  }
+
+  parseUrl(url: any) {
+    let countSlash = 0;
+    let method = '/';
+    let id = '';
+    for (let i in url) {
+      if (url[i] === '/') {
+        countSlash++;
+      } else {
+        if (countSlash === 1) {
+          method += url[i];
+        }
+        if (countSlash === 2) {
+          id += url[i];
+        }
+      }
+    }
+    return {
+      method,
+      id,
+    };
   }
 }
 

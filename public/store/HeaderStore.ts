@@ -33,6 +33,13 @@ class HeaderStore {
           isAvailable: !userStore.getUser().isAuth,
           render: () => router.go('/auth'),
         },
+        profile: {
+          text: 'Профиль',
+          href: '/profile',
+          id: 'header-profile',
+          isAvailable: userStore.getUser().isAuth,
+          render: () => router.go('/profile'),
+        },
       },
     };
     dispatcher.register(this.reduce.bind(this));
@@ -42,6 +49,7 @@ class HeaderStore {
     this.#config.pages.main.isAvailable = true;
     this.#config.pages.reg.isAvailable = !user.isAuth;
     this.#config.pages.auth.isAvailable = !user.isAuth;
+    this.#config.pages.profile.isAvailable = user.isAuth;
   }
 
   renderHeader(url: string) {

@@ -22,7 +22,8 @@ class MoviePageStore {
     return this.#movie;
   }
 
-  async getMovieRequest() {
+  async getMovieRequest(id: number) {
+    console.log(id);
     const response = await apiClient.get({
       path: `movies/1`,
     });
@@ -34,11 +35,10 @@ class MoviePageStore {
   }
 
   async reduce(action: any) {
-    console.log(action);
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
         moviePage.render();
-        await this.getMovieRequest();
+        await this.getMovieRequest(action.payload);
         break;
       default:
         break;

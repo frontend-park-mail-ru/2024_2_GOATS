@@ -19,9 +19,10 @@ export const Actions = {
       type: ActionTypes.RENDER_REG_PAGE,
     });
   },
-  renderMoviePage() {
+  renderMoviePage(id: number | string) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_MOVIE_PAGE,
+      payload: id,
     });
   },
   renderHeader(url: string) {

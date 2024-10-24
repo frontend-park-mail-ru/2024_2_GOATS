@@ -66,6 +66,8 @@ main {
   width: 100%;
   height: fit-content;
   flex-grow: 1;
+
+  position: relative; // for loader logic
 }
 
 .button {

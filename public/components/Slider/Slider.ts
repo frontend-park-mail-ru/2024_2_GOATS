@@ -132,7 +132,7 @@ export class Slider {
         this.#selection.movies.forEach((movie) => {
           const card = new Card(track, movie, () => {
             console.log('movie id is', movie.id);
-            router.go('/movie'); // TODO: Исправить на переход по /:id
+            router.go('/movie', movie.id); // TODO: Исправить на переход по /:id
           });
           card.render();
         });

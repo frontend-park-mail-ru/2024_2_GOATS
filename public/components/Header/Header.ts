@@ -4,6 +4,8 @@ import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 import { PageConfig } from 'types/pages';
 import { userStore } from 'store/UserStore';
 import Handlebars from 'handlebars';
+import { Actions } from 'flux/Actions';
+import { router } from 'modules/Router';
 
 function clickHandler(event: MouseEvent, config: any) {
   if (event.target instanceof HTMLAnchorElement) {
@@ -56,9 +58,12 @@ export class Header {
         path: 'auth/logout',
         body: {},
       });
+      router.go('/');
     } catch {
-      userStore.checkAuth(false);
+      userStore.checkAuth();
       throw new Error('logout error');
+    } finally {
+      userStore.checkAuth();
     }
   }
 
@@ -88,7 +93,10 @@ export class Header {
     });
 
     const user = userStore.getUser();
-    this.#parent.innerHTML = template({ items: items, currentUser: user });
+    this.#parent.innerHTML = template({
+      items: items,
+      currentUser: user,
+    });
 
     document.getElementById('header')?.addEventListener('click', this.#handler);
 

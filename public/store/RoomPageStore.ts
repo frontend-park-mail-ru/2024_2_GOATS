@@ -84,7 +84,7 @@ class RoomPageStore {
   }
 
   wsInit() {
-    this.#user = users[this.getRandomInt(1, 10)];
+    // this.#user = users[this.getRandomInt(1, 10)];
     const ws = new WebSocket(
       `ws://localhost:8080/api/room/join?room_id=8a225776-ec7d-4b86-8bd0-6b10af01bc9c`,
     );

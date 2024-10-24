@@ -5,21 +5,28 @@ import { Actions } from 'flux/Actions';
 import { router } from 'modules/Router';
 import { User } from 'types/user';
 import { EventEmitter } from 'events';
-
+import { Emitter } from 'modules/Emmiter';
 const headerElement = document.createElement('header');
 
 class UserStore {
   #user: any;
   #isLoading: boolean;
+  #isUserAuthEmmiter: Emitter<boolean>;
 
   constructor() {
+    this.#isUserAuthEmmiter = new Emitter<boolean>(false);
     this.#user = {
       email: '',
       username: '',
       isAuth: false,
+      avatar_url: '',
     };
     this.#isLoading = true;
     dispatcher.register(this.reduce.bind(this));
+  }
+
+  get isUserAuthEmmiter$(): Emitter<boolean> {
+    return this.#isUserAuthEmmiter;
   }
 
   getUser() {
@@ -31,10 +38,12 @@ class UserStore {
   }
 
   setState(user: User) {
-    this.#user.isAuth = user.isAuth;
+    this.#user.isAuth = true;
+    this.#user.id = user.id;
     this.#user.email = user.email;
     this.#user.username = user.username;
-
+    this.#user.avatar_url = user.avatar_url;
+    this.#isUserAuthEmmiter.set(true);
     this.#isLoading = false;
     const url = new URL(window.location.href);
     Actions.renderHeader(url.pathname.toString());
@@ -55,28 +64,28 @@ class UserStore {
     }
   }
 
+  clearUser() {
+    this.#user.isAuth = false;
+    this.#user.email = '';
+    this.#user.username = '';
+    this.#user.avatar_url = '';
+    this.#user.id = 0;
+
+    this.#isLoading = false;
+    this.#isUserAuthEmmiter.set(false);
+    const url = new URL(window.location.href);
+    Actions.renderHeader(url.pathname.toString());
+  }
+
   async checkAuth(emit?: boolean) {
     this.#isLoading = true;
     try {
       const response = await apiClient.get({
         path: 'auth/session',
       });
-      // this.setState({
-      //   email: 'aa',
-      //   username: 'aa',
-      //   isAuth: true,
-      // });
-
-      // this.setState(response.user_data);
+      this.setState(response.user_data);
     } catch {
-      this.setState({
-        email: 'aa',
-        username: 'aa',
-        isAuth: emit || false, // toggle to imitate login
-      });
-
-      // this.setState(users[this.getRandomInt(1, 10)]);
-      // console.log(this.getRandomInt(1, 10));
+      this.clearUser();
       console.log('auth request failed', emit);
     }
   }
