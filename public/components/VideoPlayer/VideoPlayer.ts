@@ -253,6 +253,7 @@ export class VideoPlayer {
 
   togglePlayback() {
     const { video } = this.#controls;
+    this.resetHideControlsTimer();
     if (video.paused) {
       video.play();
     } else {
@@ -312,6 +313,7 @@ export class VideoPlayer {
       this.#handleRewindVideo(video.currentTime - 15);
     }
     video.currentTime -= 15;
+    this.updateProgress();
   }
 
   rewindFront() {
@@ -320,6 +322,7 @@ export class VideoPlayer {
       this.#handleRewindVideo(video.currentTime + 15);
     }
     video.currentTime += 15;
+    this.updateProgress();
   }
 
   initAutoHideControls() {

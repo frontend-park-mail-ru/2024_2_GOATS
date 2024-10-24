@@ -102,7 +102,6 @@ class RoomPageStore {
 
       if (messageData.movie) {
         this.setState(messageData);
-        // console.log('RERENDER ROOM PAGE', this.#room);
         roomPage.render();
       } else {
         switch (messageData.name) {
@@ -118,7 +117,6 @@ class RoomPageStore {
         }
         console.log('Received ACTION message:', messageData);
       }
-      // console.log('REC DATA FROM WS', messageData);
     };
     this.#ws = ws;
   }
@@ -126,10 +124,6 @@ class RoomPageStore {
   sendActionMessage(actionMessage: Action) {
     console.log('sendedAction', actionMessage);
     if (this.#ws) {
-      // const actionData = {
-      //   type: 'ACTION',
-      //   data: actionMessage,
-      // };
       console.log('SENDED DATA', actionMessage);
       this.#ws.send(JSON.stringify(actionMessage));
     }

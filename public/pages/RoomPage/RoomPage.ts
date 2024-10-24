@@ -92,6 +92,7 @@ export class RoomPage {
   }
 
   videoPlay(timeCode: number) {
+    // TODO: согласовать, зачем нужен timeCode
     console.log('TIMECODE FROM VIDEO PLAY HANDLER', timeCode);
     this.#video.videoPlay();
   }
