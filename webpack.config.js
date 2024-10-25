@@ -9,7 +9,7 @@ const publicPath = path.join(__dirname, 'public');
 module.exports = {
   entry: publicPath,
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: buildPath,
     filename: 'bundle.js',
     publicPath: '/',
   },
