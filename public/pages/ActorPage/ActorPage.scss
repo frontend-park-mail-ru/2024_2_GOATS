@@ -87,6 +87,9 @@
 }
 
 .show-more {
+  &:hover {
+    cursor: pointer;
+  }
   &.more:after {
     content: 'Показать больше';
   }

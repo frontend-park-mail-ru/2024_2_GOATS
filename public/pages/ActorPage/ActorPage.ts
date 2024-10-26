@@ -50,12 +50,12 @@ export class ActorPage {
     const actorFilmography = document.getElementById(
       'actor-page-filmography',
     ) as HTMLElement;
-    const cards = new CardsList(
-      actorFilmography,
-      this.getActorInfo().movies,
-      4,
-    );
-    cards.render();
+    // const cards = new CardsList(
+    //   actorFilmography,
+    //   this.getActorInfo().movies,
+    //   4,
+    // );
+    // cards.render();
 
     this.toggleBiographyExpansion();
   }

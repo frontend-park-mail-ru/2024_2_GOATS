@@ -4,13 +4,15 @@ import { Movie, MovieSelection } from './movie';
 
 export type ActorInfo = {
   id: number;
-  name: string;
-  career: string;
-  birth_date: string; //Date
-  born_place: string;
-  genres: string;
-  image: string;
+  fullName: string;
   biography: string;
+  birthdate: string; //Date
+  country: string;
+  image: string;
+
+  // career: string;
+  // born_place: string;
+  // genres: string;
 };
 
 export type Actor = ActorInfo & {

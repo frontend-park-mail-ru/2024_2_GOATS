@@ -1,11 +1,13 @@
 import { ActionTypes } from 'flux/ActionTypes';
 import { mockActor, movies } from '../consts';
-import { Actor } from 'types/actor';
+import { Actor, ActorInfo } from 'types/actor';
 import { ActorPage } from 'pages/ActorPage/ActorPage';
 import { dispatcher } from 'flux/Dispatcher';
+import { apiClient } from 'modules/ApiClient';
+import { serializeActorData } from 'modules/Serializer';
 
 export class ActorPageStore {
-  #actor!: Actor;
+  #actor!: ActorInfo; //Actor - Игорь не включает фильмографию - исправит
 
   constructor() {
     // this.#actor = {};
@@ -13,16 +15,27 @@ export class ActorPageStore {
   }
 
   //Здесь надо будет привязываться к id из юрла
-  async getActorRequest() {
-    this.#actor = mockActor;
+  // async getActorRequest() {
+  //   this.#actor = mockActor;
+  // }
+
+  setState(actor: ActorInfo) {
+    //Actor - Игорь не включает фильмографию - исправит
+    this.#actor = actor;
   }
 
   getActor() {
     return this.#actor;
   }
 
-  renderActorPage(id: number | string) {
-    console.log('ID АКТЕРА ', id);
+  async renderActorPage(id: number | string) {
+    const response = await apiClient.get({
+      path: `actors/${id}`,
+    });
+
+    const serializedActorData = serializeActorData(response.actor_info);
+
+    this.setState(serializedActorData);
     const actorPage = new ActorPage();
     actorPage.render();
   }
@@ -30,7 +43,7 @@ export class ActorPageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_ACTOR_PAGE:
-        await this.getActorRequest();
+        // await this.renderActorPage();
         this.renderActorPage(action.payload);
         // mainPage.render();
         // await this.getCollection();
