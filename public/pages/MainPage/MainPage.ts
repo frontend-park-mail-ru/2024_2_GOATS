@@ -4,6 +4,7 @@ import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
 import { MovieSelection } from 'types/movie';
 import { mainPageStore } from 'store/MainPageStore';
+import { router } from 'modules/Router';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -25,6 +26,7 @@ export class MainPage {
         trendMoviesBlock,
         this.#movieSelections[0].movies,
         this.#movieSelections[0].title,
+        (id: number) => router.go('/movie', id),
       );
       trendMoviesList.render();
     }

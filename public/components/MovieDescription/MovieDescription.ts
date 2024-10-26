@@ -4,6 +4,8 @@ import { MovieDetailed } from 'types/movie';
 import { router } from 'modules/Router';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { RoomModal } from 'components/RoomModal/RoomModal';
+import { apiClient } from 'modules/ApiClient';
+import { Actions } from 'flux/Actions';
 
 export class MovieDescription {
   #parent;
@@ -42,16 +44,9 @@ export class MovieDescription {
       'watch-together-btn',
     ) as HTMLButtonElement;
 
-    const modal = new RoomModal(
-      'Создание комнаты для совместного просмотра',
-      this.#movie,
-      () => {
-        console.log('send');
-      },
-    );
-
-    watchTogetherBtn.addEventListener('click', () => {
-      modal.render();
+    watchTogetherBtn.addEventListener('click', async () => {
+      Actions.createRoom(2);
+      router.go('/room');
     });
   }
 

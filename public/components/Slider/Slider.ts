@@ -131,8 +131,7 @@ export class Slider {
       if (this.#selection) {
         this.#selection.movies.forEach((movie) => {
           const card = new Card(track, movie, () => {
-            console.log('movie id is', movie.id);
-            router.go('/movie', movie.id); // TODO: Исправить на переход по /:id
+            router.go('/movie', movie.id);
           });
           card.render();
         });
@@ -154,7 +153,7 @@ export class Slider {
         this.#persons.forEach((person) => {
           const personCard = new PersonCard(track, person, () => {
             console.log('person id is', person.id);
-            router.go('/person', person.id); // TODO: Исправить на переход по /:id
+            router.go('/person', person.id);
           });
           personCard.render();
         });

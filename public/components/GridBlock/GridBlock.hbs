@@ -1,13 +1,12 @@
 <div class='grid-block'>
   <div class='grid-block__header'>
     <h4 class='grid-block__header_title'>{{title}}</h4>
-    {{! <span id='grid-block-header-more' class='grid-block__header_more'>смотреть
-      все</span> }}
   </div>
   <div class='grid-block__content'>
     {{#each items}}
       <div class='grid-block__element'>
         <img
+          id='movie-image-{{this.id}}'
           class='grid-block__element_image'
           src={{this.albumImage}}
           alt='card'
@@ -15,5 +14,4 @@
       </div>
     {{/each}}
   </div>
-
 </div>

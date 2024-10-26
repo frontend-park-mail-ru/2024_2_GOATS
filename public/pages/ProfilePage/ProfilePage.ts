@@ -13,7 +13,7 @@ const mockUser = {
   avatar: '', //assets/mockImages/user-profile_image.png
 };
 
-const defAvatar = 'assets/mockImages/defAvatar.png';
+const defAvatar = '/assets/mockImages/defAvatar.png';
 
 export class ProfilePage {
   // #user: UserData;

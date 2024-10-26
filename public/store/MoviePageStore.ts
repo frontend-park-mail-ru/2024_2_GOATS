@@ -23,9 +23,8 @@ class MoviePageStore {
   }
 
   async getMovieRequest(id: number) {
-    console.log(id);
     const response = await apiClient.get({
-      path: `movies/1`,
+      path: `movies/${id}`,
     });
 
     const serializedMovieData = serializeMovieDetailed(response.movie_info);
@@ -37,6 +36,7 @@ class MoviePageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
+        console.log('RENDER MOVIE PAGE IN STORE');
         moviePage.render();
         await this.getMovieRequest(action.payload);
         break;
