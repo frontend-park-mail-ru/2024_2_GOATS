@@ -8,20 +8,36 @@ import { Actions } from 'flux/Actions';
 import { router } from 'modules/Router';
 
 function clickHandler(event: MouseEvent, config: any) {
-  if (event.target instanceof HTMLAnchorElement) {
-    event.preventDefault();
-    const targetId = event.target.id;
+  let targetElement: HTMLElement;
 
-    const a = document.getElementById(targetId);
-    a?.classList.add('active');
+  // При клике на иконку профиля event.target - img
+  if (event.target instanceof HTMLImageElement) {
+    targetElement = (event.target as HTMLImageElement).closest(
+      'a',
+    ) as HTMLElement;
+  } else if (event.target instanceof HTMLAnchorElement) {
+    targetElement = event.target as HTMLElement;
+  } else {
+    return;
+  }
 
-    let target;
-    for (let element in config.pages) {
-      if (config.pages[element].id === targetId) {
-        target = config.pages[element];
-      }
+  if (!targetElement) return;
+
+  event.preventDefault();
+  const targetId = targetElement.id;
+
+  targetElement.classList.add('active');
+
+  let targetConfig;
+  for (let element in config.pages) {
+    if (config.pages[element].id === targetId) {
+      targetConfig = config.pages[element];
+      break;
     }
-    target.render();
+  }
+
+  if (targetConfig) {
+    targetConfig.render();
   }
 }
 
@@ -67,17 +83,17 @@ export class Header {
     }
   }
 
-  onExitClick() {
-    if (userStore.getUser().isAuth) {
-      const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-        this.logout();
-      });
-      const exitButton = document.getElementById('exit-button') as HTMLElement;
-      exitButton.addEventListener('click', () => {
-        modal.render();
-      });
-    }
-  }
+  // onExitClick() {
+  //   if (userStore.getUser().isAuth) {
+  //     const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
+  //       this.logout();
+  //     });
+  //     const exitButton = document.getElementById('exit-button') as HTMLElement;
+  //     exitButton.addEventListener('click', () => {
+  //       modal.render();
+  //     });
+  //   }
+  // }
 
   renderTemplate() {
     this.#parent.innerHTML = '';
@@ -85,7 +101,7 @@ export class Header {
     const items = this.items.map(([key, { text, href, isAvailable, id }]) => {
       let className = '';
 
-      if (href === this.#activeLink) {
+      if (href === this.#activeLink && href != '/profile') {
         className += 'active';
       }
 
@@ -93,13 +109,16 @@ export class Header {
     });
 
     const user = userStore.getUser();
+    console.log(items);
+    console.log(items.find((item) => item.id == 'header-profile'));
     this.#parent.innerHTML = template({
-      items: items,
+      navItems: items.filter((item) => item.id != 'header-profile'),
       currentUser: user,
+      profileItem: items.find((item) => item.id == 'header-profile'),
     });
 
     document.getElementById('header')?.addEventListener('click', this.#handler);
 
-    this.onExitClick();
+    // this.onExitClick();
   }
 }

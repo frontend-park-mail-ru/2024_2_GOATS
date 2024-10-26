@@ -2,12 +2,13 @@
 
 .active {
   border-bottom: 2px solid $brand;
-  padding-bottom: 3px;
+  margin-bottom: -4px;
+  padding-bottom: 2px;
 }
 
 .header {
   background-color: rgba(0, 0, 0, 0);
-  padding: 8px 0px;
+  padding: 12px 0px;
 
   &__container {
     max-width: $content-width-max;
@@ -17,6 +18,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &_item {
+      width: fit-content;
+
+      &.icon {
+        display: block;
+      }
+    }
 
     &_logo {
       display: flex;
@@ -30,7 +39,7 @@
       font-size: 20px;
       font-weight: 600;
       display: flex;
-      gap: 20px;
+      gap: 24px;
       justify-content: space-between;
     }
 

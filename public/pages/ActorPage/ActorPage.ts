@@ -50,6 +50,8 @@ export class ActorPage {
     const actorFilmography = document.getElementById(
       'actor-page-filmography',
     ) as HTMLElement;
+
+    // TODO: Подождать пока Игорь добавит фильмографию для актера
     // const cards = new CardsList(
     //   actorFilmography,
     //   this.getActorInfo().movies,

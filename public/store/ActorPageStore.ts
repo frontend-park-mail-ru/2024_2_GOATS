@@ -7,7 +7,7 @@ import { apiClient } from 'modules/ApiClient';
 import { serializeActorData } from 'modules/Serializer';
 
 export class ActorPageStore {
-  #actor!: ActorInfo; //Actor - Игорь не включает фильмографию - исправит
+  #actor!: ActorInfo; // TODO: Actor - Игорь не включает фильмографию - исправит
 
   constructor() {
     // this.#actor = {};
@@ -19,8 +19,8 @@ export class ActorPageStore {
   //   this.#actor = mockActor;
   // }
 
+  //Actor - Игорь не включает фильмографию - исправит
   setState(actor: ActorInfo) {
-    //Actor - Игорь не включает фильмографию - исправит
     this.#actor = actor;
   }
 

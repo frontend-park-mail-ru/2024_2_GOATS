@@ -39,10 +39,14 @@ export const routerHandler = (url: URL, id?: string | number) => {
       break;
     case `${Urls.actor}/${id}`:
       // Actions.renderHeader(Urls.registration);
+      Actions.renderHeader(Urls.actor);
+
       id && Actions.renderActorPage(id);
       footer.render(Urls.actor);
       break;
     case `${Urls.movie}/${id}`:
+      Actions.renderHeader(Urls.movie);
+
       id && Actions.renderMoviePage(id);
       footer.render(Urls.movie);
       break;

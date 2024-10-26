@@ -5,7 +5,7 @@
     </div>
 
     <div class='header__container_nav'>
-      {{#each items}}
+      {{#each navItems}}
         {{#if this.isAvailable}}
           <a
             class='header__container_item {{this.className}}'
@@ -17,11 +17,19 @@
     </div>
     {{#if currentUser.isAuth}}
       <div class='header__container_auth'>
-        <a>{{settings.text}}</a>
-        <button
-          id='exit-button'
-          class='button header__container_exit_btn'
-        >Выйти</button>
+        <a
+          class='header__container_item {{profileItem.className}}'
+          href='{{profileItem.href}}'
+          id='{{profileItem.id}}'
+          data-section='{{profileItem.key}}'
+        >
+          <img
+            class='header__container_item'
+            src='/assets/icons/userIcon.svg'
+            alt='userIcon'
+          />
+        </a>
+
       </div>
     {{/if}}
   </div>

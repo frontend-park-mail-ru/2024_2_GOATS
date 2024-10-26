@@ -5,6 +5,10 @@ import { Actions } from 'flux/Actions';
 import { AvatarComponent } from 'components/AvatarComponent/AvatarComponent';
 import { UserData } from 'types/user';
 import { validateEmailAddress, validateLogin } from 'modules/Validators';
+import { userStore } from 'store/UserStore';
+import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
+import { apiClient } from 'modules/ApiClient';
+import { router } from 'modules/Router';
 
 const mockUser = {
   email: 'sasa@mail.ru',
@@ -130,6 +134,33 @@ export class ProfilePage {
     }
   }
 
+  async logout() {
+    try {
+      await apiClient.post({
+        path: 'auth/logout',
+        body: {},
+      });
+      router.go('/');
+    } catch {
+      userStore.checkAuth();
+      throw new Error('logout error');
+    } finally {
+      userStore.checkAuth();
+    }
+  }
+
+  onExitClick() {
+    if (userStore.getUser().isAuth) {
+      const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
+        this.logout();
+      });
+      const exitButton = document.getElementById('exit-button') as HTMLElement;
+      exitButton.addEventListener('click', () => {
+        modal.render();
+      });
+    }
+  }
+
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
 
@@ -148,5 +179,7 @@ export class ProfilePage {
     if (fileInput) {
       fileInput.addEventListener('change', this.uploadAvatar.bind(this));
     }
+
+    this.onExitClick();
   }
 }

@@ -19,15 +19,15 @@ class HeaderStore {
           isAvailable: true,
           render: () => router.go('/'),
         },
-        reg: {
-          text: 'Регистрация',
-          href: '/registration',
-          id: 'header-reg',
-          isAvailable: !userStore.getUser().isAuth,
-          render: () => router.go('/registration'),
-        },
+        // reg: {
+        //   text: 'Регистрация',
+        //   href: '/registration',
+        //   id: 'header-reg',
+        //   isAvailable: !userStore.getUser().isAuth,
+        //   render: () => router.go('/registration'),
+        // },
         auth: {
-          text: 'Авторизация',
+          text: 'Войти',
           href: '/auth',
           id: 'header-auth',
           isAvailable: !userStore.getUser().isAuth,
@@ -47,12 +47,13 @@ class HeaderStore {
 
   setState(user: User) {
     this.#config.pages.main.isAvailable = true;
-    this.#config.pages.reg.isAvailable = !user.isAuth;
+    // this.#config.pages.reg.isAvailable = !user.isAuth;
     this.#config.pages.auth.isAvailable = !user.isAuth;
     this.#config.pages.profile.isAvailable = user.isAuth;
   }
 
   renderHeader(url: string) {
+    console.log('///', url);
     if (!userStore.getIsLoading()) {
       const user = userStore.getUser();
       this.setState(user);
