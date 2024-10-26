@@ -27,8 +27,9 @@ class AuthPageStore {
       userStore.checkAuth(true);
       router.go('/');
     } catch (e: any) {
-      if (e.status === 404) {
-        throwBackendError('auth', 'Пользователь с таким e-mail не найден');
+      // TODO: поменять обработку статус
+      if (e.status === 404 || e.status === 409) {
+        throwBackendError('auth', 'Неверный e-mail или пароль');
       } else {
         throwBackendError('auth', 'Что-то пошло не так. Попробуйте позже');
       }
