@@ -87,7 +87,7 @@ export class RoomPage {
   hanldeTimerTick(timeCode: number) {
     console.log('TIMECODE WHILE TICK', timeCode);
     Actions.sendActionMessage({
-      name: 'sync',
+      name: 'timer',
       time_code: timeCode,
     });
   }
