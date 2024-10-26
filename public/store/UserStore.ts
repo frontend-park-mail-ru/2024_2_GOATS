@@ -43,8 +43,11 @@ class UserStore {
     this.#user.email = user.email;
     this.#user.username = user.username;
     this.#user.avatar_url = user.avatar_url;
+
+    console.log('user change status');
     this.#isUserAuthEmmiter.set(true);
     this.#isLoading = false;
+
     const url = new URL(window.location.href);
     Actions.renderHeader(url.pathname.toString());
   }

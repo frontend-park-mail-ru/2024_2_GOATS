@@ -1,6 +1,10 @@
 import { routerHandler } from './RouterHandler';
 
 class Router {
+  getCurrentPath(): string {
+    return window.location.pathname;
+  }
+
   start() {
     const url = new URL(window.location.href);
 

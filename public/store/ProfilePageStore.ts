@@ -25,7 +25,9 @@ export class ProfilePageStore {
     dispatcher.register(this.reduce.bind(this));
 
     const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
-      status && this.getUserInfoRequest();
+      if (status && router.getCurrentPath() === '/profile') {
+        this.renderProfilePage();
+      }
     });
 
     this.ngOnDestroy = () => {
@@ -34,15 +36,15 @@ export class ProfilePageStore {
   }
   ngOnDestroy(): void {}
 
-  getUserInfoRequest() {
-    this.#user = userStore.getUser();
-  }
-
   get passwordChangedEmitter$(): Emitter<boolean> {
     return this.#passwordChangedEmitter;
   }
 
   renderProfilePage() {
+    this.#user = userStore.getUser();
+
+    console.log('call profile page rerender');
+
     const profilePage = new ProfilePage();
     profilePage.render();
   }
@@ -92,7 +94,7 @@ export class ProfilePageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_PROFILE_PAGE:
-        this.getUserInfoRequest();
+        // this.getUserInfoRequest();
         this.renderProfilePage();
 
         break;
