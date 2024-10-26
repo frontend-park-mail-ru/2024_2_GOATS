@@ -5,6 +5,7 @@ import { Action, Room } from 'types/room';
 import { userStore } from './UserStore';
 import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
+import { mockUsers } from '../consts';
 
 const roomPage = new RoomPage();
 
@@ -25,6 +26,12 @@ class RoomPageStore {
     return this.#room;
   }
 
+  getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   createRoom(movieId: number) {
     try {
       apiClient.post({
@@ -39,10 +46,12 @@ class RoomPageStore {
       console.log(e);
     }
   }
-
+  // `ws://localhost:8080/api/room/join?room_id=8a225776-ec7d-4b86-8bd0-6b10af01bc9c&username=${this.#user.username}`,
   wsInit() {
+    // console.log('CURRENT USER IN ROOM PAGE STORE', userStore);
+    this.#user = mockUsers[this.getRandomInt(1, 10)];
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=8a225776-ec7d-4b86-8bd0-6b10af01bc9c`,
+      `ws://localhost:8080/api/room/join?room_id=12adf7a8-5c23-41f2-a86b-e730fa8979ce`,
     );
 
     ws.onclose = (event) => {
@@ -57,6 +66,8 @@ class RoomPageStore {
       const messageData = JSON.parse(event.data);
 
       if (messageData.movie) {
+        messageData.movie.video =
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
         this.setState(messageData);
         roomPage.render();
       } else {

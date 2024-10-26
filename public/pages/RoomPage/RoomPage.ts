@@ -84,6 +84,14 @@ export class RoomPage {
     });
   }
 
+  hanldeTimerTick(timeCode: number) {
+    console.log('TIMECODE WHILE TICK', timeCode);
+    Actions.sendActionMessage({
+      name: 'sync',
+      time_code: timeCode,
+    });
+  }
+
   onPlayClick(timeCode: number) {
     Actions.sendActionMessage({
       name: 'play',
@@ -139,6 +147,7 @@ export class RoomPage {
         this.onPlayClick,
         this.onPauseClick,
         this.handleRewindVideo,
+        this.hanldeTimerTick,
       );
       this.#video.render();
 
