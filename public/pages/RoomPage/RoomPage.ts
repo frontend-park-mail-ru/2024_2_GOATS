@@ -7,6 +7,9 @@ import { Actions } from 'flux/Actions';
 import { Room } from 'types/room';
 import { UserNew } from 'types/user';
 import { Notifier } from 'components/Notifier/Notifier';
+import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
+import { Message } from 'components/Message/Message';
+import { mockUsers } from '../../consts';
 
 export class RoomPage {
   #room!: Room;
@@ -121,6 +124,29 @@ export class RoomPage {
     });
   }
 
+  renderMessage(messageValue: string) {
+    const messagesContainer = document.querySelector(
+      '.room-page__chat_messages',
+    ) as HTMLDivElement;
+    console.log(messagesContainer);
+    const message = new Message(messagesContainer, mockUsers[0], messageValue);
+    message.render();
+  }
+
+  sendMessage() {
+    const messageValue = (<HTMLInputElement>(
+      document.getElementById('messages-input')
+    )).value;
+
+    if (messageValue) {
+      this.renderMessage(messageValue);
+      Actions.sendActionMessage({
+        name: 'message',
+        message: messageValue,
+      });
+    }
+  }
+
   renderTemplate() {
     const rootElem = document.getElementById('root');
     if (rootElem) {
@@ -162,6 +188,18 @@ export class RoomPage {
         'Ссылка для приглашения скопирована',
         3000,
       );
+
+      const modal = new ConfirmModal(
+        'Присоедениться к комнате совместного просмотра',
+        () => {},
+      );
+      modal.render();
+
+      // TEST MESSAGES
+      const sendMessageButton = document.getElementById(
+        'send-message-button',
+      ) as HTMLButtonElement;
+      sendMessageButton.addEventListener('click', () => this.sendMessage());
     } else {
       this.#loader.render();
     }

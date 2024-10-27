@@ -81,6 +81,8 @@ class RoomPageStore {
           case 'rewind':
             roomPage.videoRewind(messageData.time_code);
             break;
+          case 'message':
+            roomPage.renderMessage(messageData.message);
         }
         console.log('Received ACTION message:', messageData);
       }
