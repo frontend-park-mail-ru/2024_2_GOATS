@@ -10,6 +10,7 @@ type ApiClientRequests = {
   path: string;
   id?: number;
   body?: Object;
+  formData?: FormData;
 };
 
 type GetRequestParams = {
@@ -19,13 +20,15 @@ type GetRequestParams = {
 
 type PostRequestParams = {
   path: string;
-  body: Object;
+  body?: Object;
+  formData?: FormData;
 };
 
 type PutReuqestParams = {
   path: string;
   id?: number;
-  body: Object;
+  body?: Object;
+  formData?: FormData;
 };
 
 type DeleteReuquestParams = {
@@ -58,11 +61,12 @@ class ApiClient {
    * @returns {Promise<Object>} - response from the API
    * @throws {Error} - if the request fails
    */
-  post({ path, body }: PostRequestParams) {
+  post({ path, body, formData }: PostRequestParams) {
     return this._apiClient({
       method: HTTP_METHOD_POST,
       path,
       body,
+      formData,
     });
   }
 
@@ -75,12 +79,13 @@ class ApiClient {
    * @returns {Promise<Object>} - response from the API
    * @throws {Error} - if the request fails
    */
-  put({ path, id, body }: PutReuqestParams) {
+  put({ path, id, body, formData }: PutReuqestParams) {
     return this._apiClient({
       method: HTTP_METHOD_PUT,
       path,
       ...(id && { id }),
       body,
+      formData,
     });
   }
 
@@ -111,17 +116,22 @@ class ApiClient {
    * @throws {Error} - if the request fails
    * @private
    */
-  async _apiClient({ method, path, id, body }: ApiClientRequests) {
+  async _apiClient({ method, path, id, body, formData }: ApiClientRequests) {
     const url = API_URL + path + (id ? `/${id}` : '');
-    const response = await fetch(url, {
+    let options: RequestInit = {
       method: method,
-      headers: body
-        ? { 'Content-Type': 'application/json' }
-        : { 'Content-Type': 'application/json' },
-      body: body && JSON.stringify(body),
       mode: 'cors',
       credentials: 'include',
-    });
+    };
+
+    if (body && !formData) {
+      options.headers = { 'Content-Type': 'application/json' };
+      options.body = JSON.stringify(body);
+    } else if (formData) {
+      options.body = formData;
+    }
+
+    const response = await fetch(url, options);
 
     if (!response.ok) {
       const errorMessage = await response.text();

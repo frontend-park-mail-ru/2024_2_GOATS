@@ -9,10 +9,9 @@ export type User = {
   id: number;
   email: string;
   username: string;
-  name?: string;
   birthDate?: Date;
   avatar: string;
-  isAuth: boolean;
+  // isAuth: boolean;
 };
 
 // For profile editing

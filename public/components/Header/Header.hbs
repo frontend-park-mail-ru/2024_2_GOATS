@@ -15,7 +15,7 @@
           >{{this.text}}</a>{{/if}}
       {{/each}}
     </div>
-    {{#if currentUser.isAuth}}
+    {{#if isUserAuth}}
       <div class='header__container_auth'>
         <a
           class='header__container_item {{profileItem.className}}'

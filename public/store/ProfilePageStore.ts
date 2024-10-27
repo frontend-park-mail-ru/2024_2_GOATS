@@ -8,6 +8,7 @@ import { throwBackendError } from 'modules/BackendErrors';
 import { Notifier } from 'components/Notifier/Notifier';
 import { router } from 'modules/Router';
 import { userStore } from './UserStore';
+import { Actions } from 'flux/Actions';
 
 // let mockUser = {
 //   email: 'tkoibaev@mail.ru',
@@ -82,14 +83,16 @@ export class ProfilePageStore {
       formData.append('username', userData.username);
       formData.append('email', userData.email);
       formData.append('avatar', userData.avatar);
-      // const response = await apiClient.get({
-      //   path: 'movie_collection/',
-      // });
+      const response = await apiClient.post({
+        path: `users/${this.#user.id}/update_profile`,
+        formData: formData,
+      });
       // alert(userData);
       console.log(formData);
-      // router.go('/profile');
       const not = new Notifier('success', 'Данные успешно обновлены', 2000);
       not.render();
+      Actions.getUser();
+      // router.go('/profile');
     } catch {
       alert('error');
     }

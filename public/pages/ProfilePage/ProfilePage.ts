@@ -10,15 +10,6 @@ import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 
-const mockUser = {
-  email: 'sasa@mail.ru',
-  username: 'sasa1234',
-  name: '',
-  avatar: '', //assets/mockImages/user-profile_image.png
-};
-
-const defAvatar = '/assets/mockImages/defAvatar.png';
-
 export class ProfilePage {
   // #user: UserData;
   #userAvatar!: File;
@@ -146,7 +137,7 @@ export class ProfilePage {
   }
 
   onExitClick() {
-    if (userStore.getUser().isAuth) {
+    if (userStore.getUserAuthStatus()) {
       const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
         this.logout();
       });
@@ -163,7 +154,6 @@ export class ProfilePage {
     pageElement.innerHTML = template({
       user: profilePageStore.getUserInfo(),
     });
-    console.log(profilePageStore.getUserInfo(), '00000000');
     this.renderAvatar(profilePageStore.getUserInfo().avatar);
 
     this.handlePasswordChangeClick();
@@ -172,6 +162,7 @@ export class ProfilePage {
     const fileInput = document.getElementById(
       'upload-avatar-input',
     ) as HTMLInputElement;
+
     if (fileInput) {
       fileInput.addEventListener('change', this.uploadAvatar.bind(this));
     }

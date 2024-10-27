@@ -113,6 +113,7 @@ export class Header {
     console.log(items.find((item) => item.id == 'header-profile'));
     this.#parent.innerHTML = template({
       navItems: items.filter((item) => item.id != 'header-profile'),
+      isUserAuth: userStore.getUserAuthStatus(),
       currentUser: user,
       profileItem: items.find((item) => item.id == 'header-profile'),
     });

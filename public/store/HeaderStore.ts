@@ -30,14 +30,14 @@ class HeaderStore {
           text: 'Войти',
           href: '/auth',
           id: 'header-auth',
-          isAvailable: !userStore.getUser().isAuth,
+          isAvailable: !userStore.getUserAuthStatus(),
           render: () => router.go('/auth'),
         },
         profile: {
           text: 'Профиль',
           href: '/profile',
           id: 'header-profile',
-          isAvailable: userStore.getUser().isAuth,
+          isAvailable: userStore.getUserAuthStatus(),
           render: () => router.go('/profile'),
         },
       },
@@ -45,18 +45,18 @@ class HeaderStore {
     dispatcher.register(this.reduce.bind(this));
   }
 
-  setState(user: User) {
+  setState(isAuth: boolean) {
     this.#config.pages.main.isAvailable = true;
     // this.#config.pages.reg.isAvailable = !user.isAuth;
-    this.#config.pages.auth.isAvailable = !user.isAuth;
-    this.#config.pages.profile.isAvailable = user.isAuth;
+    this.#config.pages.auth.isAvailable = !isAuth;
+    this.#config.pages.profile.isAvailable = isAuth;
   }
 
   renderHeader(url: string) {
     console.log('///', url);
     if (!userStore.getIsLoading()) {
-      const user = userStore.getUser();
-      this.setState(user);
+      const isUserAuth = userStore.getUserAuthStatus();
+      this.setState(isUserAuth);
 
       const header = new Header(this.#config, url);
       header.render();

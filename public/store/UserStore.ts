@@ -6,21 +6,25 @@ import { router } from 'modules/Router';
 import { User } from 'types/user';
 import { EventEmitter } from 'events';
 import { Emitter } from 'modules/Emmiter';
+import { serializeUserData } from 'modules/Serializer';
 const headerElement = document.createElement('header');
 
 class UserStore {
-  #user: any;
+  #user: User;
+  #isUserAuth: boolean;
   #isLoading: boolean;
   #isUserAuthEmmiter: Emitter<boolean>;
 
   constructor() {
     this.#isUserAuthEmmiter = new Emitter<boolean>(false);
     this.#user = {
+      id: -1,
       email: '',
       username: '',
-      isAuth: false,
-      avatar_url: '',
+      // isAuth: false,
+      avatar: '',
     };
+    this.#isUserAuth = false;
     this.#isLoading = true;
     dispatcher.register(this.reduce.bind(this));
   }
@@ -33,12 +37,18 @@ class UserStore {
     return this.#user;
   }
 
+  getUserAuthStatus() {
+    return this.#isUserAuth;
+  }
+
   getIsLoading() {
     return this.#isLoading;
   }
 
   setState(user: User) {
-    this.#user.isAuth = true;
+    // this.#user.isAuth = true;
+    this.#isUserAuth = true;
+
     this.#user.id = user.id;
     this.#user.email = user.email;
     this.#user.username = user.username;
@@ -68,10 +78,12 @@ class UserStore {
   }
 
   clearUser() {
-    this.#user.isAuth = false;
+    // this.#user.isAuth = false;
+    this.#isUserAuth = false;
+
     this.#user.email = '';
     this.#user.username = '';
-    this.#user.avatar_url = '';
+    this.#user.avatar = '';
     this.#user.id = 0;
 
     this.#isLoading = false;
@@ -86,7 +98,7 @@ class UserStore {
       const response = await apiClient.get({
         path: 'auth/session',
       });
-      this.setState(response.user_data);
+      this.setState(serializeUserData(response.user_data));
     } catch {
       this.clearUser();
       console.log('auth request failed', emit);
