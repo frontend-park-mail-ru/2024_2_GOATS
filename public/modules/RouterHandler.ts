@@ -53,6 +53,7 @@ export const routerHandler = (url: URL, id?: string | number) => {
     case Urls.profile:
       Actions.renderHeader(Urls.profile);
       Actions.renderProfilePage();
+      footer.render(Urls.profile);
       break;
     case Urls.room:
       Actions.renderRoomPage();

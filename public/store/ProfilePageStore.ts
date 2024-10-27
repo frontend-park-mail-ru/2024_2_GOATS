@@ -75,21 +75,25 @@ export class ProfilePageStore {
     }
   }
 
-  // async changeUserInfoRequest(userData: UserData) {
-  //   try {
-  //     // const response = await apiClient.get({
-  //     //   path: 'movie_collection/',
-  //     // });
-  //     // alert(userData);
-  //     mockUser = userData;
-  //     console.log(userData);
-  //     router.go('/profile');
-  //     const not = new Notifier('success', 'Данные успешно обновлены', 2000);
-  //     not.render();
-  //   } catch {
-  //     alert('error');
-  //   }
-  // }
+  async changeUserInfoRequest(userData: UserData) {
+    try {
+      console.log(userData);
+      const formData = new FormData();
+      formData.append('username', userData.username);
+      formData.append('email', userData.email);
+      formData.append('avatar', userData.avatar);
+      // const response = await apiClient.get({
+      //   path: 'movie_collection/',
+      // });
+      // alert(userData);
+      console.log(formData);
+      // router.go('/profile');
+      const not = new Notifier('success', 'Данные успешно обновлены', 2000);
+      not.render();
+    } catch {
+      alert('error');
+    }
+  }
 
   async reduce(action: any) {
     switch (action.type) {
@@ -106,7 +110,7 @@ export class ProfilePageStore {
         );
         break;
       case ActionTypes.CHANGE_USER_INFO:
-        // await this.changeUserInfoRequest(action.userData);
+        await this.changeUserInfoRequest(action.userData);
         break;
       default:
         break;

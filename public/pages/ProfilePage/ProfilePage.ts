@@ -21,7 +21,7 @@ const defAvatar = '/assets/mockImages/defAvatar.png';
 
 export class ProfilePage {
   // #user: UserData;
-  #userAvatar!: string;
+  #userAvatar!: File;
 
   constructor() {
     // this.#user = profilePageStore.getUserInfo();
@@ -95,9 +95,6 @@ export class ProfilePage {
       const loginValue = (<HTMLInputElement>(
         document.getElementById('user-change-login')
       )).value;
-      const nameValue = (<HTMLInputElement>(
-        document.getElementById('user-change-name')
-      )).value;
 
       const isEmailValid = this.validateEmailField(emailValue);
       const isLoginValid = this.validateLoginField(loginValue);
@@ -106,11 +103,10 @@ export class ProfilePage {
         return;
       }
       // mockUser.avatar = this.#userAvatar; //!!!!!!!!!!!!!!!
-      console.log('avatar', this.#userAvatar);
+      // console.log('avatar', this.#userAvatar);
       Actions.changeUserInfo({
         email: emailValue,
         username: loginValue,
-        name: nameValue,
         avatar: this.#userAvatar,
       });
     });
@@ -129,7 +125,7 @@ export class ProfilePage {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files[0]) {
       const avatarUrl = URL.createObjectURL(fileInput.files[0]);
-      this.#userAvatar = avatarUrl;
+      this.#userAvatar = fileInput.files[0];
       this.renderAvatar(avatarUrl);
     }
   }
@@ -168,7 +164,7 @@ export class ProfilePage {
       user: profilePageStore.getUserInfo(),
     });
     console.log(profilePageStore.getUserInfo(), '00000000');
-    this.renderAvatar(profilePageStore.getUserInfo().avatar_url);
+    this.renderAvatar(profilePageStore.getUserInfo().avatar);
 
     this.handlePasswordChangeClick();
     this.handleUserInfoChangeClick();

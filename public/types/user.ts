@@ -11,15 +11,15 @@ export type User = {
   username: string;
   name?: string;
   birthDate?: Date;
-  avatar_url: string;
+  avatar: string;
   isAuth: boolean;
 };
 
+// For profile editing
 export type UserData = {
   email: string;
   username: string;
-  name: string;
-  avatar: string;
+  avatar: File;
 };
 
 // TODO: Прогнать через сериализатор

@@ -61,6 +61,17 @@ export const serializeActorData = (actor: any) => {
     biography: actor.biography,
     birthdate: actor.birthdate,
     country: actor.country,
-    image: 'http://185.241.195.151//' + actor.photo_url,
+    image: 'http://185.241.195.151/' + actor.photo_url,
+  };
+};
+
+export const serializeUserData = (user: any) => {
+  return {
+    id: user.id,
+    email: user.email,
+    username: user.username,
+    birthdate: user.birthdate,
+    sex: user.sex,
+    avatar: 'http://185.241.195.151/' + user.avatar_url,
   };
 };

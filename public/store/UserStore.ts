@@ -42,7 +42,7 @@ class UserStore {
     this.#user.id = user.id;
     this.#user.email = user.email;
     this.#user.username = user.username;
-    this.#user.avatar_url = user.avatar_url;
+    this.#user.avatar = user.avatar;
 
     console.log('user change status');
     this.#isUserAuthEmmiter.set(true);
