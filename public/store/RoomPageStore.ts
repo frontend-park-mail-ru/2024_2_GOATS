@@ -51,7 +51,7 @@ class RoomPageStore {
     // console.log('CURRENT USER IN ROOM PAGE STORE', userStore);
     this.#user = mockUsers[this.getRandomInt(1, 10)];
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=12adf7a8-5c23-41f2-a86b-e730fa8979ce`,
+      `ws://localhost:8080/api/room/join?room_id=12adf7a8-5c23-41f2-a86b-e730fa8979ce&user_id=${this.#user.id}`,
     );
 
     ws.onclose = (event) => {
