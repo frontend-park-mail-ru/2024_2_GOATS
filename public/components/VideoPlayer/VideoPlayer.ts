@@ -181,10 +181,10 @@ export class VideoPlayer {
     if (Number(percentage) <= 40) {
       slider.style.setProperty(
         '--progress-value',
-        `calc(${slider.value}% + 5px)`,
+        `calc(${percentage}% + 5px)`,
       );
     } else {
-      slider.style.setProperty('--progress-value', `${slider.value}%`);
+      slider.style.setProperty('--progress-value', `${percentage}%`);
     }
 
     slider.value = percentage.toString();

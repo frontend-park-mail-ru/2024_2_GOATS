@@ -68,12 +68,10 @@ export class RoomPage {
   render() {
     this.#room = roomPageStore.getRoom();
 
-    // console.log('ROOM FROM ROOM PAGE', this.#room);
     this.renderTemplate();
   }
 
   onPauseClick(timeCode: number) {
-    // console.log('timecode from hander', timeCode);
     Actions.sendActionMessage({
       name: 'pause',
       time_code: timeCode,
@@ -88,7 +86,6 @@ export class RoomPage {
   }
 
   hanldeTimerTick(timeCode: number) {
-    console.log('TIMECODE WHILE TICK', timeCode);
     Actions.sendActionMessage({
       name: 'timer',
       time_code: timeCode,
@@ -128,7 +125,6 @@ export class RoomPage {
     const messagesContainer = document.querySelector(
       '.room-page__chat_messages',
     ) as HTMLDivElement;
-    console.log(messagesContainer);
     const message = new Message(messagesContainer, mockUsers[0], messageValue);
     message.render();
   }
@@ -161,7 +157,6 @@ export class RoomPage {
         movie: this.#room.movie,
         members: this.#members,
       });
-      console.log(this.#members);
 
       const videoContainer = document.getElementById(
         'room-video',
@@ -177,7 +172,9 @@ export class RoomPage {
       );
       this.#video.render();
 
-      this.handleRewindVideo(this.#room.time_code);
+      // Для установки текущего тайм кода новому пользователю
+      this.videoRewind(this.#room.time_code);
+      // this.handleRewindVideo(this.#room.time_code);
 
       const invitationBtn = document.getElementById(
         'invitation-btn',

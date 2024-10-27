@@ -43,16 +43,15 @@ class RoomPageStore {
         },
       });
     } catch (e: any) {
-      console.log(e);
+      throw e;
     }
   }
-  // `ws://localhost:8080/api/room/join?room_id=8a225776-ec7d-4b86-8bd0-6b10af01bc9c&username=${this.#user.username}`,
   wsInit() {
     // console.log('CURRENT USER IN ROOM PAGE STORE', userStore);
-    this.#user = mockUsers[this.getRandomInt(1, 2)];
+    this.#user = mockUsers[this.getRandomInt(0, 1)];
     console.log(this.#user);
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=12adf7a8-5c23-41f2-a86b-e730fa8979ce&user_id=${this.#user.id}`,
+      `ws://localhost:8080/api/room/join?room_id=b6f7c492-b552-4187-8607-4727ea9c6bca&user_id=${this.#user.id}`,
     );
 
     ws.onclose = (event) => {
@@ -72,29 +71,27 @@ class RoomPageStore {
         this.setState(messageData);
         roomPage.render();
       } else {
-        switch (messageData.name) {
+        switch (messageData.action.name) {
           case 'play':
-            roomPage.videoPlay(messageData.time_code);
+            roomPage.videoPlay(messageData.action.time_code);
             break;
           case 'pause':
-            roomPage.videoPause(messageData.time_code);
+            roomPage.videoPause(messageData.action.time_code);
             break;
           case 'rewind':
-            roomPage.videoRewind(messageData.time_code);
+            roomPage.videoRewind(messageData.action.time_code);
             break;
           case 'message':
-            roomPage.renderMessage(messageData.message);
+            roomPage.renderMessage(messageData.action.message);
         }
-        console.log('Received ACTION message:', messageData);
+        // console.log('Received ACTION message:', messageData);
       }
     };
     this.#ws = ws;
   }
 
   sendActionMessage(actionMessage: Action) {
-    console.log('sendedAction', actionMessage);
     if (this.#ws) {
-      console.log('SENDED DATA', actionMessage);
       this.#ws.send(JSON.stringify(actionMessage));
     }
   }
