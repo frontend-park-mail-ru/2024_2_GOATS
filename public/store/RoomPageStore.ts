@@ -49,7 +49,8 @@ class RoomPageStore {
   // `ws://localhost:8080/api/room/join?room_id=8a225776-ec7d-4b86-8bd0-6b10af01bc9c&username=${this.#user.username}`,
   wsInit() {
     // console.log('CURRENT USER IN ROOM PAGE STORE', userStore);
-    this.#user = mockUsers[this.getRandomInt(1, 10)];
+    this.#user = mockUsers[this.getRandomInt(1, 2)];
+    console.log(this.#user);
     const ws = new WebSocket(
       `ws://localhost:8080/api/room/join?room_id=12adf7a8-5c23-41f2-a86b-e730fa8979ce&user_id=${this.#user.id}`,
     );

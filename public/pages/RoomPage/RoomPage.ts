@@ -177,6 +177,8 @@ export class RoomPage {
       );
       this.#video.render();
 
+      this.handleRewindVideo(this.#room.time_code);
+
       const invitationBtn = document.getElementById(
         'invitation-btn',
       ) as HTMLButtonElement;
