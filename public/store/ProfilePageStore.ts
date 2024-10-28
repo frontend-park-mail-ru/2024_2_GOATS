@@ -70,7 +70,6 @@ export class ProfilePageStore {
         },
       });
       this.#passwordChangedEmitter.set(true);
-      alert({ prevPasswordValue, newPasswordValue, confirmPasswordValue });
     } catch {
       throwBackendError('change-password', 'Неверно указан старый пароль');
     }
@@ -87,11 +86,10 @@ export class ProfilePageStore {
         path: `users/${this.#user.id}/update_profile`,
         formData: formData,
       });
-      // alert(userData);
       console.log(formData);
+
       const not = new Notifier('success', 'Данные успешно обновлены', 2000);
       not.render();
-      Actions.getUser();
       // router.go('/profile');
     } catch {
       alert('error');

@@ -3,6 +3,7 @@ import { ActorPageStore, actorPageStore } from 'store/ActorPageStore';
 import { Actor } from 'types/actor';
 import template from './ActorPage.hbs';
 import { CardsList } from 'components/CardsList/CardsList';
+import { dateFormatter } from 'modules/dateFormatter';
 
 export class ActorPage {
   //   #isBiographyExpanded: boolean;
@@ -45,7 +46,10 @@ export class ActorPage {
 
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
-    pageElement.innerHTML = template({ actor: this.getActorInfo() });
+    pageElement.innerHTML = template({
+      actor: this.getActorInfo(),
+      birthDate: dateFormatter(this.getActorInfo().birthdate),
+    });
 
     const actorFilmography = document.getElementById(
       'actor-page-filmography',

@@ -367,3 +367,18 @@ export const movie = {
   video:
     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
 };
+
+export const monthDictionary = new Map([
+  ['01', 'Января'],
+  ['02', 'Февраля'],
+  ['03', 'Марта'],
+  ['04', 'Апреля'],
+  ['05', 'Мая'],
+  ['06', 'Июня'],
+  ['07', 'Июля'],
+  ['08', 'Августа'],
+  ['09', 'Сентября'],
+  ['10', 'Октября'],
+  ['11', 'Ноября'],
+  ['12', 'Декабря'],
+]);
