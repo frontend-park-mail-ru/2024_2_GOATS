@@ -3,7 +3,7 @@ import { ActorPageStore, actorPageStore } from 'store/ActorPageStore';
 import { Actor } from 'types/actor';
 import template from './ActorPage.hbs';
 import { CardsList } from 'components/CardsList/CardsList';
-import { dateFormatter } from 'modules/dateFormatter';
+import { dateFormatter } from 'modules/DateFormatter';
 
 export class ActorPage {
   //   #isBiographyExpanded: boolean;
@@ -32,10 +32,10 @@ export class ActorPage {
     const togglerDesc = document.getElementById(
       'biography-toggler-desc',
     ) as HTMLElement;
-
     const togglerIcon = document.getElementById(
       'biography-toggler-icon',
     ) as HTMLElement;
+
     toggleButton.addEventListener('click', () => {
       biographyText.classList.toggle('opened');
       togglerDesc.classList.toggle('more');

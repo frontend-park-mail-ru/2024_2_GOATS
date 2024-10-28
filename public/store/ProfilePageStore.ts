@@ -25,14 +25,23 @@ export class ProfilePageStore {
     this.#passwordChangedEmitter = new Emitter<boolean>(false);
     dispatcher.register(this.reduce.bind(this));
 
-    const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
-      if (status && router.getCurrentPath() === '/profile') {
-        this.renderProfilePage();
-      }
-    });
+    // const userListener = userStore.isUserAuthEmmiter$.addListener((status) => {
+    //   if (status && router.getCurrentPath() === '/profile') {
+    //     this.renderProfilePage();
+    //   }
+    // });
+
+    const userLoadingListener = userStore.isUserLoadingEmmiter$.addListener(
+      () => {
+        if (router.getCurrentPath() === '/profile') {
+          this.renderProfilePage();
+        }
+      },
+    );
 
     this.ngOnDestroy = () => {
-      unsubscribe();
+      // userListener();
+      userLoadingListener();
     };
   }
   ngOnDestroy(): void {}
@@ -42,12 +51,18 @@ export class ProfilePageStore {
   }
 
   renderProfilePage() {
-    this.#user = userStore.getUser();
-
-    console.log('call profile page rerender');
-
-    const profilePage = new ProfilePage();
-    profilePage.render();
+    if (userStore.getisUserLoading()) {
+      return;
+    } else {
+      if (userStore.getUserAuthStatus()) {
+        this.#user = userStore.getUser();
+        console.log('call profile page rerender');
+        const profilePage = new ProfilePage();
+        profilePage.render();
+      } else {
+        router.go('/');
+      }
+    }
   }
 
   getUserInfo() {
@@ -86,13 +101,11 @@ export class ProfilePageStore {
         path: `users/${this.#user.id}/update_profile`,
         formData: formData,
       });
-      console.log(formData);
-
       const not = new Notifier('success', 'Данные успешно обновлены', 2000);
       not.render();
-      // router.go('/profile');
     } catch {
-      alert('error');
+      const not = new Notifier('error', 'Что-то пошло не так(', 2000);
+      not.render();
     }
   }
 

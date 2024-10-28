@@ -8,6 +8,7 @@ import { setPagesConfig } from '../consts';
 import { Actions } from 'flux/Actions';
 import { footer } from 'components/Footer/Footer';
 import { router } from './Router';
+import { userStore } from 'store/UserStore';
 
 export const Urls = {
   root: '/',

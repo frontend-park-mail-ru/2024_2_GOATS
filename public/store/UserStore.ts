@@ -11,12 +11,20 @@ const headerElement = document.createElement('header');
 
 class UserStore {
   #user: User;
+
   #isUserAuth: boolean;
-  #isLoading: boolean;
   #isUserAuthEmmiter: Emitter<boolean>;
+
+  #isUserLoading: boolean;
+  #isUserLoadingEmmiter: Emitter<boolean>;
 
   constructor() {
     this.#isUserAuthEmmiter = new Emitter<boolean>(false);
+    this.#isUserAuth = false;
+
+    this.#isUserLoadingEmmiter = new Emitter<boolean>(true);
+    this.#isUserLoading = true;
+
     this.#user = {
       id: -1,
       email: '',
@@ -24,13 +32,14 @@ class UserStore {
       // isAuth: false,
       avatar: '',
     };
-    this.#isUserAuth = false;
-    this.#isLoading = true;
     dispatcher.register(this.reduce.bind(this));
   }
 
   get isUserAuthEmmiter$(): Emitter<boolean> {
     return this.#isUserAuthEmmiter;
+  }
+  get isUserLoadingEmmiter$(): Emitter<boolean> {
+    return this.#isUserLoadingEmmiter;
   }
 
   getUser() {
@@ -41,8 +50,8 @@ class UserStore {
     return this.#isUserAuth;
   }
 
-  getIsLoading() {
-    return this.#isLoading;
+  getisUserLoading() {
+    return this.#isUserLoading;
   }
 
   setState(user: User) {
@@ -54,9 +63,10 @@ class UserStore {
     this.#user.username = user.username;
     this.#user.avatar = user.avatar;
 
-    console.log('user change status');
     this.#isUserAuthEmmiter.set(true);
-    this.#isLoading = false;
+
+    this.#isUserLoading = false;
+    this.#isUserLoadingEmmiter.set(false);
 
     const url = new URL(window.location.href);
     Actions.renderHeader(url.pathname.toString());
@@ -86,14 +96,18 @@ class UserStore {
     this.#user.avatar = '';
     this.#user.id = 0;
 
-    this.#isLoading = false;
+    this.#isUserLoading = false;
+    this.#isUserLoadingEmmiter.set(false);
+
     this.#isUserAuthEmmiter.set(false);
     const url = new URL(window.location.href);
     Actions.renderHeader(url.pathname.toString());
   }
 
   async checkAuth(emit?: boolean) {
-    this.#isLoading = true;
+    this.#isUserLoading = true;
+    this.#isUserLoadingEmmiter.set(true);
+
     try {
       const response = await apiClient.get({
         path: 'auth/session',
