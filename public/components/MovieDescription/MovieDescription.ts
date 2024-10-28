@@ -44,10 +44,10 @@ export class MovieDescription {
       'watch-together-btn',
     ) as HTMLButtonElement;
 
-    watchTogetherBtn.addEventListener('click', async () => {
-      Actions.createRoom(2);
-      router.go('/room');
-    });
+    // watchTogetherBtn.addEventListener('click', async () => {
+    //   Actions.createRoom(2);
+    //   router.go('/room');
+    // });
   }
 
   handleFavoritesClick() {

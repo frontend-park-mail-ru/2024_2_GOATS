@@ -15,11 +15,9 @@
             Режиссёр:
           </span>
 
-          {{#each movie.directors}}
-            <span class='movie-description__info_text'>
-              {{this.name}}
-            </span>
-          {{/each}}
+          <span class='movie-description__info_text'>
+            {{movie.director}}
+          </span>
         </p>
 
         <div class='movie-description__actions'>
@@ -27,10 +25,10 @@
             id='show-movie-btn'
             class='button movie-description__actions_show_btn'
           >Смотреть</button>
-          <button
+          {{! <button
             id='watch-together-btn'
             class='button movie-description__actions_show_btn'
-          >Смотреть вместе</button>
+          >Смотреть вместе</button> }}
           <img
             id='favorites-movie-btn'
             class='movie-description__actions_favorites_btn'

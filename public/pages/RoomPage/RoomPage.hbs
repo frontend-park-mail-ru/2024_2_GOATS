@@ -1,73 +1,54 @@
 <div id='room-page' class='room-page'>
   <div class='room-page__container'>
     <h4 class='room-page__title'>Комната для просмотра сериала от gashurov</h4>
+    <div class='room-page__header'>
+      <img
+        class='room-page__info_description_title'
+        src={{movie.titleImage}}
+        alt='title'
+      />
+      <p class='room-page__info_description_text'>{{movie.shortDescription}}</p>
+    </div>
+
     <div class='room-page__content'>
       <div id='room-video' class='room-page__video'>
       </div>
 
-      <div class='room-page__info'>
-        <div class='room-page__info_description'>
-          <img
-            class='room-page__info_description_title'
-            src={{movie.titleImage}}
-            alt='title'
+      <div class='room-page__chat'>
+        <div class='room-page__chat_messages'>
+        </div>
+        <div class='room-page__chat_input_block'>
+          <input
+            id='messages-input'
+            class='input room-page__chat_input'
+            placeholder='Введите сообщение...'
+            type='text'
           />
-          <p
-            class='room-page__info_description_text'
-          >{{movie.shortDescription}}</p>
-        </div>
-
-        <div class='room-page__info_list_wrapper'>
-          <div class='room-page__info_list_header'>
-            <h4 class='room-page__info_list_header_title'>Участники</h4>
-            <button
-              id='invitation-btn'
-              class='button room-page__info_list_header_btn'
-            >
-              Добавить
-            </button>
-          </div>
-
-          <ul class='room-page__info_list'>
-            {{#each members}}
-              <li class='room-page__info_list_item'>
-                <img
-                  class='room-page__info_list_item_image'
-                  src={{this.avatar}}
-                  alt='avatar'
-                />
-
-                <div class='room-page__info_list_item_title_block'>
-                  <p
-                    class='room-page__info_list_item_title'
-                  >{{this.username}}</p>
-                  {{#if this.isAdmin}}
-                    <p class='room-page__info_list_item_subtitle'>
-                      Владелец комнаты
-                    </p>
-                  {{/if}}
-                </div>
-              </li>
-            {{/each}}
-          </ul>
+          <img
+            id='send-message-button'
+            class='room-page__chat_input_button'
+            src='/assets/icons/sendMessageIcon.svg'
+            alt='send_icon'
+          />
         </div>
       </div>
     </div>
-    <div class='room-page__chat'>
-      <div class='room-page__chat_messages'>
-      </div>
-      <div class='room-page__chat_input_block'>
-        <input
-          id='messages-input'
-          class='input room-page__chat_input'
-          placeholder='Введите сообщение...'
-          type='text'
-        />
-        <button
-          id='send-message-button'
-          class='button room-page__chat_input_button'
-        >Отправить</button>
+
+    <div class='room-page__members_wrapper'>
+      <h4 class='room-page__members_title'>Участники</h4>
+      <button
+        id='invitation-btn'
+        class='button room-page__info_list_header_btn'
+      >
+        Добавить
+      </button>
+      <div class='room-page__members'>
+        <div class='room-page__members_item'></div>
+        <div class='room-page__members_item'></div>
+        <div class='room-page__members_item'></div>
+        <div class='room-page__members_item'></div>
       </div>
     </div>
+
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { dispatcher } from 'flux/Dispatcher';
+import { Actions } from 'flux/Actions';
 import { ActionTypes } from 'flux/ActionTypes';
 import { RoomPage } from 'pages/RoomPage/RoomPage';
 import { Action, Room } from 'types/room';
@@ -6,6 +7,7 @@ import { userStore } from './UserStore';
 import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
 import { mockUsers } from '../consts';
+import { router } from 'modules/Router';
 
 const roomPage = new RoomPage();
 
@@ -16,7 +18,20 @@ class RoomPageStore {
 
   constructor() {
     dispatcher.register(this.reduce.bind(this));
+    const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
+      if (status && router.getCurrentPath() === '/room') {
+        // roomPage.render();
+        Actions.renderRoomPage();
+        this.wsInit();
+      }
+    });
+
+    this.ngOnDestroy = () => {
+      unsubscribe();
+    };
   }
+
+  ngOnDestroy(): void {}
 
   setState(room: Room) {
     this.#room = room;
@@ -47,11 +62,10 @@ class RoomPageStore {
     }
   }
   wsInit() {
-    // console.log('CURRENT USER IN ROOM PAGE STORE', userStore);
-    this.#user = mockUsers[this.getRandomInt(0, 1)];
-    console.log(this.#user);
+    this.#user = userStore.getUser();
+    // this.#user = mockUsers[this.getRandomInt(0, 1)];
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=b6f7c492-b552-4187-8607-4727ea9c6bca&user_id=${this.#user.id}`,
+      `ws://localhost:8080/api/room/join?room_id=4905ae20-5d8f-4502-b6f7-8de2cdf6ff14&user_id=${this.#user.id}`,
     );
 
     ws.onclose = (event) => {
@@ -84,7 +98,6 @@ class RoomPageStore {
           case 'message':
             roomPage.renderMessage(messageData.action.message);
         }
-        // console.log('Received ACTION message:', messageData);
       }
     };
     this.#ws = ws;
@@ -99,8 +112,11 @@ class RoomPageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
+        // this.#user = userStore.getUser();
         roomPage.render();
-        this.wsInit();
+        // if (this.#user.id > 0) {
+        // this.wsInit();
+        // }
         break;
       case ActionTypes.CREATE_ROOM:
         this.createRoom(action.movieId);
