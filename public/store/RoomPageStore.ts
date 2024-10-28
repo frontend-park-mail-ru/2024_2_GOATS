@@ -5,6 +5,7 @@ import { Action, Room } from 'types/room';
 import { userStore } from './UserStore';
 import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
+import { mockUsers } from '../consts';
 
 const roomPage = new RoomPage();
 
@@ -25,6 +26,12 @@ class RoomPageStore {
     return this.#room;
   }
 
+  getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   createRoom(movieId: number) {
     try {
       apiClient.post({
@@ -36,13 +43,15 @@ class RoomPageStore {
         },
       });
     } catch (e: any) {
-      console.log(e);
+      throw e;
     }
   }
-
   wsInit() {
+    // console.log('CURRENT USER IN ROOM PAGE STORE', userStore);
+    this.#user = mockUsers[this.getRandomInt(0, 1)];
+    console.log(this.#user);
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=8a225776-ec7d-4b86-8bd0-6b10af01bc9c`,
+      `ws://localhost:8080/api/room/join?room_id=b6f7c492-b552-4187-8607-4727ea9c6bca&user_id=${this.#user.id}`,
     );
 
     ws.onclose = (event) => {
@@ -57,30 +66,32 @@ class RoomPageStore {
       const messageData = JSON.parse(event.data);
 
       if (messageData.movie) {
+        messageData.movie.video =
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
         this.setState(messageData);
         roomPage.render();
       } else {
-        switch (messageData.name) {
+        switch (messageData.action.name) {
           case 'play':
-            roomPage.videoPlay(messageData.time_code);
+            roomPage.videoPlay(messageData.action.time_code);
             break;
           case 'pause':
-            roomPage.videoPause(messageData.time_code);
+            roomPage.videoPause(messageData.action.time_code);
             break;
           case 'rewind':
-            roomPage.videoRewind(messageData.time_code);
+            roomPage.videoRewind(messageData.action.time_code);
             break;
+          case 'message':
+            roomPage.renderMessage(messageData.action.message);
         }
-        console.log('Received ACTION message:', messageData);
+        // console.log('Received ACTION message:', messageData);
       }
     };
     this.#ws = ws;
   }
 
   sendActionMessage(actionMessage: Action) {
-    console.log('sendedAction', actionMessage);
     if (this.#ws) {
-      console.log('SENDED DATA', actionMessage);
       this.#ws.send(JSON.stringify(actionMessage));
     }
   }

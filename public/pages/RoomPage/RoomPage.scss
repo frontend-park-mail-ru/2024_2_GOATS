@@ -25,6 +25,10 @@
     width: 70%;
   }
 
+  &_chat {
+    width: 100%;
+  }
+
   &__info {
     width: 30%;
 
@@ -97,6 +101,43 @@
           width: 50px;
           height: 50px;
         }
+      }
+    }
+  }
+
+  &__chat {
+    background-color: #494747;
+    position: relative;
+    height: 500px;
+    width: 100%;
+
+    &_messages {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 400px;
+    }
+
+    &_input {
+      width: 100%;
+      border: 1px solid red;
+      border-radius: 10px;
+
+      &_button {
+        font-size: 16px;
+        padding: 15px;
+        background-color: $brand;
+        color: #fff;
+      }
+
+      &_block {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        gap: 10px;
       }
     }
   }
