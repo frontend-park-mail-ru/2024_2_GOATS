@@ -50,7 +50,7 @@ export const serializeMovieDetailed = (movie: any) => {
     isSerial: movie.movie_type === 'serial',
     video: 'http://185.241.195.151/' + movie.video_url,
     actors: serializePersonCards(movie.actors_info),
-    directors: serializePersonCards(movie.directors_info),
+    director: movie.director,
   };
 };
 

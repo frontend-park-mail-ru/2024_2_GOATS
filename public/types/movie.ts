@@ -32,7 +32,7 @@ export type MovieDetailed = {
   isSerial: boolean;
   video: string;
   actors: PersonCardData[];
-  directors: PersonCardData[];
+  director: string;
 };
 
 export type Series = {
