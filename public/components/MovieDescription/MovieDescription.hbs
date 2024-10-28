@@ -1,43 +1,46 @@
 <div class='movie-description'>
   <div class='movie-description__container'>
     <div class='movie-description__wrapper'>
-      <img class='movie-description__title' src={{movie.titleImage}} alt='' />
-      <div class='movie-description__info'>
-        <span class='rating'>{{movie.rating}}</span>
-        <span class='movie-description__info_text'>{{movie.releaseDate}},
-          {{movie.country}}
-        </span>
-      </div>
-      <p class='movie-description__text'>{{movie.shortDescription}}</p>
-      <p class='movie-description__persons'>
-        <span class='movie-description__info_text'>
-          Режиссёр:
-        </span>
-
-        {{#each movie.directors}}
-          <span class='movie-description__info_text'>
-            {{this.name}}
+      <div class='movie-description__content'>
+        <img class='movie-description__title' src={{movie.titleImage}} alt='' />
+        <div class='movie-description__info'>
+          <span class='rating'>{{movie.rating}}</span>
+          <span class='movie-description__info_text'>{{movie.releaseDate}},
+            {{movie.country}}
           </span>
-        {{/each}}
-      </p>
+        </div>
+        <p class='movie-description__text'>{{movie.shortDescription}}</p>
+        <p class='movie-description__persons'>
+          <span class='movie-description__info_text'>
+            Режиссёр:
+          </span>
 
-      <div class='movie-description__actions'>
-        <button
-          id='show-movie-btn'
-          class='button movie-description__actions_show_btn'
-        >Смотреть</button>
-        <button
-          id='watch-together-btn'
-          class='button movie-description__actions_show_btn'
-        >Смотреть вместе</button>
-        <img
-          id='favorites-movie-btn'
-          class='movie-description__actions_favorites_btn'
-          src='/assets/icons/favoritesIcon.svg'
-          alt='favorites'
-        />
+          {{#each movie.directors}}
+            <span class='movie-description__info_text'>
+              {{this.name}}
+            </span>
+          {{/each}}
+        </p>
+
+        <div class='movie-description__actions'>
+          <button
+            id='show-movie-btn'
+            class='button movie-description__actions_show_btn'
+          >Смотреть</button>
+          <button
+            id='watch-together-btn'
+            class='button movie-description__actions_show_btn'
+          >Смотреть вместе</button>
+          <img
+            id='favorites-movie-btn'
+            class='movie-description__actions_favorites_btn'
+            src='/assets/icons/favoritesIcon.svg'
+            alt='favorites'
+          />
+        </div>
       </div>
     </div>
+
     <img
       class='movie-description__image'
       src={{movie.albumImage}}

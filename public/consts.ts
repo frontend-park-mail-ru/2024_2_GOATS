@@ -368,6 +368,89 @@ export const movie = {
     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
 };
 
+export const mockUsers = [
+  {
+    id: 1,
+    email: 'user1@example.com',
+    username: 'user1',
+    isAuth: true,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 2,
+    email: 'user2@example.com',
+    username: 'user2',
+    isAuth: false,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 3,
+    email: 'user3@example.com',
+    username: 'user3',
+    isAuth: true,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 4,
+    email: 'user4@example.com',
+    username: 'user4',
+    isAuth: false,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 5,
+    email: 'user5@example.com',
+    username: 'user5',
+    isAuth: true,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 6,
+    email: 'user6@example.com',
+    username: 'user6',
+    isAuth: false,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 7,
+    email: 'user7@example.com',
+    username: 'user7',
+    isAuth: true,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 8,
+    email: 'user8@example.com',
+    username: 'user8',
+    isAuth: false,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 9,
+    email: 'user9@example.com',
+    username: 'user9',
+    isAuth: true,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+  {
+    id: 10,
+    email: 'user10@example.com',
+    username: 'user10',
+    isAuth: false,
+    avatar:
+      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
+  },
+];
+
 export const monthDictionary = new Map([
   ['01', 'Января'],
   ['02', 'Февраля'],

@@ -28,7 +28,7 @@ export type UserNew = {
   username: string;
   birthdate?: string; // TODO: переделать в Date
   sex?: string; // TODO: перепроверить
-  avatar_url?: string;
+  avatar?: string;
   isAdmin?: boolean;
 };
 

@@ -8,12 +8,14 @@ export class VideoPlayer {
   #isPlaying;
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
+  #tickInterval!: number;
   #onBackClick;
   #onPauseClick;
   #onPlayClick;
   #handleRewindVideo;
   #isDragging = false;
   #isModal;
+  #hanldeIntervalTick;
 
   constructor(
     parent: HTMLElement,
@@ -22,6 +24,7 @@ export class VideoPlayer {
     onPlayClick?: (timeCode: number) => void,
     onPauseClick?: (timeCode: number) => void,
     handleRewindVideo?: (timeCode: number) => void,
+    hanldeIntervalTick?: (timeCode: number) => void,
   ) {
     this.#parent = parent;
     this.#url = url;
@@ -30,6 +33,7 @@ export class VideoPlayer {
     this.#onPlayClick = onPlayClick;
     this.#onPauseClick = onPauseClick;
     this.#handleRewindVideo = handleRewindVideo;
+    this.#hanldeIntervalTick = hanldeIntervalTick;
     this.#isModal = onBackClick ? true : false;
   }
 
@@ -177,10 +181,10 @@ export class VideoPlayer {
     if (Number(percentage) <= 40) {
       slider.style.setProperty(
         '--progress-value',
-        `calc(${slider.value}% + 5px)`,
+        `calc(${percentage}% + 5px)`,
       );
     } else {
-      slider.style.setProperty('--progress-value', `${slider.value}%`);
+      slider.style.setProperty('--progress-value', `${percentage}%`);
     }
 
     slider.value = percentage.toString();
@@ -256,13 +260,11 @@ export class VideoPlayer {
     this.resetHideControlsTimer();
     if (video.paused) {
       video.play();
+      this.intervalTick();
     } else {
       video.pause();
+      clearInterval(this.#tickInterval);
     }
-    // console.log(
-    //   'current time on pause or play',
-    //   this.#controls.video.currentTime,
-    // );
     this.#isPlaying = !this.#isPlaying;
   }
 
@@ -349,6 +351,17 @@ export class VideoPlayer {
 
       if (this.#isModal) {
         this.#controls.videoBackButton.classList.add('video__controls_hidden');
+      }
+    }, 3000);
+  }
+
+  // Для выполнения функции каждые 3 секунды во время проигрывания видео
+  intervalTick() {
+    clearInterval(this.#tickInterval);
+
+    this.#tickInterval = window.setInterval(() => {
+      if (this.#hanldeIntervalTick) {
+        this.#hanldeIntervalTick(this.#controls.video.currentTime);
       }
     }, 3000);
   }

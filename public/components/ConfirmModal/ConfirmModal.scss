@@ -55,6 +55,13 @@
       &:hover {
         background-color: $button-background-hover;
       }
+
+      &_cancel {
+        background-color: $button-background-secondary;
+        &:hover {
+          background-color: $button-background-secondary-hover;
+        }
+      }
     }
   }
 }

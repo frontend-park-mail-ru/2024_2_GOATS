@@ -7,6 +7,9 @@ import { Actions } from 'flux/Actions';
 import { Room } from 'types/room';
 import { UserNew } from 'types/user';
 import { Notifier } from 'components/Notifier/Notifier';
+import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
+import { Message } from 'components/Message/Message';
+import { mockUsers } from '../../consts';
 
 export class RoomPage {
   #room!: Room;
@@ -15,7 +18,7 @@ export class RoomPage {
       id: 1,
       email: 'user1@example.com',
       username: 'user1',
-      avatar_url:
+      avatar:
         'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
       isAdmin: true,
     },
@@ -23,35 +26,35 @@ export class RoomPage {
       id: 2,
       email: 'user2@example.com',
       username: 'user2',
-      avatar_url:
+      avatar:
         'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
     },
     {
       id: 3,
       email: 'user3@example.com',
       username: 'user3',
-      avatar_url:
+      avatar:
         'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
     },
     {
       id: 4,
       email: 'user4@example.com',
       username: 'user4',
-      avatar_url:
+      avatar:
         'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
     },
     {
       id: 5,
       email: 'user5@example.com',
       username: 'user5',
-      avatar_url:
+      avatar:
         'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
     },
     {
       id: 6,
       email: 'user6@example.com',
       username: 'user6',
-      avatar_url:
+      avatar:
         'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
     },
   ];
@@ -65,12 +68,10 @@ export class RoomPage {
   render() {
     this.#room = roomPageStore.getRoom();
 
-    // console.log('ROOM FROM ROOM PAGE', this.#room);
     this.renderTemplate();
   }
 
   onPauseClick(timeCode: number) {
-    // console.log('timecode from hander', timeCode);
     Actions.sendActionMessage({
       name: 'pause',
       time_code: timeCode,
@@ -80,6 +81,13 @@ export class RoomPage {
   handleRewindVideo(timeCode: number) {
     Actions.sendActionMessage({
       name: 'rewind',
+      time_code: timeCode,
+    });
+  }
+
+  hanldeTimerTick(timeCode: number) {
+    Actions.sendActionMessage({
+      name: 'timer',
       time_code: timeCode,
     });
   }
@@ -113,6 +121,28 @@ export class RoomPage {
     });
   }
 
+  renderMessage(messageValue: string) {
+    const messagesContainer = document.querySelector(
+      '.room-page__chat_messages',
+    ) as HTMLDivElement;
+    const message = new Message(messagesContainer, mockUsers[0], messageValue);
+    message.render();
+  }
+
+  sendMessage() {
+    const messageValue = (<HTMLInputElement>(
+      document.getElementById('messages-input')
+    )).value;
+
+    if (messageValue) {
+      this.renderMessage(messageValue);
+      Actions.sendActionMessage({
+        name: 'message',
+        message: messageValue,
+      });
+    }
+  }
+
   renderTemplate() {
     const rootElem = document.getElementById('root');
     if (rootElem) {
@@ -127,7 +157,6 @@ export class RoomPage {
         movie: this.#room.movie,
         members: this.#members,
       });
-      console.log(this.#members);
 
       const videoContainer = document.getElementById(
         'room-video',
@@ -139,8 +168,13 @@ export class RoomPage {
         this.onPlayClick,
         this.onPauseClick,
         this.handleRewindVideo,
+        this.hanldeTimerTick,
       );
       this.#video.render();
+
+      // Для установки текущего тайм кода новому пользователю
+      this.videoRewind(this.#room.time_code);
+      // this.handleRewindVideo(this.#room.time_code);
 
       const invitationBtn = document.getElementById(
         'invitation-btn',
@@ -153,6 +187,18 @@ export class RoomPage {
         'Ссылка для приглашения скопирована',
         3000,
       );
+
+      const modal = new ConfirmModal(
+        'Присоедениться к комнате совместного просмотра',
+        () => {},
+      );
+      modal.render();
+
+      // TEST MESSAGES
+      const sendMessageButton = document.getElementById(
+        'send-message-button',
+      ) as HTMLButtonElement;
+      sendMessageButton.addEventListener('click', () => this.sendMessage());
     } else {
       this.#loader.render();
     }

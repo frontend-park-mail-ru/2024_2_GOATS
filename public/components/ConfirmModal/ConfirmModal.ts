@@ -51,11 +51,6 @@ export class ConfirmModal {
     }
   }
 
-  /**
-   * Hide modal window
-   * @param {}
-   * @returns {}
-   */
   hideModal() {
     const root = document.getElementById('root');
     const modal = document.getElementById('modal');

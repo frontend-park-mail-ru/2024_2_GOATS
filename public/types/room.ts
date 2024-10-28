@@ -9,4 +9,5 @@ export type Room = {
 export type Action = {
   name: string;
   time_code?: number;
+  message?: string;
 };
