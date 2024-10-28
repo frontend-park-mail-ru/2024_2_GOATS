@@ -62,12 +62,10 @@ class RoomPageStore {
     }
   }
   wsInit() {
-    console.log('CURRENT USER IN ROOM PAGE STORE', userStore.getUser());
     this.#user = userStore.getUser();
     // this.#user = mockUsers[this.getRandomInt(0, 1)];
-    // console.log(this.#user);
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=b6f7c492-b552-4187-8607-4727ea9c6bca&user_id=${this.#user.id}`,
+      `ws://localhost:8080/api/room/join?room_id=4905ae20-5d8f-4502-b6f7-8de2cdf6ff14&user_id=${this.#user.id}`,
     );
 
     ws.onclose = (event) => {
@@ -100,7 +98,6 @@ class RoomPageStore {
           case 'message':
             roomPage.renderMessage(messageData.action.message);
         }
-        // console.log('Received ACTION message:', messageData);
       }
     };
     this.#ws = ws;
