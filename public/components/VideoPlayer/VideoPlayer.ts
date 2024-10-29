@@ -352,7 +352,7 @@ export class VideoPlayer {
       if (this.#isModal) {
         this.#controls.videoBackButton.classList.add('video__controls_hidden');
       }
-    }, 3000);
+    }, 300000);
   }
 
   // Для выполнения функции каждые 3 секунды во время проигрывания видео

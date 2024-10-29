@@ -13,7 +13,6 @@
   </div>
   <div id='video-controls' class='video__controls'>
     <div class='video__controls_progress'>
-      <span id='current-time' class='video__controls_timer'>00:00</span>
       <div class='video__progress'>
         <input
           id='progress-slider'
@@ -25,8 +24,8 @@
           value='0'
         />
       </div>
-      <span class='video__controls_timer' id='duration'>00:00</span>
     </div>
+
     <div class='video__controls_actions'>
       <div class='video__controls_actions_left'>
         <img
@@ -47,6 +46,12 @@
           src='/assets/icons/nextSeries.svg'
           alt='next-series'
         />
+
+        <p>
+          <span id='current-time' class='video__controls_timer'>00:00</span>
+          /
+          <span class='video__controls_timer' id='duration'>00:00</span>
+        </p>
       </div>
 
       <div class='video__controls_actions_right'>

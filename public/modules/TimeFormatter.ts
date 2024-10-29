@@ -1,7 +1,15 @@
 export const timeFormatter = (timeInput: number) => {
-  const minute = Math.floor(timeInput / 60);
-  const minuteString = minute < 10 ? '0' + minute : minute;
-  const second = Math.floor(timeInput % 60);
-  const secondString = second < 10 ? '0' + second : second;
-  return `${minuteString}:${secondString}`;
+  const hours = Math.floor(timeInput / 3600);
+  const minutes = Math.floor((timeInput % 3600) / 60);
+  const seconds = Math.floor(timeInput % 60);
+
+  const hoursString = hours < 10 ? '0' + hours : hours;
+  const minutesString = minutes < 10 ? '0' + minutes : minutes;
+  const secondsString = seconds < 10 ? '0' + seconds : seconds;
+
+  if (hours > 0) {
+    return `${hoursString}:${minutesString}:${secondsString}`;
+  } else {
+    return `${minutesString}:${secondsString}`;
+  }
 };
