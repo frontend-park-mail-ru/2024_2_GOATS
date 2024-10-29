@@ -4,7 +4,7 @@ import { User, UserData } from 'types/user';
 import { dispatcher } from 'flux/Dispatcher';
 import { apiClient } from 'modules/ApiClient';
 import { Emitter } from 'modules/Emmiter';
-import { throwBackendError } from 'modules/BackendErrors';
+import { removeBackendError, throwBackendError } from 'modules/BackendErrors';
 import { Notifier } from 'components/Notifier/Notifier';
 import { router } from 'modules/Router';
 import { userStore } from './UserStore';
@@ -92,7 +92,7 @@ export class ProfilePageStore {
 
   async changeUserInfoRequest(userData: UserData) {
     try {
-      console.log(userData);
+      removeBackendError('update-profile');
       const formData = new FormData();
       formData.append('username', userData.username);
       formData.append('email', userData.email);
@@ -103,9 +103,18 @@ export class ProfilePageStore {
       });
       const not = new Notifier('success', 'Данные успешно обновлены', 2000);
       not.render();
+      userStore.checkAuth();
     } catch {
-      const not = new Notifier('error', 'Что-то пошло не так(', 2000);
-      not.render();
+      throw throwBackendError(
+        'update-profile',
+        'Уже существует аккаунт с таким логином или почтой',
+      );
+      // const not = new Notifier(
+      //   'error',
+      //   'Уже существует аккаунт с таким логином или почтой',
+      //   2000,
+      // );
+      // not.render();
     }
   }
 

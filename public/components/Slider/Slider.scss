@@ -5,12 +5,16 @@
   &__container {
     display: flex;
     align-items: center;
+
     overflow: hidden;
+
     width: 100%;
   }
 
   &__track {
     display: flex;
+    height: 224px;
+
     gap: 50px;
     transition: transform 0.5s ease;
   }

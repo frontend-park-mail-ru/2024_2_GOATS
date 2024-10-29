@@ -4,6 +4,12 @@
   width: 160px;
   height: 224px;
   position: relative;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+  }
 
   &__image {
     width: 100%;
