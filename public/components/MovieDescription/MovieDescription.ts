@@ -3,8 +3,6 @@ import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDetailed } from 'types/movie';
 import { router } from 'modules/Router';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
-import { RoomModal } from 'components/RoomModal/RoomModal';
-import { apiClient } from 'modules/ApiClient';
 import { Actions } from 'flux/Actions';
 
 export class MovieDescription {
@@ -39,16 +37,16 @@ export class MovieDescription {
     });
   }
 
-  handleWatchTogether() {
-    const watchTogetherBtn = document.getElementById(
-      'watch-together-btn',
-    ) as HTMLButtonElement;
+  // handleWatchTogether() {
+  //   const watchTogetherBtn = document.getElementById(
+  //     'watch-together-btn',
+  //   ) as HTMLButtonElement;
 
-    // watchTogetherBtn.addEventListener('click', async () => {
-    //   Actions.createRoom(2);
-    //   router.go('/room');
-    // });
-  }
+  //   watchTogetherBtn.addEventListener('click', async () => {
+  //     Actions.createRoom(2);
+  //     router.go('/room');
+  //   });
+  // }
 
   handleFavoritesClick() {
     const favoritesBtn = document.getElementById(
@@ -60,7 +58,7 @@ export class MovieDescription {
   renderTemplate() {
     this.#parent.innerHTML = template({ movie: this.#movie });
     this.handleShowMovie();
-    this.handleWatchTogether();
+    // this.handleWatchTogether();
     this.handleFavoritesClick();
   }
 }

@@ -1,3 +1,5 @@
+import { dateFormatter } from './DateFormatter';
+
 export const serializeMovie = (movie: any) => {
   return {
     id: movie.id,
@@ -45,7 +47,7 @@ export const serializeMovieDetailed = (movie: any) => {
     albumImage: 'http://185.241.195.151/' + movie.album_url,
     cardImage: 'http://185.241.195.151/' + movie.card_url,
     rating: movie.rating,
-    releaseDate: movie.release_date,
+    releaseDate: dateFormatter(movie.release_date),
     country: movie.country,
     isSerial: movie.movie_type === 'serial',
     video: 'http://185.241.195.151/' + movie.video_url,

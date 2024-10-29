@@ -27,7 +27,7 @@ export type MovieDetailed = {
   albumImage: string;
   cardImage: string;
   rating: number;
-  releaseDate: string; // TODO: поменять на Date
+  releaseDate: string;
   country: string;
   isSerial: boolean;
   video: string;
