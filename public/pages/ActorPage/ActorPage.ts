@@ -46,14 +46,15 @@ export class ActorPage {
 
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
+
     pageElement.innerHTML = template({
       actor: this.getActorInfo(),
       birthDate: dateFormatter(this.getActorInfo().birthdate),
     });
-
-    const actorFilmography = document.getElementById(
-      'actor-page-filmography',
-    ) as HTMLElement;
+    window.scrollTo(0, 0);
+    // const actorFilmography = document.getElementById(
+    //   'actor-page-filmography',
+    // ) as HTMLElement;
 
     // TODO: Подождать пока Игорь добавит фильмографию для актера
     // const cards = new CardsList(

@@ -48,6 +48,8 @@ export class MoviePage {
 
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
+    window.scrollTo(0, 0);
+
     this.#loader = new Loader(pageElement, template());
     if (this.#movie) {
       pageElement.innerHTML = template({

@@ -136,6 +136,7 @@
   &__submit {
     width: fit-content;
     margin-top: 8px;
+    width: 100%;
 
     &_button {
       width: 100%;
@@ -150,6 +151,17 @@
         background-color: #590da6;
       }
     }
+  }
+}
+
+.user-change-error {
+  margin-top: 5px;
+  color: $error-color;
+  align-self: flex-start;
+  display: none;
+
+  &.visible {
+    display: block;
   }
 }
 

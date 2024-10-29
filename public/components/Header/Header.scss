@@ -60,5 +60,18 @@
         background-color: $button-background-hover;
       }
     }
+
+    &_avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 100px;
+      overflow: hidden;
+
+      &_img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
   }
 }

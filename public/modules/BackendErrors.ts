@@ -1,5 +1,5 @@
 export const throwBackendError = (
-  form: 'auth' | 'reg' | 'change-password',
+  form: 'auth' | 'reg' | 'change-password' | 'update-profile',
   errorMessage: string,
 ) => {
   let errorBlock;
@@ -12,6 +12,8 @@ export const throwBackendError = (
     errorBlock = document.getElementById(
       'change-password-error',
     ) as HTMLElement;
+  } else if (form === 'update-profile') {
+    errorBlock = document.getElementById('user-change-error') as HTMLElement;
   }
 
   if (errorBlock) {
@@ -20,13 +22,21 @@ export const throwBackendError = (
   }
 };
 
-export const removeBackendError = (form: 'auth' | 'reg') => {
+export const removeBackendError = (
+  form: 'auth' | 'reg' | 'change-password' | 'update-profile',
+) => {
   let errorBlock;
 
   if (form === 'auth') {
     errorBlock = document.getElementById('auth-error') as HTMLElement;
   } else if (form === 'reg') {
     errorBlock = document.getElementById('reg-error') as HTMLElement;
+  } else if (form === 'change-password') {
+    errorBlock = document.getElementById(
+      'change-password-error',
+    ) as HTMLElement;
+  } else if (form === 'update-profile') {
+    errorBlock = document.getElementById('user-change-error') as HTMLElement;
   }
 
   if (errorBlock) {
