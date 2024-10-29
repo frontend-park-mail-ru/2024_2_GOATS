@@ -19,6 +19,21 @@ export class MainPage {
     this.renderTemplate();
   }
 
+  // showExpandedCard = () => {
+  //   const cards = document.querySelectorAll('.card');
+  //   cards.forEach((card) => {
+  //     card.addEventListener('mouseover', (e: any) => {
+  //       console.log(`Карточка с ID ${card.id}:`);
+  //       console.log(`X координата: ${e.clientX}`);
+  //       console.log(`Y координата: ${e.clientY}`);
+  //     });
+
+  //     card.addEventListener('mouseout', () => {
+  //       console.log('Мышь покинула карточку');
+  //     });
+  //   });
+  // };
+
   async renderBlocks() {
     const trendMoviesBlock = document.getElementById('trend-movies-block');
     if (trendMoviesBlock) {
@@ -60,5 +75,6 @@ export class MainPage {
     }
 
     this.renderBlocks();
+    // this.showExpandedCard();
   }
 }

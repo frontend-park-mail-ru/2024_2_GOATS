@@ -31,8 +31,8 @@ export class MoviePage {
     const seriesBlock = document.getElementById(
       'movie-page-series',
     ) as HTMLElement;
-    // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
-    // seriesSlider.render();
+    const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
+    seriesSlider.render();
 
     const personsBlock = document.getElementById(
       'movie-page-persons',
