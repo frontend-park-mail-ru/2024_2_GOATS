@@ -9,10 +9,12 @@
 
     display: grid;
     grid-template-columns: 60% 35%;
+    grid-template-rows: repeat(2, 1fr);
     justify-content: space-between;
   }
 
   &__profile-block {
+    grid-row: span 2 / span 2;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -48,6 +50,27 @@
       background-color: $background-secondary-color;
       border-radius: 16px;
       padding: 18px;
+    }
+  }
+
+  &__exit-block {
+    grid-column-start: 2;
+
+    &_title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    &_btn {
+      background-color: $brand;
+      color: $brand-secondary;
+      font-size: 16px;
+      font-weight: 600;
+
+      &:hover {
+        background-color: $button-background-hover;
+      }
     }
   }
 }
