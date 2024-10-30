@@ -37,16 +37,16 @@ export class MovieDescription {
     });
   }
 
-  // handleWatchTogether() {
-  //   const watchTogetherBtn = document.getElementById(
-  //     'watch-together-btn',
-  //   ) as HTMLButtonElement;
+  handleWatchTogether() {
+    const watchTogetherBtn = document.getElementById(
+      'watch-together-btn',
+    ) as HTMLButtonElement;
 
-  //   watchTogetherBtn.addEventListener('click', async () => {
-  //     Actions.createRoom(2);
-  //     router.go('/room');
-  //   });
-  // }
+    watchTogetherBtn.addEventListener('click', async () => {
+      Actions.createRoom(2);
+      router.go('/room');
+    });
+  }
 
   handleFavoritesClick() {
     const favoritesBtn = document.getElementById(
@@ -58,7 +58,7 @@ export class MovieDescription {
   renderTemplate() {
     this.#parent.innerHTML = template({ movie: this.#movie });
     this.handleShowMovie();
-    // this.handleWatchTogether();
+    this.handleWatchTogether();
     this.handleFavoritesClick();
   }
 }
