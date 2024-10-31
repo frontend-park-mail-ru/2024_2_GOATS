@@ -7,13 +7,12 @@ import { Slider } from 'components/Slider/Slider';
 import { mockSeries } from '../../consts';
 
 export class MoviePage {
-  #movie!: MovieDetailed;
+  #movie!: MovieDetailed | null;
   #loader!: Loader;
 
   constructor() {}
 
   render() {
-    console.log('RENDER MOVIE PAGE');
     this.#movie = moviePageStore.getMovie();
     this.renderTemplate();
   }
@@ -47,7 +46,7 @@ export class MoviePage {
       personsBlock,
       undefined,
       undefined,
-      this.#movie.actors,
+      this.#movie?.actors,
     );
     personsSlider.render();
   }

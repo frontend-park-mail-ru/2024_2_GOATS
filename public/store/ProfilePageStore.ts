@@ -56,7 +56,6 @@ export class ProfilePageStore {
     } else {
       if (userStore.getUserAuthStatus()) {
         this.#user = userStore.getUser();
-        console.log('call profile page rerender');
         const profilePage = new ProfilePage();
         profilePage.render();
       } else {

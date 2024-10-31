@@ -83,21 +83,8 @@ export class Header {
     }
   }
 
-  // onExitClick() {
-  //   if (userStore.getUser().isAuth) {
-  //     const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-  //       this.logout();
-  //     });
-  //     const exitButton = document.getElementById('exit-button') as HTMLElement;
-  //     exitButton.addEventListener('click', () => {
-  //       modal.render();
-  //     });
-  //   }
-  // }
-
   renderTemplate() {
     this.#parent.innerHTML = '';
-    console.log(this.#activeLink);
     const items = this.items.map(([key, { text, href, isAvailable, id }]) => {
       let className = '';
 
@@ -109,9 +96,7 @@ export class Header {
     });
 
     const user = userStore.getUser();
-    console.log(items);
 
-    console.log(items.find((item) => item.id == 'header-profile'));
     this.#parent.innerHTML = template({
       navItems: items.filter((item) => item.id != 'header-profile'),
       isUserAuth: userStore.getUserAuthStatus(),
@@ -120,7 +105,5 @@ export class Header {
     });
 
     document.getElementById('header')?.addEventListener('click', this.#handler);
-
-    // this.onExitClick();
   }
 }

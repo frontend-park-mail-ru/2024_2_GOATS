@@ -87,7 +87,6 @@ export const Actions = {
     });
   },
   createRoom(movieId: number) {
-    console.log('create room action');
     dispatcher.dispatch({
       type: ActionTypes.CREATE_ROOM,
       movieId,

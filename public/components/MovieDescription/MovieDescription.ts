@@ -7,11 +7,12 @@ import { Actions } from 'flux/Actions';
 
 export class MovieDescription {
   #parent;
-  #movie!: MovieDetailed;
+  #movie!: MovieDetailed | null;
   #movieSelections: MovieSelection[] = [];
   #onFavoritesClick;
   #onVideoBackClick;
   #currentMovieSelection!: MovieSelection;
+  #isModalOpened;
 
   constructor(
     parent: HTMLElement,
@@ -21,11 +22,15 @@ export class MovieDescription {
     this.#parent = parent;
     this.#onFavoritesClick = onFavoritesClick;
     this.#onVideoBackClick = onVideoBackClick;
+    this.#isModalOpened = false;
 
     const unsubscribe = moviePageStore.isNewSeriesReceivedEmitter$.addListener(
       () => {
-        this.#movie = moviePageStore.getMovie();
-        this.renderVideoPlayer();
+        console.log('UNSUBSCRIBE');
+        if (this.#isModalOpened) {
+          this.#movie = moviePageStore.getMovie();
+          this.renderVideoPlayer();
+        }
       },
     );
 
@@ -39,13 +44,12 @@ export class MovieDescription {
   render() {
     this.#movie = moviePageStore.getMovie();
     this.#movieSelections = moviePageStore.getSelections();
-    console.log('SELECTIONS', this.#movieSelections);
     this.renderTemplate();
   }
 
   setCurrentMovieSelection() {
     this.#movieSelections.forEach((selection) => {
-      if (selection.movies.some((movie) => movie.id === this.#movie.id)) {
+      if (selection.movies.some((movie) => movie.id === this.#movie?.id)) {
         this.#currentMovieSelection = selection;
       }
     });
@@ -53,11 +57,12 @@ export class MovieDescription {
 
   getCurrentSeriesId() {
     return this.#currentMovieSelection.movies.findIndex(
-      (movie) => movie.id === this.#movie.id,
+      (movie) => movie.id === this.#movie?.id,
     );
   }
 
   onBackClick() {
+    this.#isModalOpened = false;
     const videoContainer = document.getElementById(
       'video-container',
     ) as HTMLElement;
@@ -81,26 +86,30 @@ export class MovieDescription {
   }
 
   renderVideoPlayer() {
+    this.#isModalOpened = true;
     const videoContainer = document.getElementById(
       'video-container',
     ) as HTMLElement;
-    const video = new VideoPlayer(
-      videoContainer,
-      this.#movie.video,
-      this.#currentMovieSelection.movies[
-        this.#currentMovieSelection.movies.length - 1
-      ].id > this.#movie.id,
-      this.#currentMovieSelection.movies[0].id < this.#movie.id,
-      this.onBackClick.bind(this),
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      this.onNextSeriesClick.bind(this),
-      this.onPrevSeriesClick.bind(this),
-    );
-    video.render();
-    videoContainer.style.zIndex = '10';
+
+    if (this.#movie) {
+      const video = new VideoPlayer(
+        videoContainer,
+        this.#movie.video,
+        this.#currentMovieSelection.movies[
+          this.#currentMovieSelection.movies.length - 1
+        ].id > this.#movie.id,
+        this.#currentMovieSelection.movies[0].id < this.#movie.id,
+        this.onBackClick.bind(this),
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        this.onNextSeriesClick.bind(this),
+        this.onPrevSeriesClick.bind(this),
+      );
+      video.render();
+      videoContainer.style.zIndex = '10';
+    }
   }
 
   handleShowMovie() {
@@ -125,18 +134,19 @@ export class MovieDescription {
   //   });
   // }
 
-  handleFavoritesClick() {
-    const favoritesBtn = document.getElementById(
-      'favorites-movie-btn',
-    ) as HTMLButtonElement;
-    favoritesBtn.addEventListener('click', this.#onFavoritesClick);
-  }
+  // TODO: Избранные к 3 РК
+  // handleFavoritesClick() {
+  //   const favoritesBtn = document.getElementById(
+  //     'favorites-movie-btn',
+  //   ) as HTMLButtonElement;
+  //   favoritesBtn.addEventListener('click', this.#onFavoritesClick);
+  // }
 
   renderTemplate() {
     this.setCurrentMovieSelection();
     this.#parent.innerHTML = template({ movie: this.#movie });
     this.handleShowMovie();
     // this.handleWatchTogether();
-    this.handleFavoritesClick();
+    // this.handleFavoritesClick();
   }
 }

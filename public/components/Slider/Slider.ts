@@ -138,7 +138,6 @@ export class Slider {
       } else if (this.#series) {
         this.#series.forEach((series) => {
           const seriesCard = new SeriesCard(track, series, () => {
-            console.log('series id is', series.id);
             const moviePage = document.getElementById(
               'movie-page',
             ) as HTMLElement;
@@ -156,7 +155,6 @@ export class Slider {
       } else if (this.#persons) {
         this.#persons.forEach((person) => {
           const personCard = new PersonCard(track, person, () => {
-            console.log('person id is', person.id);
             router.go('/person', person.id);
           });
           personCard.render();

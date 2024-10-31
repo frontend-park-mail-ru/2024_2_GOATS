@@ -1,6 +1,7 @@
 import { Card } from '../Card/Card';
 import template from './CardsList.hbs';
 import { Movie } from 'types/movie';
+import { router } from 'modules/Router';
 
 export class CardsList {
   #parent;
@@ -24,9 +25,9 @@ export class CardsList {
 
     if (cardsList) {
       this.#movies.forEach((movie) => {
-        const card = new Card(cardsList, movie, () => {
-          console.log('card clicked');
-        });
+        const card = new Card(cardsList, movie, () =>
+          router.go('/movie', movie.id),
+        );
         card.render();
       });
     }

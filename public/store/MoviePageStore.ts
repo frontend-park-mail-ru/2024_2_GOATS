@@ -12,7 +12,7 @@ import {
 const moviePage = new MoviePage();
 
 class MoviePageStore {
-  #movie!: MovieDetailed;
+  #movie!: MovieDetailed | null;
   #movieSelections: MovieSelection[] = [];
   #isNewSeriesReceivedEmitter: Emitter<boolean>;
 
@@ -71,6 +71,7 @@ class MoviePageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
+        this.#movie = null;
         moviePage.render();
         await Promise.all([
           this.getCollection(),

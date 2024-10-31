@@ -36,7 +36,6 @@ export class MainPage {
 
   async renderBlocks() {
     const trendMoviesBlock = document.getElementById('trend-movies-block');
-    console.log('aaaaaaaaaaaaaa', this.#movieSelections);
     if (trendMoviesBlock) {
       const trendMoviesList = new GridBlock(
         trendMoviesBlock,
