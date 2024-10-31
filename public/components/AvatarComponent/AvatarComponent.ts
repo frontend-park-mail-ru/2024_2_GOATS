@@ -14,6 +14,8 @@ export class AvatarComponent {
   }
   renderTemplate() {
     this.#parent.innerHTML = '';
-    this.#parent.innerHTML = template({ image: this.#image });
+    this.#parent.innerHTML = template({
+      image: this.#image.replace(/ /g, '%20'),
+    });
   }
 }
