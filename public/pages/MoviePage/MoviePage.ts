@@ -18,6 +18,10 @@ export class MoviePage {
     this.renderTemplate();
   }
 
+  onVideoBackClick() {
+    this.renderTemplate();
+  }
+
   renderBlocks() {
     const movieDescriptionContainer = document.getElementById(
       'movie-description-container',
@@ -25,14 +29,16 @@ export class MoviePage {
     const movieDescription = new MovieDescription(
       movieDescriptionContainer,
       () => console.log('favorite'),
+      this.onVideoBackClick.bind(this),
     );
     movieDescription.render();
 
-    const seriesBlock = document.getElementById(
-      'movie-page-series',
-    ) as HTMLElement;
-    const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
-    seriesSlider.render();
+    // TODO: Серии добавить только к 3 РК
+    // const seriesBlock = document.getElementById(
+    //   'movie-page-series',
+    // ) as HTMLElement;
+    // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
+    // seriesSlider.render();
 
     const personsBlock = document.getElementById(
       'movie-page-persons',

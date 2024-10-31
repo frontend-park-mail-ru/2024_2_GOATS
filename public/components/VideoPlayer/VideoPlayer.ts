@@ -16,15 +16,23 @@ export class VideoPlayer {
   #isDragging = false;
   #isModal;
   #hanldeIntervalTick;
+  #hasNextSeries;
+  #hasPrevSeries;
+  #onNextButtonClick;
+  #onPrevButtonClick;
 
   constructor(
     parent: HTMLElement,
     url: string,
+    hasNextSeries: boolean,
+    hasPrevSeries: boolean,
     onBackClick?: () => void,
     onPlayClick?: (timeCode: number) => void,
     onPauseClick?: (timeCode: number) => void,
     handleRewindVideo?: (timeCode: number) => void,
     hanldeIntervalTick?: (timeCode: number) => void,
+    onNextButtonClick?: () => void,
+    onPrevButtonClick?: () => void,
   ) {
     this.#parent = parent;
     this.#url = url;
@@ -35,6 +43,10 @@ export class VideoPlayer {
     this.#handleRewindVideo = handleRewindVideo;
     this.#hanldeIntervalTick = hanldeIntervalTick;
     this.#isModal = onBackClick ? true : false;
+    this.#hasNextSeries = hasNextSeries;
+    this.#hasPrevSeries = hasPrevSeries;
+    this.#onNextButtonClick = onNextButtonClick;
+    this.#onPrevButtonClick = onPrevButtonClick;
   }
 
   render() {
@@ -49,6 +61,8 @@ export class VideoPlayer {
       url: this.#url,
       isPlaying,
       isModal: this.#isModal,
+      hasNextSeries: this.#hasNextSeries,
+      hasPrevSeries: this.#hasPrevSeries,
     });
     const root = document.getElementById('root') as HTMLElement;
     if (this.#isModal) {
@@ -81,6 +95,12 @@ export class VideoPlayer {
         'video-back-button',
       ) as HTMLElement,
       videoControls: document.getElementById('video-controls') as HTMLElement,
+      nextSeriesButton: document.getElementById(
+        'next-series-button',
+      ) as HTMLElement,
+      prevSeriesButton: document.getElementById(
+        'prev-series-button',
+      ) as HTMLElement,
     };
   }
 
@@ -93,6 +113,8 @@ export class VideoPlayer {
       rewindBackButton,
       rewindFrontButton,
       volume,
+      nextSeriesButton,
+      prevSeriesButton,
     } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
@@ -136,6 +158,22 @@ export class VideoPlayer {
 
     slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
     slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
+
+    if (nextSeriesButton) {
+      nextSeriesButton.addEventListener('click', () => {
+        if (this.#onNextButtonClick) {
+          this.#onNextButtonClick();
+        }
+      });
+    }
+
+    if (prevSeriesButton) {
+      prevSeriesButton.addEventListener('click', () => {
+        if (this.#onPrevButtonClick) {
+          this.#onPrevButtonClick();
+        }
+      });
+    }
   }
 
   // Вспомогательные функции для использования снаружи

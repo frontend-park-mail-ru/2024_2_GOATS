@@ -1,6 +1,5 @@
 import template from './RoomPage.hbs';
 import { roomPageStore } from 'store/RoomPageStore';
-// import { movie } from '../../consts';
 import { Loader } from '../../components/Loader/Loader';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { Actions } from 'flux/Actions';
@@ -164,6 +163,8 @@ export class RoomPage {
       this.#video = new VideoPlayer(
         videoContainer,
         this.#room.movie.video,
+        true,
+        true,
         undefined,
         this.onPlayClick,
         this.onPauseClick,

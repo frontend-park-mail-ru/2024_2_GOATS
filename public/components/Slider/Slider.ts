@@ -142,8 +142,12 @@ export class Slider {
             const moviePage = document.getElementById(
               'movie-page',
             ) as HTMLElement;
-            const video = new VideoPlayer(moviePage, series.video, () =>
-              router.go('/movie'),
+            const video = new VideoPlayer(
+              moviePage,
+              series.video,
+              true,
+              true,
+              () => router.go('/movie'),
             );
             video.render();
           });

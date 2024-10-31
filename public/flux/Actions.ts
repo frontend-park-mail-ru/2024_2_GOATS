@@ -80,6 +80,12 @@ export const Actions = {
       passwordChangeData,
     });
   },
+  changeSeries(id: number | string) {
+    dispatcher.dispatch({
+      type: ActionTypes.CHANGE_SERIES,
+      payload: id,
+    });
+  },
   createRoom(movieId: number) {
     console.log('create room action');
     dispatcher.dispatch({
