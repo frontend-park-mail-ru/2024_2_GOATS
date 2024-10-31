@@ -26,7 +26,7 @@ export const serializePersonCard = (person: any) => {
   return {
     id: person.id,
     name: person.full_name,
-    image: person.photo_url,
+    image: 'http://185.241.195.151/' + person.photo_url,
     country: person.country,
   };
 };
@@ -74,6 +74,6 @@ export const serializeUserData = (user: any) => {
     username: user.username,
     birthdate: user.birthdate,
     sex: user.sex,
-    avatar: 'http://185.241.195.151/' + user.avatar_url,
+    avatar: 'http://185.241.195.151' + user.avatar_url,
   };
 };

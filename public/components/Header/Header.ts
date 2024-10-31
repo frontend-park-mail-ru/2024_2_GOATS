@@ -110,11 +110,12 @@ export class Header {
 
     const user = userStore.getUser();
     console.log(items);
+
     console.log(items.find((item) => item.id == 'header-profile'));
     this.#parent.innerHTML = template({
       navItems: items.filter((item) => item.id != 'header-profile'),
       isUserAuth: userStore.getUserAuthStatus(),
-      currentUser: user,
+      currentUserAvatar: user.avatar.replace(/ /g, '%20'),
       profileItem: items.find((item) => item.id == 'header-profile'),
     });
 
