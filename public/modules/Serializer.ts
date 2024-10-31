@@ -64,6 +64,7 @@ export const serializeActorData = (actor: any) => {
     birthdate: actor.birthdate,
     country: actor.country,
     image: 'http://185.241.195.151/' + actor.photo_url,
+    movies: actor.movies.map(serializeMovie),
   };
 };
 

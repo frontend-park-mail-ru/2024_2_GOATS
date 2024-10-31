@@ -46,23 +46,23 @@ export class ActorPage {
 
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
-
+    window.scrollTo(0, 0);
     pageElement.innerHTML = template({
       actor: this.getActorInfo(),
       birthDate: dateFormatter(this.getActorInfo().birthdate),
     });
-    window.scrollTo(0, 0);
-    // const actorFilmography = document.getElementById(
-    //   'actor-page-filmography',
-    // ) as HTMLElement;
+
+    const actorFilmography = document.getElementById(
+      'actor-page-filmography',
+    ) as HTMLElement;
 
     // TODO: Подождать пока Игорь добавит фильмографию для актера
-    // const cards = new CardsList(
-    //   actorFilmography,
-    //   this.getActorInfo().movies,
-    //   4,
-    // );
-    // cards.render();
+    const cards = new CardsList(
+      actorFilmography,
+      this.getActorInfo().movies,
+      4,
+    );
+    cards.render();
 
     this.toggleBiographyExpansion();
   }
