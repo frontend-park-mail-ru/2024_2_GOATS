@@ -5,6 +5,7 @@ import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDescription } from 'components/MovieDescription/MovieDescription';
 import { Slider } from 'components/Slider/Slider';
 import { mockSeries } from '../../consts';
+import { router } from 'modules/Router';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
@@ -17,8 +18,10 @@ export class MoviePage {
     this.renderTemplate();
   }
 
-  onVideoBackClick() {
-    this.renderTemplate();
+  onVideoBackClick(id: number) {
+    if (id != this.#movie?.id) {
+      router.go('/movie', id);
+    }
   }
 
   renderBlocks() {

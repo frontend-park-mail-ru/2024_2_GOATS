@@ -17,7 +17,7 @@ export class MovieDescription {
   constructor(
     parent: HTMLElement,
     onFavoritesClick: () => void,
-    onVideoBackClick: () => void,
+    onVideoBackClick: (id: number) => void,
   ) {
     this.#parent = parent;
     this.#onFavoritesClick = onFavoritesClick;
@@ -26,7 +26,6 @@ export class MovieDescription {
 
     const unsubscribe = moviePageStore.isNewSeriesReceivedEmitter$.addListener(
       () => {
-        console.log('UNSUBSCRIBE');
         if (this.#isModalOpened) {
           this.#movie = moviePageStore.getMovie();
           this.renderVideoPlayer();
@@ -70,7 +69,9 @@ export class MovieDescription {
     videoContainer.innerHTML = '';
     videoContainer.style.zIndex = '-1';
 
-    this.#onVideoBackClick();
+    if (this.#movie) {
+      this.#onVideoBackClick(this.#movie.id);
+    }
   }
 
   onNextSeriesClick() {
