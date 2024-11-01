@@ -20,6 +20,7 @@
 @import './components/AvatarComponent/AvatarComponent.scss';
 @import './components/RoomModal/RoomModal.scss';
 @import './components/Message/Message.scss';
+@import './components/CardPreview/CardPreview.scss';
 
 @import './pages/MainPage/MainPage.scss';
 @import './pages/AuthPage/AuthPage.scss';
@@ -89,4 +90,12 @@ main {
 .lock {
   max-height: 100dvh;
   overflow: hidden;
+}
+
+#preview {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
 }

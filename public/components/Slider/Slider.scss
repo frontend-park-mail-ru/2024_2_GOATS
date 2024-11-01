@@ -13,7 +13,8 @@
 
   &__track {
     display: flex;
-    height: 224px;
+    height: 244px;
+    align-items: center;
 
     gap: 50px;
     transition: transform 0.5s ease;

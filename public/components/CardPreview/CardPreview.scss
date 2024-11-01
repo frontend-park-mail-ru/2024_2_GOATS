@@ -1,0 +1,30 @@
+.card-preview {
+  border-radius: 8px;
+  width: 168px;
+  height: 235.2px;
+  background-color: grey;
+
+  pointer-events: none;
+
+  position: absolute;
+  animation: expand 0.3s ease-out forwards;
+
+  &__image {
+    width: 100%;
+    overflow: hidden;
+
+    &_img {
+      width: 100%;
+    }
+  }
+}
+
+@keyframes expand {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.3);
+  }
+}

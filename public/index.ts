@@ -16,13 +16,16 @@ const pageElement = document.createElement('main');
 const headerElement = document.createElement('header');
 const footerElement = document.createElement('footer');
 const notifierElement = document.createElement('div');
+const previewElement = document.createElement('div');
 notifierElement.id = 'notifier';
+previewElement.id = 'preview';
 
 pageElement.id = 'page-element';
 root.appendChild(headerElement);
 root.appendChild(pageElement);
 root.appendChild(footerElement);
 root.appendChild(notifierElement);
+root.appendChild(previewElement);
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
