@@ -39,16 +39,18 @@ export class MoviePage {
     // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
     // seriesSlider.render();
 
-    const personsBlock = document.getElementById(
-      'movie-page-persons',
-    ) as HTMLElement;
-    const personsSlider = new Slider(
-      personsBlock,
-      undefined,
-      undefined,
-      this.#movie?.actors,
-    );
-    personsSlider.render();
+    if (this.#movie && this.#movie.actors.length) {
+      const personsBlock = document.getElementById(
+        'movie-page-persons',
+      ) as HTMLElement;
+      const personsSlider = new Slider(
+        personsBlock,
+        undefined,
+        undefined,
+        this.#movie.actors,
+      );
+      personsSlider.render();
+    }
   }
 
   renderTemplate() {
