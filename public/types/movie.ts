@@ -7,7 +7,7 @@ export type Movie = {
   cardImage: string; //
   albumImage: string; //
   rating: number; //
-  releaseDate: Date | string;
+  releaseDate: string;
   movieType: string;
   country: string;
 };

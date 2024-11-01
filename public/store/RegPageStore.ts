@@ -9,11 +9,32 @@ import { throwBackendError, removeBackendError } from 'modules/BackendErrors';
 class RegPageStore {
   constructor() {
     dispatcher.register(this.reduce.bind(this));
+
+    const userLoadingListener = userStore.isUserLoadingEmmiter$.addListener(
+      () => {
+        if (router.getCurrentPath() === '/registration') {
+          this.renderReg();
+        }
+      },
+    );
+
+    this.ngOnDestroy = () => {
+      userLoadingListener();
+    };
   }
+  ngOnDestroy(): void {}
 
   renderReg() {
-    const regPage = new RegPage();
-    regPage.render();
+    if (userStore.getisUserLoading()) {
+      return;
+    } else {
+      if (!userStore.getUserAuthStatus()) {
+        const regPage = new RegPage();
+        regPage.render();
+      } else {
+        router.go('/');
+      }
+    }
   }
 
   async regRequest(

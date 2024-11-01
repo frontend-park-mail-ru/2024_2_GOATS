@@ -62,6 +62,14 @@ export class Card {
 
       if (timeoutId) clearTimeout(timeoutId);
     });
+
+    card.addEventListener('click', () => {
+      console.log('Мышь покинула карточку');
+      previewBlock.classList.remove('visible');
+      previewBlock.innerHTML = '';
+
+      if (timeoutId) clearTimeout(timeoutId);
+    });
   };
 
   render() {

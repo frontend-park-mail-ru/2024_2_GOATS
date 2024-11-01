@@ -10,7 +10,7 @@ export const serializeMovie = (movie: any) => {
     description: movie.description,
     movieType: movie.movie_type,
     rating: movie.rating,
-    releaseDate: movie.release_date,
+    releaseDate: dateFormatter(movie.release_date),
   };
 };
 

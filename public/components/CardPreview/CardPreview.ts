@@ -1,6 +1,11 @@
 import { Movie } from 'types/movie';
 import template from './CardPreview.hbs';
 
+const yearPicker = (date: string) => {
+  const [day, month, year] = date.split(' ');
+  return year;
+};
+
 export class CardPreview {
   #parent: HTMLElement;
   #movie: Movie;
@@ -23,6 +28,7 @@ export class CardPreview {
     this.#parent.style.transform = 'translateZ(0)';
     this.#parent.innerHTML = template({
       movie: this.#movie,
+      releaseYear: yearPicker(this.#movie.releaseDate),
     });
   }
 }

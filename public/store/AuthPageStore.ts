@@ -5,15 +5,37 @@ import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { userStore } from 'store/UserStore';
 import { throwBackendError, removeBackendError } from 'modules/BackendErrors';
+import { User } from 'types/user';
 
 class AuthPageStore {
   constructor() {
     dispatcher.register(this.reduce.bind(this));
+
+    const userLoadingListener = userStore.isUserLoadingEmmiter$.addListener(
+      () => {
+        if (router.getCurrentPath() === '/auth') {
+          this.renderAuth();
+        }
+      },
+    );
+
+    this.ngOnDestroy = () => {
+      userLoadingListener();
+    };
   }
+  ngOnDestroy(): void {}
 
   renderAuth() {
-    const authPage = new AuthPage();
-    authPage.render();
+    if (userStore.getisUserLoading()) {
+      return;
+    } else {
+      if (!userStore.getUserAuthStatus()) {
+        const authPage = new AuthPage();
+        authPage.render();
+      } else {
+        router.go('/');
+      }
+    }
   }
 
   async authRequest(emailValue: string, passwordValue: string) {
