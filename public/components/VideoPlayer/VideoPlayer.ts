@@ -21,32 +21,32 @@ export class VideoPlayer {
   #onNextButtonClick;
   #onPrevButtonClick;
 
-  constructor(
-    parent: HTMLElement,
-    url: string,
-    hasNextSeries: boolean,
-    hasPrevSeries: boolean,
-    onBackClick?: () => void,
-    onPlayClick?: (timeCode: number) => void,
-    onPauseClick?: (timeCode: number) => void,
-    handleRewindVideo?: (timeCode: number) => void,
-    hanldeIntervalTick?: (timeCode: number) => void,
-    onNextButtonClick?: () => void,
-    onPrevButtonClick?: () => void,
-  ) {
-    this.#parent = parent;
-    this.#url = url;
+  constructor(params: {
+    parent: HTMLElement;
+    url: string;
+    hasNextSeries: boolean;
+    hasPrevSeries: boolean;
+    onBackClick?: () => void;
+    onPlayClick?: (timeCode: number) => void;
+    onPauseClick?: (timeCode: number) => void;
+    handleRewindVideo?: (timeCode: number) => void;
+    hanldeIntervalTick?: (timeCode: number) => void;
+    onNextButtonClick?: () => void;
+    onPrevButtonClick?: () => void;
+  }) {
+    this.#parent = params.parent;
+    this.#url = params.url;
     this.#isPlaying = false;
-    this.#onBackClick = onBackClick;
-    this.#onPlayClick = onPlayClick;
-    this.#onPauseClick = onPauseClick;
-    this.#handleRewindVideo = handleRewindVideo;
-    this.#hanldeIntervalTick = hanldeIntervalTick;
-    this.#isModal = onBackClick ? true : false;
-    this.#hasNextSeries = hasNextSeries;
-    this.#hasPrevSeries = hasPrevSeries;
-    this.#onNextButtonClick = onNextButtonClick;
-    this.#onPrevButtonClick = onPrevButtonClick;
+    this.#onBackClick = params.onBackClick;
+    this.#onPlayClick = params.onPlayClick;
+    this.#onPauseClick = params.onPauseClick;
+    this.#handleRewindVideo = params.handleRewindVideo;
+    this.#hanldeIntervalTick = params.hanldeIntervalTick;
+    this.#isModal = params.onBackClick ? true : false;
+    this.#hasNextSeries = params.hasNextSeries;
+    this.#hasPrevSeries = params.hasPrevSeries;
+    this.#onNextButtonClick = params.onNextButtonClick;
+    this.#onPrevButtonClick = params.onPrevButtonClick;
   }
 
   render() {

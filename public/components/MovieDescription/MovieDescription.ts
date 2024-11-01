@@ -93,21 +93,19 @@ export class MovieDescription {
     ) as HTMLElement;
 
     if (this.#movie) {
-      const video = new VideoPlayer(
-        videoContainer,
-        this.#movie.video,
-        this.#currentMovieSelection.movies[
-          this.#currentMovieSelection.movies.length - 1
-        ].id > this.#movie.id,
-        this.#currentMovieSelection.movies[0].id < this.#movie.id,
-        this.onBackClick.bind(this),
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        this.onNextSeriesClick.bind(this),
-        this.onPrevSeriesClick.bind(this),
-      );
+      const video = new VideoPlayer({
+        parent: videoContainer,
+        url: this.#movie.video,
+        hasNextSeries:
+          this.#currentMovieSelection.movies[
+            this.#currentMovieSelection.movies.length - 1
+          ].id > this.#movie.id,
+        hasPrevSeries:
+          this.#currentMovieSelection.movies[0].id < this.#movie.id,
+        onBackClick: this.onBackClick.bind(this),
+        onNextButtonClick: this.onNextSeriesClick.bind(this),
+        onPrevButtonClick: this.onPrevSeriesClick.bind(this),
+      });
       video.render();
       videoContainer.style.zIndex = '10';
     }

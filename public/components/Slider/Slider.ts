@@ -141,13 +141,13 @@ export class Slider {
             const moviePage = document.getElementById(
               'movie-page',
             ) as HTMLElement;
-            const video = new VideoPlayer(
-              moviePage,
-              series.video,
-              true,
-              true,
-              () => router.go('/movie'),
-            );
+            const video = new VideoPlayer({
+              parent: moviePage,
+              url: series.video,
+              hasNextSeries: true,
+              hasPrevSeries: true,
+              onBackClick: () => router.go('/movie'),
+            });
             video.render();
           });
           seriesCard.render();
