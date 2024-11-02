@@ -9,60 +9,17 @@ import { Notifier } from 'components/Notifier/Notifier';
 import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
 import { Message } from 'components/Message/Message';
 import { mockUsers } from '../../consts';
+import { UsersList } from 'components/UsersList/UsersList';
 
 export class RoomPage {
   #room!: Room;
-  #members: UserNew[] = [
-    {
-      id: 1,
-      email: 'user1@example.com',
-      username: 'user1',
-      avatar:
-        'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-      isAdmin: true,
-    },
-    {
-      id: 2,
-      email: 'user2@example.com',
-      username: 'user2',
-      avatar:
-        'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-    },
-    {
-      id: 3,
-      email: 'user3@example.com',
-      username: 'user3',
-      avatar:
-        'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-    },
-    {
-      id: 4,
-      email: 'user4@example.com',
-      username: 'user4',
-      avatar:
-        'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-    },
-    {
-      id: 5,
-      email: 'user5@example.com',
-      username: 'user5',
-      avatar:
-        'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-    },
-    {
-      id: 6,
-      email: 'user6@example.com',
-      username: 'user6',
-      avatar:
-        'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-    },
-  ];
-
   #loader!: Loader;
   #video!: VideoPlayer;
   #notifier!: Notifier;
 
   constructor() {}
+
+  ngOnDestroy(): void {}
 
   render() {
     this.#room = roomPageStore.getRoom();
@@ -128,6 +85,14 @@ export class RoomPage {
     message.render();
   }
 
+  renderUsersList(users: UserNew[]) {
+    const usersListContainer = document.getElementById(
+      'room-page-members-list',
+    ) as HTMLDivElement;
+    const usersList = new UsersList(usersListContainer, users);
+    usersList.render();
+  }
+
   sendMessage() {
     const messageValue = (<HTMLInputElement>(
       document.getElementById('messages-input')
@@ -154,7 +119,6 @@ export class RoomPage {
     if (this.#room) {
       pageElement.innerHTML = template({
         movie: this.#room.movie,
-        members: this.#members,
       });
 
       const videoContainer = document.getElementById(
