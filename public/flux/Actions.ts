@@ -42,9 +42,10 @@ export const Actions = {
       type: ActionTypes.RENDER_PROFILE_PAGE,
     });
   },
-  renderRoomPage() {
+  renderRoomPage(id: number | string) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_ROOM_PAGE,
+      payload: id,
     });
   },
   getUser() {

@@ -56,8 +56,10 @@ export const routerHandler = (url: URL, id?: string | number) => {
       Actions.renderProfilePage();
       footer.render(Urls.profile);
       break;
-    case Urls.room:
-      Actions.renderRoomPage();
+    case `${Urls.room}/${id}`:
+      Actions.renderHeader(Urls.room);
+      id && Actions.renderRoomPage(id);
+      footer.render(Urls.room);
       break;
 
     default:

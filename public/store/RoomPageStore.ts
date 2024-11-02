@@ -8,6 +8,7 @@ import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
 import { mockUsers } from '../consts';
 import { router } from 'modules/Router';
+import { Emitter } from 'modules/Emmiter';
 
 const roomPage = new RoomPage();
 
@@ -15,13 +16,19 @@ class RoomPageStore {
   #room!: Room;
   #ws: WebSocket | null = null;
   #user!: User;
+  #createdRoomId = '';
+  #roomIdFromUrl = '';
+  #isCreatedRoomReceived; // Емиттер для получения айди комнаты после создания комнаты
 
   constructor() {
-    dispatcher.register(this.reduce.bind(this));
+    this.#isCreatedRoomReceived = new Emitter<boolean>(false);
+
     const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
-      if (status && router.getCurrentPath() === '/room') {
-        // roomPage.render();
-        Actions.renderRoomPage();
+      if (
+        status &&
+        router.getCurrentPath() === `/room/${this.#roomIdFromUrl}`
+      ) {
+        Actions.renderRoomPage(this.#roomIdFromUrl);
         this.wsInit();
       }
     });
@@ -29,9 +36,15 @@ class RoomPageStore {
     this.ngOnDestroy = () => {
       unsubscribe();
     };
+
+    dispatcher.register(this.reduce.bind(this));
   }
 
   ngOnDestroy(): void {}
+
+  get isCreatedRoomReceived$(): Emitter<boolean> {
+    return this.#isCreatedRoomReceived;
+  }
 
   setState(room: Room) {
     this.#room = room;
@@ -41,15 +54,14 @@ class RoomPageStore {
     return this.#room;
   }
 
-  getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  getCreatedRoomId() {
+    return this.#createdRoomId;
   }
 
-  createRoom(movieId: number) {
+  async createRoom(movieId: number) {
     try {
-      apiClient.post({
+      this.#isCreatedRoomReceived.set(false);
+      const response = await apiClient.post({
         path: 'room/create',
         body: {
           movie: {
@@ -57,15 +69,18 @@ class RoomPageStore {
           },
         },
       });
+
+      this.#createdRoomId = response.id;
+      this.#isCreatedRoomReceived.set(true);
     } catch (e: any) {
       throw e;
     }
   }
+
   wsInit() {
     this.#user = userStore.getUser();
-    // this.#user = mockUsers[this.getRandomInt(0, 1)];
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=bd692f83-0ab2-48ce-86d7-39146090b857&user_id=${this.#user.id}`,
+      `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
     );
 
     ws.onclose = (event) => {
@@ -84,7 +99,7 @@ class RoomPageStore {
           'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
         this.setState(messageData);
         roomPage.render();
-      } else {
+      } else if (messageData.action.name) {
         switch (messageData.action.name) {
           case 'play':
             roomPage.videoPlay(messageData.action.time_code);
@@ -112,14 +127,15 @@ class RoomPageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
-        // this.#user = userStore.getUser();
         roomPage.render();
-        // if (this.#user.id > 0) {
-        // this.wsInit();
-        // }
+
+        this.#roomIdFromUrl = action.payload;
+        if (this.#isCreatedRoomReceived.get()) {
+          this.wsInit();
+        }
         break;
       case ActionTypes.CREATE_ROOM:
-        this.createRoom(action.movieId);
+        await this.createRoom(action.movieId);
         break;
       case ActionTypes.SEND_ACTION_MESSAGE:
         this.sendActionMessage(action.actionData);

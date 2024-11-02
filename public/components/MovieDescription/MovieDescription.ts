@@ -1,5 +1,6 @@
 import template from './MovieDescription.hbs';
 import { moviePageStore } from 'store/MoviePageStore';
+import { roomPageStore } from 'store/RoomPageStore';
 import { MovieDetailed, MovieSelection } from 'types/movie';
 import { router } from 'modules/Router';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
@@ -13,6 +14,7 @@ export class MovieDescription {
   #onVideoBackClick;
   #currentMovieSelection!: MovieSelection;
   #isModalOpened;
+  #createdRoomId = '';
 
   constructor(
     parent: HTMLElement,
@@ -24,21 +26,34 @@ export class MovieDescription {
     this.#onVideoBackClick = onVideoBackClick;
     this.#isModalOpened = false;
 
-    const unsubscribe = moviePageStore.isNewSeriesReceivedEmitter$.addListener(
-      () => {
+    const unsubscribeMovie =
+      moviePageStore.isNewSeriesReceivedEmitter$.addListener(() => {
         if (this.#isModalOpened) {
           this.#movie = moviePageStore.getMovie();
           this.renderVideoPlayer();
         }
+      });
+
+    const unsubscribeRoomId = roomPageStore.isCreatedRoomReceived$.addListener(
+      () => {
+        if (roomPageStore.getCreatedRoomId()) {
+          this.#createdRoomId = roomPageStore.getCreatedRoomId();
+          router.go('/room', roomPageStore.getCreatedRoomId());
+        }
       },
     );
 
-    this.ngOnDestroy = () => {
-      unsubscribe();
+    this.ngOnMovieDestroy = () => {
+      unsubscribeMovie();
+    };
+
+    this.ngOnRoomIdDestroy = () => {
+      unsubscribeRoomId();
     };
   }
 
-  ngOnDestroy(): void {}
+  ngOnMovieDestroy(): void {}
+  ngOnRoomIdDestroy(): void {}
 
   render() {
     this.#movie = moviePageStore.getMovie();
@@ -128,8 +143,9 @@ export class MovieDescription {
   //   ) as HTMLButtonElement;
 
   //   watchTogetherBtn.addEventListener('click', async () => {
-  //     Actions.createRoom(2);
-  //     router.go('/room');
+  //     if (this.#movie) {
+  //       Actions.createRoom(2); // TODO: поменять на movie.id после тестирования
+  //     }
   //   });
   // }
 

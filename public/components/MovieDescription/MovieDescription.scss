@@ -65,7 +65,8 @@
     gap: 30px;
 
     &_show_btn,
-    &_favorites_btn {
+    &_favorites_btn,
+    &_show_together_btn {
       color: $brand-secondary;
       font-size: 16px;
       font-weight: 600;
@@ -77,6 +78,14 @@
 
       &:hover {
         background-color: $button-background-hover;
+      }
+    }
+
+    &_show_together_btn {
+      background-color: $button-background-secondary;
+
+      &:hover {
+        background-color: $button-background-secondary-hover;
       }
     }
 
