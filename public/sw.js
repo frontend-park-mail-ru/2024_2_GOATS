@@ -44,12 +44,12 @@ self.addEventListener('fetch', (event) => {
         const cache = await caches.open(CACHE_NAME);
         cache.put(event.request, response.clone());
 
-        // console.log('--------- ВЗЯЛИ ИЗ ИНЕТА');
+        console.log('--------- ВЗЯЛИ ИЗ ИНЕТА');
         return response;
       } catch {
         const cachedResponse = await caches.match(event.request);
         if (cachedResponse) {
-          // console.log('--------- ВЗЯЛИ ИЗ КЭША');
+          console.log('--------- ВЗЯЛИ ИЗ КЭША');
           return cachedResponse;
         }
         // console.log('--------- В КЭШЕ ТАКОГО НЕТ');

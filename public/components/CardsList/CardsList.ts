@@ -2,7 +2,6 @@ import { router } from 'modules/Router';
 import { Card } from '../Card/Card';
 import template from './CardsList.hbs';
 import { Movie } from 'types/movie';
-import { router } from 'modules/Router';
 
 export class CardsList {
   #parent;
