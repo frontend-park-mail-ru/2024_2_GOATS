@@ -1,0 +1,8 @@
+<ul class='users-list'>
+  {{#each users}}
+    <li class='users-list__item'>
+      <img class='users-list__item_avatar' src={{this.avatar}} alt='avatar' />
+      <p class='users-list__item_username'>{{this.username}}</p>
+    </li>
+  {{/each}}
+</ul>

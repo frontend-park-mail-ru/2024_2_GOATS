@@ -1,0 +1,31 @@
+@import '../../styles/variables.scss';
+
+.users-list {
+  height: auto;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: $modal-content-background;
+  border-radius: 10px;
+  width: 70%;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: $block-background;
+
+    &_avatar {
+      width: 50px;
+      height: 50px;
+    }
+
+    &_username {
+      font-size: 14px;
+      color: $brand-secondary;
+    }
+  }
+}

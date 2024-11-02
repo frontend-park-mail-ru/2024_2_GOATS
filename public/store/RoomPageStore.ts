@@ -6,7 +6,6 @@ import { Action, Room } from 'types/room';
 import { userStore } from './UserStore';
 import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
-import { mockUsers } from '../consts';
 import { router } from 'modules/Router';
 import { Emitter } from 'modules/Emmiter';
 
@@ -83,6 +82,8 @@ class RoomPageStore {
       `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
     );
 
+    this.#ws = ws;
+
     ws.onclose = (event) => {
       console.log('WebSocket соединение закрыто:', event.code, event.reason);
     };
@@ -93,13 +94,16 @@ class RoomPageStore {
 
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
+      console.log('messagedata', messageData);
 
       if (messageData.movie) {
         messageData.movie.video =
           'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
         this.setState(messageData);
         roomPage.render();
-      } else if (messageData.action.name) {
+      } else if (Array.isArray(messageData)) {
+        roomPage.renderUsersList(messageData);
+      } else {
         switch (messageData.action.name) {
           case 'play':
             roomPage.videoPlay(messageData.action.time_code);
@@ -112,10 +116,13 @@ class RoomPageStore {
             break;
           case 'message':
             roomPage.renderMessage(messageData.action.message);
+            break;
+          default:
+            console.log('default');
+            console.log(messageData);
         }
       }
     };
-    this.#ws = ws;
   }
 
   sendActionMessage(actionMessage: Action) {
