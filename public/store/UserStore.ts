@@ -104,7 +104,7 @@ class UserStore {
     Actions.renderHeader(url.pathname.toString());
   }
 
-  async checkAuth(emit?: boolean) {
+  async checkAuth() {
     this.#isUserLoading = true;
     this.#isUserLoadingEmmiter.set(true);
 
@@ -115,7 +115,6 @@ class UserStore {
       this.setState(serializeUserData(response.user_data));
     } catch {
       this.clearUser();
-      console.log('auth request failed', emit);
     }
   }
 

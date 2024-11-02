@@ -46,7 +46,7 @@ self.addEventListener('fetch', (event) => {
 
         // console.log('--------- ВЗЯЛИ ИЗ ИНЕТА');
         return response;
-      } catch (error) {
+      } catch {
         const cachedResponse = await caches.match(event.request);
         if (cachedResponse) {
           // console.log('--------- ВЗЯЛИ ИЗ КЭША');

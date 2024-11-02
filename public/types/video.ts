@@ -14,4 +14,6 @@ export type VideoControls = {
   rewindFrontButton: HTMLElement;
   videoControls: HTMLElement;
   videoBackButton: HTMLElement;
+  nextSeriesButton: HTMLElement;
+  prevSeriesButton: HTMLElement;
 };

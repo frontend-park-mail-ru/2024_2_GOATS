@@ -93,8 +93,6 @@ export class ProfilePage {
       if (!isEmailValid || !isLoginValid) {
         return;
       }
-      // mockUser.avatar = this.#userAvatar; //!!!!!!!!!!!!!!!
-      // console.log('avatar', this.#userAvatar);
       Actions.changeUserInfo({
         email: emailValue,
         username: loginValue,

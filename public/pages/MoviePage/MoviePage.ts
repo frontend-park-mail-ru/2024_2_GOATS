@@ -5,17 +5,23 @@ import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDescription } from 'components/MovieDescription/MovieDescription';
 import { Slider } from 'components/Slider/Slider';
 import { mockSeries } from '../../consts';
+import { router } from 'modules/Router';
 
 export class MoviePage {
-  #movie!: MovieDetailed;
+  #movie!: MovieDetailed | null;
   #loader!: Loader;
 
   constructor() {}
 
   render() {
-    console.log('RENDER MOVIE PAGE');
     this.#movie = moviePageStore.getMovie();
     this.renderTemplate();
+  }
+
+  onVideoBackClick(id: number) {
+    if (id != this.#movie?.id) {
+      router.go('/movie', id);
+    }
   }
 
   renderBlocks() {
@@ -25,25 +31,29 @@ export class MoviePage {
     const movieDescription = new MovieDescription(
       movieDescriptionContainer,
       () => console.log('favorite'),
+      this.onVideoBackClick.bind(this),
     );
     movieDescription.render();
 
-    const seriesBlock = document.getElementById(
-      'movie-page-series',
-    ) as HTMLElement;
-    const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
-    seriesSlider.render();
+    // TODO: Серии добавить только к 3 РК
+    // const seriesBlock = document.getElementById(
+    //   'movie-page-series',
+    // ) as HTMLElement;
+    // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
+    // seriesSlider.render();
 
-    const personsBlock = document.getElementById(
-      'movie-page-persons',
-    ) as HTMLElement;
-    const personsSlider = new Slider(
-      personsBlock,
-      undefined,
-      undefined,
-      this.#movie.actors,
-    );
-    personsSlider.render();
+    if (this.#movie && this.#movie.actors.length) {
+      const personsBlock = document.getElementById(
+        'movie-page-persons',
+      ) as HTMLElement;
+      const personsSlider = new Slider(
+        personsBlock,
+        undefined,
+        undefined,
+        this.#movie.actors,
+      );
+      personsSlider.render();
+    }
   }
 
   renderTemplate() {

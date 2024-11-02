@@ -1,6 +1,5 @@
 import template from './RoomPage.hbs';
 import { roomPageStore } from 'store/RoomPageStore';
-// import { movie } from '../../consts';
 import { Loader } from '../../components/Loader/Loader';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { Actions } from 'flux/Actions';
@@ -161,15 +160,16 @@ export class RoomPage {
       const videoContainer = document.getElementById(
         'room-video',
       ) as HTMLElement;
-      this.#video = new VideoPlayer(
-        videoContainer,
-        this.#room.movie.video,
-        undefined,
-        this.onPlayClick,
-        this.onPauseClick,
-        this.handleRewindVideo,
-        this.hanldeTimerTick,
-      );
+      this.#video = new VideoPlayer({
+        parent: videoContainer,
+        url: this.#room.movie.video,
+        hasNextSeries: true,
+        hasPrevSeries: true,
+        onPlayClick: this.onPlayClick,
+        onPauseClick: this.onPauseClick,
+        handleRewindVideo: this.handleRewindVideo,
+        hanldeIntervalTick: this.hanldeTimerTick,
+      });
       this.#video.render();
 
       // Для установки текущего тайм кода новому пользователю
@@ -189,7 +189,7 @@ export class RoomPage {
       );
 
       const modal = new ConfirmModal(
-        'Присоедениться к комнате совместного просмотра',
+        'Присоединиться к комнате совместного просмотра',
         () => {},
       );
       modal.render();

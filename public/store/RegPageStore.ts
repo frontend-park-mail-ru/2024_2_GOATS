@@ -55,7 +55,7 @@ class RegPageStore {
         },
       });
 
-      userStore.checkAuth(true);
+      userStore.checkAuth();
       router.go('/');
     } catch (e: any) {
       if (e.status === 409) {

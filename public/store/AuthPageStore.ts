@@ -46,7 +46,7 @@ class AuthPageStore {
         body: { email: emailValue, password: passwordValue },
       });
 
-      userStore.checkAuth(true);
+      userStore.checkAuth();
       router.go('/');
     } catch (e: any) {
       // TODO: поменять обработку статус

@@ -28,24 +28,28 @@
 
     <div class='video__controls_actions'>
       <div class='video__controls_actions_left'>
-        <img
-          id='prev-series-button'
-          class='video__controls_icon'
-          src='/assets/icons/nextSeries.svg'
-          alt='prev-series'
-        />
+        {{#if hasPrevSeries}}
+          <img
+            id='prev-series-button'
+            class='video__controls_icon'
+            src='/assets/icons/nextSeries.svg'
+            alt='prev-series'
+          />
+        {{/if}}
 
         <span
           id='play-pause'
           class='video__controls_icon video__controls_icon_play'
         ></span>
 
-        <img
-          id='next-series-button'
-          class='video__controls_icon'
-          src='/assets/icons/nextSeries.svg'
-          alt='next-series'
-        />
+        {{#if hasNextSeries}}
+          <img
+            id='next-series-button'
+            class='video__controls_icon'
+            src='/assets/icons/nextSeries.svg'
+            alt='next-series'
+          />
+        {{/if}}
 
         <p>
           <span id='current-time' class='video__controls_timer'>00:00</span>

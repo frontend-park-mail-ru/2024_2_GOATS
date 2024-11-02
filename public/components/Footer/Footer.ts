@@ -10,7 +10,6 @@ export class Footer {
     footerParent.innerHTML = '';
 
     if (!(url == '/auth' || url == '/registration')) {
-      console.log('aaaa');
       footerParent.innerHTML = template();
     }
   }

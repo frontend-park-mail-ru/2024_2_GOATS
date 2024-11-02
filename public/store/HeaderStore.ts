@@ -53,7 +53,6 @@ class HeaderStore {
   }
 
   renderHeader(url: string) {
-    console.log('///', url);
     if (!userStore.getisUserLoading()) {
       const isUserAuth = userStore.getUserAuthStatus();
       this.setState(isUserAuth);

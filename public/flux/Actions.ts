@@ -42,9 +42,10 @@ export const Actions = {
       type: ActionTypes.RENDER_PROFILE_PAGE,
     });
   },
-  renderRoomPage() {
+  renderRoomPage(id: number | string) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_ROOM_PAGE,
+      payload: id,
     });
   },
   getUser() {
@@ -80,8 +81,13 @@ export const Actions = {
       passwordChangeData,
     });
   },
+  changeSeries(id: number | string) {
+    dispatcher.dispatch({
+      type: ActionTypes.CHANGE_SERIES,
+      payload: id,
+    });
+  },
   createRoom(movieId: number) {
-    console.log('create room action');
     dispatcher.dispatch({
       type: ActionTypes.CREATE_ROOM,
       movieId,
