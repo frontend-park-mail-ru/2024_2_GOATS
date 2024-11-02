@@ -21,6 +21,19 @@ export class CardPreview {
     this.renderTemplate();
   }
 
+  lesten = () => {
+    // const cardPreview = document.getElementById(
+    //   'card-preview',
+    // ) as HTMLSpanElement;
+    // const previewBlock = document.getElementById('preview') as HTMLElement;
+    // cardPreview.addEventListener('mouseout', () => {
+    //   console.log('Мышь покинула карточку');
+    //   previewBlock.classList.remove('visible');
+    //   previewBlock.innerHTML = '';
+    //   // if (timeoutId) clearTimeout(timeoutId);
+    // });
+  };
+
   renderTemplate() {
     this.#parent.style.position = 'absolute';
     this.#parent.style.left = `${this.#position.x + window.scrollX}px`;
@@ -30,5 +43,7 @@ export class CardPreview {
       movie: this.#movie,
       releaseYear: yearPicker(this.#movie.releaseDate),
     });
+
+    this.lesten();
   }
 }
