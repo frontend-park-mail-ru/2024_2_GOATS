@@ -77,12 +77,33 @@ export class RoomPage {
     });
   }
 
-  renderMessage(messageValue: string) {
+  renderMessage(messageValue: string, isCurrentUser: boolean = false) {
     const messagesContainer = document.querySelector(
       '.room-page__chat_messages',
     ) as HTMLDivElement;
-    const message = new Message(messagesContainer, mockUsers[0], messageValue);
+
+    const message = new Message(
+      messagesContainer,
+      mockUsers[0],
+      messageValue,
+      isCurrentUser,
+    );
+
+    let isEndOfChat = false;
+
+    if (
+      !isCurrentUser &&
+      messagesContainer.scrollTop + messagesContainer.clientHeight ===
+        messagesContainer.scrollHeight
+    ) {
+      isEndOfChat = true;
+    }
+
     message.render();
+
+    if (isEndOfChat) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
   }
 
   renderUsersList(users: UserNew[]) {
@@ -99,11 +120,22 @@ export class RoomPage {
     )).value;
 
     if (messageValue) {
-      this.renderMessage(messageValue);
+      const messagesContainer = document.querySelector(
+        '.room-page__chat_messages',
+      ) as HTMLDivElement;
+
+      this.renderMessage(messageValue, true);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
       Actions.sendActionMessage({
         name: 'message',
         message: messageValue,
       });
+
+      const messageInput = document.getElementById(
+        'messages-input',
+      ) as HTMLInputElement;
+      messageInput.value = '';
     }
   }
 
@@ -138,7 +170,6 @@ export class RoomPage {
 
       // Для установки текущего тайм кода новому пользователю
       this.videoRewind(this.#room.time_code);
-      // this.handleRewindVideo(this.#room.time_code);
 
       const invitationBtn = document.getElementById(
         'invitation-btn',
@@ -158,7 +189,6 @@ export class RoomPage {
       );
       modal.render();
 
-      // TEST MESSAGES
       const sendMessageButton = document.getElementById(
         'send-message-button',
       ) as HTMLButtonElement;

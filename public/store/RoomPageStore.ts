@@ -17,7 +17,7 @@ class RoomPageStore {
   #user!: User;
   #createdRoomId = '';
   #roomIdFromUrl = '';
-  #isCreatedRoomReceived; // Емиттер для получения айди комнаты после создания комнаты
+  #isCreatedRoomReceived; // Емиттер для получения айди комнаты после создания
 
   constructor() {
     this.#isCreatedRoomReceived = new Emitter<boolean>(false);
@@ -94,7 +94,6 @@ class RoomPageStore {
 
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
-      console.log('messagedata', messageData);
 
       if (messageData.movie) {
         messageData.movie.video =
@@ -117,9 +116,6 @@ class RoomPageStore {
           case 'message':
             roomPage.renderMessage(messageData.action.message);
             break;
-          default:
-            console.log('default');
-            console.log(messageData);
         }
       }
     };
