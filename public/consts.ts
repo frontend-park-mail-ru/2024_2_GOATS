@@ -1,7 +1,7 @@
 import { AuthUser, User } from 'types/user';
 
-export const API_URL = 'http://185.241.195.151/api/';
-// export const API_URL = 'http://localhost:8080/api/';
+// export const API_URL = 'http://185.241.195.151/api/';
+export const API_URL = 'http://localhost:8080/api/';
 
 export const movies = [
   {
@@ -135,6 +135,8 @@ export const mockActor = {
   image: '/assets/mockImages/gandolfini_actor_page.png',
   movies: movies,
 };
+
+export const GRID_MOVIES_AMOUNT = 3;
 
 export const CHAR_A_CODE = 65;
 export const CHAR_Z_CODE = 90;

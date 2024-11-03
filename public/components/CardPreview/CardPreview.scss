@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
 
 .card-preview {
   z-index: 10;
@@ -39,10 +39,6 @@
       margin-bottom: 8px;
     }
 
-    // display: flex;
-    // justify-content: space-between;
-    // flex-wrap: wrap;
-
     &_stats {
       display: flex;
       justify-content: space-between;
@@ -60,6 +56,15 @@
   &__title {
     font-weight: 300;
     color: $text-secondary-color;
+  }
+
+  &__value {
+    &.country {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80px;
+    }
   }
 }
 

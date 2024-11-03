@@ -1,5 +1,6 @@
 import { Movie } from 'types/movie';
 import template from './GridBlock.hbs';
+import { GRID_MOVIES_AMOUNT } from '../../consts';
 
 export class GridBlock {
   #parent;
@@ -24,7 +25,7 @@ export class GridBlock {
   }
 
   getTop() {
-    return this.#movies.slice(0, 3);
+    return this.#movies.slice(0, GRID_MOVIES_AMOUNT);
   }
 
   addImagesListeners() {

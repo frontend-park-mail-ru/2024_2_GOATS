@@ -2,6 +2,10 @@ import { validatePassword } from 'modules/Validators';
 import template from './PasswordChangeModal.hbs';
 import { Actions } from 'flux/Actions';
 import { ProfilePageStore, profilePageStore } from 'store/ProfilePageStore';
+import {
+  validatePasswordConfirmation,
+  validatePasswordCreation,
+} from 'modules/PasswordValidation';
 // import { profilePageStore } from 'store/ProfilePageStore';
 export class PasswordChangeModal {
   //   private profilePageStore: ProfilePageStore;
@@ -50,19 +54,11 @@ export class PasswordChangeModal {
       'password-modal-new-password-error',
     ) as HTMLElement;
 
-    if (validatePassword(passwordValue)) {
-      passwordInput.classList.add('input-error');
-      const error = validatePassword(passwordValue);
-      if (error) {
-        passwordError.innerText = error;
-      }
-
-      return false;
-    } else {
-      passwordInput.classList.remove('input-error');
-      passwordError.innerText = '';
-      return true;
-    }
+    return validatePasswordCreation(
+      passwordValue,
+      passwordInput,
+      passwordError,
+    );
   }
 
   validatePasswordConrirmField(
@@ -76,15 +72,12 @@ export class PasswordChangeModal {
       'password-modal-confirm-new-password-error',
     ) as HTMLElement;
 
-    if (passwordValue !== passwordConfirmValue) {
-      passwordConfirmInput.classList.add('input-error');
-      passwordConfirmError.innerText = 'Пароли должны совпадать';
-      return false;
-    } else {
-      passwordConfirmInput.classList.remove('input-error');
-      passwordConfirmError.innerText = '';
-      return true;
-    }
+    return validatePasswordConfirmation(
+      passwordValue,
+      passwordConfirmValue,
+      passwordConfirmInput,
+      passwordConfirmError,
+    );
   }
 
   onSubmitClick() {

@@ -119,25 +119,10 @@ export class ProfilePage {
     }
   }
 
-  async logout() {
-    try {
-      await apiClient.post({
-        path: 'auth/logout',
-        body: {},
-      });
-      router.go('/');
-    } catch {
-      userStore.checkAuth();
-      throw new Error('logout error');
-    } finally {
-      userStore.checkAuth();
-    }
-  }
-
   onExitClick() {
     if (userStore.getUserAuthStatus()) {
       const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-        this.logout();
+        profilePageStore.logout();
       });
       const exitButton = document.getElementById('exit-button') as HTMLElement;
       exitButton.addEventListener('click', () => {

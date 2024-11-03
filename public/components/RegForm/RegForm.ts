@@ -7,6 +7,10 @@ import {
   validateLogin,
 } from '../../modules/Validators';
 import { router } from 'modules/Router';
+import {
+  validatePasswordConfirmation,
+  validatePasswordCreation,
+} from 'modules/PasswordValidation';
 
 export class RegForm {
   #parent;
@@ -59,19 +63,11 @@ export class RegForm {
       'form-reg-password-error',
     ) as HTMLElement;
 
-    if (validatePassword(passwordValue)) {
-      passwordInput.classList.add('input-error');
-      const error = validatePassword(passwordValue);
-      if (error) {
-        passwordError.innerText = error;
-      }
-
-      return false;
-    } else {
-      passwordInput.classList.remove('input-error');
-      passwordError.innerText = '';
-      return true;
-    }
+    return validatePasswordCreation(
+      passwordValue,
+      passwordInput,
+      passwordError,
+    );
   }
 
   validatePasswordConrirmField(
@@ -85,15 +81,12 @@ export class RegForm {
       'form-reg-password-confirm-error',
     ) as HTMLElement;
 
-    if (passwordValue !== passwordConfirmValue) {
-      passwordConfirmInput.classList.add('input-error');
-      passwordConfirmError.innerText = 'Пароли должны совпадать';
-      return false;
-    } else {
-      passwordConfirmInput.classList.remove('input-error');
-      passwordConfirmError.innerText = '';
-      return true;
-    }
+    return validatePasswordConfirmation(
+      passwordValue,
+      passwordConfirmValue,
+      passwordConfirmInput,
+      passwordConfirmError,
+    );
   }
 
   onRegButtonClick() {

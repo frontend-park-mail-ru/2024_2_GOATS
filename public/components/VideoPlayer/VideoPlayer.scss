@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
 
 .video {
   width: 100%;
@@ -94,6 +94,7 @@
 
       &_input {
         -webkit-appearance: none;
+        appearance: none;
         width: 80px;
         height: 5px;
         background-color: #fff;

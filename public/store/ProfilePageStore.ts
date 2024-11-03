@@ -89,12 +89,32 @@ export class ProfilePageStore {
     }
   }
 
+  async logout() {
+    try {
+      await apiClient.post({
+        path: 'auth/logout',
+        body: {},
+      });
+      router.go('/');
+    } catch {
+      userStore.checkAuth();
+      throw new Error('logout error');
+    } finally {
+      userStore.checkAuth();
+    }
+  }
+
   async changeUserInfoRequest(userData: UserData) {
     try {
       removeBackendError('update-profile');
       const formData = new FormData();
-      formData.append('username', userData.username);
-      formData.append('email', userData.email);
+      this.#user.username !== userData.username
+        ? formData.append('username', userData.username)
+        : formData.append('username', '');
+
+      this.#user.email !== userData.email
+        ? formData.append('email', userData.email)
+        : formData.append('email', '');
       formData.append('avatar', userData.avatar);
       const response = await apiClient.post({
         path: `users/${this.#user.id}/update_profile`,
