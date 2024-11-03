@@ -5,6 +5,7 @@ import { Actions } from 'flux/Actions';
 import { Header } from 'components/Header/Header';
 import { router } from 'modules/Router';
 import { User } from 'types/user.js';
+import { roomPageStore } from './RoomPageStore';
 
 class HeaderStore {
   #config;
@@ -17,7 +18,12 @@ class HeaderStore {
           href: '/',
           id: 'header-main',
           isAvailable: true,
-          render: () => router.go('/'),
+          render: () => {
+            router.go('/');
+            if (roomPageStore.getWs()) {
+              roomPageStore.closeWs();
+            }
+          },
         },
         // reg: {
         //   text: 'Регистрация',
@@ -31,14 +37,24 @@ class HeaderStore {
           href: '/auth',
           id: 'header-auth',
           isAvailable: !userStore.getUserAuthStatus(),
-          render: () => router.go('/auth'),
+          render: () => {
+            router.go('/auth');
+            if (roomPageStore.getWs()) {
+              roomPageStore.closeWs();
+            }
+          },
         },
         profile: {
           text: 'Профиль',
           href: '/profile',
           id: 'header-profile',
           isAvailable: userStore.getUserAuthStatus(),
-          render: () => router.go('/profile'),
+          render: () => {
+            router.go('/profile');
+            if (roomPageStore.getWs()) {
+              roomPageStore.closeWs();
+            }
+          },
         },
       },
     };

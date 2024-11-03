@@ -49,6 +49,10 @@ class RoomPageStore {
     this.#room = room;
   }
 
+  getWs() {
+    return this.#ws;
+  }
+
   getRoom() {
     return this.#room;
   }
@@ -127,13 +131,20 @@ class RoomPageStore {
     }
   }
 
+  closeWs() {
+    if (this.#ws) {
+      this.#ws.close();
+      this.#ws = null;
+    }
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
         roomPage.render();
 
         this.#roomIdFromUrl = action.payload;
-        if (this.#isCreatedRoomReceived.get()) {
+        if (this.#isCreatedRoomReceived.get() && !this.#ws) {
           this.wsInit();
         }
         break;
