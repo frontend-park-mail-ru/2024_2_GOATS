@@ -5,11 +5,18 @@ export class Message {
   #parent;
   #user;
   #text;
+  #isCurrentUser;
 
-  constructor(parent: HTMLDivElement, user: User, text: string) {
+  constructor(
+    parent: HTMLDivElement,
+    user: User,
+    text: string,
+    isCurrentUser: boolean,
+  ) {
     this.#parent = parent;
     this.#user = user;
     this.#text = text;
+    this.#isCurrentUser = isCurrentUser;
   }
 
   render() {
@@ -19,7 +26,11 @@ export class Message {
   renderTemplate() {
     this.#parent.insertAdjacentHTML(
       'beforeend',
-      template({ user: this.#user, text: this.#text }),
+      template({
+        user: this.#user,
+        text: this.#text,
+        isCurrentUser: this.#isCurrentUser,
+      }),
     );
   }
 }

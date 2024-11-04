@@ -29,25 +29,36 @@
   &__content {
     display: flex;
     gap: 20px;
+    height: 500px;
   }
 
   &__video {
-    width: 70%;
+    border: 1px $modal-content-background solid;
+    border-radius: 10px;
+    width: 68%;
   }
 
   &__chat {
     width: 30%;
     background-color: $modal-content-background;
     position: relative;
-    height: auto;
     border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px;
+
+    &_title {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
 
     &_messages {
+      width: 100%;
+      overflow-x: hidden;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      height: 200px;
+      height: 80%;
     }
 
     &_input {
@@ -56,6 +67,7 @@
       border-radius: 10px;
 
       &_button {
+        cursor: pointer;
         width: 36px;
         height: 36px;
       }

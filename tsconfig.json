@@ -22,7 +22,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "noUnusedParameters": true,
-    // "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
