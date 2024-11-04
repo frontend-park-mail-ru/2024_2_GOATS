@@ -75,8 +75,8 @@ export class ProfilePageStore {
   ) {
     this.#passwordChangedEmitter.set(false);
     try {
-      const response = await apiClient.post({
-        path: `users/${this.#user.id}/update_password`,
+      const response = await apiClient.put({
+        path: `users/${this.#user.id}/password`,
         body: {
           oldPassword: prevPasswordValue,
           password: newPasswordValue,
@@ -116,8 +116,8 @@ export class ProfilePageStore {
         ? formData.append('email', userData.email)
         : formData.append('email', '');
       formData.append('avatar', userData.avatar);
-      const response = await apiClient.post({
-        path: `users/${this.#user.id}/update_profile`,
+      const response = await apiClient.put({
+        path: `users/${this.#user.id}/profile`,
         formData: formData,
       });
       const not = new Notifier('success', 'Данные успешно обновлены', 2000);
