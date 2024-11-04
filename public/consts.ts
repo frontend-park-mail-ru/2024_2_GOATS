@@ -1,6 +1,7 @@
 import { AuthUser, User } from 'types/user';
 
-export const API_URL = 'https://185.241.195.151/api/';
+export const HOST = 'https://185.241.195.151/';
+export const API_URL = HOST + 'api/';
 // export const API_URL = 'http://localhost:8080/api/';
 
 export const movies = [
