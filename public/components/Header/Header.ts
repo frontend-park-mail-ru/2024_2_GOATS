@@ -68,6 +68,13 @@ export class Header {
     return Object.entries(this.getConfig.pages);
   }
 
+  handleLogoClick() {
+    const logo = document.getElementById('header-logo') as HTMLElement;
+    logo.addEventListener('click', () => {
+      router.go('/');
+    });
+  }
+
   async logout() {
     try {
       await apiClient.post({
@@ -106,5 +113,6 @@ export class Header {
     });
 
     document.getElementById('header')?.addEventListener('click', this.#handler);
+    this.handleLogoClick();
   }
 }

@@ -59,6 +59,10 @@
 
         display: flex;
         gap: 8px;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }
@@ -76,9 +80,6 @@
 }
 
 .show-more {
-  &:hover {
-    cursor: pointer;
-  }
   &.more:after {
     content: 'Показать больше';
   }
