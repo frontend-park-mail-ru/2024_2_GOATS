@@ -81,8 +81,6 @@ class ApiClient {
 
   async _apiClient({ method, path, id, body, formData }: ApiClientRequests) {
     const url = API_URL + path + (id ? `/${id}` : '');
-    // TODO: Поправить на получение из body
-    // const csrfToken = this.getCookie('csrf_token');
 
     let options: RequestInit = {
       method: method,
@@ -90,26 +88,20 @@ class ApiClient {
       credentials: 'include',
     };
 
-    if (body && !formData) {
-      options.headers = { 'Content-Type': 'application/json' };
+    const csrfToken = this.getCookie('csrf_token');
+
+    if (body && !formData && csrfToken) {
+      options.headers = {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken,
+      };
       options.body = JSON.stringify(body);
-    } else if (formData) {
+    } else if (formData && csrfToken) {
+      options.headers = {
+        'X-CSRF-Token': csrfToken,
+      };
       options.body = formData;
     }
-
-    // TODO: Пока токен отправляется из кук, поправить
-    // if (body && !formData && csrfToken) {
-    //   options.headers = {
-    //     'Content-Type': 'application/json',
-    //     'X-CSRF-Token': csrfToken,
-    //   };
-    //   options.body = JSON.stringify(body);
-    // } else if (formData && csrfToken) {
-    //   options.headers = {
-    //     'X-CSRF-Token': csrfToken,
-    //   };
-    //   options.body = formData;
-    // }
 
     const response = await fetch(url, options);
 
