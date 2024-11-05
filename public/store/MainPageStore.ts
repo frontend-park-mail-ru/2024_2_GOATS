@@ -25,11 +25,6 @@ class MainPageStore {
     return this.#movieSelections;
   }
 
-  /**
-   * send request for movies collection
-   * @param {}
-   * @returns {}
-   */
   async getCollection() {
     const response = await apiClient.get({
       path: 'movie_collections/',

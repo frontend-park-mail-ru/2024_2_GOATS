@@ -16,11 +16,6 @@ export class Notifier {
     this.showNotifier();
   }
 
-  /**
-   * add notifier to layout for exact time
-   * @param {}
-   * @returns {}
-   */
   showNotifier() {
     const notifierBlock = document.getElementById('notifier-block');
 
@@ -35,11 +30,6 @@ export class Notifier {
     }, this.#liveTime);
   }
 
-  /**
-   * add listener for notifier closing
-   * @param {}
-   * @returns {}
-   */
   handleCloseButtonClick() {
     const closeButton = document.getElementById('notifier-close-button');
     if (closeButton) {
@@ -49,11 +39,6 @@ export class Notifier {
     }
   }
 
-  /**
-   * remove notifier from layout
-   * @param {}
-   * @returns {}
-   */
   hideNotifier() {
     const notifierBlock = document.getElementById('notifier-block');
     if (notifierBlock) {

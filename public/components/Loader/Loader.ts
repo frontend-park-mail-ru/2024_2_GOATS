@@ -15,11 +15,6 @@ export class Loader {
     this.#parent.innerHTML = template();
   }
 
-  /**
-   * Delete loader from page and show loaded page
-   * @param {}
-   * @returns {}
-   */
   kill() {
     this.#parent.innerHTML = this.#element;
   }
