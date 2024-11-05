@@ -6,13 +6,8 @@ import {
   validatePasswordConfirmation,
   validatePasswordCreation,
 } from 'modules/PasswordValidation';
-// import { profilePageStore } from 'store/ProfilePageStore';
 export class PasswordChangeModal {
-  //   private profilePageStore: ProfilePageStore;
-
   constructor() {
-    // this.profilePageStore = profilePageStore;
-
     const unsubscribe = profilePageStore.passwordChangedEmitter$.addListener(
       (status) => {
         if (status) {

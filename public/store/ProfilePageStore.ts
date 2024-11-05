@@ -10,13 +10,6 @@ import { router } from 'modules/Router';
 import { userStore } from './UserStore';
 import { Actions } from 'flux/Actions';
 
-// let mockUser = {
-//   email: 'tkoibaev@mail.ru',
-//   username: 'tkoibaev',
-//   name: '',
-//   avatar: '', //  assets/mockImages/user-profile_image.png
-// };
-
 export class ProfilePageStore {
   #user!: User;
   #passwordChangedEmitter: Emitter<boolean>;
@@ -24,12 +17,6 @@ export class ProfilePageStore {
   constructor() {
     this.#passwordChangedEmitter = new Emitter<boolean>(false);
     dispatcher.register(this.reduce.bind(this));
-
-    // const userListener = userStore.isUserAuthEmmiter$.addListener((status) => {
-    //   if (status && router.getCurrentPath() === '/profile') {
-    //     this.renderProfilePage();
-    //   }
-    // });
 
     const userLoadingListener = userStore.isUserLoadingEmmiter$.addListener(
       () => {
@@ -128,12 +115,6 @@ export class ProfilePageStore {
         'update-profile',
         'Уже существует аккаунт с таким логином или почтой',
       );
-      // const not = new Notifier(
-      //   'error',
-      //   'Уже существует аккаунт с таким логином или почтой',
-      //   2000,
-      // );
-      // not.render();
     }
   }
 

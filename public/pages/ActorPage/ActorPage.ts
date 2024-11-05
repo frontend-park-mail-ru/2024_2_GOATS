@@ -6,14 +6,6 @@ import { CardsList } from 'components/CardsList/CardsList';
 import { dateFormatter } from 'modules/DateFormatter';
 
 export class ActorPage {
-  //   #isBiographyExpanded: boolean;
-  //   //   #loader!: Loader;
-  //   //   #actor: Actor;
-
-  //   constructor() {
-  //     this.#isBiographyExpanded = false;
-  //   }
-
   render() {
     this.renderTemplate();
   }
@@ -56,7 +48,6 @@ export class ActorPage {
       'actor-page-filmography',
     ) as HTMLElement;
 
-    // TODO: Подождать пока Игорь добавит фильмографию для актера
     const cards = new CardsList(
       actorFilmography,
       this.getActorInfo().movies,
