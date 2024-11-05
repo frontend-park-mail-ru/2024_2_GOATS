@@ -22,6 +22,7 @@ export class ConfirmModal {
     const modalContent = document.getElementById('modal-content');
     if (modalContent && modal) {
       modalContent.addEventListener('click', (event) => {
+        console.log('in');
         event.stopPropagation();
       });
 
@@ -30,7 +31,17 @@ export class ConfirmModal {
         modalContent.classList.add('modal__content_active');
       }, 0);
 
-      modal.addEventListener('click', () => this.hideModal());
+      let isDragging = false;
+      modalContent.addEventListener('mousedown', () => {
+        isDragging = true;
+      });
+
+      modal.addEventListener('click', () => {
+        if (!isDragging) {
+          this.hideModal();
+        }
+        isDragging = false;
+      });
     }
 
     const confirmButton = document.getElementById('modal-confirm-btn');

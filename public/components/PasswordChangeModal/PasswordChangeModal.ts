@@ -135,7 +135,17 @@ export class PasswordChangeModal {
         modalContent.classList.add('password-modal__content_active');
       }, 0);
 
-      modal.addEventListener('click', () => this.hideModal());
+      let isDragging = false;
+      modalContent.addEventListener('mousedown', () => {
+        isDragging = true;
+      });
+
+      modal.addEventListener('click', () => {
+        if (!isDragging) {
+          this.hideModal();
+        }
+        isDragging = false;
+      });
     }
 
     const cancelButton = document.getElementById('password-modal-cancel-btn');
