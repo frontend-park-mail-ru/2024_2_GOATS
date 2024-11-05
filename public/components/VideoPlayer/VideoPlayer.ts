@@ -1,6 +1,7 @@
 import template from './VideoPlayer.hbs';
 import { timeFormatter } from 'modules/TimeFormatter';
 import { VideoControls } from 'types/video';
+import { Loader } from 'components/Loader/Loader';
 
 export class VideoPlayer {
   #parent;
@@ -267,6 +268,7 @@ export class VideoPlayer {
   updateDuration() {
     const { video, duration } = this.#controls;
     duration.textContent = timeFormatter(video.duration);
+    video.play();
   }
 
   onPlay() {

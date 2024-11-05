@@ -88,20 +88,27 @@ class ApiClient {
       credentials: 'include',
     };
 
-    const csrfToken = this.getCookie('csrf_token');
-
-    if (body && !formData && csrfToken) {
-      options.headers = {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken,
-      };
+    if (body && !formData) {
+      options.headers = { 'Content-Type': 'application/json' };
       options.body = JSON.stringify(body);
-    } else if (formData && csrfToken) {
-      options.headers = {
-        'X-CSRF-Token': csrfToken,
-      };
+    } else if (formData) {
       options.body = formData;
     }
+
+    // const csrfToken = this.getCookie('csrf_token');
+
+    // if (body && !formData && csrfToken) {
+    //   options.headers = {
+    //     'Content-Type': 'application/json',
+    //     'X-CSRF-Token': csrfToken,
+    //   };
+    //   options.body = JSON.stringify(body);
+    // } else if (formData && csrfToken) {
+    //   options.headers = {
+    //     'X-CSRF-Token': csrfToken,
+    //   };
+    //   options.body = formData;
+    // }
 
     const response = await fetch(url, options);
 
