@@ -53,6 +53,11 @@ export const Actions = {
       type: ActionTypes.GET_USER,
     });
   },
+  getCsrf() {
+    dispatcher.dispatch({
+      type: ActionTypes.GET_CSRF,
+    });
+  },
   auth(authData: AuthUser) {
     dispatcher.dispatch({
       type: ActionTypes.AUTH,

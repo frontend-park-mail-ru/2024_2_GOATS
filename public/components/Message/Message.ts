@@ -7,16 +7,16 @@ export class Message {
   #text;
   #isCurrentUser;
 
-  constructor(
-    parent: HTMLDivElement,
-    user: User,
-    text: string,
-    isCurrentUser: boolean,
-  ) {
-    this.#parent = parent;
-    this.#user = user;
-    this.#text = text;
-    this.#isCurrentUser = isCurrentUser;
+  constructor(params: {
+    parent: HTMLDivElement;
+    user: User;
+    text: string;
+    isCurrentUser: boolean;
+  }) {
+    this.#parent = params.parent;
+    this.#user = params.user;
+    this.#text = params.text;
+    this.#isCurrentUser = params.isCurrentUser;
   }
 
   render() {

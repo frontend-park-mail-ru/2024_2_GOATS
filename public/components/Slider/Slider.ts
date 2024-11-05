@@ -9,6 +9,7 @@ import { router } from 'modules/Router';
 
 export class Slider {
   #parent;
+  #type;
   #selection;
   #series;
   #persons;
@@ -16,24 +17,20 @@ export class Slider {
   #leftDiff;
   #rightDiff;
 
-  constructor(
-    parent: HTMLElement,
-    selection?: MovieSelection,
-    series?: Series[],
-    persons?: PersonCardData[],
-  ) {
-    this.#parent = parent;
-    this.#selection = selection;
-    this.#series = series;
-    this.#persons = persons;
-
-    if (selection) {
-      this.#id = selection.id;
-    } else if (series) {
-      this.#id = series[0].id;
-    } else if (persons) {
-      this.#id = persons[0].id + 10;
-    }
+  constructor(params: {
+    parent: HTMLElement;
+    id: number;
+    type: 'movies' | 'series' | 'actors';
+    selection?: MovieSelection;
+    series?: Series[];
+    persons?: PersonCardData[];
+  }) {
+    this.#parent = params.parent;
+    this.#id = params.id;
+    this.#type = params.type;
+    this.#selection = params.selection;
+    this.#series = params.series;
+    this.#persons = params.persons;
     this.#leftDiff = 0;
     this.#rightDiff = 0;
   }
@@ -44,10 +41,10 @@ export class Slider {
 
   checkBtns() {
     const btnNext = document.getElementById(
-      `slider-btn-next-${this.#id}`,
+      `slider-btn-next-${this.#type}-${this.#id}`,
     ) as HTMLButtonElement;
     const btnPrev = document.getElementById(
-      `slider-btn-prev-${this.#id}`,
+      `slider-btn-prev-${this.#type}-${this.#id}`,
     ) as HTMLButtonElement;
 
     if (btnNext && btnPrev) {
@@ -66,27 +63,28 @@ export class Slider {
   }
 
   renderTemplate() {
-    if (this.#selection) {
-      this.#parent.insertAdjacentHTML(
-        'beforeend',
-        template({ id: this.#id, title: this.#selection.title }),
-      );
-    } else if (this.#series) {
-      this.#parent.insertAdjacentHTML(
-        'beforeend',
-        template({ id: this.#id, title: '' }),
-      );
-    } else if (this.#persons) {
-      this.#parent.insertAdjacentHTML(
-        'beforeend',
-        template({ id: this.#id, title: 'Актеры и создатели' }),
-      );
-    }
+    this.#parent.insertAdjacentHTML(
+      'beforeend',
+      template({
+        id: this.#id,
+        type: this.#type,
+        title:
+          this.#type === 'movies'
+            ? this.#selection?.title
+            : this.#type === 'actors'
+              ? 'Актеры и создатели'
+              : '',
+      }),
+    );
 
     const container = document.querySelector('.slider__container');
-    const track = document.getElementById(`slider-${this.#id}`);
-    const btnNext = document.getElementById(`slider-btn-next-${this.#id}`);
-    const btnPrev = document.getElementById(`slider-btn-prev-${this.#id}`);
+    const track = document.getElementById(`slider-${this.#type}-${this.#id}`);
+    const btnNext = document.getElementById(
+      `slider-btn-next-${this.#type}-${this.#id}`,
+    );
+    const btnPrev = document.getElementById(
+      `slider-btn-prev-${this.#type}-${this.#id}`,
+    );
 
     if (container && track && btnNext && btnPrev) {
       const gapValue = parseInt(window.getComputedStyle(track).gap);
@@ -128,15 +126,15 @@ export class Slider {
         this.checkBtns();
       });
 
-      if (this.#selection) {
-        this.#selection.movies.forEach((movie) => {
+      if (this.#type === 'movies') {
+        this.#selection?.movies.forEach((movie) => {
           const card = new Card(track, movie, () => {
             router.go('/movie', movie.id);
           });
           card.render();
         });
-      } else if (this.#series) {
-        this.#series.forEach((series) => {
+      } else if (this.#type === 'series') {
+        this.#series?.forEach((series) => {
           const seriesCard = new SeriesCard(track, series, () => {
             const moviePage = document.getElementById(
               'movie-page',
@@ -152,8 +150,8 @@ export class Slider {
           });
           seriesCard.render();
         });
-      } else if (this.#persons) {
-        this.#persons.forEach((person) => {
+      } else {
+        this.#persons?.forEach((person) => {
           const personCard = new PersonCard(track, person, () => {
             router.go('/person', person.id);
           });
