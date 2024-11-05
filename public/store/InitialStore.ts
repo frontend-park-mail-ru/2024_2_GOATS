@@ -5,6 +5,7 @@ class InitialStore {
   constructor() {}
 
   async start() {
+    // Actions.getCsrf();
     Actions.getUser();
   }
 }

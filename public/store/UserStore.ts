@@ -78,6 +78,10 @@ class UserStore {
         this.checkAuth();
         break;
 
+      case ActionTypes.GET_CSRF:
+        this.getCsrf();
+        break;
+
       case ActionTypes.LOGOUT:
         this.logout();
         break;
@@ -115,6 +119,16 @@ class UserStore {
       this.setState(serializeUserData(response.user_data));
     } catch {
       this.clearUser();
+    }
+  }
+
+  async getCsrf() {
+    try {
+      await apiClient.get({
+        path: 'csrf-token',
+      });
+    } catch (e) {
+      throw e;
     }
   }
 

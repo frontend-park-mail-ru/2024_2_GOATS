@@ -37,14 +37,6 @@ type DeleteReuquestParams = {
 };
 
 class ApiClient {
-  /**
-   * GET request
-   * @param {GetRequestParams} params - request parameters
-   * @param {string} params.path - API endpoint path
-   * @param {number} params.id - item ID (optional)
-   * @returns {Promise<Object>} - response from the API
-   * @throws {Error} - if the request fails
-   */
   get({ path, id }: GetRequestParams) {
     return this._apiClient({
       method: HTTP_METHOD_GET,
@@ -53,14 +45,6 @@ class ApiClient {
     });
   }
 
-  /**
-   * POST request
-   * @param {PostRequestParams} params - request parameters
-   * @param {string} params.path - API endpoint path
-   * @param {Object} params.body - request payload (data to be sent)
-   * @returns {Promise<Object>} - response from the API
-   * @throws {Error} - if the request fails
-   */
   post({ path, body, formData }: PostRequestParams) {
     return this._apiClient({
       method: HTTP_METHOD_POST,
@@ -70,15 +54,6 @@ class ApiClient {
     });
   }
 
-  /**
-   * PUT request
-   * @param {PutReuqestParams} params - request parameters
-   * @param {string} params.path - API endpoint path
-   * @param {number|string} params.id - item ID to update
-   * @param {Object} params.body - request payload (data to be updated)
-   * @returns {Promise<Object>} - response from the API
-   * @throws {Error} - if the request fails
-   */
   put({ path, id, body, formData }: PutReuqestParams) {
     return this._apiClient({
       method: HTTP_METHOD_PUT,
@@ -89,14 +64,6 @@ class ApiClient {
     });
   }
 
-  /**
-   * DELETE request
-   * @param {DeleteReuquestParams} params - request parameters
-   * @param {string} params.path - API endpoint path
-   * @param {number|string} params.id - item ID to delete
-   * @returns {Promise<Object>} - response from the API
-   * @throws {Error} - if the request fails
-   */
   delete({ path, id }: DeleteReuquestParams) {
     return this._apiClient({
       method: HTTP_METHOD_DELETE,
@@ -105,19 +72,18 @@ class ApiClient {
     });
   }
 
-  /**
-   * Send request to API
-   * @param {ApiClientRequests} params - request parameters
-   * @param {string} params.method - HTTP method (GET, POST, PUT, DELETE)
-   * @param {string} params.path - API endpoint path
-   * @param {number|string} [params.id=null] - item ID (optional)
-   * @param {Object} [params.body=null] - request payload (optional)
-   * @returns {Promise<Object>} - response from the API
-   * @throws {Error} - if the request fails
-   * @private
-   */
+  getCookie(name: string): string | null {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+  }
+
   async _apiClient({ method, path, id, body, formData }: ApiClientRequests) {
     const url = API_URL + path + (id ? `/${id}` : '');
+    // TODO: Поправить на получение из body
+    // const csrfToken = this.getCookie('csrf_token');
+
     let options: RequestInit = {
       method: method,
       mode: 'cors',
@@ -130,6 +96,20 @@ class ApiClient {
     } else if (formData) {
       options.body = formData;
     }
+
+    // TODO: Пока токен отправляется из кук, поправить
+    // if (body && !formData && csrfToken) {
+    //   options.headers = {
+    //     'Content-Type': 'application/json',
+    //     'X-CSRF-Token': csrfToken,
+    //   };
+    //   options.body = JSON.stringify(body);
+    // } else if (formData && csrfToken) {
+    //   options.headers = {
+    //     'X-CSRF-Token': csrfToken,
+    //   };
+    //   options.body = formData;
+    // }
 
     const response = await fetch(url, options);
 
