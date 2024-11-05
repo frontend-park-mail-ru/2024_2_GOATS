@@ -46,12 +46,12 @@ export class MoviePage {
       const personsBlock = document.getElementById(
         'movie-page-persons',
       ) as HTMLElement;
-      const personsSlider = new Slider(
-        personsBlock,
-        undefined,
-        undefined,
-        this.#movie.actors,
-      );
+      const personsSlider = new Slider({
+        parent: personsBlock,
+        id: 1,
+        type: 'actors',
+        persons: this.#movie.actors,
+      });
       personsSlider.render();
     }
   }

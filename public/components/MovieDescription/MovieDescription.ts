@@ -137,17 +137,17 @@ export class MovieDescription {
   }
 
   // TODO: Совместный просмор в разработке
-  handleWatchTogether() {
-    const watchTogetherBtn = document.getElementById(
-      'watch-together-btn',
-    ) as HTMLButtonElement;
+  // handleWatchTogether() {
+  //   const watchTogetherBtn = document.getElementById(
+  //     'watch-together-btn',
+  //   ) as HTMLButtonElement;
 
-    watchTogetherBtn.addEventListener('click', async () => {
-      if (this.#movie) {
-        Actions.createRoom(2); // TODO: поменять на movie.id после тестирования
-      }
-    });
-  }
+  //   watchTogetherBtn.addEventListener('click', async () => {
+  //     if (this.#movie) {
+  //       Actions.createRoom(2); // TODO: поменять на movie.id после тестирования
+  //     }
+  //   });
+  // }
 
   // TODO: Избранные к 3 РК
   // handleFavoritesClick() {
@@ -161,7 +161,7 @@ export class MovieDescription {
     this.setCurrentMovieSelection();
     this.#parent.innerHTML = template({ movie: this.#movie });
     this.handleShowMovie();
-    this.handleWatchTogether();
+    // this.handleWatchTogether();
     // this.handleFavoritesClick();
   }
 }

@@ -37,12 +37,12 @@ export class MainPage {
   async renderBlocks() {
     const trendMoviesBlock = document.getElementById('trend-movies-block');
     if (trendMoviesBlock) {
-      const trendMoviesList = new GridBlock(
-        trendMoviesBlock,
-        this.#movieSelections[0].movies,
-        this.#movieSelections[0].title,
-        (id: number) => router.go('/movie', id),
-      );
+      const trendMoviesList = new GridBlock({
+        parent: trendMoviesBlock,
+        movies: this.#movieSelections[0].movies,
+        blockTitle: this.#movieSelections[0].title,
+        onImageClick: (id: number) => router.go('/movie', id),
+      });
       trendMoviesList.render();
     }
 
@@ -55,7 +55,12 @@ export class MainPage {
         mainPageBlocks.appendChild(newBlock);
       }
 
-      const slider = new Slider(newBlock, selection);
+      const slider = new Slider({
+        parent: newBlock,
+        id: selection.id,
+        type: 'movies',
+        selection: selection,
+      });
       slider.render();
     });
   }

@@ -7,16 +7,16 @@ export class GridBlock {
   #blockTitle;
   #onImageClick;
 
-  constructor(
-    parent: HTMLElement,
-    movies: Movie[],
-    blockTitle: string,
-    onImageClick: (id: number) => void,
-  ) {
-    this.#parent = parent;
-    this.#movies = movies;
-    this.#blockTitle = blockTitle;
-    this.#onImageClick = onImageClick;
+  constructor(params: {
+    parent: HTMLElement;
+    movies: Movie[];
+    blockTitle: string;
+    onImageClick: (id: number) => void;
+  }) {
+    this.#parent = params.parent;
+    this.#movies = params.movies;
+    this.#blockTitle = params.blockTitle;
+    this.#onImageClick = params.onImageClick;
   }
 
   render() {

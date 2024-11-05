@@ -82,12 +82,12 @@ export class RoomPage {
       '.room-page__chat_messages',
     ) as HTMLDivElement;
 
-    const message = new Message(
-      messagesContainer,
-      mockUsers[0],
-      messageValue,
+    const message = new Message({
+      parent: messagesContainer,
+      user: mockUsers[0],
+      text: messageValue,
       isCurrentUser,
-    );
+    });
 
     let isEndOfChat = false;
 

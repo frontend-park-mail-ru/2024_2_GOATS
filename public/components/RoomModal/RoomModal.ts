@@ -7,16 +7,16 @@ export class RoomModal {
   #onConfirm;
   #onCancel;
 
-  constructor(
-    text: string,
-    movie: MovieDetailed,
-    onConfirm: () => void,
-    onCancel?: () => void,
-  ) {
-    this.#text = text;
-    this.#onConfirm = onConfirm;
-    this.#onCancel = onCancel;
-    this.#movie = movie;
+  constructor(params: {
+    text: string;
+    movie: MovieDetailed;
+    onConfirm: () => void;
+    onCancel?: () => void;
+  }) {
+    this.#text = params.text;
+    this.#onConfirm = params.onConfirm;
+    this.#onCancel = params.onCancel;
+    this.#movie = params.movie;
   }
 
   render() {
