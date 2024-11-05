@@ -7,19 +7,12 @@ import { apiClient } from 'modules/ApiClient';
 import { serializeActorData } from 'modules/Serializer';
 
 export class ActorPageStore {
-  #actor!: Actor; // TODO: Actor - Игорь не включает фильмографию - исправит
+  #actor!: Actor;
 
   constructor() {
-    // this.#actor = {};
     dispatcher.register(this.reduce.bind(this));
   }
 
-  //Здесь надо будет привязываться к id из юрла
-  // async getActorRequest() {
-  //   this.#actor = mockActor;
-  // }
-
-  //Actor - Игорь не включает фильмографию - исправит
   setState(actor: Actor) {
     this.#actor = actor;
   }
@@ -43,10 +36,7 @@ export class ActorPageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_ACTOR_PAGE:
-        // await this.renderActorPage();
         this.renderActorPage(action.payload);
-        // mainPage.render();
-        // await this.getCollection();
         break;
       default:
         break;

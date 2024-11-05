@@ -25,14 +25,14 @@
     transition: 0.4s all;
     background-color: $modal-content-background;
     padding: 40px;
-    border-radius: 10px;
+    border-radius: $border-radius-small;
 
     &_active {
       transform: scale(1);
     }
 
     &_text {
-      font-size: 24px;
+      font-size: $font-size-large;
       text-align: center;
       margin-bottom: 30px;
       max-width: 500px;
@@ -48,7 +48,7 @@
       background-color: $brand;
       width: 100px;
       color: $brand-secondary;
-      font-size: 16px;
+      font-size: $font-size-medium;
       font-weight: 600;
       transition: background-color 0.2s ease;
 

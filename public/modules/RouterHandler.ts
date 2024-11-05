@@ -15,7 +15,6 @@ export const Urls = {
   auth: '/auth',
   registration: '/registration',
   movie: '/movie',
-  // video: '/video',
   actor: '/person',
   profile: '/profile',
   room: '/room',
@@ -39,7 +38,6 @@ export const routerHandler = (url: URL, id?: string | number) => {
       footer.render(Urls.registration);
       break;
     case `${Urls.actor}/${id}`:
-      // Actions.renderHeader(Urls.registration);
       Actions.renderHeader(Urls.actor);
 
       id && Actions.renderActorPage(id);

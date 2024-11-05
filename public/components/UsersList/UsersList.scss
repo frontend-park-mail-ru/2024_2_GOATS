@@ -6,7 +6,7 @@
   gap: 20px;
   padding: 20px;
   background-color: $modal-content-background;
-  border-radius: 10px;
+  border-radius: $border-radius-small;
   width: 70%;
 
   &__item {
@@ -15,7 +15,7 @@
     align-items: center;
     gap: 5px;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: $border-radius-small;
     background-color: $block-background;
 
     &_avatar {
@@ -24,7 +24,7 @@
     }
 
     &_username {
-      font-size: 14px;
+      font-size: $font-size-small;
       color: $brand-secondary;
     }
   }

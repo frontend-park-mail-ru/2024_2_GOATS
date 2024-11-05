@@ -29,7 +29,6 @@ class UserStore {
       id: -1,
       email: '',
       username: '',
-      // isAuth: false,
       avatar: '',
     };
     dispatcher.register(this.reduce.bind(this));
@@ -55,7 +54,6 @@ class UserStore {
   }
 
   setState(user: User) {
-    // this.#user.isAuth = true;
     this.#isUserAuth = true;
 
     this.#user.id = user.id;
@@ -92,7 +90,6 @@ class UserStore {
   }
 
   clearUser() {
-    // this.#user.isAuth = false;
     this.#isUserAuth = false;
 
     this.#user.email = '';

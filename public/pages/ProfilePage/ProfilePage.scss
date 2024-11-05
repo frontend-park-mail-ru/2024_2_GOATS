@@ -19,7 +19,7 @@
     flex-direction: column;
     gap: 12px;
     &_title {
-      font-size: 24px;
+      font-size: $font-size-large;
       font-weight: bold;
     }
 
@@ -27,7 +27,7 @@
       padding: 18px;
       height: 400px;
       background-color: $background-secondary-color;
-      border-radius: 16px;
+      border-radius: $border-radius-medium;
 
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -41,14 +41,13 @@
     gap: 12px;
 
     &_title {
-      font-size: 24px;
+      font-size: $font-size-large;
       font-weight: bold;
     }
 
     &_content {
-      //   height: 200px;
       background-color: $background-secondary-color;
-      border-radius: 16px;
+      border-radius: $border-radius-medium;
       padding: 18px;
     }
   }
@@ -57,7 +56,7 @@
     grid-column-start: 2;
 
     &_title {
-      font-size: 24px;
+      font-size: $font-size-large;
       font-weight: bold;
       margin-bottom: 16px;
     }
@@ -65,7 +64,7 @@
     &_btn {
       background-color: $brand;
       color: $brand-secondary;
-      font-size: 16px;
+      font-size: $font-size-medium;
       font-weight: 600;
 
       &:hover {
@@ -93,7 +92,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 16px;
+        font-size: $font-size-medium;
         border: 1.5px solid $brand;
         padding: 0.5em 1em;
         border-radius: 0.5em;
@@ -126,7 +125,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 16px;
+      font-size: $font-size-medium;
       width: fit-content;
 
       margin-bottom: 0.3em;
@@ -134,7 +133,7 @@
     }
     &_field {
       width: 100%;
-      font-size: 16px;
+      font-size: $font-size-medium;
       outline: 1px solid #fff;
 
       &:focus {
@@ -149,7 +148,7 @@
     }
     &_error {
       display: block;
-      font-size: 12px;
+      font-size: $font-size-extra-small;
       color: $error-color;
       position: absolute;
       margin-top: 2px;
@@ -167,7 +166,7 @@
       background-color: #a143ff;
       color: $brand-secondary;
 
-      font-size: 16px;
+      font-size: $font-size-medium;
       font-weight: 600;
       transition: background-color 0.2s ease;
       &:hover {
@@ -195,7 +194,7 @@
   }
   &__desc {
     display: block;
-    font-size: 14px;
+    font-size: $font-size-small;
     margin-top: 8px;
     font-weight: 300;
     color: $text-secondary-color;
@@ -210,7 +209,7 @@
       background-color: #a143ff;
       color: $brand-secondary;
 
-      font-size: 16px;
+      font-size: $font-size-medium;
       font-weight: 600;
       transition: background-color 0.2s ease;
       &:hover {

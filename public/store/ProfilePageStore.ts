@@ -27,7 +27,6 @@ export class ProfilePageStore {
     );
 
     this.ngOnDestroy = () => {
-      // userListener();
       userLoadingListener();
     };
   }
@@ -121,7 +120,6 @@ export class ProfilePageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_PROFILE_PAGE:
-        // this.getUserInfoRequest();
         this.renderProfilePage();
 
         break;

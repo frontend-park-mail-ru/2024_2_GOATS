@@ -33,12 +33,12 @@
     gap: 16px;
 
     &_title {
-      font-size: 24px;
+      font-size: $font-size-large;
       font-weight: bold;
     }
     &_content {
       width: 80%;
-      font-size: 16px;
+      font-size: $font-size-medium;
       line-height: 24px;
 
       &_text {
@@ -51,14 +51,6 @@
         &.opened {
           grid-template-rows: 1fr;
         }
-
-        // max-height: 100px;
-        // overflow: hidden;
-        // transition: max-height 0.5s ease-out;
-
-        // &.opened {
-        //   max-height: 100%;
-        // }
       }
 
       &_toggle {
@@ -77,7 +69,7 @@
     gap: 16px;
 
     &_title {
-      font-size: 24px;
+      font-size: $font-size-large;
       font-weight: bold;
     }
   }
@@ -114,7 +106,7 @@
 
     &_title {
       font-weight: bold;
-      font-size: 24px;
+      font-size: $font-size-large;
     }
     &_stats {
       display: grid;
@@ -122,7 +114,7 @@
       row-gap: 16px;
 
       &_stat {
-        font-size: 16px;
+        font-size: $font-size-medium;
 
         &:nth-child(odd) {
           color: $text-secondary-color;

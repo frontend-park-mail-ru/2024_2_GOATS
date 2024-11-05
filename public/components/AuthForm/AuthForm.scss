@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 
 .form-auth__wrapper {
-  border-radius: 16px;
+  border-radius: $border-radius-medium;
   background-color: #0000009c;
   width: 100%;
   padding: 8px 32px;
@@ -17,7 +17,7 @@
 
   &__title {
     font-weight: 500;
-    font-size: 24px;
+    font-size: $font-size-large;
     text-transform: uppercase;
   }
 
@@ -29,7 +29,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 16px;
+      font-size: $font-size-medium;
       width: fit-content;
 
       margin-bottom: 0.2em;
@@ -38,7 +38,7 @@
 
     &_field {
       width: 100%;
-      font-size: 16px;
+      font-size: $font-size-medium;
       outline: 1px solid #fff;
 
       &:focus {
@@ -54,7 +54,7 @@
 
     &_error {
       display: block;
-      font-size: 12px;
+      font-size: $font-size-extra-small;
       color: $error-color;
       position: absolute;
       margin-top: 2px;
@@ -70,7 +70,7 @@
       background-color: #a143ff;
       color: $brand-secondary;
 
-      font-size: 16px;
+      font-size: $font-size-medium;
       font-weight: 600;
 
       transition: background-color 0.2s ease;
@@ -82,7 +82,7 @@
   }
 
   &__footer {
-    font-size: 11px;
+    font-size: $font-size-extra-small;
     font-weight: 300;
     margin-top: 16px;
     text-align: center;
@@ -106,7 +106,7 @@
   background-color: #fff;
   color: #000;
 
-  font-size: 14px;
+  font-size: $font-size-small;
 
   width: max-content;
 }

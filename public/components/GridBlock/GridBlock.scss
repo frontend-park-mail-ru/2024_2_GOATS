@@ -11,11 +11,11 @@
     gap: 16px;
 
     &_title {
-      font-size: 32px;
+      font-size: $font-size-extra-large;
     }
 
     &_more {
-      font-size: 16px;
+      font-size: $font-size-medium;
       color: $brand;
 
       &:hover {

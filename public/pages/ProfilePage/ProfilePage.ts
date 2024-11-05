@@ -11,12 +11,9 @@ import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 
 export class ProfilePage {
-  // #user: UserData;
   #userAvatar!: File;
 
-  constructor() {
-    // this.#user = profilePageStore.getUserInfo();
-  }
+  constructor() {}
 
   render() {
     this.renderTemplate();

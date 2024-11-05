@@ -4,7 +4,7 @@
   width: 75px;
   height: 75px;
   border: 10px solid rgba(148, 12, 207, 0.6);
-  border-radius: 50%;
+  border-radius: $border-radius-max;
   border-left-color: $brand;
   animation: loader 1.3s linear infinite;
 

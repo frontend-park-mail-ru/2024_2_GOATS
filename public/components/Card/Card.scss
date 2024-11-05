@@ -16,8 +16,7 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    border-radius: 10px;
-    // box-shadow: $card-box-shadow;
+    border-radius: $border-radius-small;
   }
 
   &__rating {
@@ -29,7 +28,7 @@
     left: 5px;
     color: $brand-secondary;
     background-color: $card-high-rating;
-    border-radius: 10px;
+    border-radius: $border-radius-small;
   }
 
   &__overlay {
@@ -53,7 +52,7 @@
     cursor: pointer;
 
     &_rating {
-      font-size: 24px;
+      font-size: $font-size-large;
       font-weight: 600;
     }
   }

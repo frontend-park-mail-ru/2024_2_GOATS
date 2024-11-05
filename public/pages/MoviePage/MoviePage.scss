@@ -34,12 +34,12 @@
       gap: 5px;
 
       &_text {
-        font-size: 14px;
+        font-size: $font-size-small;
         color: $brand-dull;
       }
     }
     &_text {
-      font-size: 16px;
+      font-size: $font-size-medium;
       line-height: 24px;
     }
   }

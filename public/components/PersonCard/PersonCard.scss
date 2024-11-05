@@ -7,18 +7,18 @@
   &__image {
     width: 100%;
     height: 180px;
-    border-radius: 50%;
+    border-radius: $border-radius-max;
   }
 
   &__title {
     text-align: center;
     padding-top: 5px;
-    font-size: 16px;
+    font-size: $font-size-medium;
   }
 
   &__subtitle {
     padding-top: 2px;
-    font-size: 14px;
+    font-size: $font-size-small;
     color: $brand-dull;
     text-align: center;
   }

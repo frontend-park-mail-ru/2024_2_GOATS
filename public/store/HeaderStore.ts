@@ -25,13 +25,6 @@ class HeaderStore {
             }
           },
         },
-        // reg: {
-        //   text: 'Регистрация',
-        //   href: '/registration',
-        //   id: 'header-reg',
-        //   isAvailable: !userStore.getUser().isAuth,
-        //   render: () => router.go('/registration'),
-        // },
         auth: {
           text: 'Войти',
           href: '/auth',
@@ -63,7 +56,6 @@ class HeaderStore {
 
   setState(isAuth: boolean) {
     this.#config.pages.main.isAvailable = true;
-    // this.#config.pages.reg.isAvailable = !user.isAuth;
     this.#config.pages.auth.isAvailable = !isAuth;
     this.#config.pages.profile.isAvailable = isAuth;
   }

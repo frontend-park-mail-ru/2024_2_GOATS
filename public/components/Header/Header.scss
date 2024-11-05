@@ -53,7 +53,7 @@
     &_exit_btn {
       background-color: $brand;
       color: $brand-secondary;
-      font-size: 16px;
+      font-size: $font-size-medium;
       font-weight: 600;
 
       &:hover {

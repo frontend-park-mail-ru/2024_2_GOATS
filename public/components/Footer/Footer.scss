@@ -21,7 +21,7 @@
     gap: 48px;
 
     &_text {
-      font-size: 16px;
+      font-size: $font-size-medium;
       color: $text-secondary-color;
     }
 
@@ -40,7 +40,7 @@
 
   &__rights {
     &_text {
-      font-size: 16px;
+      font-size: $font-size-medium;
       color: $text-secondary-color;
     }
   }
