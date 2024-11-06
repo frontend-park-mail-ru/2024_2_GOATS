@@ -4,10 +4,9 @@
   </div>
   <div class='grid-block__content'>
     {{#each items}}
-      <div class='grid-block__element'>
+      <div id='movie-image-{{this.id}}' class='grid-block__element'>
         {{! <div class=""></div> }}
         <img
-          id='movie-image-{{this.id}}'
           class='grid-block__element_image'
           src={{this.albumImage}}
           alt='card'

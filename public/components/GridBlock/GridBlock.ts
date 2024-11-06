@@ -33,7 +33,7 @@ export class GridBlock {
   }
 
   addImagesListeners() {
-    const images = this.#parent.querySelectorAll('.grid-block__element_image');
+    const images = this.#parent.querySelectorAll('.grid-block__element');
     images.forEach((img) => {
       img.addEventListener('click', () => {
         const id = Number(img.id.split('image-')[1]);
