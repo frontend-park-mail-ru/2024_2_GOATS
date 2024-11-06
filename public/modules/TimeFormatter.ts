@@ -13,8 +13,3 @@ export const timeFormatter = (timeInput: number) => {
     return `${minutesString}:${secondsString}`;
   }
 };
-
-export const yearPicker = (date: string) => {
-  const year = date.split(' ')[2];
-  return year;
-};
