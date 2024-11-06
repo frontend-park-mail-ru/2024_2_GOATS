@@ -11,6 +11,7 @@ const headerElement = document.createElement('header');
 
 class UserStore {
   #user: User;
+  #csrfToken = '';
 
   #isUserAuth: boolean;
   #isUserAuthEmmiter: Emitter<boolean>;
@@ -43,6 +44,10 @@ class UserStore {
 
   getUser() {
     return this.#user;
+  }
+
+  getCsrfToken() {
+    return this.#csrfToken;
   }
 
   getUserAuthStatus() {
@@ -121,9 +126,10 @@ class UserStore {
 
   async getCsrf() {
     try {
-      await apiClient.get({
+      const response = await apiClient.get({
         path: 'csrf-token',
       });
+      this.#csrfToken = response.headers.get('x-csrf-token');
     } catch (e) {
       throw e;
     }
