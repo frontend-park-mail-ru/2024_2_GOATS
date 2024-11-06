@@ -1,0 +1,48 @@
+<div class='actor-page' id='actor-page'>
+  <div class='actor-page__container'>
+    <div class='actor-page__about'>
+      <img src={{actor.image}} alt='' class='actor-page__about_image' />
+      <div class='actor-page__about_info'>
+        <h1 class='actor__name'>{{actor.fullName}}</h1>
+        <div class='actor__info'>
+          <h2 class='actor__info_title'>О персоне</h2>
+          <div class='actor__info_stats'>
+            <span class='actor__info_stats_stat'>Дата рождения</span>
+            <span class='actor__info_stats_stat'>{{birthDate}}</span>
+            <span class='actor__info_stats_stat'>Место рождения</span>
+            <span class='actor__info_stats_stat'>{{actor.country}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='actor-page__biography'>
+      <h2 class='actor-page__biography_title'>Биография</h2>
+      <div class='actor-page__biography_content'>
+        <div
+          id='biography-text'
+          class='actor-page__biography_content_text'
+        >{{actor.biography}}</div>
+        <div
+          id='biography-toggler'
+          class='actor-page__biography_content_toggle'
+        >
+          <span id='biography-toggler-desc' class='show-more more'></span>
+          <img
+            class='toggler_icon'
+            id='biography-toggler-icon'
+            src='/assets/icons/cheveron-down.svg'
+            alt='expand'
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class='actor-page__filmography'>
+      <h2 class='actor-page__filmography_title'>Фильмография</h2>
+      <div
+        class='actor-page__filmography_content'
+        id='actor-page-filmography'
+      ></div>
+    </div>
+  </div>
+</div>

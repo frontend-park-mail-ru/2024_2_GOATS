@@ -26,4 +26,4 @@
 
 [Деплой](http://185.241.195.151/)
 
-Figma
+[Figma](https://www.figma.com/design/DDjZq4D69KioS73dRLYfaS/Netflix?node-id=101-37&node-type=canvas&t=x9dJ23PAS1ipyVlz-0)

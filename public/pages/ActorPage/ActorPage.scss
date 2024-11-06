@@ -1,0 +1,130 @@
+@import 'styles/variables.scss';
+
+.actor-page {
+  margin-top: 20px;
+  &__container {
+    width: $content-width;
+    max-width: $content-width-max;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__about {
+    display: flex;
+    gap: 56px;
+
+    &_image {
+      height: 450px;
+    }
+
+    &_info {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+  }
+
+  &__biography {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &_title {
+      font-size: $font-size-large;
+      font-weight: bold;
+    }
+    &_content {
+      width: 80%;
+      font-size: $font-size-medium;
+      line-height: 24px;
+
+      &_text {
+        display: grid;
+        grid-template-rows: 50px;
+        overflow: hidden;
+        contain: content;
+        transition: grid-template-rows 0.1s ease-out;
+
+        &.opened {
+          grid-template-rows: 1fr;
+        }
+      }
+
+      &_toggle {
+        margin-top: 10px;
+        color: $brand;
+
+        display: flex;
+        gap: 8px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &__filmography {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &_title {
+      font-size: $font-size-large;
+      font-weight: bold;
+    }
+  }
+}
+
+.show-more {
+  &.more:after {
+    content: 'Показать больше';
+  }
+  &.less:after {
+    content: 'Свернуть';
+  }
+}
+
+.toggler_icon {
+  &.less {
+    transform: rotate(180deg);
+  }
+}
+
+.actor {
+  &__name {
+    font-size: 48px;
+    font-weight: bold;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 500px;
+
+    &_title {
+      font-weight: bold;
+      font-size: $font-size-large;
+    }
+    &_stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 16px;
+
+      &_stat {
+        font-size: $font-size-medium;
+
+        &:nth-child(odd) {
+          color: $text-secondary-color;
+          font-weight: 400;
+        }
+        &:nth-child(even) {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.modal {
+  &__content_room {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &_input {
+      &_label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+    }
+  }
+}

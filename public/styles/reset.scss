@@ -1,0 +1,43 @@
+@import './variables.scss';
+
+button {
+  font-family: 'Inter', sans-serif;
+  background: none;
+  border: none;
+  padding: 0;
+}
+input {
+  color: #fff;
+  all: unset;
+  box-sizing: border-box;
+}
+textarea {
+  outline: none;
+  border-color: none;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+ul,
+blockquote,
+figure,
+pre {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}

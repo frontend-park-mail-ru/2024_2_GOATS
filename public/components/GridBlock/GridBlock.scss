@@ -1,0 +1,64 @@
+@import 'styles/variables.scss';
+
+.grid-block {
+  height: fit-content;
+
+  &__header {
+    margin-bottom: 16px;
+
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+
+    &_title {
+      font-size: $font-size-extra-large;
+    }
+
+    &_more {
+      font-size: $font-size-medium;
+      color: $brand;
+
+      &:hover {
+        border-bottom: 1px solid $brand;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__content {
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 65% 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  &__element {
+    overflow: hidden;
+
+    transition: all 0.1s ease;
+
+    &:hover {
+      cursor: pointer;
+      scale: 1.02;
+      box-shadow: 0px 0px 70px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    &_image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:first-child {
+      grid-row: span 2 / span 2;
+    }
+    &:nth-child(2) {
+      grid-column-start: 2;
+    }
+    &:nth-child(3) {
+      grid-column-start: 2;
+    }
+  }
+}

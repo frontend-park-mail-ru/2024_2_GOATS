@@ -1,0 +1,9 @@
+.cards__list {
+  position: relative;
+
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 30px;
+}

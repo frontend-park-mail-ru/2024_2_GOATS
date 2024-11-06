@@ -1,0 +1,104 @@
+<div class='profile-page'>
+  <div class='profile-page__container'>
+    <div class='profile-page__profile-block'>
+      <h2 class='profile-page__profile-block_title'>Управление профилем</h2>
+      <div class='profile-page__profile-block_content'>
+        <div class='user__image-field'>
+          <div
+            id='user-profile-avatar-container'
+            class='user__image-field_avatar'
+          ></div>
+          <input
+            name='upload-avatar-input'
+            class='user__image-field_input'
+            id='upload-avatar-input'
+            type='file'
+            accept='image/*'
+          />
+          <label
+            class='user__image-field_input_label'
+            for='upload-avatar-input'
+          >
+            <img
+              class='user__image-field_input_label_icon'
+              src='/assets/icons/upload.svg'
+            />Выбрать изображение</label>
+        </div>
+        <div class='user__text-fields'>
+          <div class='user__input'>
+            <label for='user-change-login'>
+              <div class='user__input_label'>
+                <span>Логин</span>
+
+              </div>
+              <input
+                name='user-change-login'
+                placeholder='Введите логин'
+                class='input user__input_field'
+                id='user-change-login'
+                type='text'
+                value={{user.username}}
+              />
+              <span
+                class='user__input_error'
+                id='user-change-login-error'
+              ></span>
+            </label>
+
+          </div>
+          <div class='user__input'>
+            <label for='user-change-email'>
+              <div class='user__input_label'>
+                <span>Email</span>
+
+              </div>
+              <input
+                name='user-change-email'
+                placeholder='Введите e-mail'
+                class='input user__input_field'
+                id='user-change-email'
+                type='email'
+                value={{user.email}}
+              />
+              <span
+                class='user__input_error'
+                id='user-change-email-error'
+              ></span>
+            </label>
+          </div>
+          <div class='user__submit'>
+            <button
+              class='button user__submit_button'
+              id='user-change-btn'
+            >Сохранить изменения</button>
+            <span id='user-change-error' class='user-change-error'></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class='profile-page__security-block'>
+      <h2 class='profile-page__security-block_title'>Управление доступом</h2>
+      <div class='profile-page__security-block_content'>
+        <h3 class='security__title'>Смена пароля</h3>
+        <span class='security__desc'>При смене пароля будут завершены все
+          активные сеансы на других устройствах</span>
+        <div class='security__select'>
+          <button
+            class='button security__select_button'
+            id='security-change-btn'
+          >Изменить пароль</button>
+        </div>
+      </div>
+    </div>
+    <div class='profile-page__exit-block'>
+      <h2 class='profile-page__exit-block_title'>Выход из аккаунта</h2>
+      <button
+        id='exit-button'
+        class='button profile-page__exit-block_btn'
+      >Выйти</button>
+    </div>
+
+  </div>
+
+</div>

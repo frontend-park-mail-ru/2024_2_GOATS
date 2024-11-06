@@ -1,0 +1,13 @@
+<div class='message'>
+  <div class='message__info'>
+    <div class='message__info_user'>
+      <img class='message__info_user_image' src={{user.avatar_url}} alt='avatar' />
+      <p class='message__info_user_username{{#if isCurrentUser}} message__info_user_username_current{{/if}}'>
+        {{user.username}}
+      </p>
+    </div>
+    <p class='message__text'>
+      {{text}}
+    </p>
+  </div>
+</div>

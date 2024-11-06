@@ -1,0 +1,135 @@
+@import 'styles/variables.scss';
+
+.room-page {
+  background-color: $background;
+  padding-bottom: 100px;
+
+  &__container {
+    max-width: $content-width-max;
+    width: $content-width;
+    margin: 0 auto;
+    margin-top: 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__title {
+    font-size: 30px;
+    padding-bottom: 20px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 20px;
+    height: 500px;
+  }
+
+  &__video {
+    border: 1px $modal-content-background solid;
+    border-radius: $border-radius-small;
+    width: 68%;
+  }
+
+  &__chat {
+    width: 30%;
+    background-color: $modal-content-background;
+    position: relative;
+    border-radius: $border-radius-small;
+    box-sizing: border-box;
+    padding: 20px;
+
+    &_title {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    &_messages {
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 80%;
+    }
+
+    &_input {
+      width: 100%;
+      border: 1px solid $brand-secondary;
+      border-radius: $border-radius-small;
+
+      &_button {
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+      }
+
+      &_block {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+      }
+    }
+  }
+
+  &__info {
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &_description {
+      background-color: $block-background;
+      color: $text-secondary-color;
+      padding: 20px;
+      border-radius: $border-radius-small;
+
+      &_title {
+        width: 60%;
+      }
+    }
+  }
+
+  &__members {
+    &_wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &_title {
+      font-size: 20px;
+
+      &_block {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+    }
+
+    &_button {
+      background-color: $brand;
+      color: $brand-secondary;
+      font-size: $font-size-medium;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: $button-background-hover;
+      }
+    }
+  }
+}

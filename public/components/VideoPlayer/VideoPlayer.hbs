@@ -1,6 +1,97 @@
-<video controls>
-  <source
-    src='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4'
-    type='video/mp4'
-  />
-</video>
+<div class='video__wrapper'>
+  {{#if isModal}}
+    <img
+      id='video-back-button'
+      class='video__back'
+      src='/assets/icons/closeIcon.svg'
+    />
+  {{/if}}
+  <div class='video__container'>
+    <video id='video' class='video'>
+      <source src={{url}} type='video/mp4' />
+    </video>
+  </div>
+  <div id='video-controls' class='video__controls'>
+    <div class='video__controls_progress'>
+      <div class='video__progress'>
+        <input
+          id='progress-slider'
+          class='video__progress_slider'
+          type='range'
+          min='0'
+          max='100'
+          step='0.0001'
+          value='0'
+        />
+      </div>
+    </div>
+
+    <div class='video__controls_actions'>
+      <div class='video__controls_actions_left'>
+        {{#if hasPrevSeries}}
+          <img
+            id='prev-series-button'
+            class='video__controls_icon'
+            src='/assets/icons/nextSeries.svg'
+            alt='prev-series'
+          />
+        {{/if}}
+
+        <span
+          id='play-pause'
+          class='video__controls_icon video__controls_icon_play'
+        ></span>
+
+        {{#if hasNextSeries}}
+          <img
+            id='next-series-button'
+            class='video__controls_icon'
+            src='/assets/icons/nextSeries.svg'
+            alt='next-series'
+          />
+        {{/if}}
+
+        <p>
+          <span id='current-time' class='video__controls_timer'>00:00</span>
+          /
+          <span class='video__controls_timer' id='duration'>00:00</span>
+        </p>
+      </div>
+
+      <div class='video__controls_actions_right'>
+        <img
+          id='rewind-back-button'
+          class='video__controls_icon'
+          src='/assets/icons/rewindBackIcon.svg'
+          alt='rewind-back'
+        />
+        <img
+          id='rewind-front-button'
+          class='video__controls_icon'
+          src='/assets/icons/rewindFrontIcon.svg'
+          alt='rewind-back'
+        />
+        <div id='volume-block' class='video__controls_volume'>
+          <img
+            class='video__controls_icon'
+            src='/assets/icons/volumeUp.svg'
+            alt='volume'
+          />
+          <input
+            class='video__controls_volume_input'
+            type='range'
+            id='volume-input'
+            min='0'
+            max='1'
+            step='0.0000001'
+            value='1'
+          />
+        </div>
+        <span
+          id='full-small'
+          class='video__controls_icon video__controls_icon_full'
+        ></span>
+      </div>
+    </div>
+  </div>
+</div>

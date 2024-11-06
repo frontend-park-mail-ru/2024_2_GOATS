@@ -1,0 +1,40 @@
+@import 'styles/variables.scss';
+
+.message {
+  &__info {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+
+    &_user {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: 30%;
+      max-height: 25px;
+
+      &_image {
+        width: 25px;
+        height: 25px;
+        border-radius: $border-radius-max;
+      }
+
+      &_username {
+        font-size: $font-size-medium;
+        color: $text-secondary-color;
+
+        &_current {
+          color: $brand;
+        }
+      }
+    }
+  }
+
+  &__text {
+    width: 60%;
+    padding-top: 3px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+}

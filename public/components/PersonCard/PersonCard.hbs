@@ -1,0 +1,9 @@
+<div id='person-card-{{person.id}}' class='person-card'>
+  <div class='person-card__container'>
+    <img class='person-card__image' src={{person.image}} alt='card' />
+    <p class='person-card__title'>{{person.name}}</p>
+    {{#if person.isDirector}}
+      <p class='person-card__subtitle'>Режиссер</p>
+    {{/if}}
+  </div>
+</div>

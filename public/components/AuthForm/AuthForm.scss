@@ -1,0 +1,133 @@
+@import 'styles/variables.scss';
+
+.form-auth__wrapper {
+  border-radius: $border-radius-medium;
+  background-color: #0000009c;
+  width: 100%;
+  padding: 8px 32px;
+  padding-top: 16px;
+}
+
+.form-auth {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+
+  &__title {
+    font-weight: 500;
+    font-size: $font-size-large;
+    text-transform: uppercase;
+  }
+
+  &__input {
+    width: 100%;
+    position: relative;
+
+    &_label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: $font-size-medium;
+      width: fit-content;
+
+      margin-bottom: 0.2em;
+      position: relative;
+    }
+
+    &_field {
+      width: 100%;
+      font-size: $font-size-medium;
+      outline: 1px solid #fff;
+
+      &:focus {
+        outline: 2px solid #fff;
+      }
+      &:hover {
+        cursor: text;
+      }
+      &::-ms-reveal {
+        filter: invert(100%);
+      }
+    }
+
+    &_error {
+      display: block;
+      font-size: $font-size-extra-small;
+      color: $error-color;
+      position: absolute;
+      margin-top: 2px;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+
+    &_button {
+      width: 100%;
+
+      background-color: #a143ff;
+      color: $brand-secondary;
+
+      font-size: $font-size-medium;
+      font-weight: 600;
+
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #590da6;
+      }
+    }
+  }
+
+  &__footer {
+    font-size: $font-size-extra-small;
+    font-weight: 300;
+    margin-top: 16px;
+    text-align: center;
+    color: $brand-secondary;
+
+    &_message_link {
+      color: $brand-secondary;
+      text-decoration: underline;
+    }
+  }
+}
+
+.note {
+  position: absolute;
+  right: -10px;
+  bottom: 3px;
+  transform: translate(100%, 0);
+
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+
+  font-size: $font-size-small;
+
+  width: max-content;
+}
+.auth__email_note,
+.auth__password_note {
+  display: none;
+}
+.form-auth__email-note_icon:hover + .auth__email_note {
+  display: block;
+}
+.form-auth__password-note_icon:hover + .auth__password_note {
+  display: block;
+}
+
+.auth-error {
+  margin-top: 5px;
+  color: $error-color;
+  align-self: flex-start;
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}

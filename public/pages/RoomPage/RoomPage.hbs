@@ -1,0 +1,52 @@
+<div id='room-page' class='room-page'>
+  <div class='room-page__container'>
+    <h4 class='room-page__title'>Комната для просмотра сериала от gashurov</h4>
+    <div class='room-page__header'>
+      <img
+        class='room-page__info_description_title'
+        src={{movie.titleImage}}
+        alt='title'
+      />
+      <p class='room-page__info_description_text'>{{movie.shortDescription}}</p>
+    </div>
+
+    <div class='room-page__content'>
+      <div id='room-video' class='room-page__video'>
+      </div>
+
+      <div class='room-page__chat'>
+        <h5 class='room-page__chat_title'>
+          Сообщения
+        </h5>
+
+        <div class='room-page__chat_messages'>
+        </div>
+        <div class='room-page__chat_input_block'>
+          <input
+            id='messages-input'
+            class='input room-page__chat_input'
+            placeholder='Введите сообщение...'
+            type='text'
+          />
+          <img
+            id='send-message-button'
+            class='room-page__chat_input_button'
+            src='/assets/icons/sendMessageIcon.svg'
+            alt='send_icon'
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class='room-page__members_wrapper'>
+      <div class='room-page__members_title_block'>
+        <h4 class='room-page__members_title'>Участники</h4>
+        <button id='invitation-btn' class='button room-page__members_button'>
+          Добавить
+        </button>
+      </div>
+
+      <div id='room-page-members-list'></div>
+    </div>
+  </div>
+</div>

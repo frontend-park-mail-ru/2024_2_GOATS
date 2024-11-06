@@ -1,0 +1,22 @@
+<div id='card-preview' class='card-preview'>
+  <div class='card-preview__image'>
+    <img class='card-preview__image_img' src={{movie.cardImage}} alt='' />
+  </div>
+  <div class='card-preview__info'>
+    <span class='card-preview__info_title'>{{movie.title}}</span>
+    <div class='card-preview__info_stats'>
+      <div class='stat'>
+        <span class='stat__title'>Страна</span>
+        <span class='stat__value country'>{{movie.country}}</span>
+      </div>
+      <div class='stat'>
+        <span class='stat__title'>Год</span>
+        <span class='stat__value'>{{releaseYear}}</span>
+      </div>
+      <div class='stat'>
+        <span class='stat__title'>Рейтинг</span>
+        <span class='stat__value'>{{movie.rating}}</span>
+      </div>
+    </div>
+  </div>
+</div>

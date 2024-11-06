@@ -1,11 +1,11 @@
-<div class='header'>
+<div id='header' class='header'>
   <div class='header__container'>
-    <div class='header__container_logo'>
+    <div id='header-logo' class='header__container_logo'>
       <span>Cassette</span>
     </div>
 
     <div class='header__container_nav'>
-      {{#each items}}
+      {{#each navItems}}
         {{#if this.isAvailable}}
           <a
             class='header__container_item {{this.className}}'
@@ -15,13 +15,24 @@
           >{{this.text}}</a>{{/if}}
       {{/each}}
     </div>
-    {{#if currentUser.username}}
+    {{#if isUserAuth}}
       <div class='header__container_auth'>
-        <span>{{currentUser.username}}</span>
-        <button
-          id='exit-button'
-          class='button header__container_exit_btn'
-        >Выйти</button>
+        <a
+          class='header__container_item {{profileItem.className}}'
+          href='{{profileItem.href}}'
+          id='{{profileItem.id}}'
+          data-section='{{profileItem.key}}'
+        >
+          <div class='header__container_avatar'>
+            <img
+              class='header__container_avatar_img'
+              src={{currentUserAvatar}}
+              alt='userIcon'
+            />
+          </div>
+
+        </a>
+
       </div>
     {{/if}}
   </div>

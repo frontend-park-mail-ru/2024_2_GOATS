@@ -1,0 +1,104 @@
+@import 'styles/variables.scss';
+
+.movie-description {
+  width: 100%;
+  padding-left: calc((100vw - $content-width) / 2);
+
+  &__container {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__wrapper {
+    width: 35%;
+    height: auto;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  &__title {
+    width: 80%;
+    height: auto;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &_text {
+      color: $brand-dull;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 30px;
+
+    &_show_btn,
+    &_favorites_btn,
+    &_show_together_btn {
+      color: $brand-secondary;
+      font-size: $font-size-medium;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    &_show_btn {
+      background-color: $brand;
+
+      &:hover {
+        background-color: $button-background-hover;
+      }
+    }
+
+    &_show_together_btn {
+      background-color: $button-background-secondary;
+
+      &:hover {
+        background-color: $button-background-secondary-hover;
+      }
+    }
+
+    &_favorites_btn {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+  }
+
+  &__image {
+    width: 65%;
+    height: auto;
+    position: relative;
+
+    &_overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-shadow: 45px 1px 63px 25px rgba(0, 0, 0, 1) inset;
+    }
+    &_img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.rating {
+  padding: 2px 10px;
+  text-align: center;
+  color: $brand-secondary;
+  background-color: $card-high-rating;
+  border-radius: $border-radius-small;
+}
