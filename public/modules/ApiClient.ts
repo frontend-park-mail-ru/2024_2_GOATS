@@ -1,3 +1,4 @@
+import { userStore } from 'store/UserStore';
 import { API_URL } from '../consts';
 
 const HTTP_METHOD_GET = 'GET';
@@ -72,13 +73,6 @@ class ApiClient {
     });
   }
 
-  getCookie(name: string): string | null {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
-    return null;
-  }
-
   async _apiClient({ method, path, id, body, formData }: ApiClientRequests) {
     const url = API_URL + path + (id ? `/${id}` : '');
 
@@ -88,27 +82,18 @@ class ApiClient {
       credentials: 'include',
     };
 
-    if (body && !formData) {
-      options.headers = { 'Content-Type': 'application/json' };
+    if (body && !formData && userStore.getCsrfToken()) {
+      options.headers = {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': userStore.getCsrfToken(),
+      };
       options.body = JSON.stringify(body);
-    } else if (formData) {
+    } else if (formData && userStore.getCsrfToken()) {
+      options.headers = {
+        'X-CSRF-Token': userStore.getCsrfToken(),
+      };
       options.body = formData;
     }
-
-    // const csrfToken = this.getCookie('csrf_token');
-
-    // if (body && !formData && csrfToken) {
-    //   options.headers = {
-    //     'Content-Type': 'application/json',
-    //     'X-CSRF-Token': csrfToken,
-    //   };
-    //   options.body = JSON.stringify(body);
-    // } else if (formData && csrfToken) {
-    //   options.headers = {
-    //     'X-CSRF-Token': csrfToken,
-    //   };
-    //   options.body = formData;
-    // }
 
     const response = await fetch(url, options);
 
@@ -119,9 +104,12 @@ class ApiClient {
         status: response.status,
       };
     }
-
-    const jsonResponse = await response.json();
-    return jsonResponse;
+    try {
+      const jsonResponse = await response.json();
+      return jsonResponse;
+    } catch {
+      return response;
+    }
   }
 }
 
