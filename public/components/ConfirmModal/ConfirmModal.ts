@@ -4,9 +4,16 @@ export class ConfirmModal {
   #text;
   #onConfirm;
   #onCancel;
+  #hideByBackground;
 
-  constructor(text: string, onConfirm: () => void, onCancel?: () => void) {
+  constructor(
+    text: string,
+    hideByBackground: boolean,
+    onConfirm: () => void,
+    onCancel?: () => void,
+  ) {
     this.#text = text;
+    this.#hideByBackground = hideByBackground;
     this.#onConfirm = onConfirm;
     this.#onCancel = onCancel;
   }
@@ -37,7 +44,7 @@ export class ConfirmModal {
       });
 
       modal.addEventListener('click', () => {
-        if (!isDragging) {
+        if (!isDragging && this.#hideByBackground) {
           this.hideModal();
         }
         isDragging = false;

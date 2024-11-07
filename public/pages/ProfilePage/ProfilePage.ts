@@ -118,9 +118,13 @@ export class ProfilePage {
 
   onExitClick() {
     if (userStore.getUserAuthStatus()) {
-      const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-        profilePageStore.logout();
-      });
+      const modal = new ConfirmModal(
+        'Вы уверены, что хотите выйти?',
+        true,
+        () => {
+          profilePageStore.logout();
+        },
+      );
       const exitButton = document.getElementById('exit-button') as HTMLElement;
       exitButton.addEventListener('click', () => {
         modal.render();

@@ -185,6 +185,7 @@ export class RoomPage {
 
       const modal = new ConfirmModal(
         'Присоединиться к комнате совместного просмотра',
+        false,
         () => {},
       );
       modal.render();
