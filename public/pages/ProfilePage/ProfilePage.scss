@@ -172,6 +172,14 @@
       &:hover {
         background-color: #590da6;
       }
+
+      &.disable {
+        background-color: grey;
+
+        &:hover {
+          cursor: default;
+        }
+      }
     }
   }
 }
@@ -217,4 +225,8 @@
       }
     }
   }
+}
+
+.aaa {
+  background-color: red;
 }

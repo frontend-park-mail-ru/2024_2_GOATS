@@ -116,6 +116,55 @@ export class ProfilePage {
     }
   }
 
+  listenInputsChange() {
+    const usernameInput = document.getElementById(
+      'user-change-login',
+    ) as HTMLInputElement;
+    const emailInput = document.getElementById(
+      'user-change-email',
+    ) as HTMLInputElement;
+    const avatarInput = document.getElementById(
+      'upload-avatar-input',
+    ) as HTMLInputElement;
+
+    emailInput.addEventListener('input', () => {
+      this.controlButtonDisable();
+    });
+
+    usernameInput.addEventListener('input', () => {
+      this.controlButtonDisable();
+    });
+
+    avatarInput.addEventListener('change', () => {
+      this.controlButtonDisable();
+    });
+  }
+
+  controlButtonDisable() {
+    const emailValue = (<HTMLInputElement>(
+      document.getElementById('user-change-email')
+    )).value;
+    const usernameValue = (<HTMLInputElement>(
+      document.getElementById('user-change-login')
+    )).value;
+
+    const submitButton = document.getElementById(
+      'user-change-btn',
+    ) as HTMLButtonElement;
+
+    if (
+      usernameValue !== userStore.getUser().username ||
+      emailValue !== userStore.getUser().email ||
+      this.#userAvatar !== undefined
+    ) {
+      submitButton.classList.remove('disable');
+      submitButton.disabled = false;
+    } else {
+      submitButton.classList.add('disable');
+      submitButton.disabled = true;
+    }
+  }
+
   onExitClick() {
     if (userStore.getUserAuthStatus()) {
       const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
@@ -148,5 +197,6 @@ export class ProfilePage {
     }
 
     this.onExitClick();
+    this.listenInputsChange();
   }
 }
