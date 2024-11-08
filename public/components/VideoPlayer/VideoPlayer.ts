@@ -270,7 +270,8 @@ export class VideoPlayer {
   updateDuration() {
     const { video, duration } = this.#controls;
     duration.textContent = timeFormatter(video.duration);
-    video.play();
+    // TODO: Обработать автовоспроизведение
+    // video.play();
   }
 
   onPlay() {
