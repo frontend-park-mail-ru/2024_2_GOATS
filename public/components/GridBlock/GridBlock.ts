@@ -1,6 +1,7 @@
 import { Movie } from 'types/movie';
 import template from './GridBlock.hbs';
 import { GRID_MOVIES_AMOUNT } from '../../consts';
+import { yearPicker } from 'modules/DateFormatter';
 
 export class GridBlock {
   #parent;
@@ -25,11 +26,14 @@ export class GridBlock {
   }
 
   getTop() {
-    return this.#movies.slice(0, GRID_MOVIES_AMOUNT);
+    return this.#movies.slice(0, GRID_MOVIES_AMOUNT).map((movie) => ({
+      ...movie,
+      releaseDate: yearPicker(movie.releaseDate),
+    }));
   }
 
   addImagesListeners() {
-    const images = this.#parent.querySelectorAll('.grid-block__element_image');
+    const images = this.#parent.querySelectorAll('.grid-block__element');
     images.forEach((img) => {
       img.addEventListener('click', () => {
         const id = Number(img.id.split('image-')[1]);
@@ -42,6 +46,7 @@ export class GridBlock {
     this.#parent.innerHTML = template({
       items: this.getTop(),
       title: this.#blockTitle,
+      // releaseYear: this.getTop(),
     });
 
     this.addImagesListeners();

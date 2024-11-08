@@ -1,6 +1,6 @@
 import { Movie } from 'types/movie';
 import template from './CardPreview.hbs';
-import { yearPicker } from 'modules/TimeFormatter';
+import { yearPicker } from 'modules/DateFormatter';
 
 export class CardPreview {
   #parent: HTMLElement;

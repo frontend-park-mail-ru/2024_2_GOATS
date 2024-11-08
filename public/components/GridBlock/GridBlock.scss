@@ -36,13 +36,18 @@
 
   &__element {
     overflow: hidden;
-
-    transition: all 0.1s ease;
+    position: relative;
+    transition: all 0.3s ease;
 
     &:hover {
       cursor: pointer;
       scale: 1.02;
       box-shadow: 0px 0px 70px 40px rgba(0, 0, 0, 0.7);
+
+      .grid-block__element_desc {
+        opacity: 1;
+        visibility: visible;
+      }
     }
 
     &_image {
@@ -53,12 +58,61 @@
 
     &:first-child {
       grid-row: span 2 / span 2;
+      font-size: 40px;
+
+      .grid-block__element_desc {
+        padding: 24px;
+
+        &_stats {
+          font-size: $font-size-large;
+        }
+      }
     }
     &:nth-child(2) {
       grid-column-start: 2;
+      font-size: $font-size-extra-large;
+
+      .grid-block__element_desc {
+        &_stats {
+          font-weight: 400;
+          font-size: $font-size-medium;
+        }
+      }
     }
     &:nth-child(3) {
+      font-size: $font-size-extra-large;
       grid-column-start: 2;
+
+      .grid-block__element_desc {
+        &_stats {
+          font-weight: 400;
+          font-size: $font-size-medium;
+        }
+      }
+    }
+
+    &_desc {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      bottom: 0;
+
+      padding: 16px;
+      width: 100%;
+      background-image: linear-gradient(0deg, #000000ab 76%, #ffffff00 100%);
+
+      transition:
+        opacity 0.3s ease-out,
+        visibility 0.3s ease-out;
+
+      &_title {
+        font-weight: 700;
+      }
+
+      &_stats {
+        display: flex;
+        gap: 16px;
+      }
     }
   }
 }
