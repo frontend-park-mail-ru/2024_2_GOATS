@@ -66,6 +66,13 @@
       }
     }
 
+    &_profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+    }
+
     &_avatar {
       width: 36px;
       height: 36px;

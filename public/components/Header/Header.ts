@@ -108,6 +108,7 @@ export class Header {
       navItems: items.filter((item) => item.id != 'header-profile'),
       isUserAuth: userStore.getUserAuthStatus(),
       currentUserAvatar: user.avatar.replace(/ /g, '%20'),
+      currentUsername: user.username,
       // currentUserAvatar: encodeURIComponent(user.avatar), // не работает
       profileItem: items.find((item) => item.id == 'header-profile'),
     });

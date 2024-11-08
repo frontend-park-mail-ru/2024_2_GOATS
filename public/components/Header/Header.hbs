@@ -24,16 +24,20 @@
           id='{{profileItem.id}}'
           data-section='{{profileItem.key}}'
         >
-          <div class='header__container_avatar'>
-            <img
-              class='header__container_avatar_img'
-              src={{currentUserAvatar}}
-              alt='userIcon'
-            />
+          <div class='header__container_profile'>
+            <h4>
+              {{currentUsername}}
+            </h4>
+            <div class='header__container_avatar'>
+
+              <img
+                class='header__container_avatar_img'
+                src={{currentUserAvatar}}
+                alt='userIcon'
+              />
+            </div>
           </div>
-
         </a>
-
       </div>
     {{/if}}
   </div>
