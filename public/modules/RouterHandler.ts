@@ -39,7 +39,6 @@ export const routerHandler = (url: URL, id?: string | number) => {
       break;
     case `${Urls.actor}/${id}`:
       Actions.renderHeader(Urls.actor);
-
       id && Actions.renderActorPage(id);
       footer.render(Urls.actor);
       break;
