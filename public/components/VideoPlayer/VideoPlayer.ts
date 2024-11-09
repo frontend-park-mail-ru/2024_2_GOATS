@@ -256,12 +256,11 @@ export class VideoPlayer {
   }
 
   handleKeyPress(event: KeyboardEvent) {
-    if (event.key === ' ') {
+    if (event.key === 'ArrowLeft') {
       event.preventDefault();
-      this.togglePlayback();
-    } else if (event.key === 'ArrowLeft') {
       this.rewindBack();
     } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
       this.rewindFront();
     }
   }
