@@ -56,8 +56,6 @@ export const serializeMovieDetailed = (movie: any) => {
       ? serializePersonCards(movie.actors_info)
       : undefined,
     director: movie.director ? movie.director : undefined,
-    // actors: serializePersonCards(movie.actors_info),
-    // director: movie.director,
   };
 };
 
