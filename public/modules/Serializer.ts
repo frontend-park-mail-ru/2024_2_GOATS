@@ -52,8 +52,12 @@ export const serializeMovieDetailed = (movie: any) => {
     country: movie.country,
     isSerial: movie.movie_type === 'serial',
     video: HOST + movie.video_url,
-    actors: serializePersonCards(movie.actors_info),
-    director: movie.director,
+    actors: movie.actors_info
+      ? serializePersonCards(movie.actors_info)
+      : undefined,
+    director: movie.director ? movie.director : undefined,
+    // actors: serializePersonCards(movie.actors_info),
+    // director: movie.director,
   };
 };
 
@@ -77,5 +81,14 @@ export const serializeUserData = (user: any) => {
     birthdate: user.birthdate,
     sex: user.sex,
     avatar: HOST + user.avatar_url,
+  };
+};
+
+export const serializeRoom = (room: any) => {
+  return {
+    id: room.id,
+    movie: serializeMovieDetailed(room.movie),
+    status: room.status,
+    timeCode: room.time_code,
   };
 };

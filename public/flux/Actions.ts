@@ -98,6 +98,11 @@ export const Actions = {
       movieId,
     });
   },
+  connnectToRoom() {
+    dispatcher.dispatch({
+      type: ActionTypes.CREATE_ROOM,
+    });
+  },
   sendActionMessage(actionData: Action) {
     dispatcher.dispatch({
       type: ActionTypes.SEND_ACTION_MESSAGE,

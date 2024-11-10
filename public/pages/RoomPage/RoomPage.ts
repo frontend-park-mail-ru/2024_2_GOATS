@@ -3,19 +3,21 @@ import { roomPageStore } from 'store/RoomPageStore';
 import { Loader } from '../../components/Loader/Loader';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { Actions } from 'flux/Actions';
-import { Room } from 'types/room';
+import { MessageData, Room } from 'types/room';
 import { UserNew } from 'types/user';
 import { Notifier } from 'components/Notifier/Notifier';
 import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
 import { Message } from 'components/Message/Message';
 import { mockUsers } from '../../consts';
 import { UsersList } from 'components/UsersList/UsersList';
+import { userStore } from 'store/UserStore';
 
 export class RoomPage {
   #room!: Room;
   #loader!: Loader;
   #video!: VideoPlayer;
   #notifier!: Notifier;
+  // #isModalConfirm;
 
   constructor() {}
 
@@ -23,6 +25,7 @@ export class RoomPage {
 
   render() {
     this.#room = roomPageStore.getRoom();
+    // this.#isModalConfirm = roomPageStore.getIsModalConfirm
 
     this.renderTemplate();
   }
@@ -77,15 +80,14 @@ export class RoomPage {
     });
   }
 
-  renderMessage(messageValue: string, isCurrentUser: boolean = false) {
+  renderMessage(message: MessageData, isCurrentUser: boolean = false) {
     const messagesContainer = document.querySelector(
       '.room-page__chat_messages',
     ) as HTMLDivElement;
 
-    const message = new Message({
+    const messageElement = new Message({
       parent: messagesContainer,
-      user: mockUsers[0],
-      text: messageValue,
+      message,
       isCurrentUser,
     });
 
@@ -99,7 +101,7 @@ export class RoomPage {
       isEndOfChat = true;
     }
 
-    message.render();
+    messageElement.render();
 
     if (isEndOfChat) {
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -124,12 +126,18 @@ export class RoomPage {
         '.room-page__chat_messages',
       ) as HTMLDivElement;
 
-      this.renderMessage(messageValue, true);
+      const message = {
+        sender: userStore.getUser().username,
+        avatar: userStore.getUser().avatar,
+        text: messageValue,
+      };
+      this.renderMessage(message, true);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
       Actions.sendActionMessage({
         name: 'message',
-        message: messageValue,
+        message,
+        // message: messageValue,
       });
 
       const messageInput = document.getElementById(
@@ -156,6 +164,8 @@ export class RoomPage {
       const videoContainer = document.getElementById(
         'room-video',
       ) as HTMLElement;
+
+      console.log(this.#room.movie);
       this.#video = new VideoPlayer({
         parent: videoContainer,
         url: this.#room.movie.video,
@@ -169,7 +179,7 @@ export class RoomPage {
       this.#video.render();
 
       // Для установки текущего тайм кода новому пользователю
-      this.videoRewind(this.#room.time_code);
+      this.videoRewind(this.#room.timeCode);
 
       const invitationBtn = document.getElementById(
         'invitation-btn',

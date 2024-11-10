@@ -1,13 +1,13 @@
 <div class='message'>
   <div class='message__info'>
     <div class='message__info_user'>
-      <img class='message__info_user_image' src={{user.avatar_url}} alt='avatar' />
+      <img class='message__info_user_image' src={{message.avatar}} alt='avatar' />
       <p class='message__info_user_username{{#if isCurrentUser}} message__info_user_username_current{{/if}}'>
-        {{user.username}}
+        {{message.sender}}
       </p>
     </div>
     <p class='message__text'>
-      {{text}}
+      {{message.text}}
     </p>
   </div>
 </div>

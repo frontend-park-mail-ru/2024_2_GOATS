@@ -8,6 +8,7 @@ import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { Emitter } from 'modules/Emmiter';
+import { serializeMovieDetailed, serializeRoom } from 'modules/Serializer';
 
 const roomPage = new RoomPage();
 
@@ -17,6 +18,7 @@ class RoomPageStore {
   #user!: User;
   #createdRoomId = '';
   #roomIdFromUrl = '';
+  #isModalConfirm = false;
   #isCreatedRoomReceived; // Емиттер для получения айди комнаты после создания
 
   constructor() {
@@ -49,16 +51,25 @@ class RoomPageStore {
     this.#room = room;
   }
 
+  setIsModalConfirm(isModalConfirm: boolean) {
+    this.#isModalConfirm = isModalConfirm;
+  }
+
   getWs() {
     return this.#ws;
   }
 
   getRoom() {
+    console.log('room from store', this.#room);
     return this.#room;
   }
 
   getCreatedRoomId() {
     return this.#createdRoomId;
+  }
+
+  getIsModalConfirm() {
+    return this.#isModalConfirm;
   }
 
   async createRoom(movieId: number) {
@@ -100,25 +111,29 @@ class RoomPageStore {
       const messageData = JSON.parse(event.data);
 
       if (messageData.movie) {
-        messageData.movie.video =
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-        this.setState(messageData);
+        // TODO: Убрать тестовый сценарий после мержа на бэке:
+        messageData.movie.title_url = '/static/movies/squid-game/logo.png';
+        messageData.movie.video_url = '/static/movies/squid-game/movie.mp4';
+
+        this.setState(serializeRoom(messageData));
+
         roomPage.render();
       } else if (Array.isArray(messageData)) {
         roomPage.renderUsersList(messageData);
       } else {
-        switch (messageData.action.name) {
+        switch (messageData.name) {
           case 'play':
-            roomPage.videoPlay(messageData.action.time_code);
+            roomPage.videoPlay(messageData.time_code);
             break;
           case 'pause':
-            roomPage.videoPause(messageData.action.time_code);
+            console.log('PAUSE');
+            roomPage.videoPause(messageData.time_code);
             break;
           case 'rewind':
-            roomPage.videoRewind(messageData.action.time_code);
+            roomPage.videoRewind(messageData.time_code);
             break;
           case 'message':
-            roomPage.renderMessage(messageData.action.message);
+            roomPage.renderMessage(messageData.message);
             break;
         }
       }
@@ -150,6 +165,9 @@ class RoomPageStore {
         break;
       case ActionTypes.CREATE_ROOM:
         await this.createRoom(action.movieId);
+        break;
+      case ActionTypes.CONNECT_TO_ROOM:
+        console.log('connect');
         break;
       case ActionTypes.SEND_ACTION_MESSAGE:
         this.sendActionMessage(action.actionData);

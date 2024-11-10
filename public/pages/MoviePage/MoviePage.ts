@@ -42,7 +42,7 @@ export class MoviePage {
     // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
     // seriesSlider.render();
 
-    if (this.#movie && this.#movie.actors.length) {
+    if (this.#movie && this.#movie.actors?.length) {
       const personsBlock = document.getElementById(
         'movie-page-persons',
       ) as HTMLElement;
