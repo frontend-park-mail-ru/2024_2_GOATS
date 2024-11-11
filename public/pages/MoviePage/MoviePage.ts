@@ -6,6 +6,7 @@ import { MovieDescription } from 'components/MovieDescription/MovieDescription';
 import { Slider } from 'components/Slider/Slider';
 import { mockSeries } from '../../consts';
 import { router } from 'modules/Router';
+import { roomPageStore } from 'store/RoomPageStore';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
@@ -21,6 +22,12 @@ export class MoviePage {
   onVideoBackClick(id: number) {
     if (id != this.#movie?.id) {
       router.go('/movie', id);
+    }
+  }
+
+  checkWs() {
+    if (roomPageStore.getWs()) {
+      roomPageStore.closeWs();
     }
   }
 
@@ -69,5 +76,7 @@ export class MoviePage {
     } else {
       this.#loader.render();
     }
+
+    this.checkWs();
   }
 }
