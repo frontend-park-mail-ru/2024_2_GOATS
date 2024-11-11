@@ -189,6 +189,10 @@ export class RoomPage {
         // Для установки текущего тайм кода новому пользователю
         this.videoRewind(this.#room.timeCode);
 
+        if (this.#room.status === 'playing') {
+          this.videoPlay(this.#room.timeCode);
+        }
+
         const invitationBtn = document.getElementById(
           'invitation-btn',
         ) as HTMLButtonElement;

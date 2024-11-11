@@ -186,12 +186,14 @@ export class VideoPlayer {
   videoPlay() {
     const { video } = this.#controls;
     video.play();
+    this.intervalTick();
   }
 
   videoPause(timeCode: number) {
     const { video } = this.#controls;
     video.pause();
     video.currentTime = timeCode;
+    clearInterval(this.#tickInterval);
   }
 
   videoRewind(timeCode: number) {
@@ -405,7 +407,7 @@ export class VideoPlayer {
       if (this.#hanldeIntervalTick) {
         this.#hanldeIntervalTick(this.#controls.video.currentTime);
       }
-    }, 3000);
+    }, 1000);
   }
 
   handleBackButtonClick() {
