@@ -3,15 +3,18 @@ import template from './ProfilePage.hbs';
 import { PasswordChangeModal } from 'components/PasswordChangeModal/PasswordChangeModal';
 import { Actions } from 'flux/Actions';
 import { AvatarComponent } from 'components/AvatarComponent/AvatarComponent';
-import { UserData } from 'types/user';
-import { validateEmailAddress, validateLogin } from 'modules/Validators';
+import {
+  validateEmailAddress,
+  validateImage,
+  validateLogin,
+} from 'modules/Validators';
 import { userStore } from 'store/UserStore';
 import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
-import { apiClient } from 'modules/ApiClient';
-import { router } from 'modules/Router';
+import { Notifier } from 'components/Notifier/Notifier';
 
 export class ProfilePage {
   #userAvatar!: File;
+  #notifier!: Notifier;
 
   constructor() {}
 
@@ -107,12 +110,35 @@ export class ProfilePage {
     avatarComponent.render();
   }
 
-  uploadAvatar(event: Event) {
+  async validateAvatarField(file: File): Promise<boolean> {
+    const imageError = document.getElementById(
+      'user-image-type-error',
+    ) as HTMLElement;
+
+    const imageErrorMessage = await validateImage(file);
+
+    if (imageErrorMessage) {
+      this.#notifier = new Notifier('error', imageErrorMessage, 3000);
+      this.#notifier.render();
+      return Promise.resolve(false);
+    } else {
+      imageError.innerText = '';
+      return Promise.resolve(true);
+    }
+  }
+
+  async uploadAvatar(event: Event) {
     const fileInput = event.target as HTMLInputElement;
+
     if (fileInput.files && fileInput.files[0]) {
-      const avatarUrl = URL.createObjectURL(fileInput.files[0]);
-      this.#userAvatar = fileInput.files[0];
-      this.renderAvatar(avatarUrl);
+      const file = fileInput.files[0];
+      const isValid = await this.validateAvatarField(file);
+
+      if (isValid) {
+        const avatarUrl = URL.createObjectURL(file);
+        this.#userAvatar = file;
+        this.renderAvatar(avatarUrl);
+      }
     }
   }
 
