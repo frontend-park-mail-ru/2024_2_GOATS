@@ -104,20 +104,18 @@ export function validateImage(file: File): Promise<string | undefined> {
       isTypeValid = true;
     }
 
-    const maxSize = 1 * 1024 * 1024; // 1 МБ в байтах
-    if (file.size > maxSize) {
-      resolve(`${avatarValidationRules.rules.maxSize}`);
-      return;
-    }
-
     // Проверка, является ли файл действительно изображением
     const img = new Image();
     img.onload = () => {
-      console.log('true');
+      const maxSize = 1 * 1024 * 1024;
+      if (file.size > maxSize) {
+        resolve('Максималный размер файла - 1 МБ');
+        return;
+      }
       if (isTypeValid) {
         resolve(undefined);
       } else {
-        resolve(`${avatarValidationRules.rules.invalidType}`);
+        resolve(`Неверный формат изображения`);
       }
     };
 

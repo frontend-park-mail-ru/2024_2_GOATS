@@ -11,7 +11,6 @@ import {
 import { userStore } from 'store/UserStore';
 import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
 import { Notifier } from 'components/Notifier/Notifier';
-import { avatarValidationRules } from '../../consts';
 
 export class ProfilePage {
   #userAvatar!: File;
@@ -119,12 +118,7 @@ export class ProfilePage {
     const imageErrorMessage = await validateImage(file);
 
     if (imageErrorMessage) {
-      console.log('errrror');
-      this.#notifier = new Notifier(
-        'error',
-        avatarValidationRules.rules.invalidType.errorMessage,
-        3000,
-      );
+      this.#notifier = new Notifier('error', imageErrorMessage, 3000);
       this.#notifier.render();
       return Promise.resolve(false);
     } else {
