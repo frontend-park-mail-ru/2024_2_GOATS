@@ -1,6 +1,7 @@
 import template from './MovieDescription.hbs';
 import { moviePageStore } from 'store/MoviePageStore';
 import { roomPageStore } from 'store/RoomPageStore';
+import { userStore } from 'store/UserStore';
 import { MovieDetailed, MovieSelection } from 'types/movie';
 import { router } from 'modules/Router';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
@@ -38,6 +39,7 @@ export class MovieDescription {
       () => {
         if (roomPageStore.getCreatedRoomId()) {
           this.#createdRoomId = roomPageStore.getCreatedRoomId();
+          roomPageStore.setIsModalConfirm(true);
           router.go('/room', roomPageStore.getCreatedRoomId());
         }
       },
@@ -137,17 +139,17 @@ export class MovieDescription {
   }
 
   // TODO: Совместный просмор в разработке
-  // handleWatchTogether() {
-  //   const watchTogetherBtn = document.getElementById(
-  //     'watch-together-btn',
-  //   ) as HTMLButtonElement;
+  handleWatchTogether() {
+    const watchTogetherBtn = document.getElementById(
+      'watch-together-btn',
+    ) as HTMLButtonElement;
 
-  //   watchTogetherBtn.addEventListener('click', async () => {
-  //     if (this.#movie) {
-  //       Actions.createRoom(2); // TODO: поменять на movie.id после тестирования
-  //     }
-  //   });
-  // }
+    watchTogetherBtn.addEventListener('click', async () => {
+      if (this.#movie) {
+        Actions.createRoom(1); // TODO: поменять на movie.id после тестирования
+      }
+    });
+  }
 
   // TODO: Избранные к 3 РК
   // handleFavoritesClick() {
@@ -159,9 +161,12 @@ export class MovieDescription {
 
   renderTemplate() {
     this.setCurrentMovieSelection();
-    this.#parent.innerHTML = template({ movie: this.#movie });
+    this.#parent.innerHTML = template({
+      movie: this.#movie,
+      isUserAuth: !!userStore.getUser().email,
+    });
     this.handleShowMovie();
-    // this.handleWatchTogether();
+    this.handleWatchTogether();
     // this.handleFavoritesClick();
   }
 }

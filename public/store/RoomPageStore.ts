@@ -32,6 +32,7 @@ class RoomPageStore {
         !this.#ws
       ) {
         this.wsInit();
+        console.log('emitter wsinit');
       }
     });
 
@@ -55,7 +56,7 @@ class RoomPageStore {
   setIsModalConfirm(isModalConfirm: boolean) {
     this.#isModalConfirm = isModalConfirm;
     roomPage.render();
-    if (!this.#ws && userStore.getUser().username) {
+    if (!this.#ws && userStore.getUser().username && !this.#createdRoomId) {
       this.wsInit();
     }
   }
@@ -65,7 +66,6 @@ class RoomPageStore {
   }
 
   getRoom() {
-    console.log('room from store', this.#room);
     return this.#room;
   }
 
@@ -91,7 +91,6 @@ class RoomPageStore {
 
       this.#createdRoomId = response.id;
       this.#isCreatedRoomReceived.set(true);
-      this.#isModalConfirm = true;
     } catch (e: any) {
       throw e;
     }
@@ -132,7 +131,6 @@ class RoomPageStore {
             roomPage.videoPlay(messageData.time_code);
             break;
           case 'pause':
-            console.log('PAUSE');
             roomPage.videoPause(messageData.time_code);
             break;
           case 'rewind':
@@ -166,13 +164,13 @@ class RoomPageStore {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
         this.#roomIdFromUrl = action.payload;
+        if (this.#createdRoomId && !this.#ws) {
+          this.wsInit();
+        }
         roomPage.render();
         break;
       case ActionTypes.CREATE_ROOM:
         await this.createRoom(action.movieId);
-        break;
-      case ActionTypes.CONNECT_TO_ROOM:
-        console.log('connect');
         break;
       case ActionTypes.SEND_ACTION_MESSAGE:
         this.sendActionMessage(action.actionData);
