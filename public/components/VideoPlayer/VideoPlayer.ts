@@ -21,6 +21,7 @@ export class VideoPlayer {
   #hasPrevSeries;
   #onNextButtonClick;
   #onPrevButtonClick;
+  #boundHandleKeyPress;
 
   constructor(params: {
     parent: HTMLElement;
@@ -48,6 +49,7 @@ export class VideoPlayer {
     this.#hasPrevSeries = params.hasPrevSeries;
     this.#onNextButtonClick = params.onNextButtonClick;
     this.#onPrevButtonClick = params.onPrevButtonClick;
+    this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
   }
 
   render() {
@@ -148,7 +150,9 @@ export class VideoPlayer {
       this.handleBackButtonClick();
     }
 
-    document.addEventListener('keydown', this.handleKeyPress.bind(this));
+    // document.addEventListener('keydown', this.handleKeyPress.bind(this));
+    document.addEventListener('keydown', this.#boundHandleKeyPress);
+    // document.removeEventListener('keydown', this.handleKeyPress.bind(this));
 
     const slider = document.getElementById(
       'progress-slider',
@@ -219,17 +223,19 @@ export class VideoPlayer {
 
     const percentage = ((video.currentTime / video.duration) * 100).toFixed(3);
 
-    if (Number(percentage) <= 40) {
-      slider.style.setProperty(
-        '--progress-value',
-        `calc(${percentage}% + 5px)`,
-      );
-    } else {
-      slider.style.setProperty('--progress-value', `${percentage}%`);
-    }
+    if (slider) {
+      if (Number(percentage) <= 40) {
+        slider.style.setProperty(
+          '--progress-value',
+          `calc(${percentage}% + 5px)`,
+        );
+      } else {
+        slider.style.setProperty('--progress-value', `${percentage}%`);
+      }
 
-    slider.value = percentage.toString();
-    this.#controls.currentTime.textContent = timeFormatter(video.currentTime);
+      slider.value = percentage.toString();
+      this.#controls.currentTime.textContent = timeFormatter(video.currentTime);
+    }
   }
 
   updateSliderByInput() {
@@ -258,7 +264,10 @@ export class VideoPlayer {
   }
 
   handleKeyPress(event: KeyboardEvent) {
-    if (event.key === 'ArrowLeft') {
+    if (event.key === ' ') {
+      event.preventDefault();
+      this.togglePlayback();
+    } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
       this.rewindBack();
     } else if (event.key === 'ArrowRight') {
@@ -415,6 +424,7 @@ export class VideoPlayer {
       event.stopPropagation();
       if (this.#onBackClick) {
         this.#onBackClick();
+        document.removeEventListener('keydown', this.#boundHandleKeyPress);
       }
       const root = document.getElementById('root') as HTMLElement;
       root.classList.remove('lock');
