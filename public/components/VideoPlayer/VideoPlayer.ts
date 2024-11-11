@@ -105,6 +105,8 @@ export class VideoPlayer {
         'prev-series-button',
       ) as HTMLElement,
     };
+
+    this.#controls.volume.style.setProperty('--progress-volume-value', '100%');
   }
 
   // Добавляем все события
@@ -150,9 +152,7 @@ export class VideoPlayer {
       this.handleBackButtonClick();
     }
 
-    // document.addEventListener('keydown', this.handleKeyPress.bind(this));
     document.addEventListener('keydown', this.#boundHandleKeyPress);
-    // document.removeEventListener('keydown', this.handleKeyPress.bind(this));
 
     const slider = document.getElementById(
       'progress-slider',
@@ -359,6 +359,8 @@ export class VideoPlayer {
 
   updateVolumeByClick() {
     const { volume, video } = this.#controls;
+    const percentage = Number(volume.value) * 100;
+    volume.style.setProperty('--progress-volume-value', `${percentage}%`);
     video.volume = Number(volume.value);
   }
 

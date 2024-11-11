@@ -101,6 +101,13 @@
         border: none;
         cursor: pointer;
         border-radius: 5px;
+        background: linear-gradient(
+          to right,
+          $brand 0,
+          $brand var(--progress-volume-value),
+          #ddd var(--progress-volume-value),
+          #ddd 100%
+        );
 
         &::-webkit-slider-thumb {
           -webkit-appearance: none;
