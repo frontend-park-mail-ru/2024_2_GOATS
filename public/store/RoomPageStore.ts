@@ -8,7 +8,7 @@ import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { Emitter } from 'modules/Emmiter';
-import { serializeMovieDetailed, serializeRoom } from 'modules/Serializer';
+import { serializeRoom } from 'modules/Serializer';
 
 const roomPage = new RoomPage();
 
@@ -26,10 +26,11 @@ class RoomPageStore {
 
     const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
       if (
+        this.#isModalConfirm &&
         status &&
-        router.getCurrentPath() === `/room/${this.#roomIdFromUrl}`
+        router.getCurrentPath() === `/room/${this.#roomIdFromUrl}` &&
+        !this.#ws
       ) {
-        Actions.renderRoomPage(this.#roomIdFromUrl);
         this.wsInit();
       }
     });
@@ -53,6 +54,10 @@ class RoomPageStore {
 
   setIsModalConfirm(isModalConfirm: boolean) {
     this.#isModalConfirm = isModalConfirm;
+    roomPage.render();
+    if (!this.#ws && userStore.getUser().username) {
+      this.wsInit();
+    }
   }
 
   getWs() {
@@ -86,6 +91,7 @@ class RoomPageStore {
 
       this.#createdRoomId = response.id;
       this.#isCreatedRoomReceived.set(true);
+      this.#isModalConfirm = true;
     } catch (e: any) {
       throw e;
     }
@@ -150,18 +156,17 @@ class RoomPageStore {
     if (this.#ws) {
       this.#ws.close();
       this.#ws = null;
+      this.#isModalConfirm = false;
+      this.#createdRoomId = '';
+      this.#roomIdFromUrl = '';
     }
   }
 
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
-        roomPage.render();
-
         this.#roomIdFromUrl = action.payload;
-        if (this.#isCreatedRoomReceived.get() && !this.#ws) {
-          this.wsInit();
-        }
+        roomPage.render();
         break;
       case ActionTypes.CREATE_ROOM:
         await this.createRoom(action.movieId);

@@ -8,16 +8,16 @@ import { UserNew } from 'types/user';
 import { Notifier } from 'components/Notifier/Notifier';
 import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
 import { Message } from 'components/Message/Message';
-import { mockUsers } from '../../consts';
 import { UsersList } from 'components/UsersList/UsersList';
 import { userStore } from 'store/UserStore';
+import { router } from 'modules/Router';
 
 export class RoomPage {
   #room!: Room;
   #loader!: Loader;
   #video!: VideoPlayer;
   #notifier!: Notifier;
-  // #isModalConfirm;
+  #isModalConfirm!: boolean;
 
   constructor() {}
 
@@ -25,7 +25,7 @@ export class RoomPage {
 
   render() {
     this.#room = roomPageStore.getRoom();
-    // this.#isModalConfirm = roomPageStore.getIsModalConfirm
+    this.#isModalConfirm = roomPageStore.getIsModalConfirm();
 
     this.renderTemplate();
   }
@@ -137,7 +137,6 @@ export class RoomPage {
       Actions.sendActionMessage({
         name: 'message',
         message,
-        // message: messageValue,
       });
 
       const messageInput = document.getElementById(
@@ -156,56 +155,104 @@ export class RoomPage {
     const pageElement = document.getElementsByTagName('main')[0];
     this.#loader = new Loader(pageElement, template());
 
-    if (this.#room) {
-      pageElement.innerHTML = template({
-        movie: this.#room.movie,
-      });
-
-      const videoContainer = document.getElementById(
-        'room-video',
-      ) as HTMLElement;
-
-      console.log(this.#room.movie);
-      this.#video = new VideoPlayer({
-        parent: videoContainer,
-        url: this.#room.movie.video,
-        hasNextSeries: true,
-        hasPrevSeries: true,
-        onPlayClick: this.onPlayClick,
-        onPauseClick: this.onPauseClick,
-        handleRewindVideo: this.handleRewindVideo,
-        hanldeIntervalTick: this.hanldeTimerTick,
-      });
-      this.#video.render();
-
-      // Для установки текущего тайм кода новому пользователю
-      this.videoRewind(this.#room.timeCode);
-
-      const invitationBtn = document.getElementById(
-        'invitation-btn',
-      ) as HTMLButtonElement;
-
-      invitationBtn.addEventListener('click', () => this.onInviteButtonClick());
-
-      this.#notifier = new Notifier(
-        'success',
-        'Ссылка для приглашения скопирована',
-        3000,
-      );
-
+    if (!this.#isModalConfirm) {
       const modal = new ConfirmModal(
         'Присоединиться к комнате совместного просмотра',
         false,
-        () => {},
+        () => {
+          roomPageStore.setIsModalConfirm(true);
+        },
+        () => router.go('/'),
       );
       modal.render();
-
-      const sendMessageButton = document.getElementById(
-        'send-message-button',
-      ) as HTMLButtonElement;
-      sendMessageButton.addEventListener('click', () => this.sendMessage());
     } else {
-      this.#loader.render();
+      if (this.#room) {
+        pageElement.innerHTML = template({
+          movie: this.#room.movie,
+        });
+
+        const videoContainer = document.getElementById(
+          'room-video',
+        ) as HTMLElement;
+        this.#video = new VideoPlayer({
+          parent: videoContainer,
+          url: this.#room.movie.video,
+          hasNextSeries: true,
+          hasPrevSeries: true,
+          onPlayClick: this.onPlayClick,
+          onPauseClick: this.onPauseClick,
+          handleRewindVideo: this.handleRewindVideo,
+          hanldeIntervalTick: this.hanldeTimerTick,
+        });
+        this.#video.render();
+
+        // Для установки текущего тайм кода новому пользователю
+        this.videoRewind(this.#room.timeCode);
+
+        const invitationBtn = document.getElementById(
+          'invitation-btn',
+        ) as HTMLButtonElement;
+
+        invitationBtn.addEventListener('click', () =>
+          this.onInviteButtonClick(),
+        );
+
+        this.#notifier = new Notifier(
+          'success',
+          'Ссылка для приглашения скопирована',
+          3000,
+        );
+
+        const sendMessageButton = document.getElementById(
+          'send-message-button',
+        ) as HTMLButtonElement;
+        sendMessageButton.addEventListener('click', () => this.sendMessage());
+      } else {
+        this.#loader.render();
+      }
     }
+
+    // if (this.#room) {
+    //   pageElement.innerHTML = template({
+    //     movie: this.#room.movie,
+    //   });
+
+    //   const videoContainer = document.getElementById(
+    //     'room-video',
+    //   ) as HTMLElement;
+    //   this.#video = new VideoPlayer({
+    //     parent: videoContainer,
+    //     url: this.#room.movie.video,
+    //     hasNextSeries: true,
+    //     hasPrevSeries: true,
+    //     onPlayClick: this.onPlayClick,
+    //     onPauseClick: this.onPauseClick,
+    //     handleRewindVideo: this.handleRewindVideo,
+    //     hanldeIntervalTick: this.hanldeTimerTick,
+    //   });
+    //   this.#video.render();
+
+    //   // Для установки текущего тайм кода новому пользователю
+    //   this.videoRewind(this.#room.timeCode);
+
+    //   const invitationBtn = document.getElementById(
+    //     'invitation-btn',
+    //   ) as HTMLButtonElement;
+
+    //   invitationBtn.addEventListener('click', () => this.onInviteButtonClick());
+
+    //   this.#notifier = new Notifier(
+    //     'success',
+    //     'Ссылка для приглашения скопирована',
+    //     3000,
+    //   );
+
+    //   const sendMessageButton = document.getElementById(
+    //     'send-message-button',
+    //   ) as HTMLButtonElement;
+    //   sendMessageButton.addEventListener('click', () => this.sendMessage());
+    // } else {
+    //   this.#loader.render();
+    // }
   }
 }
