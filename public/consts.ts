@@ -146,6 +146,14 @@ export const CHAR_z_CODE = 122;
 export const CHAR_0_CODE = 48;
 export const CHAR_9_CODE = 57;
 
+export const allowedTypes = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/svg+xml',
+  'image/avif',
+];
+
 type ValidationInfo = {
   pass: boolean;
   errorMessage: string;
@@ -190,6 +198,14 @@ type LoginValidationRules = {
   reset: () => LoginValidationRules;
 };
 
+type AvatarValidationRules = {
+  rules: {
+    maxSize: ValidationInfo;
+    invalidType: ValidationInfo;
+  };
+  reset: () => AvatarValidationRules;
+};
+
 export const loginValidationRules: LoginValidationRules = {
   rules: {
     minLength: {
@@ -205,6 +221,28 @@ export const loginValidationRules: LoginValidationRules = {
     hasNoSpec: {
       pass: false,
       errorMessage: 'Разрешены символы латинского алфавита, цифры и "."',
+    },
+  },
+
+  reset() {
+    const fields = Object.values(this.rules) as ValidationInfo[];
+    fields.forEach((field) => {
+      field.pass = false;
+    });
+    return this;
+  },
+};
+
+export const avatarValidationRules: AvatarValidationRules = {
+  rules: {
+    maxSize: {
+      pass: false,
+      errorMessage: 'Максималный размер файла - 1 МБ',
+    },
+
+    invalidType: {
+      pass: false,
+      errorMessage: 'Неверный формат файла',
     },
   },
 
