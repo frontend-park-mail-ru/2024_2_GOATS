@@ -70,6 +70,8 @@ export class ProfilePageStore {
         },
       });
       this.#passwordChangedEmitter.set(true);
+      const not = new Notifier('success', 'Пароль успешно изменен', 2000);
+      not.render();
     } catch {
       throwBackendError('change-password', 'Неверно указан старый пароль');
     }
