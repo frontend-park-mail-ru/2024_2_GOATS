@@ -104,6 +104,9 @@ export class VideoPlayer {
       prevSeriesButton: document.getElementById(
         'prev-series-button',
       ) as HTMLElement,
+      videoPlaceholder: document.getElementById(
+        'video-placeholder',
+      ) as HTMLElement,
     };
 
     this.#controls.volume.style.setProperty('--progress-volume-value', '100%');
@@ -111,28 +114,14 @@ export class VideoPlayer {
 
   // Добавляем все события
   addEventListeners() {
-    const {
-      video,
-      playOrPause,
-      fullOrSmallScreen,
-      rewindBackButton,
-      rewindFrontButton,
-      volume,
-      nextSeriesButton,
-      prevSeriesButton,
-    } = this.#controls;
+    const { video, fullOrSmallScreen, volume } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
     video.addEventListener('pause', this.onPause.bind(this));
     video.addEventListener('timeupdate', this.updateProgress.bind(this));
     video.addEventListener('ended', this.onVideoEnd.bind(this));
-
-    playOrPause.addEventListener('click', this.togglePlayback.bind(this));
-    video.addEventListener('click', this.togglePlayback.bind(this));
-
-    rewindBackButton.addEventListener('click', this.rewindBack.bind(this));
-    rewindFrontButton.addEventListener('click', this.rewindFront.bind(this));
+    video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
 
     fullOrSmallScreen.addEventListener(
       'click',
@@ -152,17 +141,38 @@ export class VideoPlayer {
       this.handleBackButtonClick();
     }
 
-    document.addEventListener('keydown', this.#boundHandleKeyPress);
+    const slider = document.getElementById(
+      'progress-slider',
+    ) as HTMLInputElement;
+    slider.disabled = true;
+
+    slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
+    slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
+  }
+
+  addControlsListeners() {
+    const {
+      video,
+      playOrPause,
+      rewindBackButton,
+      rewindFrontButton,
+      nextSeriesButton,
+      prevSeriesButton,
+    } = this.#controls;
+
+    playOrPause.addEventListener('click', this.togglePlayback.bind(this));
+    video.addEventListener('click', this.togglePlayback.bind(this));
+
+    rewindBackButton.addEventListener('click', this.rewindBack.bind(this));
+    rewindFrontButton.addEventListener('click', this.rewindFront.bind(this));
 
     const slider = document.getElementById(
       'progress-slider',
     ) as HTMLInputElement;
+    slider.disabled = false;
     slider.addEventListener('input', this.updateSliderByInput.bind(this));
 
     slider.addEventListener('change', this.setVideoTimeBySlider.bind(this));
-
-    slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
-    slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
 
     if (nextSeriesButton) {
       nextSeriesButton.addEventListener('click', () => {
@@ -179,6 +189,8 @@ export class VideoPlayer {
         }
       });
     }
+
+    document.addEventListener('keydown', this.#boundHandleKeyPress);
   }
 
   // Вспомогательные функции для использования снаружи
@@ -431,5 +443,12 @@ export class VideoPlayer {
       const root = document.getElementById('root') as HTMLElement;
       root.classList.remove('lock');
     });
+  }
+
+  hidePlaceholder() {
+    const { videoPlaceholder } = this.#controls;
+    videoPlaceholder.style.display = 'none';
+
+    this.addControlsListeners();
   }
 }
