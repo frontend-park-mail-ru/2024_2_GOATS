@@ -26,6 +26,19 @@ $text-secondary-color: #7d7d7d;
 
 $block-background: #1c1c1c;
 
+$skeleton-background: linear-gradient(
+  45deg,
+  $background-secondary-color,
+  $modal-content-background
+);
+$skeleton-background-secondary: linear-gradient(
+  to right,
+  transparent,
+  $background-secondary-color,
+  transparent
+);
+$skeleton-animation: animate 2s linear infinite;
+
 $border-radius-small: 10px;
 $border-radius-medium: 16px;
 $border-radius-max: 50%;

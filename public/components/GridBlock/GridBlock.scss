@@ -115,4 +115,43 @@
       }
     }
   }
+
+  &-skeleton {
+    &__header {
+      background: $skeleton-background;
+      width: 40%;
+      height: 40px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 16px;
+
+      @include skeleton-before(
+        $skeleton-background-secondary,
+        $skeleton-animation
+      );
+    }
+
+    &__content {
+      height: 500px;
+      width: 100%;
+
+      display: grid;
+      grid-template-columns: 65% 1fr;
+      grid-template-rows: 1fr;
+      gap: 16px;
+      justify-content: space-between;
+    }
+
+    &__element {
+      width: 100%;
+      background: $skeleton-background;
+      overflow: hidden;
+      position: relative;
+
+      @include skeleton-before(
+        $skeleton-background-secondary,
+        $skeleton-animation
+      );
+    }
+  }
 }

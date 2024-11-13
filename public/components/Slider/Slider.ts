@@ -78,13 +78,40 @@ export class Slider {
     );
 
     const container = document.querySelector('.slider__container');
-    const track = document.getElementById(`slider-${this.#type}-${this.#id}`);
+    const track = document.getElementById(
+      `slider-${this.#type}-${this.#id}`,
+    ) as HTMLElement;
     const btnNext = document.getElementById(
       `slider-btn-next-${this.#type}-${this.#id}`,
     );
     const btnPrev = document.getElementById(
       `slider-btn-prev-${this.#type}-${this.#id}`,
     );
+
+    if (!this.#selection && !this.#persons && !this.#series) {
+      // TODO: Поменять условие
+      const blocksElement = document.querySelector(
+        '.main-page__blocks',
+      ) as HTMLDivElement;
+
+      const sliderSkeleton = document.createElement('div');
+      sliderSkeleton.classList.add('slider-skeleton__wrapper');
+      blocksElement.appendChild(sliderSkeleton);
+
+      const sliderHeader = document.createElement('div');
+      sliderHeader.classList.add('slider-skeleton__header');
+      sliderSkeleton.appendChild(sliderHeader);
+
+      const newBlock = document.createElement('div');
+      newBlock.classList.add('slider-skeleton');
+      sliderSkeleton.appendChild(newBlock);
+
+      for (let i = 0; i < 10; ++i) {
+        const card = new Card(newBlock, null, () => {});
+        card.render();
+      }
+    } else {
+    }
 
     if (container && track && btnNext && btnPrev) {
       const gapValue = parseInt(window.getComputedStyle(track).gap);

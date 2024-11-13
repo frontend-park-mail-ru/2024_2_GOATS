@@ -1,6 +1,5 @@
 import { GridBlock } from '../../components/GridBlock/GridBlock';
 import { Slider } from '../../components/Slider/Slider';
-import { Loader } from '../../components/Loader/Loader';
 import template from './MainPage.hbs';
 import { MovieSelection } from 'types/movie';
 import { mainPageStore } from 'store/MainPageStore';
@@ -8,7 +7,6 @@ import { router } from 'modules/Router';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
-  #loader!: Loader;
 
   constructor() {
     this.#movieSelections = [];
@@ -19,9 +17,12 @@ export class MainPage {
     this.renderTemplate();
   }
 
-  async renderBlocks() {
-    const trendMoviesBlock = document.getElementById('trend-movies-block');
-    if (trendMoviesBlock) {
+  renderBlocks() {
+    const isLoaded = !!this.#movieSelections.length;
+    const trendMoviesBlock = document.getElementById(
+      'trend-movies-block',
+    ) as HTMLElement;
+    if (this.#movieSelections.length) {
       const trendMoviesList = new GridBlock({
         parent: trendMoviesBlock,
         movies: this.#movieSelections[0].movies,
@@ -29,25 +30,48 @@ export class MainPage {
         onImageClick: (id: number) => router.go('/movie', id),
       });
       trendMoviesList.render();
+    } else {
+      const trendMoviesList = new GridBlock({
+        parent: trendMoviesBlock,
+        movies: null,
+        blockTitle: '',
+        onImageClick: () => {},
+      });
+      trendMoviesList.render();
     }
 
-    const mainPageBlocks = document.querySelector('.main-page__blocks');
-    this.#movieSelections.slice(1).forEach((selection) => {
-      const newBlock = document.createElement('div');
-      newBlock.classList.add('main-page__block');
-      newBlock.id = `main-page-block-${selection.id}`;
-      if (mainPageBlocks) {
-        mainPageBlocks.appendChild(newBlock);
-      }
+    const mainPageBlocks = document.querySelector(
+      '.main-page__blocks',
+    ) as HTMLElement;
 
+    const newBlock = document.createElement('div');
+    if (!isLoaded) {
       const slider = new Slider({
         parent: newBlock,
-        id: selection.id,
+        id: 1,
         type: 'movies',
-        selection: selection,
       });
       slider.render();
-    });
+      slider.render();
+    } else {
+      this.#movieSelections.slice(1).forEach((selection) => {
+        const newBlock = document.createElement('div');
+        newBlock.classList.add('main-page__block');
+        newBlock.id = `main-page-block-${selection.id}`;
+        if (mainPageBlocks) {
+          mainPageBlocks.appendChild(newBlock);
+        }
+
+        const slider = new Slider({
+          parent: newBlock,
+          id: selection.id,
+          type: 'movies',
+          selection: selection,
+        });
+
+        slider.render();
+      });
+    }
   }
 
   renderTemplate() {
@@ -57,12 +81,7 @@ export class MainPage {
       rootElem.classList.remove('root-image');
     }
     const pageElement = document.getElementsByTagName('main')[0];
-    this.#loader = new Loader(pageElement, template());
-    if (this.#movieSelections.length) {
-      pageElement.innerHTML = template();
-    } else {
-      this.#loader.render();
-    }
+    pageElement.innerHTML = template();
 
     this.renderBlocks();
   }

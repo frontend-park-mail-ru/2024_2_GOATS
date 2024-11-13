@@ -1,0 +1,22 @@
+@mixin animate($name, $from, $to) {
+  @keyframes #{$name} {
+    0% {
+      transform: translateX($from);
+    }
+    100% {
+      transform: translateX($to);
+    }
+  }
+}
+
+@mixin skeleton-before($background, $animation) {
+  &::before {
+    content: '';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: $background;
+    animation: $animation;
+    transform: translateX(-100%);
+  }
+}

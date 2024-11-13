@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .card {
   width: 160px;
@@ -59,5 +60,19 @@
 
   &:hover &__overlay {
     opacity: 1;
+  }
+
+  &-skeleton {
+    background: $skeleton-background;
+    min-width: 160px;
+    min-height: 224px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+
+    @include skeleton-before(
+      $skeleton-background-secondary,
+      $skeleton-animation
+    );
   }
 }
