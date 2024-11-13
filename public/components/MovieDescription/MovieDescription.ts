@@ -1,4 +1,5 @@
 import template from './MovieDescription.hbs';
+import skeletonTemplate from './MovieDescriptionSkeleton.hbs';
 import { moviePageStore } from 'store/MoviePageStore';
 import { roomPageStore } from 'store/RoomPageStore';
 import { userStore } from 'store/UserStore';
@@ -139,17 +140,17 @@ export class MovieDescription {
   }
 
   // TODO: Совместный просмор в разработке
-  handleWatchTogether() {
-    const watchTogetherBtn = document.getElementById(
-      'watch-together-btn',
-    ) as HTMLButtonElement;
+  // handleWatchTogether() {
+  //   const watchTogetherBtn = document.getElementById(
+  //     'watch-together-btn',
+  //   ) as HTMLButtonElement;
 
-    watchTogetherBtn.addEventListener('click', async () => {
-      if (this.#movie) {
-        Actions.createRoom(1); // TODO: поменять на movie.id после тестирования
-      }
-    });
-  }
+  //   watchTogetherBtn.addEventListener('click', async () => {
+  //     if (this.#movie) {
+  //       Actions.createRoom(1); // TODO: поменять на movie.id после тестирования
+  //     }
+  //   });
+  // }
 
   // TODO: Избранные к 3 РК
   // handleFavoritesClick() {
@@ -160,13 +161,17 @@ export class MovieDescription {
   // }
 
   renderTemplate() {
-    this.setCurrentMovieSelection();
-    this.#parent.innerHTML = template({
-      movie: this.#movie,
-      isUserAuth: !!userStore.getUser().email,
-    });
-    this.handleShowMovie();
-    this.handleWatchTogether();
-    // this.handleFavoritesClick();
+    if (this.#movie) {
+      this.setCurrentMovieSelection();
+      this.#parent.innerHTML = template({
+        movie: this.#movie,
+        isUserAuth: !!userStore.getUser().email,
+      });
+      this.handleShowMovie();
+      // this.handleWatchTogether();
+      // this.handleFavoritesClick();
+    } else {
+      this.#parent.innerHTML = skeletonTemplate();
+    }
   }
 }

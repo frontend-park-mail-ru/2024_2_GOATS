@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .movie-description {
   width: 100%;
@@ -91,6 +92,54 @@
     &_img {
       width: 100%;
       object-fit: cover;
+    }
+  }
+
+  &-skeleton {
+    display: flex;
+    gap: 20px;
+    height: 60vh;
+    padding-left: calc((100vw - $content-width) / 2);
+
+    &__info {
+      height: 100%;
+      width: 35%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      &_item {
+        &:first-child {
+          height: 100px;
+        }
+
+        &_btn {
+          height: 50px;
+          width: 100px;
+          background: $skeleton-background;
+          overflow: hidden;
+          position: relative;
+          border-radius: $border-radius-small;
+
+          @include skeleton-before(
+            $skeleton-background-secondary,
+            $skeleton-animation
+          );
+        }
+      }
+    }
+
+    &__image {
+      height: 100%;
+      width: 65%;
+      background: $skeleton-background;
+      overflow: hidden;
+      position: relative;
+
+      @include skeleton-before(
+        $skeleton-background-secondary,
+        $skeleton-animation
+      );
     }
   }
 }

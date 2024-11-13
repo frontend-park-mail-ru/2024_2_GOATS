@@ -62,4 +62,16 @@
       z-index: -1;
     }
   }
+
+  &-skeleton {
+    &__description {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &_text {
+        height: 100px !important;
+      }
+    }
+  }
 }

@@ -103,3 +103,18 @@ main {
     z-index: 10;
   }
 }
+
+.skeleton {
+  &__text {
+    height: 40px;
+    width: 100%;
+    background: $skeleton-background;
+    overflow: hidden;
+    position: relative;
+
+    @include skeleton-before(
+      $skeleton-background-secondary,
+      $skeleton-animation
+    );
+  }
+}

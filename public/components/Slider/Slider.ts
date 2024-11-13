@@ -63,17 +63,20 @@ export class Slider {
   }
 
   renderTemplate() {
+    console.log('render slider');
     this.#parent.insertAdjacentHTML(
       'beforeend',
       template({
         id: this.#id,
         type: this.#type,
         title:
-          this.#type === 'movies'
-            ? this.#selection?.title
-            : this.#type === 'actors'
-              ? 'Актеры и создатели'
-              : '',
+          this.#selection || this.#persons || this.#series
+            ? this.#type === 'movies'
+              ? this.#selection?.title
+              : this.#type === 'actors'
+                ? 'Актеры и создатели'
+                : ''
+            : undefined,
       }),
     );
 
@@ -89,14 +92,22 @@ export class Slider {
     );
 
     if (!this.#selection && !this.#persons && !this.#series) {
+      console.log('ifff');
       // TODO: Поменять условие
-      const blocksElement = document.querySelector(
-        '.main-page__blocks',
-      ) as HTMLDivElement;
+      let blocksElement;
+      if (this.#type === 'movies') {
+        blocksElement = document.querySelector(
+          '.main-page__blocks',
+        ) as HTMLDivElement;
+      } else if (this.#type === 'actors') {
+        blocksElement = document.getElementById(
+          'movie-page-persons',
+        ) as HTMLElement;
+      }
 
       const sliderSkeleton = document.createElement('div');
       sliderSkeleton.classList.add('slider-skeleton__wrapper');
-      blocksElement.appendChild(sliderSkeleton);
+      blocksElement?.appendChild(sliderSkeleton);
 
       const sliderHeader = document.createElement('div');
       sliderHeader.classList.add('slider-skeleton__header');

@@ -10,7 +10,6 @@ import { roomPageStore } from 'store/RoomPageStore';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
-  #loader!: Loader;
 
   constructor() {}
 
@@ -48,11 +47,10 @@ export class MoviePage {
     // ) as HTMLElement;
     // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
     // seriesSlider.render();
-
+    const personsBlock = document.getElementById(
+      'movie-page-persons',
+    ) as HTMLElement;
     if (this.#movie && this.#movie.actors?.length) {
-      const personsBlock = document.getElementById(
-        'movie-page-persons',
-      ) as HTMLElement;
       const personsSlider = new Slider({
         parent: personsBlock,
         id: 1,
@@ -60,6 +58,34 @@ export class MoviePage {
         persons: this.#movie.actors,
       });
       personsSlider.render();
+    } else {
+      const newBlock = document.createElement('div');
+      const slider = new Slider({
+        parent: newBlock,
+        id: 1,
+        type: 'actors',
+      });
+      slider.render();
+
+      const descriptionSkeleton = document.createElement('div');
+      descriptionSkeleton.classList.add('movie-page-skeleton__description');
+
+      const descriptionTitleSkeleton = document.createElement('div');
+      descriptionTitleSkeleton.classList.add('skeleton__text');
+
+      const descriptionTextSkeleton = document.createElement('div');
+      descriptionTextSkeleton.classList.add(
+        'movie-page-skeleton__description_text',
+        'skeleton__text',
+      );
+
+      descriptionSkeleton.appendChild(descriptionTitleSkeleton);
+      descriptionSkeleton.appendChild(descriptionTextSkeleton);
+
+      const movieDescription = document.querySelector(
+        '.movie-page__description',
+      ) as HTMLDivElement;
+      movieDescription.innerHTML = descriptionSkeleton.outerHTML;
     }
   }
 
@@ -67,15 +93,10 @@ export class MoviePage {
     const pageElement = document.getElementsByTagName('main')[0];
     window.scrollTo(0, 0);
 
-    this.#loader = new Loader(pageElement, template());
-    if (this.#movie) {
-      pageElement.innerHTML = template({
-        longDescription: this.#movie.longDescription,
-      });
-      this.renderBlocks();
-    } else {
-      this.#loader.render();
-    }
+    pageElement.innerHTML = template({
+      longDescription: this.#movie?.longDescription,
+    });
+    this.renderBlocks();
 
     this.checkWs();
   }
