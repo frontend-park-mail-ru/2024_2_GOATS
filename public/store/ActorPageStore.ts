@@ -7,8 +7,10 @@ import { apiClient } from 'modules/ApiClient';
 import { serializeActorData } from 'modules/Serializer';
 import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
 
+const actorPage = new ActorPage();
+
 export class ActorPageStore {
-  #actor!: Actor;
+  #actor!: Actor | null;
 
   constructor() {
     dispatcher.register(this.reduce.bind(this));
@@ -31,7 +33,6 @@ export class ActorPageStore {
       const serializedActorData = serializeActorData(response.actor_info);
 
       this.setState(serializedActorData);
-      const actorPage = new ActorPage();
       actorPage.render();
     } catch (e: any) {
       const error = new ErrorPage({
@@ -46,6 +47,8 @@ export class ActorPageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_ACTOR_PAGE:
+        this.#actor = null;
+        actorPage.render();
         this.renderActorPage(action.payload);
         break;
       default:

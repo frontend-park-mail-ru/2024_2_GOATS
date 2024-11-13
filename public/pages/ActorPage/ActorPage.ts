@@ -2,6 +2,7 @@ import { Loader } from 'components/Loader/Loader';
 import { ActorPageStore, actorPageStore } from 'store/ActorPageStore';
 import { Actor } from 'types/actor';
 import template from './ActorPage.hbs';
+import skeletonTemplate from './ActorPageSkeleton.hbs';
 import { CardsList } from 'components/CardsList/CardsList';
 import { dateFormatter } from 'modules/DateFormatter';
 
@@ -39,22 +40,32 @@ export class ActorPage {
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
     window.scrollTo(0, 0);
-    pageElement.innerHTML = template({
-      actor: this.getActorInfo(),
-      birthDate: dateFormatter(this.getActorInfo().birthdate),
-    });
 
-    const actorFilmography = document.getElementById(
-      'actor-page-filmography',
-    ) as HTMLElement;
+    if (this.getActorInfo()?.birthdate) {
+      pageElement.innerHTML = template({
+        actor: this.getActorInfo(),
+        birthDate: dateFormatter(this.getActorInfo()?.birthdate as string),
+      });
 
-    const cards = new CardsList(
-      actorFilmography,
-      this.getActorInfo().movies,
-      4,
-    );
-    cards.render();
+      const actorFilmography = document.getElementById(
+        'actor-page-filmography',
+      ) as HTMLElement;
 
-    this.toggleBiographyExpansion();
+      const cards = new CardsList(
+        actorFilmography,
+        4,
+        this.getActorInfo()?.movies,
+      );
+      cards.render();
+
+      this.toggleBiographyExpansion();
+    } else {
+      pageElement.innerHTML = skeletonTemplate();
+      const actorFilmography = document.querySelector(
+        '.actor-page-skeleton__filmography',
+      ) as HTMLElement;
+      const cards = new CardsList(actorFilmography, 4);
+      cards.render();
+    }
   }
 }

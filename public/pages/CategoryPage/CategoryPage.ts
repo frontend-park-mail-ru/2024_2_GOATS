@@ -30,7 +30,7 @@ export class CategoryPage {
     this.#movies = response;
     const moviesBlock = document.getElementById('category-page-content');
     if (moviesBlock) {
-      const moviesList = new CardsList(moviesBlock, this.#movies, 3);
+      const moviesList = new CardsList(moviesBlock, 3, this.#movies);
       moviesList.render();
     }
   }

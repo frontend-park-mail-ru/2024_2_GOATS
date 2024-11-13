@@ -1,4 +1,4 @@
-.cards__list {
+.cards-list {
   position: relative;
 
   height: auto;
@@ -6,4 +6,11 @@
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   grid-template-rows: auto 1fr auto;
   grid-gap: 30px;
+
+  &-skeleton {
+    margin-top: 20px;
+    display: flex;
+    gap: 30px;
+    overflow: hidden;
+  }
 }

@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .actor-page {
   margin-top: 20px;
@@ -75,6 +76,46 @@
     &_title {
       font-size: $font-size-large;
       font-weight: bold;
+    }
+  }
+
+  &-skeleton {
+    width: $content-width;
+    max-width: $content-width-max;
+    margin: 0 auto;
+    padding-bottom: 40px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 20px;
+    &__about {
+      display: flex;
+      gap: 50px;
+    }
+
+    &__image {
+      height: 500px;
+      width: 350px;
+      background: $skeleton-background;
+      overflow: hidden;
+      position: relative;
+
+      @include skeleton-before(
+        $skeleton-background-secondary,
+        $skeleton-animation
+      );
+    }
+
+    &__info {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      &_title {
+        height: 80px !important;
+      }
     }
   }
 }

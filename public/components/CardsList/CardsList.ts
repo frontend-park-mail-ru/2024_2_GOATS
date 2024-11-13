@@ -8,10 +8,10 @@ export class CardsList {
   #movies;
   #id;
 
-  constructor(parent: HTMLElement, movies: Movie[], id: number) {
+  constructor(parent: HTMLElement, id: number, movies?: Movie[]) {
     this.#parent = parent;
-    this.#movies = movies;
     this.#id = id;
+    this.#movies = movies;
   }
 
   render() {
@@ -24,12 +24,20 @@ export class CardsList {
     const cardsList = document.getElementById(`cards-list-${this.#id}`);
 
     if (cardsList) {
-      this.#movies.forEach((movie) => {
-        const card = new Card(cardsList, movie, () =>
-          router.go('/movie', movie.id),
-        );
-        card.render();
-      });
+      if (this.#movies) {
+        this.#movies?.forEach((movie) => {
+          const card = new Card(cardsList, movie, () =>
+            router.go('/movie', movie.id),
+          );
+          card.render();
+        });
+      } else {
+        for (let i = 0; i < 10; ++i) {
+          cardsList.classList.add('cards-list-skeleton');
+          const card = new Card(cardsList, null, () => {});
+          card.render();
+        }
+      }
     }
   }
 }
