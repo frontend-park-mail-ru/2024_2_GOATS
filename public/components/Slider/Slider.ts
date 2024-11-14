@@ -63,7 +63,6 @@ export class Slider {
   }
 
   renderTemplate() {
-    console.log('render slider');
     this.#parent.insertAdjacentHTML(
       'beforeend',
       template({
@@ -92,7 +91,6 @@ export class Slider {
     );
 
     if (!this.#selection && !this.#persons && !this.#series) {
-      console.log('ifff');
       // TODO: Поменять условие
       let blocksElement;
       if (this.#type === 'movies') {

@@ -76,7 +76,6 @@ export class Card {
 
   renderTemplate() {
     if (!this.#movie) {
-      console.log('skeleton card');
       this.#parent.insertAdjacentHTML('beforeend', skeletonTemplate());
     } else {
       this.#parent.insertAdjacentHTML(

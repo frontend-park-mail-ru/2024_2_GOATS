@@ -32,7 +32,6 @@ class RoomPageStore {
         !this.#ws
       ) {
         this.wsInit();
-        console.log('emitter wsinit');
       }
     });
 
