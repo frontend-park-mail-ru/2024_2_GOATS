@@ -21,6 +21,7 @@ export class VideoPlayer {
   #hasPrevSeries;
   #onNextButtonClick;
   #onPrevButtonClick;
+  #handleSaveTimecode;
   #boundHandleKeyPress;
 
   constructor(params: {
@@ -35,6 +36,7 @@ export class VideoPlayer {
     hanldeIntervalTick?: (timeCode: number) => void;
     onNextButtonClick?: () => void;
     onPrevButtonClick?: () => void;
+    handleSaveTimecode?: (timeCode: number) => void;
   }) {
     this.#parent = params.parent;
     this.#url = params.url;
@@ -49,6 +51,7 @@ export class VideoPlayer {
     this.#hasPrevSeries = params.hasPrevSeries;
     this.#onNextButtonClick = params.onNextButtonClick;
     this.#onPrevButtonClick = params.onPrevButtonClick;
+    this.#handleSaveTimecode = params.handleSaveTimecode;
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
   }
 
@@ -191,6 +194,12 @@ export class VideoPlayer {
     }
 
     document.addEventListener('keydown', this.#boundHandleKeyPress);
+
+    window.addEventListener('beforeunload', () => {
+      if (this.#handleSaveTimecode) {
+        this.#handleSaveTimecode(video.currentTime);
+      }
+    });
   }
 
   // Вспомогательные функции для использования снаружи
@@ -434,10 +443,16 @@ export class VideoPlayer {
   }
 
   handleBackButtonClick() {
+    const { video } = this.#controls;
+
     this.#controls.videoBackButton.addEventListener('click', (event) => {
       event.stopPropagation();
       if (this.#onBackClick) {
         this.#onBackClick();
+        if (this.#handleSaveTimecode) {
+          this.#handleSaveTimecode(video.currentTime);
+        }
+
         document.removeEventListener('keydown', this.#boundHandleKeyPress);
       }
       const root = document.getElementById('root') as HTMLElement;

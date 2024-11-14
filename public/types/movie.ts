@@ -50,3 +50,12 @@ export type Person = {
   image: string;
   isDirector: boolean;
 };
+
+export type MovieSaved = {
+  id: number;
+  title: string;
+  albumImage: string;
+  timeCode: number;
+  season?: number;
+  series?: number;
+};

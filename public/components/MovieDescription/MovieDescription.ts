@@ -3,7 +3,7 @@ import skeletonTemplate from './MovieDescriptionSkeleton.hbs';
 import { moviePageStore } from 'store/MoviePageStore';
 import { roomPageStore } from 'store/RoomPageStore';
 import { userStore } from 'store/UserStore';
-import { MovieDetailed, MovieSelection } from 'types/movie';
+import { MovieDetailed, MovieSaved, MovieSelection } from 'types/movie';
 import { router } from 'modules/Router';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { Actions } from 'flux/Actions';
@@ -104,6 +104,43 @@ export class MovieDescription {
     );
   }
 
+  handleSaveTimecode(timeCode: number) {
+    if (timeCode < 15) return;
+
+    const moviesString = localStorage.getItem('last_movies');
+    if (this.#movie) {
+      let parsedMovies: MovieSaved[];
+      try {
+        if (moviesString) {
+          parsedMovies = JSON.parse(moviesString);
+          if (!Array.isArray(parsedMovies)) {
+            throw new Error('Invalid format');
+          }
+        } else {
+          parsedMovies = [];
+        }
+      } catch (e) {
+        parsedMovies = [];
+        throw e;
+      }
+
+      const foundMovie = parsedMovies.find((m) => m.id === this.#movie?.id);
+
+      if (foundMovie) {
+        foundMovie.timeCode = timeCode;
+      } else {
+        parsedMovies.push({
+          id: this.#movie.id,
+          title: this.#movie.title,
+          albumImage: this.#movie.albumImage,
+          timeCode: timeCode,
+        });
+      }
+
+      localStorage.setItem('last_movies', JSON.stringify(parsedMovies));
+    }
+  }
+
   renderVideoPlayer() {
     this.#isModalOpened = true;
     const videoContainer = document.getElementById(
@@ -123,6 +160,7 @@ export class MovieDescription {
         onBackClick: this.onBackClick.bind(this),
         onNextButtonClick: this.onNextSeriesClick.bind(this),
         onPrevButtonClick: this.onPrevSeriesClick.bind(this),
+        handleSaveTimecode: this.handleSaveTimecode.bind(this),
       });
       video.render();
       videoContainer.style.zIndex = '10';
