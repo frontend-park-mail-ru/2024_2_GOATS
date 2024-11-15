@@ -120,6 +120,24 @@ class MoviePageStore {
     }
   }
 
+  deleteLastMovieFromLocalStorage() {
+    this.#hasTimeCodeChangedEmitter.set(false);
+    try {
+      const filteredLastMovies = this.#lastMovies.filter(
+        (movie: MovieSaved) => {
+          return movie.id !== this.#movie?.id;
+        },
+      );
+
+      localStorage.setItem('last_movies', JSON.stringify(filteredLastMovies));
+      this.#lastMovies = filteredLastMovies;
+    } catch (e) {
+      throw e;
+    } finally {
+      this.#hasTimeCodeChangedEmitter.set(true);
+    }
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
@@ -140,6 +158,9 @@ class MoviePageStore {
         break;
       case ActionTypes.SET_LAST_MOVIES:
         this.setLastMoviesToLocalStorage(action.timeCode);
+        break;
+      case ActionTypes.DELETE_LAST_MOVIE:
+        this.deleteLastMovieFromLocalStorage();
         break;
       default:
         break;

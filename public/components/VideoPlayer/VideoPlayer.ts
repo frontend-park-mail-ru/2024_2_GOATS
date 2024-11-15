@@ -38,7 +38,7 @@ export class VideoPlayer {
     hanldeIntervalTick?: (timeCode: number) => void;
     onNextButtonClick?: () => void;
     onPrevButtonClick?: () => void;
-    handleSaveTimecode?: (timeCode: number) => void;
+    handleSaveTimecode?: (timeCode: number, duration: number) => void;
   }) {
     this.#parent = params.parent;
     this.#url = params.url;
@@ -204,7 +204,7 @@ export class VideoPlayer {
 
     window.addEventListener('beforeunload', () => {
       if (this.#handleSaveTimecode) {
-        this.#handleSaveTimecode(video.currentTime);
+        this.#handleSaveTimecode(video.currentTime, video.duration);
       }
     });
   }
@@ -457,7 +457,7 @@ export class VideoPlayer {
       if (this.#onBackClick) {
         this.#onBackClick();
         if (this.#handleSaveTimecode) {
-          this.#handleSaveTimecode(video.currentTime);
+          this.#handleSaveTimecode(video.currentTime, video.duration);
         }
 
         document.removeEventListener('keydown', this.#boundHandleKeyPress);

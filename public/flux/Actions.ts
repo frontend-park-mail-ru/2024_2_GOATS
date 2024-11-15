@@ -116,4 +116,9 @@ export const Actions = {
       timeCode,
     });
   },
+  deleteLastMovie() {
+    dispatcher.dispatch({
+      type: ActionTypes.DELETE_LAST_MOVIE,
+    });
+  },
 };

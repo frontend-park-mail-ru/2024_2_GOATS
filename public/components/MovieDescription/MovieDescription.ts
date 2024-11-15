@@ -119,8 +119,11 @@ export class MovieDescription {
     );
   }
 
-  handleSaveTimecode(timeCode: number) {
-    if (timeCode < 15) return;
+  handleSaveTimecode(timeCode: number, duration: number) {
+    if (timeCode > duration * 0.95 || timeCode < duration * 0.05) {
+      Actions.deleteLastMovie();
+      return;
+    }
 
     Actions.setLastMovies(timeCode);
   }
@@ -192,6 +195,8 @@ export class MovieDescription {
 
     if (foundSavedMovie) {
       this.#startTimeCode = foundSavedMovie.timeCode;
+    } else {
+      this.#startTimeCode = 0;
     }
   }
 
