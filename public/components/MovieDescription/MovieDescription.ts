@@ -17,6 +17,7 @@ export class MovieDescription {
   #currentMovieSelection!: MovieSelection;
   #isModalOpened;
   #createdRoomId = '';
+  #startTimeCode = 0;
 
   constructor(
     parent: HTMLElement,
@@ -46,6 +47,13 @@ export class MovieDescription {
       },
     );
 
+    const unsubscribeLastMovies =
+      moviePageStore.hasTimeCodeChangedEmitter$.addListener((status) => {
+        if (status) {
+          this.setStartTimecode();
+        }
+      });
+
     this.ngOnMovieDestroy = () => {
       unsubscribeMovie();
     };
@@ -53,10 +61,15 @@ export class MovieDescription {
     this.ngOnRoomIdDestroy = () => {
       unsubscribeRoomId();
     };
+
+    this.ngOnLastMoviesDestroy = () => {
+      unsubscribeLastMovies();
+    };
   }
 
   ngOnMovieDestroy(): void {}
   ngOnRoomIdDestroy(): void {}
+  ngOnLastMoviesDestroy(): void {}
 
   render() {
     this.#movie = moviePageStore.getMovie();
@@ -89,6 +102,8 @@ export class MovieDescription {
 
     if (this.#movie) {
       this.#onVideoBackClick(this.#movie.id);
+      Actions.getLastMovies();
+      this.setStartTimecode();
     }
   }
 
@@ -107,38 +122,7 @@ export class MovieDescription {
   handleSaveTimecode(timeCode: number) {
     if (timeCode < 15) return;
 
-    const moviesString = localStorage.getItem('last_movies');
-    if (this.#movie) {
-      let parsedMovies: MovieSaved[];
-      try {
-        if (moviesString) {
-          parsedMovies = JSON.parse(moviesString);
-          if (!Array.isArray(parsedMovies)) {
-            throw new Error('Invalid format');
-          }
-        } else {
-          parsedMovies = [];
-        }
-      } catch (e) {
-        parsedMovies = [];
-        throw e;
-      }
-
-      const foundMovie = parsedMovies.find((m) => m.id === this.#movie?.id);
-
-      if (foundMovie) {
-        foundMovie.timeCode = timeCode;
-      } else {
-        parsedMovies.push({
-          id: this.#movie.id,
-          title: this.#movie.title,
-          albumImage: this.#movie.albumImage,
-          timeCode: timeCode,
-        });
-      }
-
-      localStorage.setItem('last_movies', JSON.stringify(parsedMovies));
-    }
+    Actions.setLastMovies(timeCode);
   }
 
   renderVideoPlayer() {
@@ -157,6 +141,7 @@ export class MovieDescription {
           ].id > this.#movie.id,
         hasPrevSeries:
           this.#currentMovieSelection.movies[0].id < this.#movie.id,
+        startTimeCode: this.#startTimeCode,
         onBackClick: this.onBackClick.bind(this),
         onNextButtonClick: this.onNextSeriesClick.bind(this),
         onPrevButtonClick: this.onPrevSeriesClick.bind(this),
@@ -198,7 +183,21 @@ export class MovieDescription {
   //   favoritesBtn.addEventListener('click', this.#onFavoritesClick);
   // }
 
+  setStartTimecode() {
+    const foundSavedMovie = moviePageStore
+      .getLastMovies()
+      .find((movie: MovieSaved) => {
+        return movie.id === this.#movie?.id;
+      });
+
+    if (foundSavedMovie) {
+      this.#startTimeCode = foundSavedMovie.timeCode;
+    }
+  }
+
   renderTemplate() {
+    this.setStartTimecode();
+
     if (this.#movie) {
       this.setCurrentMovieSelection();
       this.#parent.innerHTML = template({

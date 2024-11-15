@@ -10,6 +10,7 @@ export class VideoPlayer {
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
   #tickInterval!: number;
+  #startTimeCode;
   #onBackClick;
   #onPauseClick;
   #onPlayClick;
@@ -29,6 +30,7 @@ export class VideoPlayer {
     url: string;
     hasNextSeries: boolean;
     hasPrevSeries: boolean;
+    startTimeCode?: number;
     onBackClick?: () => void;
     onPlayClick?: (timeCode: number) => void;
     onPauseClick?: (timeCode: number) => void;
@@ -41,6 +43,7 @@ export class VideoPlayer {
     this.#parent = params.parent;
     this.#url = params.url;
     this.#isPlaying = false;
+    this.#startTimeCode = params.startTimeCode;
     this.#onBackClick = params.onBackClick;
     this.#onPlayClick = params.onPlayClick;
     this.#onPauseClick = params.onPauseClick;
@@ -59,6 +62,10 @@ export class VideoPlayer {
     this.renderTemplate();
     this.initControls();
     this.addEventListeners();
+
+    if (this.#startTimeCode) {
+      this.#controls.video.currentTime = this.#startTimeCode;
+    }
   }
 
   renderTemplate() {

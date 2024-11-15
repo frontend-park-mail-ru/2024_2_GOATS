@@ -2,7 +2,7 @@ import { dispatcher } from 'flux/Dispatcher';
 import { ActionTypes } from 'flux/ActionTypes';
 import { MoviePage } from 'pages/MoviePage/MoviePage';
 import { apiClient } from 'modules/ApiClient';
-import { MovieDetailed, MovieSelection } from 'types/movie';
+import { MovieDetailed, MovieSaved, MovieSelection } from 'types/movie';
 import { Emitter } from 'modules/Emmiter';
 import {
   serializeMovieDetailed,
@@ -15,14 +15,22 @@ class MoviePageStore {
   #movie!: MovieDetailed | null;
   #movieSelections: MovieSelection[] = [];
   #isNewSeriesReceivedEmitter: Emitter<boolean>;
+  #lastMovies: MovieSaved[] = [];
+
+  #hasTimeCodeChangedEmitter: Emitter<boolean>;
 
   constructor() {
     this.#isNewSeriesReceivedEmitter = new Emitter<boolean>(false);
+    this.#hasTimeCodeChangedEmitter = new Emitter<boolean>(false);
+
     dispatcher.register(this.reduce.bind(this));
   }
 
   get isNewSeriesReceivedEmitter$(): Emitter<boolean> {
     return this.#isNewSeriesReceivedEmitter;
+  }
+  get hasTimeCodeChangedEmitter$(): Emitter<boolean> {
+    return this.#hasTimeCodeChangedEmitter;
   }
 
   setMovieState(movie: MovieDetailed) {
@@ -39,6 +47,10 @@ class MoviePageStore {
 
   getSelections() {
     return this.#movieSelections;
+  }
+
+  getLastMovies() {
+    return this.#lastMovies;
   }
 
   async getCollection() {
@@ -68,6 +80,46 @@ class MoviePageStore {
     this.#isNewSeriesReceivedEmitter.set(true);
   }
 
+  getLastMoviesFromLocalStorage() {
+    try {
+      const moviesString = localStorage.getItem('last_movies');
+      if (moviesString) {
+        this.#lastMovies = JSON.parse(moviesString);
+      } else {
+        this.#lastMovies = [];
+      }
+    } catch (e) {
+      this.#lastMovies = [];
+      throw e;
+    }
+  }
+
+  setLastMoviesToLocalStorage(timeCode: number) {
+    const foundMovie = this.#lastMovies.find((m) => m.id === this.#movie?.id);
+    this.#hasTimeCodeChangedEmitter.set(false);
+
+    if (this.#movie) {
+      if (foundMovie) {
+        foundMovie.timeCode = timeCode;
+      } else {
+        this.#lastMovies.push({
+          id: this.#movie.id,
+          title: this.#movie.title,
+          albumImage: this.#movie.albumImage,
+          timeCode: timeCode,
+        });
+      }
+
+      try {
+        localStorage.setItem('last_movies', JSON.stringify(this.#lastMovies));
+      } catch (e) {
+        throw e;
+      } finally {
+        this.#hasTimeCodeChangedEmitter.set(true);
+      }
+    }
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
@@ -77,10 +129,17 @@ class MoviePageStore {
           this.getCollection(),
           this.getMovieRequest(action.payload),
         ]);
+        this.getLastMoviesFromLocalStorage();
         moviePage.render();
         break;
       case ActionTypes.CHANGE_SERIES:
         await this.getMovieRequest(action.payload);
+        break;
+      case ActionTypes.GET_LAST_MOVIES:
+        this.getLastMoviesFromLocalStorage();
+        break;
+      case ActionTypes.SET_LAST_MOVIES:
+        this.setLastMoviesToLocalStorage(action.timeCode);
         break;
       default:
         break;

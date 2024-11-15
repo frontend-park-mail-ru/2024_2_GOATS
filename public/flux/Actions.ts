@@ -2,6 +2,7 @@ import { User, AuthUser, UserData } from 'types/user';
 import { ActionTypes } from './ActionTypes';
 import { dispatcher } from './Dispatcher';
 import { Action } from 'types/room';
+import { MovieSaved } from 'types/movie';
 
 export const Actions = {
   renderMainPage() {
@@ -102,6 +103,17 @@ export const Actions = {
     dispatcher.dispatch({
       type: ActionTypes.SEND_ACTION_MESSAGE,
       actionData,
+    });
+  },
+  getLastMovies() {
+    dispatcher.dispatch({
+      type: ActionTypes.GET_LAST_MOVIES,
+    });
+  },
+  setLastMovies(timeCode: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.SET_LAST_MOVIES,
+      timeCode,
     });
   },
 };
