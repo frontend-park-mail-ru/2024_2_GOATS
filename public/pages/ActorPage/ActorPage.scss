@@ -15,13 +15,15 @@
 
   &__about {
     display: flex;
-    gap: 56px;
+    gap: 5%;
 
     &_image {
-      height: 450px;
+      width: 25%;
+      // height: 450px;
     }
 
     &_info {
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 40px;
@@ -137,14 +139,21 @@
 
 .actor {
   &__name {
-    font-size: 48px;
+    font-size: min(48px, calc(10px + 3.5vw));
+
     font-weight: bold;
+    white-space: normal;
   }
   &__info {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    width: 500px;
+    // width: 500px;
+    width: 100%;
+
+    &.adaptive {
+      display: none;
+    }
 
     &_title {
       font-weight: bold;
@@ -154,10 +163,9 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       row-gap: 16px;
-
+      width: 400px;
+      font-size: $font-size-medium;
       &_stat {
-        font-size: $font-size-medium;
-
         &:nth-child(odd) {
           color: $text-secondary-color;
           font-weight: 400;
@@ -169,3 +177,98 @@
     }
   }
 }
+
+@include smallTablet {
+  .actor-page {
+    &__container {
+      width: 85vw;
+    }
+
+    &__biography {
+      gap: 12px;
+      &_title {
+        font-size: 22px;
+      }
+    }
+
+    &__filmography {
+      gap: 12px;
+      &_title {
+        font-size: 22px;
+      }
+    }
+  }
+
+  .actor {
+    &__info {
+      &_stats {
+        width: 300px;
+        gap: 12px;
+      }
+      &_title {
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .actor-page {
+    &__container {
+      width: 90vw;
+      gap: 16px;
+    }
+
+    &__biography {
+      gap: 8px;
+      &_title {
+        font-size: 20px;
+      }
+      &_content {
+        font-size: 14px;
+
+        &_toggle {
+          margin-top: 4px;
+        }
+      }
+    }
+
+    &__filmography {
+      gap: 8px;
+      &_title {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .actor {
+    &__name {
+      font-size: 28px;
+    }
+
+    &__info {
+      &_title {
+        font-size: 20px;
+      }
+
+      &_stats {
+        font-size: 14px;
+      }
+      &.main {
+        display: none;
+      }
+      &.adaptive {
+        display: flex;
+      }
+      gap: 8px;
+    }
+  }
+  .show-more {
+    &.more:after {
+      font-size: 14px;
+    }
+    &.less:after {
+      font-size: 14px;
+    }
+  }
+} //name - 28
