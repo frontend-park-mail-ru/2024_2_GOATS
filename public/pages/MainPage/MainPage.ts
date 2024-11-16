@@ -3,7 +3,9 @@ import { Slider } from '../../components/Slider/Slider';
 import template from './MainPage.hbs';
 import { MovieSelection } from 'types/movie';
 import { mainPageStore } from 'store/MainPageStore';
+import { moviePageStore } from 'store/MoviePageStore';
 import { router } from 'modules/Router';
+import { Actions } from 'flux/Actions';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -14,11 +16,33 @@ export class MainPage {
 
   render() {
     this.#movieSelections = mainPageStore.getSelections();
+    Actions.getLastMovies();
     this.renderTemplate();
   }
 
   renderBlocks() {
     const isLoaded = !!this.#movieSelections.length;
+    const mainPageBlocks = document.querySelector(
+      '.main-page__blocks',
+    ) as HTMLElement;
+
+    if (isLoaded) {
+      const newBlock = document.createElement('div');
+      newBlock.classList.add('main-page__block');
+      newBlock.id = `main-page-block-0`;
+      const firstChild = mainPageBlocks.firstChild;
+      mainPageBlocks.insertBefore(newBlock, firstChild);
+
+      const slider = new Slider({
+        parent: newBlock,
+        id: 1,
+        type: 'progress',
+        savedMovies: moviePageStore.getLastMovies(),
+      });
+
+      slider.render();
+    }
+
     const trendMoviesBlock = document.getElementById(
       'trend-movies-block',
     ) as HTMLElement;
@@ -39,10 +63,6 @@ export class MainPage {
       });
       trendMoviesList.render();
     }
-
-    const mainPageBlocks = document.querySelector(
-      '.main-page__blocks',
-    ) as HTMLElement;
 
     const newBlock = document.createElement('div');
     if (!isLoaded) {

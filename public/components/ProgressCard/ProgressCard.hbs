@@ -2,7 +2,10 @@
   <div class='progress-card__image_block'>
     <img class='progress-card__image' src={{movie.albumImage}} alt='card' />
     <div class='progress-card__image_progress'>
-      <div class='progress-card__image_progress_line'></div>
+      <div
+        id='progress-card-line-{{movie.id}}'
+        class='progress-card__image_progress_line'
+      ></div>
     </div>
   </div>
   <div class='progress-card__title_block'>
@@ -15,5 +18,4 @@
       </p>
     {{/if}}
   </div>
-
 </div>

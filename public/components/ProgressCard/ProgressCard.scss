@@ -3,10 +3,9 @@
 
 .progress-card {
   width: 300px;
-  // height: 224px;
+  height: 400px;
+  height: auto;
   position: relative;
-  // box-shadow: $card-box-shadow;
-  // border-radius: $border-radius-medium;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -14,10 +13,8 @@
 
   &__image {
     width: 100%;
-    // height: 80%;
     object-fit: cover;
     object-position: center;
-    // border-radius: $border-radius-small;
 
     &_block {
       position: relative;
@@ -26,16 +23,12 @@
     }
 
     &_progress {
-      position: absolute;
-      bottom: 0;
-      left: 0;
       height: 5px;
       width: 100%;
       background-color: $brand-dull;
 
       &_line {
         height: 100%;
-        width: var(--progress-last-movie-value);
         background-color: $brand;
       }
     }
@@ -43,7 +36,6 @@
 
   &__title {
     font-size: 16px;
-    margin-bottom: 5px;
   }
 
   &__subtitle {

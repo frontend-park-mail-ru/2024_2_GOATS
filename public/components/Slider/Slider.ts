@@ -3,8 +3,9 @@ import { SeriesCard } from 'components/SeriesCard/SeriesCard';
 import { PersonCard } from 'components/PersonCard/PersonCard';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import template from './Slider.hbs';
-import { MovieSelection, Series } from 'types/movie';
+import { MovieSaved, MovieSelection, Series } from 'types/movie';
 import { PersonCardData } from 'types/actor';
+import { ProgressCard } from 'components/ProgressCard/ProgressCard';
 import { router } from 'modules/Router';
 
 export class Slider {
@@ -13,6 +14,7 @@ export class Slider {
   #selection;
   #series;
   #persons;
+  #savedMovies;
   #id;
   #leftDiff;
   #rightDiff;
@@ -20,10 +22,11 @@ export class Slider {
   constructor(params: {
     parent: HTMLElement;
     id: number;
-    type: 'movies' | 'series' | 'actors';
+    type: 'movies' | 'series' | 'actors' | 'progress';
     selection?: MovieSelection;
     series?: Series[];
     persons?: PersonCardData[];
+    savedMovies?: MovieSaved[];
   }) {
     this.#parent = params.parent;
     this.#id = params.id;
@@ -31,6 +34,7 @@ export class Slider {
     this.#selection = params.selection;
     this.#series = params.series;
     this.#persons = params.persons;
+    this.#savedMovies = params.savedMovies;
     this.#leftDiff = 0;
     this.#rightDiff = 0;
   }
@@ -69,12 +73,14 @@ export class Slider {
         id: this.#id,
         type: this.#type,
         title:
-          this.#selection || this.#persons || this.#series
+          this.#selection || this.#persons || this.#series || this.#savedMovies
             ? this.#type === 'movies'
               ? this.#selection?.title
               : this.#type === 'actors'
                 ? 'Актеры и создатели'
-                : ''
+                : this.#type === 'progress'
+                  ? 'Вы недавно смотрели'
+                  : ''
             : undefined,
       }),
     );
@@ -186,12 +192,19 @@ export class Slider {
           });
           seriesCard.render();
         });
-      } else {
+      } else if (this.#type === 'actors') {
         this.#persons?.forEach((person) => {
           const personCard = new PersonCard(track, person, () => {
             router.go('/person', person.id);
           });
           personCard.render();
+        });
+      } else {
+        this.#savedMovies?.forEach((movie) => {
+          const progressCard = new ProgressCard(track, movie, () => {
+            console.log('click saved movie');
+          });
+          progressCard.render();
         });
       }
 
