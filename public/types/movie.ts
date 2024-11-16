@@ -56,6 +56,7 @@ export type MovieSaved = {
   title: string;
   albumImage: string;
   timeCode: number;
+  duration: number;
   season?: number;
   series?: number;
 };

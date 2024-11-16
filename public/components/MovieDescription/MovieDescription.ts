@@ -125,7 +125,7 @@ export class MovieDescription {
       return;
     }
 
-    Actions.setLastMovies(timeCode);
+    Actions.setLastMovies(timeCode, duration);
   }
 
   renderVideoPlayer() {

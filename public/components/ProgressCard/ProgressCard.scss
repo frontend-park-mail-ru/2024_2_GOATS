@@ -1,0 +1,53 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.progress-card {
+  width: 300px;
+  // height: 224px;
+  position: relative;
+  // box-shadow: $card-box-shadow;
+  // border-radius: $border-radius-medium;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+
+  &__image {
+    width: 100%;
+    // height: 80%;
+    object-fit: cover;
+    object-position: center;
+    // border-radius: $border-radius-small;
+
+    &_block {
+      position: relative;
+      box-shadow: $card-box-shadow;
+      border-radius: $border-radius-medium;
+    }
+
+    &_progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 5px;
+      width: 100%;
+      background-color: $brand-dull;
+
+      &_line {
+        height: 100%;
+        width: var(--progress-last-movie-value);
+        background-color: $brand;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: $brand-dull;
+  }
+}

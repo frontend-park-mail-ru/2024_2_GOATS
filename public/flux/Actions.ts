@@ -110,10 +110,13 @@ export const Actions = {
       type: ActionTypes.GET_LAST_MOVIES,
     });
   },
-  setLastMovies(timeCode: number) {
+  setLastMovies(timeCode: number, duration: number) {
     dispatcher.dispatch({
       type: ActionTypes.SET_LAST_MOVIES,
-      timeCode,
+      payload: {
+        timeCode,
+        duration,
+      },
     });
   },
   deleteLastMovie() {

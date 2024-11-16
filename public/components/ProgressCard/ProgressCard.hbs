@@ -1,0 +1,19 @@
+<div id='progress-card-{{movie.id}}' class='progress-card'>
+  <div class='progress-card__image_block'>
+    <img class='progress-card__image' src={{movie.albumImage}} alt='card' />
+    <div class='progress-card__image_progress'>
+      <div class='progress-card__image_progress_line'></div>
+    </div>
+  </div>
+  <div class='progress-card__title_block'>
+    <p class='progress-card__title'>{{movie.title}}</p>
+    {{#if movie.season}}
+      <p class='progress-card__subtitle'>{{movie.season}}
+        сезон,
+        {{movie.series}}
+        серия
+      </p>
+    {{/if}}
+  </div>
+
+</div>
