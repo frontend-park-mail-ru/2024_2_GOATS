@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .form-auth__wrapper {
   border-radius: $border-radius-medium;
@@ -58,6 +59,11 @@
       color: $error-color;
       position: absolute;
       margin-top: 2px;
+
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -129,5 +135,41 @@
 
   &.visible {
     display: block;
+  }
+}
+
+@include mobileLandscape {
+  .form-auth {
+    gap: 20px;
+
+    &__input {
+      &_error {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .form-auth {
+    gap: 16px;
+    &__input {
+      &_field {
+        font-size: 14px;
+      }
+      &_label {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@include tinyMobile {
+  .form-auth {
+    &__input {
+      &_error {
+        font-size: 8px;
+      }
+    }
   }
 }
