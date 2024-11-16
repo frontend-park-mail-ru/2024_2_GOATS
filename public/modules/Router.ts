@@ -19,12 +19,15 @@ class Router {
     };
   }
 
-  go(path: string, id?: number | string) {
+  go(path: string, id?: number | string, data?: any) {
     let url = id
       ? new URL(`${path}/${id}`, window.location.href)
       : new URL(path, window.location.href);
 
-    if (id) {
+    if (id && data) {
+      routerHandler(url, id, data);
+      window.history.pushState({ id }, path, `${path}/${id}`);
+    } else if (id) {
       routerHandler(url, id);
       window.history.pushState({ id }, path, `${path}/${id}`);
     } else {

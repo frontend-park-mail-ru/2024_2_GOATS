@@ -26,7 +26,7 @@ export class MainPage {
       '.main-page__blocks',
     ) as HTMLElement;
 
-    if (isLoaded) {
+    if (isLoaded && moviePageStore.getLastMovies().length) {
       const newBlock = document.createElement('div');
       newBlock.classList.add('main-page__block');
       newBlock.id = `main-page-block-0`;

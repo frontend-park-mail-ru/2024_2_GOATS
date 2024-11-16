@@ -146,10 +146,10 @@ class MoviePageStore {
         moviePage.render();
         await Promise.all([
           this.getCollection(),
-          this.getMovieRequest(action.payload),
+          this.getMovieRequest(action.payload.id),
         ]);
         this.getLastMoviesFromLocalStorage();
-        moviePage.render();
+        moviePage.render(action.payload.fromRecentlyWatched);
         break;
       case ActionTypes.CHANGE_SERIES:
         await this.getMovieRequest(action.payload);

@@ -10,11 +10,13 @@ import { roomPageStore } from 'store/RoomPageStore';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
+  #fromRecentlyWatched = false;
 
   constructor() {}
 
-  render() {
+  render(fromRecentlyWatched?: boolean) {
     this.#movie = moviePageStore.getMovie();
+    this.#fromRecentlyWatched = !!fromRecentlyWatched;
     this.renderTemplate();
   }
 
@@ -36,6 +38,7 @@ export class MoviePage {
     ) as HTMLElement;
     const movieDescription = new MovieDescription(
       movieDescriptionContainer,
+      this.#fromRecentlyWatched,
       () => console.log('favorite'),
       this.onVideoBackClick.bind(this),
     );

@@ -18,13 +18,16 @@ export class MovieDescription {
   #isModalOpened;
   #createdRoomId = '';
   #startTimeCode = 0;
+  #fromRecentlyWatched;
 
   constructor(
     parent: HTMLElement,
+    fromRecentlyWatched: boolean,
     onFavoritesClick: () => void,
     onVideoBackClick: (id: number) => void,
   ) {
     this.#parent = parent;
+    this.#fromRecentlyWatched = fromRecentlyWatched;
     this.#onFavoritesClick = onFavoritesClick;
     this.#onVideoBackClick = onVideoBackClick;
     this.#isModalOpened = false;
@@ -209,6 +212,11 @@ export class MovieDescription {
         movie: this.#movie,
         isUserAuth: !!userStore.getUser().email,
       });
+
+      if (this.#fromRecentlyWatched) {
+        this.renderVideoPlayer();
+      }
+
       this.handleShowMovie();
       // this.handleWatchTogether();
       // this.handleFavoritesClick();

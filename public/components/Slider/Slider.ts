@@ -202,7 +202,7 @@ export class Slider {
       } else {
         this.#savedMovies?.forEach((movie) => {
           const progressCard = new ProgressCard(track, movie, () => {
-            console.log('click saved movie');
+            router.go('/movie', movie.id, { fromRecentlyWatched: true });
           });
           progressCard.render();
         });
