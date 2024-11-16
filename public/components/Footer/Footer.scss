@@ -5,6 +5,7 @@
   width: 100%;
   border-top: 1px solid #7d7d7d;
   padding: 24px 0;
+  margin-top: 32px;
 
   &__container {
     width: fit-content;
@@ -44,20 +45,15 @@
   &__rights {
     font-size: $font-size-medium;
     color: $text-secondary-color;
+    width: 80vw;
     &_text {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      &_item {
-        &:not(:last-child) {
-          &::after {
-            content: '•';
-            color: $text-secondary-color;
-            margin: 0 7px;
-          }
-        }
-      }
+
+      column-gap: 16px;
+      row-gap: 4px;
     }
   }
 }
