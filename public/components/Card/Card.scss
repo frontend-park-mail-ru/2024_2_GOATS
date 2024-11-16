@@ -76,3 +76,17 @@
     );
   }
 }
+
+@include mobile {
+  .card {
+    width: 140px;
+    height: 188px;
+  }
+}
+
+@include tinyMobile {
+  .card {
+    width: 120px;
+    height: 160px;
+  }
+}
