@@ -1,14 +1,14 @@
 <div id='header' class='header'>
-  <div class='header__container'>
+  <div class='header__container {{#unless isUserAuth}} not-authed{{/unless}}'>
     <div id='header-logo' class='header__container_logo'>
       <span>Cassette</span>
     </div>
 
-    <div class='header__container_nav'>
+    <div class='header__container_nav {{#if isUserAuth}} authed{{/if}}'>
       {{#each navItems}}
         {{#if this.isAvailable}}
           <a
-            class='header__container_item {{this.className}}'
+            class='header__container_item {{this.className}} '
             href='{{this.href}}'
             id='{{this.id}}'
             data-section='{{this.key}}'
@@ -16,7 +16,18 @@
         {{/if}}
       {{/each}}
     </div>
-    {{#if isUserAuth}}
+    <div class="header__container_widgets">
+      <div id="search-bar" class="search-bar">
+        <div id="search-bar-search" class="search-bar__search">
+          <span class="search-bar__search_text">Поиск</span>
+          <img class="search-bar__search_icon" src="assets/icons/searchIcon.svg" alt="">
+        </div>
+        <input placeholder="Начните поиск" id="search-bar-input" class="search-bar__input" type="text">
+        <div id="search-bar-close" class="search-bar__close">
+           <img  class="search-bar__close_icon" src="assets/icons/closeIcon.svg" alt="">
+        </div>
+      </div>
+      {{#if isUserAuth}}
       <div class='header__container_auth'>
         <a
           class='header__container_item {{profileItem.className}}'
@@ -39,6 +50,8 @@
           </div>
         </a>
       </div>
-    {{/if}}
+      {{/if}}
+    </div>
+    
   </div>
 </div>

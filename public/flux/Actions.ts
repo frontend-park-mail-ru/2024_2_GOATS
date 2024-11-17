@@ -49,6 +49,16 @@ export const Actions = {
       payload: id,
     });
   },
+  renderGenresPage() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_GENRES_PAGE,
+    });
+  },
+  renderFavoritesPage() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_FAVORITES_PAGE,
+    });
+  },
   getUser() {
     dispatcher.dispatch({
       type: ActionTypes.GET_USER,

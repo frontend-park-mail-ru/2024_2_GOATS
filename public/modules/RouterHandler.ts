@@ -18,6 +18,8 @@ export const Urls = {
   actor: '/person',
   profile: '/profile',
   room: '/room',
+  genres: '/genres',
+  favorites: '/favorites',
 };
 
 export const routerHandler = (url: URL, id?: string | number) => {
@@ -58,7 +60,16 @@ export const routerHandler = (url: URL, id?: string | number) => {
       id && Actions.renderRoomPage(id);
       footer.render(Urls.room);
       break;
-
+    case Urls.favorites:
+      Actions.renderHeader(Urls.favorites);
+      Actions.renderFavoritesPage();
+      footer.render(Urls.favorites);
+      break;
+    case Urls.genres:
+      Actions.renderHeader(Urls.genres);
+      Actions.renderGenresPage();
+      footer.render(Urls.genres);
+      break;
     default:
       router.go('/');
   }

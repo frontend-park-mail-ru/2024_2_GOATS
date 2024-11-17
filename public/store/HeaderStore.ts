@@ -49,6 +49,30 @@ class HeaderStore {
             }
           },
         },
+        genres: {
+          text: 'Жанры',
+          href: '/genres',
+          id: 'header-genres',
+          isAvailable: userStore.getUserAuthStatus(),
+          render: () => {
+            router.go('/genres');
+            if (roomPageStore.getWs()) {
+              roomPageStore.closeWs();
+            }
+          },
+        },
+        favorites: {
+          text: 'Избранное',
+          href: '/favorites',
+          id: 'header-favorites',
+          isAvailable: userStore.getUserAuthStatus(),
+          render: () => {
+            router.go('/favorites');
+            if (roomPageStore.getWs()) {
+              roomPageStore.closeWs();
+            }
+          },
+        },
       },
     };
     dispatcher.register(this.reduce.bind(this));
@@ -58,6 +82,8 @@ class HeaderStore {
     this.#config.pages.main.isAvailable = true;
     this.#config.pages.auth.isAvailable = !isAuth;
     this.#config.pages.profile.isAvailable = isAuth;
+    this.#config.pages.genres.isAvailable = isAuth;
+    this.#config.pages.favorites.isAvailable = isAuth;
   }
 
   renderHeader(url: string) {

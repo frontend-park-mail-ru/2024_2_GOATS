@@ -10,6 +10,8 @@ import 'store/MoviePageStore';
 import 'store/ActorPageStore';
 import 'store/ProfilePageStore';
 import 'store/RoomPageStore';
+import 'store/FavoritesPageStore';
+import 'store/GenresPageStore';
 
 const root = document.getElementById('root') as HTMLElement;
 const pageElement = document.createElement('main');

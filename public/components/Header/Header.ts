@@ -60,6 +60,29 @@ export class Header {
     return this.#config;
   }
 
+  toggleSearch() {
+    const searchBar = document.getElementById('search-bar') as HTMLElement;
+    const searchInput = document.getElementById(
+      'search-bar-input',
+    ) as HTMLElement;
+    const searchButton = document.getElementById(
+      'search-bar-search',
+    ) as HTMLElement;
+    const closeButton = document.getElementById(
+      'search-bar-close',
+    ) as HTMLElement;
+
+    searchButton.addEventListener('click', () => {
+      searchBar.classList.add('active');
+      setTimeout(() => {
+        searchInput.focus();
+      }, 100);
+    });
+    closeButton.addEventListener('click', () => {
+      searchBar.classList.remove('active');
+    });
+  }
+
   render() {
     this.renderTemplate();
   }
@@ -115,5 +138,6 @@ export class Header {
 
     document.getElementById('header')?.addEventListener('click', this.#handler);
     this.handleLogoClick();
+    this.toggleSearch();
   }
 }

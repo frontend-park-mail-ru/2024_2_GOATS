@@ -18,7 +18,16 @@
 
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
+
+    &.not-authed {
+      & > *:nth-child(2) {
+        order: 2; /* Второй элемент перемещается перед третьим */
+      }
+      & > *:nth-child(3) {
+        order: 1; /* Третий элемент остается на своем месте */
+      }
+    }
 
     &_item {
       width: fit-content;
@@ -45,7 +54,19 @@
       font-weight: 600;
       display: flex;
       gap: 24px;
+
       justify-content: space-between;
+
+      // &.authed {
+      margin-left: 32px;
+    }
+
+    &_widgets {
+      margin-left: auto;
+
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
     }
 
     &_auth {
@@ -55,15 +76,8 @@
       gap: 20px;
     }
 
-    &_exit_btn {
-      background-color: $brand;
-      color: $brand-secondary;
-      font-size: $font-size-medium;
-      font-weight: 600;
-
-      &:hover {
-        background-color: $button-background-hover;
-      }
+    &_search-bar {
+      font-size: 20px;
     }
 
     &_profile {
@@ -84,6 +98,57 @@
         height: 100%;
         object-fit: cover;
       }
+    }
+  }
+}
+
+.search-bar {
+  align-self: center;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+
+  &.active {
+    .search-bar {
+      &__input {
+        width: 200px;
+        padding-left: 8px;
+      }
+      &__search {
+        &_text {
+          display: none;
+        }
+      }
+      &__close {
+        display: block;
+      }
+    }
+  }
+
+  &__search {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+  }
+
+  &__input {
+    width: 0px;
+    font-size: 18px;
+    font-weight: 300;
+
+    transition: width 0.2s linear;
+  }
+
+  &__close {
+    display: none;
+    height: 24px;
+
+    &_icon {
+      width: 24px;
     }
   }
 }
