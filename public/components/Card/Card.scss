@@ -64,8 +64,8 @@
 
   &-skeleton {
     background: $skeleton-background;
-    min-width: 160px;
-    min-height: 224px;
+    width: 160px;
+    height: 224px;
     position: relative;
     overflow: hidden;
     border-radius: 10px;
@@ -82,10 +82,18 @@
     width: 140px;
     height: 188px;
   }
+  .card-skeleton {
+    width: 140px;
+    height: 188px;
+  }
 }
 
 @include tinyMobile {
   .card {
+    width: 120px;
+    height: 160px;
+  }
+  .card-skeleton {
     width: 120px;
     height: 160px;
   }

@@ -98,9 +98,22 @@
       gap: 50px;
     }
 
+    &__about-person {
+      width: 50%;
+      margin-bottom: 12px;
+
+      &_stat {
+        height: 24px !important;
+        width: 70%;
+      }
+    }
+
     &__image {
-      height: 500px;
-      width: 350px;
+      width: 35%;
+      min-width: 140px;
+      max-width: 300px;
+      // height: 450px;
+      aspect-ratio: 2 / 3;
       background: $skeleton-background;
       overflow: hidden;
       position: relative;
@@ -110,15 +123,43 @@
         $skeleton-animation
       );
     }
+    &__info-wrapper {
+      width: 100%;
+    }
 
     &__info {
-      width: 40%;
+      width: 50%;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 12px;
 
       &_title {
-        height: 80px !important;
+        height: 64px !important;
+        margin-bottom: 32px;
+        width: 60%;
+      }
+
+      &.adaptive {
+        display: none;
+      }
+    }
+
+    &__biography {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &_title {
+        width: 50%;
+        margin-bottom: 8px;
+      }
+    }
+
+    &__filmography {
+      &_title {
+        width: 40%;
+        margin-bottom: 16px;
       }
     }
   }
@@ -180,6 +221,28 @@
   }
 }
 
+@include mediumTablet {
+  .actor-page-skeleton {
+    &__info_title {
+      height: 48px !important;
+      margin-bottom: 16px;
+    }
+    &__info {
+      width: 70%;
+    }
+    &__about-person {
+      width: 60%;
+      height: 32px !important;
+      margin-bottom: 8px;
+
+      &_stat {
+        width: 100%;
+        height: 24px !important;
+      }
+    }
+  }
+}
+
 @include smallTablet {
   .actor-page {
     &__container {
@@ -217,6 +280,11 @@
         font-size: 22px;
       }
     }
+  }
+
+  .actor-page-skeleton {
+    width: 85vw;
+    gap: 24px;
   }
 }
 
@@ -283,5 +351,48 @@
   }
   .toggler_icon {
     width: 18px;
+  }
+
+  .actor-page-skeleton {
+    &__about {
+      gap: 32px;
+    }
+    &__info {
+      &_title {
+        width: 90%;
+      }
+      &.main {
+        display: none;
+      }
+      &.adaptive {
+        display: block;
+      }
+    }
+
+    &__about-person {
+      width: 50%;
+      margin-bottom: 8px;
+      &_stat {
+        margin-bottom: 4px;
+        width: 100%;
+      }
+    }
+    &__biography {
+      gap: 4px;
+
+      &_title {
+        height: 32px !important;
+        margin-bottom: 4px;
+      }
+      &_text {
+        height: 24px !important;
+      }
+    }
+    &__filmography {
+      &_title {
+        height: 32px !important;
+        margin-bottom: 8px;
+      }
+    }
   }
 } //name - 28
