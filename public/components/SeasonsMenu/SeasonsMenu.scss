@@ -1,5 +1,6 @@
 .seasons-menu {
   display: flex;
+  align-items: center;
   gap: 20px;
 
   &__title {
@@ -34,6 +35,24 @@
 
     &:hover {
       background-color: $menu-item-hover-background;
+    }
+  }
+}
+
+@include mobile {
+  .seasons-menu {
+    &__title {
+      font-size: $font-size-menu;
+    }
+
+    &__items {
+      gap: 10px;
+    }
+
+    &__item {
+      font-size: $font-size-small;
+      width: 24px;
+      height: 24px;
     }
   }
 }

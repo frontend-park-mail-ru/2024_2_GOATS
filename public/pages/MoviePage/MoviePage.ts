@@ -53,11 +53,16 @@ export class MoviePage {
     seasonsMenu.render();
 
     // TODO: Серии добавить только к 3 РК
-    // const seriesBlock = document.getElementById(
-    //   'movie-page-series',
-    // ) as HTMLElement;
-    // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
-    // seriesSlider.render();
+    const seriesBlock = document.getElementById(
+      'movie-page-series',
+    ) as HTMLElement;
+    const seriesSlider = new Slider({
+      parent: seriesBlock,
+      id: 99,
+      type: 'series',
+      series: mockSeries,
+    });
+    seriesSlider.render();
   }
 
   renderBlocks() {
