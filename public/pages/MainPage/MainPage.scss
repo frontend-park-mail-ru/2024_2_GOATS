@@ -19,7 +19,15 @@
   &__block {
     &_title {
       margin-bottom: 15px;
-      font-size: 30px;
+      font-size: min($font-size-extra-large, calc(10px + 3.5vw));
+    }
+  }
+}
+
+@include mobile {
+  .main-page {
+    &__blocks {
+      gap: 25px;
     }
   }
 }

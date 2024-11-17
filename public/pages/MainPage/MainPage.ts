@@ -6,6 +6,7 @@ import { mainPageStore } from 'store/MainPageStore';
 import { moviePageStore } from 'store/MoviePageStore';
 import { router } from 'modules/Router';
 import { Actions } from 'flux/Actions';
+import { isMobileDevice } from 'modules/IsMobileDevice';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -46,22 +47,33 @@ export class MainPage {
     const trendMoviesBlock = document.getElementById(
       'trend-movies-block',
     ) as HTMLElement;
-    if (this.#movieSelections.length) {
-      const trendMoviesList = new GridBlock({
-        parent: trendMoviesBlock,
-        movies: this.#movieSelections[0].movies,
-        blockTitle: this.#movieSelections[0].title,
-        onImageClick: (id: number) => router.go('/movie', id),
-      });
-      trendMoviesList.render();
+    if (!isMobileDevice()) {
+      if (this.#movieSelections.length) {
+        const trendMoviesList = new GridBlock({
+          parent: trendMoviesBlock,
+          movies: this.#movieSelections[0].movies,
+          blockTitle: this.#movieSelections[0].title,
+          onImageClick: (id: number) => router.go('/movie', id),
+        });
+        trendMoviesList.render();
+      } else {
+        const trendMoviesList = new GridBlock({
+          parent: trendMoviesBlock,
+          movies: null,
+          blockTitle: '',
+          onImageClick: () => {},
+        });
+        trendMoviesList.render();
+      }
     } else {
-      const trendMoviesList = new GridBlock({
+      const slider = new Slider({
         parent: trendMoviesBlock,
-        movies: null,
-        blockTitle: '',
-        onImageClick: () => {},
+        id: 0,
+        type: 'movies',
+        selection: this.#movieSelections[0],
       });
-      trendMoviesList.render();
+
+      slider.render();
     }
 
     const newBlock = document.createElement('div');
@@ -69,7 +81,7 @@ export class MainPage {
       const slider = new Slider({
         parent: newBlock,
         id: 1,
-        type: 'movies',
+        type: 'selection',
       });
       slider.render();
       slider.render();
@@ -85,7 +97,7 @@ export class MainPage {
         const slider = new Slider({
           parent: newBlock,
           id: selection.id,
-          type: 'movies',
+          type: 'selection',
           selection: selection,
         });
 

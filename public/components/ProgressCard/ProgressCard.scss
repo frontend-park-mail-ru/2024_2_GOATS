@@ -3,7 +3,6 @@
 
 .progress-card {
   width: 300px;
-  height: 400px;
   height: auto;
   position: relative;
   display: flex;
@@ -41,5 +40,17 @@
   &__subtitle {
     font-size: 14px;
     color: $brand-dull;
+  }
+}
+
+@include mobile {
+  .progress-card {
+    width: 200px;
+  }
+}
+
+@include tinyMobile {
+  .progress-card {
+    width: 100px;
   }
 }

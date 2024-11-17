@@ -6,6 +6,7 @@ import template from './Slider.hbs';
 import { MovieSaved, MovieSelection, Series } from 'types/movie';
 import { PersonCardData } from 'types/actor';
 import { ProgressCard } from 'components/ProgressCard/ProgressCard';
+import { MovieBigCard } from 'components/MovieBigCard/MovieBigCard';
 import { router } from 'modules/Router';
 
 export class Slider {
@@ -22,7 +23,7 @@ export class Slider {
   constructor(params: {
     parent: HTMLElement;
     id: number;
-    type: 'movies' | 'series' | 'actors' | 'progress';
+    type: 'selection' | 'series' | 'actors' | 'movies' | 'progress';
     selection?: MovieSelection;
     series?: Series[];
     persons?: PersonCardData[];
@@ -74,7 +75,7 @@ export class Slider {
         type: this.#type,
         title:
           this.#selection || this.#persons || this.#series || this.#savedMovies
-            ? this.#type === 'movies'
+            ? this.#type === 'selection' || this.#type === 'movies'
               ? this.#selection?.title
               : this.#type === 'actors'
                 ? 'Актеры и создатели'
@@ -99,7 +100,7 @@ export class Slider {
     if (!this.#selection && !this.#persons && !this.#series) {
       // TODO: Поменять условие
       let blocksElement;
-      if (this.#type === 'movies') {
+      if (this.#type === 'selection' || this.#type === 'movies') {
         blocksElement = document.querySelector(
           '.main-page__blocks',
         ) as HTMLDivElement;
@@ -108,7 +109,6 @@ export class Slider {
           'movie-page-persons',
         ) as HTMLElement;
       }
-
       const sliderSkeleton = document.createElement('div');
       sliderSkeleton.classList.add('slider-skeleton__wrapper');
       blocksElement?.appendChild(sliderSkeleton);
@@ -120,12 +120,15 @@ export class Slider {
       const newBlock = document.createElement('div');
       newBlock.classList.add('slider-skeleton');
       sliderSkeleton.appendChild(newBlock);
-
-      for (let i = 0; i < 10; ++i) {
-        const card = new Card(newBlock, null, () => {});
+      if (this.#type === 'selection' || this.#type === 'actors') {
+        for (let i = 0; i < 10; ++i) {
+          const card = new Card(newBlock, null, () => {});
+          card.render();
+        }
+      } else {
+        const card = new MovieBigCard(newBlock, null, () => {});
         card.render();
       }
-    } else {
     }
 
     if (container && track && btnNext && btnPrev) {
@@ -168,44 +171,56 @@ export class Slider {
         this.checkBtns();
       });
 
-      if (this.#type === 'movies') {
-        this.#selection?.movies.forEach((movie) => {
-          const card = new Card(track, movie, () => {
-            router.go('/movie', movie.id);
-          });
-          card.render();
-        });
-      } else if (this.#type === 'series') {
-        this.#series?.forEach((series) => {
-          const seriesCard = new SeriesCard(track, series, () => {
-            const moviePage = document.getElementById(
-              'movie-page',
-            ) as HTMLElement;
-            const video = new VideoPlayer({
-              parent: moviePage,
-              url: series.video,
-              hasNextSeries: true,
-              hasPrevSeries: true,
-              onBackClick: () => router.go('/movie'),
+      switch (this.#type) {
+        case 'selection':
+          this.#selection?.movies.forEach((movie) => {
+            const card = new Card(track, movie, () => {
+              router.go('/movie', movie.id);
             });
-            video.render();
+            card.render();
           });
-          seriesCard.render();
-        });
-      } else if (this.#type === 'actors') {
-        this.#persons?.forEach((person) => {
-          const personCard = new PersonCard(track, person, () => {
-            router.go('/person', person.id);
+          break;
+        case 'series':
+          this.#series?.forEach((series) => {
+            const seriesCard = new SeriesCard(track, series, () => {
+              const moviePage = document.getElementById(
+                'movie-page',
+              ) as HTMLElement;
+              const video = new VideoPlayer({
+                parent: moviePage,
+                url: series.video,
+                hasNextSeries: true,
+                hasPrevSeries: true,
+                onBackClick: () => router.go('/movie'),
+              });
+              video.render();
+            });
+            seriesCard.render();
           });
-          personCard.render();
-        });
-      } else {
-        this.#savedMovies?.forEach((movie) => {
-          const progressCard = new ProgressCard(track, movie, () => {
-            router.go('/movie', movie.id, { fromRecentlyWatched: true });
+          break;
+        case 'actors':
+          this.#persons?.forEach((person) => {
+            const personCard = new PersonCard(track, person, () => {
+              router.go('/person', person.id);
+            });
+            personCard.render();
           });
-          progressCard.render();
-        });
+          break;
+        case 'movies':
+          this.#selection?.movies.forEach((movie) => {
+            const movieBigCard = new MovieBigCard(track, movie, () => {
+              router.go('/movie', movie.id);
+            });
+            movieBigCard.render();
+          });
+          break;
+        default:
+          this.#savedMovies?.forEach((movie) => {
+            const progressCard = new ProgressCard(track, movie, () => {
+              router.go('/movie', movie.id, { fromRecentlyWatched: true });
+            });
+            progressCard.render();
+          });
       }
 
       // Записываем разницу между track и container для скролла вправо
