@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .active {
   border-bottom: 2px solid $brand;
@@ -67,11 +68,13 @@
       display: flex;
       align-items: baseline;
       gap: 16px;
+      align-self: flex-end; // align without username
     }
 
     &_auth {
       font-size: 20px;
       display: flex;
+
       align-items: center;
       gap: 20px;
     }
@@ -83,6 +86,7 @@
     &_profile {
       display: flex;
       align-items: center;
+
       gap: 10px;
       font-size: 20px;
     }
@@ -104,10 +108,11 @@
 
 .search-bar {
   align-self: center;
-  padding: 5px;
+  margin-bottom: -2px;
+  padding: 0px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   gap: 8px;
 
   &.active {
@@ -145,10 +150,69 @@
 
   &__close {
     display: none;
-    height: 24px;
+    height: 22px;
 
     &_icon {
-      width: 24px;
+      width: 22px;
+    }
+  }
+}
+
+@include largeTablet {
+  .header {
+    &__container {
+      &_nav {
+        gap: 18px;
+        margin-left: 24px;
+      }
+    }
+  }
+}
+
+@include mediumTablet {
+  .header {
+    &__container {
+      &_logo {
+        font-size: 32px;
+      }
+      &_nav {
+        font-size: 18px;
+        gap: 12px;
+        margin-left: 18px;
+      }
+      &_widgets {
+        gap: 10px;
+      }
+      &_avatar {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+  .search-bar {
+    align-items: center;
+    gap: 6px;
+
+    &.active {
+      .search-bar {
+        &__input {
+          width: 150px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 18px;
+    }
+    &__input {
+      font-size: 16px;
+    }
+    &__close {
+      height: 20px;
+      &_icon {
+        width: 20px;
+      }
     }
   }
 }

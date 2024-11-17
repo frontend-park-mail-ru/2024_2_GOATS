@@ -41,7 +41,7 @@ export class ActorPage {
     const pageElement = document.getElementsByTagName('main')[0];
     window.scrollTo(0, 0);
 
-    if (0) {
+    if (this.getActorInfo()?.birthdate) {
       pageElement.innerHTML = template({
         actor: this.getActorInfo(),
         birthDate: dateFormatter(this.getActorInfo()?.birthdate as string),

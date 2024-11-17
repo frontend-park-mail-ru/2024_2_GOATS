@@ -20,11 +20,11 @@
       <div id="search-bar" class="search-bar">
         <div id="search-bar-search" class="search-bar__search">
           <span class="search-bar__search_text">Поиск</span>
-          <img class="search-bar__search_icon" src="assets/icons/searchIcon.svg" alt="">
+          <img class="search-bar__search_icon" src="/assets/icons/searchIcon.svg" alt="">
         </div>
         <input placeholder="Начните поиск" id="search-bar-input" class="search-bar__input" type="text">
         <div id="search-bar-close" class="search-bar__close">
-           <img  class="search-bar__close_icon" src="assets/icons/closeIcon.svg" alt="">
+           <img  class="search-bar__close_icon" src="/assets/icons/closeIcon.svg" alt="">
         </div>
       </div>
       {{#if isUserAuth}}
@@ -35,10 +35,10 @@
           id='{{profileItem.id}}'
           data-section='{{profileItem.key}}'
         >
-          <div class='header__container_profile'>
-            <h4>
+          <div class='header__container_profile'> 
+             {{!-- <h4>
               {{currentUsername}}
-            </h4>
+            </h4> --}}
             <div class='header__container_avatar'>
 
               <img
