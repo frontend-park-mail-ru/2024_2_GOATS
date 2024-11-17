@@ -1,0 +1,39 @@
+.seasons-menu {
+  display: flex;
+  gap: 20px;
+
+  &__title {
+    font-size: $font-size-large;
+  }
+
+  &__items {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__item {
+    font-size: $font-size-menu;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-max;
+    background-color: $menu-item-background;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &_active {
+      color: $background;
+      background-color: $menu-item-active-background;
+
+      &:hover {
+        background-color: $menu-item-active-background !important;
+      }
+    }
+
+    &:hover {
+      background-color: $menu-item-hover-background;
+    }
+  }
+}

@@ -26,6 +26,10 @@ $text-secondary-color: #7d7d7d;
 
 $block-background: #1c1c1c;
 
+$menu-item-background: #3d3d3d;
+$menu-item-active-background: #fff;
+$menu-item-hover-background: #6f6f6f;
+
 $skeleton-background: linear-gradient(
   45deg,
   $background-secondary-color,
@@ -46,5 +50,6 @@ $border-radius-max: 50%;
 $font-size-extra-small: 12px;
 $font-size-small: 14px;
 $font-size-medium: 16px;
+$font-size-menu: 20px;
 $font-size-large: 24px;
 $font-size-extra-large: 32px;

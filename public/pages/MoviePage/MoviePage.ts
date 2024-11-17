@@ -1,5 +1,4 @@
 import template from './MoviePage.hbs';
-import { Loader } from '../../components/Loader/Loader';
 import { MovieDetailed } from 'types/movie';
 import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDescription } from 'components/MovieDescription/MovieDescription';
@@ -7,10 +6,12 @@ import { Slider } from 'components/Slider/Slider';
 import { mockSeries } from '../../consts';
 import { router } from 'modules/Router';
 import { roomPageStore } from 'store/RoomPageStore';
+import { SeasonsMenu } from 'components/SeasonsMenu/SeasonsMenu';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
   #fromRecentlyWatched = false;
+  #currentSeason = 1;
 
   constructor() {}
 
@@ -32,6 +33,33 @@ export class MoviePage {
     }
   }
 
+  onSeasonClick(number: number) {
+    if (number !== this.#currentSeason) {
+      this.#currentSeason = number;
+      this.renderSeasonsBlock();
+    }
+  }
+
+  renderSeasonsBlock() {
+    const seasonsBlock = document.getElementById(
+      'movie-page-seasons',
+    ) as HTMLDivElement;
+    const seasonsMenu = new SeasonsMenu(
+      seasonsBlock,
+      5,
+      this.#currentSeason,
+      this.onSeasonClick.bind(this),
+    );
+    seasonsMenu.render();
+
+    // TODO: Серии добавить только к 3 РК
+    // const seriesBlock = document.getElementById(
+    //   'movie-page-series',
+    // ) as HTMLElement;
+    // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
+    // seriesSlider.render();
+  }
+
   renderBlocks() {
     const movieDescriptionContainer = document.getElementById(
       'movie-description-container',
@@ -42,14 +70,9 @@ export class MoviePage {
       () => console.log('favorite'),
       this.onVideoBackClick.bind(this),
     );
-    movieDescription.render();
 
-    // TODO: Серии добавить только к 3 РК
-    // const seriesBlock = document.getElementById(
-    //   'movie-page-series',
-    // ) as HTMLElement;
-    // const seriesSlider = new Slider(seriesBlock, undefined, mockSeries);
-    // seriesSlider.render();
+    this.renderSeasonsBlock();
+    movieDescription.render();
     const personsBlock = document.getElementById(
       'movie-page-persons',
     ) as HTMLElement;
