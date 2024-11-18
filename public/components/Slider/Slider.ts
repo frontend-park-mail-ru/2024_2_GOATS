@@ -3,7 +3,7 @@ import { SeriesCard } from 'components/SeriesCard/SeriesCard';
 import { PersonCard } from 'components/PersonCard/PersonCard';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import template from './Slider.hbs';
-import { MovieSaved, MovieSelection, Series } from 'types/movie';
+import { Episode, MovieSaved, MovieSelection } from 'types/movie';
 import { PersonCardData } from 'types/actor';
 import { ProgressCard } from 'components/ProgressCard/ProgressCard';
 import { MovieBigCard } from 'components/MovieBigCard/MovieBigCard';
@@ -25,7 +25,7 @@ export class Slider {
     id: number;
     type: 'selection' | 'series' | 'actors' | 'movies' | 'progress';
     selection?: MovieSelection;
-    series?: Series[];
+    series?: Episode[];
     persons?: PersonCardData[];
     savedMovies?: MovieSaved[];
   }) {

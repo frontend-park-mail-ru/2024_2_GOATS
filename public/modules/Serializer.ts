@@ -56,6 +56,27 @@ export const serializeMovieDetailed = (movie: any) => {
       ? serializePersonCards(movie.actors_info)
       : undefined,
     director: movie.director ? movie.director : undefined,
+    seasons: movie.seasons.length && movie.seasons.map(serializeSeason),
+  };
+};
+
+export const serializeEpisode = (episode: any) => {
+  return {
+    id: episode.id,
+    episodeNumber: episode.episode_number,
+    preview: episode.preview_url,
+    video: episode.video_url,
+    title: episode.title,
+    description: episode.description,
+    releaseDate: episode.release_date,
+    rating: episode.rating,
+  };
+};
+
+export const serializeSeason = (season: any) => {
+  return {
+    seasonNumber: season.season_number,
+    episodes: season.episodes.map(serializeEpisode),
   };
 };
 

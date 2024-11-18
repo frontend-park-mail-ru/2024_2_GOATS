@@ -33,15 +33,24 @@ export type MovieDetailed = {
   video: string;
   actors: PersonCardData[];
   director: string;
+  seasons?: Season[];
   isFromFavorites?: boolean;
 };
 
-export type Series = {
+export type Episode = {
   id: number;
-  position: number;
-  image: string;
-  title: string;
+  episodeNumber: number;
+  preview: string;
   video: string;
+  title?: string;
+  description?: string;
+  releaseDate?: string;
+  rating?: number;
+};
+
+export type Season = {
+  seasonNumber: number;
+  episodes: Episode[];
 };
 
 //TODO: После мержа перенести

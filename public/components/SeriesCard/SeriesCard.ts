@@ -1,12 +1,12 @@
 import template from './SeriesCard.hbs';
-import { Series } from 'types/movie';
+import { Episode } from 'types/movie';
 
 export class SeriesCard {
   #parent;
   #series;
   #onCardClick;
 
-  constructor(parent: HTMLElement, series: Series, onCardClick: () => void) {
+  constructor(parent: HTMLElement, series: Episode, onCardClick: () => void) {
     this.#parent = parent;
     this.#series = series;
     this.#onCardClick = onCardClick;
