@@ -12,12 +12,13 @@ import { Actions } from 'flux/Actions';
 export class MoviePage {
   #movie!: MovieDetailed | null;
   #fromRecentlyWatched = false;
-  #currentSeason = 1;
+  #currentSeason!: number;
   #seriesSlider!: Slider;
 
   constructor() {}
 
   render(fromRecentlyWatched?: boolean) {
+    this.#currentSeason = 1;
     this.#movie = moviePageStore.getMovie();
     this.#fromRecentlyWatched = !!fromRecentlyWatched;
     this.renderTemplate();
@@ -66,6 +67,11 @@ export class MoviePage {
   renderSeriesSlider() {
     // TODO: Серии добавить только к 3 РК
     if (this.#movie?.seasons) {
+      this.#movie.seasons.map((season) => {
+        return season.episodes.map((episode) => {
+          return (episode.preview = mockSeries[0].image);
+        });
+      });
       const seriesBlock = document.getElementById(
         'movie-page-series',
       ) as HTMLElement;
