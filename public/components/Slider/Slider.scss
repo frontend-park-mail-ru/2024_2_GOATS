@@ -5,15 +5,13 @@
   &__container {
     display: flex;
     align-items: center;
-
     overflow: hidden;
-
     width: 100%;
   }
 
   &__track {
     display: flex;
-    height: 244px;
+    height: auto;
     align-items: center;
 
     gap: 50px;
@@ -83,3 +81,29 @@
 }
 
 @include animate(animate, -100%, 100%);
+
+@include smallTablet {
+  .slider {
+    &__track {
+      gap: 30px;
+    }
+  }
+}
+
+@include mobile {
+  .slider {
+    &__btn {
+      display: none;
+    }
+
+    &__container {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    &__track {
+      gap: 20px;
+    }
+  }
+}

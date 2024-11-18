@@ -22,7 +22,7 @@ export const Urls = {
   favorites: '/favorites',
 };
 
-export const routerHandler = (url: URL, id?: string | number) => {
+export const routerHandler = (url: URL, id?: string | number, data?: any) => {
   switch (url.pathname.toString()) {
     case Urls.root:
       Actions.renderHeader(Urls.root);
@@ -47,7 +47,11 @@ export const routerHandler = (url: URL, id?: string | number) => {
     case `${Urls.movie}/${id}`:
       Actions.renderHeader(Urls.movie);
 
-      id && Actions.renderMoviePage(id);
+      if (id && data) {
+        Actions.renderMoviePage(id, data.fromRecentlyWatched);
+      } else if (id) {
+        id && Actions.renderMoviePage(id);
+      }
       footer.render(Urls.movie);
       break;
     case Urls.profile:

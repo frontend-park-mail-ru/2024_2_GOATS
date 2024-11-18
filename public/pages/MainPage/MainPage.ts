@@ -3,7 +3,10 @@ import { Slider } from '../../components/Slider/Slider';
 import template from './MainPage.hbs';
 import { MovieSelection } from 'types/movie';
 import { mainPageStore } from 'store/MainPageStore';
+import { moviePageStore } from 'store/MoviePageStore';
 import { router } from 'modules/Router';
+import { Actions } from 'flux/Actions';
+import { isMobileDevice } from 'modules/IsMobileDevice';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -14,42 +17,71 @@ export class MainPage {
 
   render() {
     this.#movieSelections = mainPageStore.getSelections();
+    Actions.getLastMovies();
     this.renderTemplate();
   }
 
   renderBlocks() {
     const isLoaded = !!this.#movieSelections.length;
-    const trendMoviesBlock = document.getElementById(
-      'trend-movies-block',
-    ) as HTMLElement;
-    if (this.#movieSelections.length) {
-      const trendMoviesList = new GridBlock({
-        parent: trendMoviesBlock,
-        movies: this.#movieSelections[0].movies,
-        blockTitle: this.#movieSelections[0].title,
-        onImageClick: (id: number) => router.go('/movie', id),
-      });
-      trendMoviesList.render();
-    } else {
-      const trendMoviesList = new GridBlock({
-        parent: trendMoviesBlock,
-        movies: null,
-        blockTitle: '',
-        onImageClick: () => {},
-      });
-      trendMoviesList.render();
-    }
-
     const mainPageBlocks = document.querySelector(
       '.main-page__blocks',
     ) as HTMLElement;
+
+    if (isLoaded && moviePageStore.getLastMovies().length) {
+      const newBlock = document.createElement('div');
+      newBlock.classList.add('main-page__block');
+      newBlock.id = `main-page-block-0`;
+      const firstChild = mainPageBlocks.firstChild;
+      mainPageBlocks.insertBefore(newBlock, firstChild);
+
+      const slider = new Slider({
+        parent: newBlock,
+        id: 1,
+        type: 'progress',
+        savedMovies: moviePageStore.getLastMovies(),
+      });
+
+      slider.render();
+    }
+
+    const trendMoviesBlock = document.getElementById(
+      'trend-movies-block',
+    ) as HTMLElement;
+    if (!isMobileDevice()) {
+      if (this.#movieSelections.length) {
+        const trendMoviesList = new GridBlock({
+          parent: trendMoviesBlock,
+          movies: this.#movieSelections[0].movies,
+          blockTitle: this.#movieSelections[0].title,
+          onImageClick: (id: number) => router.go('/movie', id),
+        });
+        trendMoviesList.render();
+      } else {
+        const trendMoviesList = new GridBlock({
+          parent: trendMoviesBlock,
+          movies: null,
+          blockTitle: '',
+          onImageClick: () => {},
+        });
+        trendMoviesList.render();
+      }
+    } else {
+      const slider = new Slider({
+        parent: trendMoviesBlock,
+        id: 0,
+        type: 'movies',
+        selection: this.#movieSelections[0],
+      });
+
+      slider.render();
+    }
 
     const newBlock = document.createElement('div');
     if (!isLoaded) {
       const slider = new Slider({
         parent: newBlock,
         id: 1,
-        type: 'movies',
+        type: 'selection',
       });
       slider.render();
       slider.render();
@@ -65,7 +97,7 @@ export class MainPage {
         const slider = new Slider({
           parent: newBlock,
           id: selection.id,
-          type: 'movies',
+          type: 'selection',
           selection: selection,
         });
 

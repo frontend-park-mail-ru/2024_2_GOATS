@@ -60,3 +60,8 @@ export type MovieSaved = {
   season?: number;
   series?: number;
 };
+
+export type SeasonsNumber = {
+  number: number;
+  isActive: boolean;
+};

@@ -9,7 +9,7 @@ export class ProgressCard {
 
   constructor(
     parent: HTMLElement,
-    movie: MovieSaved | null,
+    movie: MovieSaved,
     onCardClick: () => void,
     cardId?: number,
   ) {
@@ -36,13 +36,11 @@ export class ProgressCard {
       percentage = (this.#movie?.timeCode / this.#movie?.duration) * 100;
     }
 
-    const progressLine = document.querySelector(
-      '.progress-card__image_progress_line',
+    const progressLine = document.getElementById(
+      `progress-card-line-${this.#movie.id}`,
     ) as HTMLDivElement;
-    progressLine.style.setProperty(
-      '--progress-last-movie-value',
-      `${percentage}%`,
-    );
+
+    progressLine.style.width = `${percentage}%`;
   }
 
   renderTemplate() {
