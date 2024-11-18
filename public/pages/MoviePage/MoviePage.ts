@@ -13,6 +13,7 @@ export class MoviePage {
   #movie!: MovieDetailed | null;
   #fromRecentlyWatched = false;
   #currentSeason = 1;
+  #seriesSlider!: Slider;
 
   constructor() {}
 
@@ -37,11 +38,13 @@ export class MoviePage {
   onSeasonClick(number: number) {
     if (number !== this.#currentSeason) {
       this.#currentSeason = number;
-      this.renderSeasonsBlock();
+      this.renderSeasonsBlock(true);
+      this.#seriesSlider.kill();
+      this.renderSeriesSlider();
     }
   }
 
-  renderSeasonsBlock() {
+  renderSeasonsBlock(onlySeasons: boolean) {
     const seasonsBlock = document.getElementById(
       'movie-page-seasons',
     ) as HTMLDivElement;
@@ -53,17 +56,23 @@ export class MoviePage {
     );
     seasonsMenu.render();
 
+    if (!onlySeasons) {
+      this.renderSeriesSlider();
+    }
+  }
+
+  renderSeriesSlider() {
     // TODO: Серии добавить только к 3 РК
     const seriesBlock = document.getElementById(
       'movie-page-series',
     ) as HTMLElement;
-    const seriesSlider = new Slider({
+    this.#seriesSlider = new Slider({
       parent: seriesBlock,
       id: 99,
       type: 'series',
       series: mockSeries,
     });
-    seriesSlider.render();
+    this.#seriesSlider.render();
   }
 
   renderBlocks() {
@@ -76,7 +85,7 @@ export class MoviePage {
       this.onVideoBackClick.bind(this),
     );
 
-    this.renderSeasonsBlock();
+    this.renderSeasonsBlock(false);
     movieDescription.render();
     const personsBlock = document.getElementById(
       'movie-page-persons',

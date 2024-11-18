@@ -228,4 +228,14 @@ export class Slider {
       this.checkBtns();
     }
   }
+
+  kill() {
+    const removedSlider = document.getElementById(
+      `slider-container-${this.#type}-${this.#id}`,
+    ) as HTMLDivElement;
+
+    if (removedSlider) {
+      removedSlider.remove();
+    }
+  }
 }
