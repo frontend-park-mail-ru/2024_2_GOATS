@@ -134,4 +134,16 @@ export const Actions = {
       type: ActionTypes.DELETE_LAST_MOVIE,
     });
   },
+  addToFavorites(id: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.ADD_TO_FAVORITES,
+      id,
+    });
+  },
+  deleteFromFavorites(id: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.DELETE_FROM_FAVORITES,
+      id,
+    });
+  },
 };

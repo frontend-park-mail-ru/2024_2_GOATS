@@ -7,6 +7,7 @@ import { mockSeries } from '../../consts';
 import { router } from 'modules/Router';
 import { roomPageStore } from 'store/RoomPageStore';
 import { SeasonsMenu } from 'components/SeasonsMenu/SeasonsMenu';
+import { Actions } from 'flux/Actions';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
@@ -72,7 +73,6 @@ export class MoviePage {
     const movieDescription = new MovieDescription(
       movieDescriptionContainer,
       this.#fromRecentlyWatched,
-      () => console.log('favorite'),
       this.onVideoBackClick.bind(this),
     );
 

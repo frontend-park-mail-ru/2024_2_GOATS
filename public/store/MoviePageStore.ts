@@ -8,6 +8,7 @@ import {
   serializeMovieDetailed,
   serializeCollections,
 } from 'modules/Serializer';
+import { userStore } from './UserStore';
 
 const moviePage = new MoviePage();
 
@@ -139,6 +140,24 @@ class MoviePageStore {
     }
   }
 
+  addToFavorites(id: number) {
+    apiClient.post({
+      path: `users/favorites`,
+      body: {
+        movie_id: id,
+      },
+    });
+  }
+
+  deleteFromFavorites(id: number) {
+    apiClient.delete({
+      path: `users/favorites`,
+      body: {
+        movie_id: id,
+      },
+    });
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
@@ -165,6 +184,12 @@ class MoviePageStore {
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
         this.deleteLastMovieFromLocalStorage();
+        break;
+      case ActionTypes.ADD_TO_FAVORITES:
+        this.addToFavorites(action.id);
+        break;
+      case ActionTypes.DELETE_FROM_FAVORITES:
+        this.deleteFromFavorites(action.id);
         break;
       default:
         break;

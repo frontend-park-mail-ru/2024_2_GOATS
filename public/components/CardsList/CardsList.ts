@@ -12,6 +12,7 @@ export class CardsList {
     this.#parent = parent;
     this.#id = id;
     this.#movies = movies;
+    console.log(parent, id, movies);
   }
 
   render() {

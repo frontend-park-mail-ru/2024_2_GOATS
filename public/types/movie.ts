@@ -33,6 +33,7 @@ export type MovieDetailed = {
   video: string;
   actors: PersonCardData[];
   director: string;
+  isFromFavorites?: boolean;
 };
 
 export type Series = {

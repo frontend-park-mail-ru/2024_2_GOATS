@@ -12,7 +12,6 @@ export class MovieDescription {
   #parent;
   #movie!: MovieDetailed | null;
   #movieSelections: MovieSelection[] = [];
-  #onFavoritesClick;
   #onVideoBackClick;
   #currentMovieSelection!: MovieSelection;
   #isModalOpened;
@@ -23,12 +22,10 @@ export class MovieDescription {
   constructor(
     parent: HTMLElement,
     fromRecentlyWatched: boolean,
-    onFavoritesClick: () => void,
     onVideoBackClick: (id: number) => void,
   ) {
     this.#parent = parent;
     this.#fromRecentlyWatched = fromRecentlyWatched;
-    this.#onFavoritesClick = onFavoritesClick;
     this.#onVideoBackClick = onVideoBackClick;
     this.#isModalOpened = false;
 
@@ -181,13 +178,24 @@ export class MovieDescription {
   //   });
   // }
 
-  // TODO: Избранные к 3 РК
-  // handleFavoritesClick() {
-  //   const favoritesBtn = document.getElementById(
-  //     'favorites-movie-btn',
-  //   ) as HTMLButtonElement;
-  //   favoritesBtn.addEventListener('click', this.#onFavoritesClick);
-  // }
+  // TODO: Проверить логику изменения состояния
+  onFavoritesClick() {
+    if (this.#movie) {
+      if (this.#movie.isFromFavorites) {
+        Actions.deleteFromFavorites(this.#movie.id);
+      } else {
+        Actions.addToFavorites(this.#movie.id);
+      }
+    }
+  }
+
+  handleFavoritesClick() {
+    const favoritesBtn = document.getElementById(
+      'favorites-movie-btn',
+    ) as HTMLButtonElement;
+
+    favoritesBtn.addEventListener('click', this.onFavoritesClick.bind(this));
+  }
 
   setStartTimecode() {
     const foundSavedMovie = moviePageStore
@@ -219,7 +227,7 @@ export class MovieDescription {
 
       this.handleShowMovie();
       // this.handleWatchTogether();
-      // this.handleFavoritesClick();
+      this.handleFavoritesClick();
     } else {
       this.#parent.innerHTML = skeletonTemplate();
     }
