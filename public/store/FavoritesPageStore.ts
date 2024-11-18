@@ -45,6 +45,24 @@ class FavoritesPageStore {
     });
   }
 
+  addToFavorites(id: number) {
+    apiClient.post({
+      path: `users/favorites`,
+      body: {
+        movie_id: id,
+      },
+    });
+  }
+
+  deleteFromFavorites(id: number) {
+    apiClient.delete({
+      path: `users/favorites`,
+      body: {
+        movie_id: id,
+      },
+    });
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_FAVORITES_PAGE:
@@ -53,6 +71,12 @@ class FavoritesPageStore {
           await this.getFavorites();
           favoritePage.render();
         }
+        break;
+      case ActionTypes.ADD_TO_FAVORITES:
+        this.addToFavorites(action.id);
+        break;
+      case ActionTypes.DELETE_FROM_FAVORITES:
+        this.deleteFromFavorites(action.id);
         break;
       default:
         break;
