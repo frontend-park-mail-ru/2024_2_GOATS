@@ -1,5 +1,6 @@
 import { dateFormatter } from './DateFormatter';
 import { HOST } from '../consts';
+import { Episode, Season } from 'types/movie';
 
 export const serializeMovie = (movie: any) => {
   return {
@@ -56,7 +57,11 @@ export const serializeMovieDetailed = (movie: any) => {
       ? serializePersonCards(movie.actors_info)
       : undefined,
     director: movie.director ? movie.director : undefined,
-    seasons: movie.seasons.length && movie.seasons.map(serializeSeason),
+    seasons:
+      movie.seasons.length &&
+      movie.seasons.map(serializeSeason).sort((a: Season, b: Season) => {
+        return a.seasonNumber - b.seasonNumber;
+      }),
   };
 };
 
@@ -76,7 +81,11 @@ export const serializeEpisode = (episode: any) => {
 export const serializeSeason = (season: any) => {
   return {
     seasonNumber: season.season_number,
-    episodes: season.episodes.map(serializeEpisode),
+    episodes: season.episodes
+      .map(serializeEpisode)
+      .sort((a: Episode, b: Episode) => {
+        return a.episodeNumber - b.episodeNumber;
+      }),
   };
 };
 

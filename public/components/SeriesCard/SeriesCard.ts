@@ -6,7 +6,11 @@ export class SeriesCard {
   #series;
   #onCardClick;
 
-  constructor(parent: HTMLElement, series: Episode, onCardClick: () => void) {
+  constructor(
+    parent: HTMLElement,
+    series: Episode,
+    onCardClick: (episodeNumber: number) => void,
+  ) {
     this.#parent = parent;
     this.#series = series;
     this.#onCardClick = onCardClick;
@@ -20,7 +24,9 @@ export class SeriesCard {
     const card = document.getElementById(
       `series-card-${this.#series.id}`,
     ) as HTMLElement;
-    card.addEventListener('click', this.#onCardClick);
+    card.addEventListener('click', () =>
+      this.#onCardClick(this.#series.episodeNumber),
+    );
   }
 
   renderTemplate() {

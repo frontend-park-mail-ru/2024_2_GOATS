@@ -24,8 +24,21 @@ class MoviePageStore {
     this.#isNewSeriesReceivedEmitter = new Emitter<boolean>(false);
     this.#hasTimeCodeChangedEmitter = new Emitter<boolean>(false);
 
+    const unsubscribeLastMovies = this.hasTimeCodeChangedEmitter$.addListener(
+      (status) => {
+        if (status) {
+          moviePage.setStartTimecode();
+        }
+      },
+    );
+
+    this.ngOnLastMoviesDestroy = () => {
+      unsubscribeLastMovies();
+    };
+
     dispatcher.register(this.reduce.bind(this));
   }
+  ngOnLastMoviesDestroy(): void {}
 
   get isNewSeriesReceivedEmitter$(): Emitter<boolean> {
     return this.#isNewSeriesReceivedEmitter;
@@ -97,7 +110,6 @@ class MoviePageStore {
 
   setLastMoviesToLocalStorage(timeCode: number, duration: number) {
     const foundMovie = this.#lastMovies.find((m) => m.id === this.#movie?.id);
-    this.#hasTimeCodeChangedEmitter.set(false);
 
     if (this.#movie) {
       if (foundMovie) {

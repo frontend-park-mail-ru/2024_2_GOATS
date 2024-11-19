@@ -289,6 +289,14 @@ export function setPagesConfig(
   };
 }
 
+export const mockVideos = [
+  '/static/movies/squid-game/movie.mp4',
+  '/static/movies/avengers/movie.mp4',
+  '/static/movies/drunk/movie.mp4',
+  '/static/movies/greenbook/movie.mp4',
+  '/static/movies/ford-v-ferrari/movie.mp4',
+];
+
 export const mockSeries = [
   {
     id: 1,
@@ -296,8 +304,7 @@ export const mockSeries = [
     title: 'Серия 1',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
-    video:
-      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    video: mockVideos[0],
   },
   {
     id: 2,
@@ -305,8 +312,7 @@ export const mockSeries = [
     title: 'Серия 2',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
-    video:
-      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    video: mockVideos[1],
   },
   {
     id: 3,
@@ -314,8 +320,7 @@ export const mockSeries = [
     title: 'Серия 3',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
-    video:
-      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    video: mockVideos[2],
   },
   {
     id: 4,
@@ -323,8 +328,7 @@ export const mockSeries = [
     title: 'Серия 4',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
-    video:
-      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    video: mockVideos[3],
   },
   {
     id: 5,
@@ -332,60 +336,7 @@ export const mockSeries = [
     title: 'Серия 5',
     image:
       'https://deadline.com/wp-content/uploads/2021/09/The-Many-Saints-Of-Newark.jpg',
-    video:
-      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-  },
-];
-
-export const mockPersons = [
-  {
-    id: 1,
-    name: 'Джеймс Гандольфини',
-    image:
-      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
-    isDirector: true,
-  },
-  {
-    id: 2,
-    name: 'Джеймс Гандольфини',
-    image:
-      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
-    isDirector: true,
-  },
-  {
-    id: 3,
-    name: 'Джеймс Гандольфини',
-    image:
-      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
-    isDirector: false,
-  },
-  {
-    id: 4,
-    name: 'Джеймс Гандольфини',
-    image:
-      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
-    isDirector: false,
-  },
-  {
-    id: 5,
-    name: 'Джеймс Гандольфини',
-    image:
-      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
-    isDirector: false,
-  },
-  {
-    id: 6,
-    name: 'Джеймс Гандольфини',
-    image:
-      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
-    isDirector: false,
-  },
-  {
-    id: 7,
-    name: 'Джеймс Гандольфини',
-    image:
-      'https://avatars.mds.yandex.net/i?id=30e86f4fc42a7fc3062ee3c7124ac470_l-12510741-images-thumbs&n=13',
-    isDirector: false,
+    video: mockVideos[4],
   },
 ];
 
@@ -408,89 +359,6 @@ export const movie = {
   video:
     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
 };
-
-export const mockUsers = [
-  {
-    id: 1,
-    email: 'user1@example.com',
-    username: 'user1',
-    isAuth: true,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 2,
-    email: 'user2@example.com',
-    username: 'user2',
-    isAuth: false,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 3,
-    email: 'user3@example.com',
-    username: 'user3',
-    isAuth: true,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 4,
-    email: 'user4@example.com',
-    username: 'user4',
-    isAuth: false,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 5,
-    email: 'user5@example.com',
-    username: 'user5',
-    isAuth: true,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 6,
-    email: 'user6@example.com',
-    username: 'user6',
-    isAuth: false,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 7,
-    email: 'user7@example.com',
-    username: 'user7',
-    isAuth: true,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 8,
-    email: 'user8@example.com',
-    username: 'user8',
-    isAuth: false,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 9,
-    email: 'user9@example.com',
-    username: 'user9',
-    isAuth: true,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-  {
-    id: 10,
-    email: 'user10@example.com',
-    username: 'user10',
-    isAuth: false,
-    avatar:
-      'https://media.tproger.ru/uploads/2023/03/403019_avatar_male_man_person_user_icon.png',
-  },
-];
 
 export const monthDictionary = new Map([
   ['01', 'Января'],

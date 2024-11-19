@@ -19,6 +19,7 @@ export class Slider {
   #id;
   #leftDiff;
   #rightDiff;
+  #onSeriesClick;
 
   constructor(params: {
     parent: HTMLElement;
@@ -28,6 +29,7 @@ export class Slider {
     series?: Episode[];
     persons?: PersonCardData[];
     savedMovies?: MovieSaved[];
+    onSeriesClick?: (episodeNumber: number) => void;
   }) {
     this.#parent = params.parent;
     this.#id = params.id;
@@ -36,6 +38,7 @@ export class Slider {
     this.#series = params.series;
     this.#persons = params.persons;
     this.#savedMovies = params.savedMovies;
+    this.#onSeriesClick = params.onSeriesClick;
     this.#leftDiff = 0;
     this.#rightDiff = 0;
   }
@@ -182,19 +185,11 @@ export class Slider {
           break;
         case 'series':
           this.#series?.forEach((series) => {
-            const seriesCard = new SeriesCard(track, series, () => {
-              const moviePage = document.getElementById(
-                'movie-page',
-              ) as HTMLElement;
-              const video = new VideoPlayer({
-                parent: moviePage,
-                url: series.video,
-                hasNextSeries: true,
-                hasPrevSeries: true,
-                onBackClick: () => router.go('/movie'),
-              });
-              video.render();
-            });
+            const seriesCard = new SeriesCard(
+              track,
+              series,
+              this.#onSeriesClick ? this.#onSeriesClick : () => {},
+            );
             seriesCard.render();
           });
           break;
