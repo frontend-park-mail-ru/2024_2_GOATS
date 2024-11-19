@@ -98,6 +98,27 @@ export class Header {
     });
   }
 
+  handleOpenSidebar() {
+    const burgerButton = document.getElementById(
+      'header-burger-button',
+    ) as HTMLElement;
+    const sidebar = document.getElementById('header-sidebar') as HTMLElement;
+    burgerButton.addEventListener('click', () => {
+      sidebar.classList.add('sidebar-visible');
+      sidebar.classList.remove('sidebar-hidden');
+    });
+  }
+  handleCloseSidebar() {
+    const closeButton = document.getElementById(
+      'close-sidebar-icon',
+    ) as HTMLElement;
+    const sidebar = document.getElementById('header-sidebar') as HTMLElement;
+    closeButton.addEventListener('click', () => {
+      sidebar.classList.remove('sidebar-visible');
+      sidebar.classList.add('sidebar-hidden');
+    });
+  }
+
   async logout() {
     try {
       await apiClient.post({
@@ -139,5 +160,7 @@ export class Header {
     document.getElementById('header')?.addEventListener('click', this.#handler);
     this.handleLogoClick();
     this.toggleSearch();
+    this.handleOpenSidebar();
+    this.handleCloseSidebar();
   }
 }

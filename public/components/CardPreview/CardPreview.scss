@@ -32,7 +32,8 @@
 
   &__info {
     padding: 4px 8px;
-    font-size: $font-size-small &_title {
+    font-size: $font-size-small;
+    &_title {
       display: block;
       margin-bottom: 8px;
     }
