@@ -15,6 +15,7 @@ export class MoviePage {
   #fromRecentlyWatched = false;
   #currentSeason!: number;
   #currentSeries!: number;
+  #seriesPosition!: number;
   #seriesSlider!: Slider;
   #isModalOpened;
   #startTimeCode = 0;
@@ -26,6 +27,7 @@ export class MoviePage {
   render(fromRecentlyWatched?: boolean) {
     this.#currentSeason = 1;
     this.#currentSeries = 1;
+    this.#seriesPosition = 1;
     this.#movie = moviePageStore.getMovie();
     this.#fromRecentlyWatched = !!fromRecentlyWatched;
     this.renderTemplate();
@@ -67,6 +69,7 @@ export class MoviePage {
 
   onSeriesClick(seriesNumber: number) {
     this.#currentSeries = seriesNumber;
+    this.#seriesPosition = seriesNumber;
     if (this.#movie?.seasons) {
       this.renderVideoPlayer(
         this.#movie?.seasons[this.#currentSeason - 1].episodes[seriesNumber - 1]
@@ -97,21 +100,31 @@ export class MoviePage {
       this.#seriesSlider.render();
     }
   }
+
   renderVideoPlayer(videoUrl: string) {
     this.#isModalOpened = true;
     const videoContainer = document.getElementById(
       'video-container',
     ) as HTMLElement;
+    let allSeriesCount = 0;
+    if (this.#movie?.isSerial) {
+      this.#movie?.seasons?.forEach((season) => {
+        season.episodes.forEach(() => {
+          allSeriesCount++;
+        });
+      });
+    }
+
+    const hasNextSeries =
+      this.#movie?.seasons && this.#seriesPosition < allSeriesCount;
+
+    const hasPrevSeries = this.#movie?.seasons && this.#seriesPosition > 1;
 
     const video = new VideoPlayer({
       parent: videoContainer,
       url: videoUrl,
-      hasNextSeries: !!(
-        this.#movie?.seasons &&
-        this.#currentSeries <
-          this.#movie.seasons[this.#currentSeason - 1].episodes.length
-      ),
-      hasPrevSeries: !!(this.#movie?.seasons && this.#currentSeries > 1),
+      hasNextSeries: !!hasNextSeries,
+      hasPrevSeries: !!hasPrevSeries,
       startTimeCode: this.#startTimeCode,
       onBackClick: this.onBackClick.bind(this),
       onNextButtonClick: this.onNextSeriesClick.bind(this),
@@ -130,6 +143,10 @@ export class MoviePage {
 
     videoContainer.innerHTML = '';
     videoContainer.style.zIndex = '-1';
+
+    this.#currentSeason = 1;
+    this.#currentSeries = 1;
+    this.#seriesPosition = 1;
 
     if (this.#movie) {
       Actions.getLastMovies();
@@ -161,12 +178,31 @@ export class MoviePage {
     }
   }
   onNextSeriesClick() {
-    this.#currentSeries++;
+    this.#seriesPosition++;
+    if (
+      this.#movie?.seasons &&
+      this.#currentSeries ===
+        this.#movie.seasons[this.#currentSeason - 1].episodes.length
+    ) {
+      this.#currentSeason++;
+      this.#currentSeries = 1;
+    } else {
+      this.#currentSeries++;
+    }
+
     this.rerenderVideo();
   }
 
   onPrevSeriesClick() {
-    this.#currentSeries--;
+    this.#seriesPosition--;
+
+    if (this.#movie?.seasons && this.#currentSeries === 1) {
+      this.#currentSeason--;
+      this.#currentSeries =
+        this.#movie.seasons[this.#currentSeason - 1].episodes.length;
+    } else {
+      this.#currentSeries--;
+    }
     this.rerenderVideo();
   }
 
