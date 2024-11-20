@@ -36,7 +36,7 @@ export class Card {
           const preview = new CardPreview(this.#movie, previewBlock, a);
           preview.render();
         }
-      }, 800);
+      }, 400);
     });
 
     card.addEventListener('mouseout', () => {

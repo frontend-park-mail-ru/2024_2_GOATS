@@ -36,11 +36,7 @@
           data-section='{{profileItem.key}}'
         >
           <div class='header__container_profile'> 
-             {{!-- <h4>
-              {{currentUsername}}
-            </h4> --}}
             <div class='header__container_avatar'>
-
               <img
                 class='header__container_avatar_img'
                 src={{currentUserAvatar}}
@@ -49,9 +45,39 @@
             </div>
           </div>
         </a>
+        
       </div>
       {{/if}}
+      <div id="header-burger-button" class="header__container_burger">
+          <img class="header__container_burger_icon" src="/assets/icons/burgerIcon.svg" alt="">
+        </div>
     </div>
-    
   </div>
+  <div class="sidebar sidebar-hidden" id="header-sidebar">
+      <div class="sidebar__actions">
+        <div id="close-sidebar-icon" class="sidebar__actions_close">
+          <img class="sidebar__actions_close_icon" src="/assets/icons/closeIcon.svg" alt="">
+        </div>
+      </div>
+      <div class="sidebar__nav">
+        {{#each navItems}}
+          {{#if this.isAvailable}}
+            <a
+              class='sidebar__nav_item {{this.className}} '
+              href='{{this.href}}'
+              id='{{this.id}}'
+              data-section='{{this.key}}'
+            >{{this.text}}</a>
+          {{/if}}
+        {{/each}}
+        {{#if isUserAuth}}
+          <a  
+            class='sidebar__nav_item {{profileItem.className}} profile'
+            href='{{profileItem.href}}'
+            id='{{profileItem.id}}'
+            data-section='{{profileItem.key}}'
+          >{{profileItem.text}}</a>
+        {{/if}}
+      </div>
+    </div>
 </div>

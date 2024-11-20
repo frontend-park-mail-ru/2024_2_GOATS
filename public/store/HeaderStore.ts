@@ -19,31 +19,9 @@ class HeaderStore {
           id: 'header-main',
           isAvailable: true,
           render: () => {
-            router.go('/');
-            if (roomPageStore.getWs()) {
-              roomPageStore.closeWs();
+            if (router.getCurrentPath() !== '/') {
+              router.go('/');
             }
-          },
-        },
-        auth: {
-          text: 'Войти',
-          href: '/auth',
-          id: 'header-auth',
-          isAvailable: !userStore.getUserAuthStatus(),
-          render: () => {
-            router.go('/auth');
-            if (roomPageStore.getWs()) {
-              roomPageStore.closeWs();
-            }
-          },
-        },
-        profile: {
-          text: 'Профиль',
-          href: '/profile',
-          id: 'header-profile',
-          isAvailable: userStore.getUserAuthStatus(),
-          render: () => {
-            router.go('/profile');
             if (roomPageStore.getWs()) {
               roomPageStore.closeWs();
             }
@@ -53,9 +31,11 @@ class HeaderStore {
           text: 'Жанры',
           href: '/genres',
           id: 'header-genres',
-          isAvailable: userStore.getUserAuthStatus(),
+          isAvailable: true,
           render: () => {
-            router.go('/genres');
+            if (router.getCurrentPath() !== '/genres') {
+              router.go('/genres');
+            }
             if (roomPageStore.getWs()) {
               roomPageStore.closeWs();
             }
@@ -67,7 +47,38 @@ class HeaderStore {
           id: 'header-favorites',
           isAvailable: userStore.getUserAuthStatus(),
           render: () => {
+            if (router.getCurrentPath() !== '/favorites') {
+              router.go('/favorites');
+            }
             router.go('/favorites');
+            if (roomPageStore.getWs()) {
+              roomPageStore.closeWs();
+            }
+          },
+        },
+        auth: {
+          text: 'Войти',
+          href: '/auth',
+          id: 'header-auth',
+          isAvailable: !userStore.getUserAuthStatus(),
+          render: () => {
+            if (router.getCurrentPath() !== '/auth') {
+              router.go('/auth');
+            }
+            if (roomPageStore.getWs()) {
+              roomPageStore.closeWs();
+            }
+          },
+        },
+        profile: {
+          text: 'Профиль',
+          href: '/profile',
+          id: 'header-profile',
+          isAvailable: userStore.getUserAuthStatus(),
+          render: () => {
+            // if (router.getCurrentPath() !== '/profile') {
+            router.go('/profile');
+            // } // TODO: пофиксить баг с навигацией
             if (roomPageStore.getWs()) {
               roomPageStore.closeWs();
             }
@@ -82,7 +93,7 @@ class HeaderStore {
     this.#config.pages.main.isAvailable = true;
     this.#config.pages.auth.isAvailable = !isAuth;
     this.#config.pages.profile.isAvailable = isAuth;
-    this.#config.pages.genres.isAvailable = isAuth;
+    this.#config.pages.genres.isAvailable = true;
     this.#config.pages.favorites.isAvailable = isAuth;
   }
 
