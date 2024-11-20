@@ -354,6 +354,8 @@
   }
   .header {
     &__container {
+      width: 90vw;
+
       align-items: center;
 
       &_logo {
