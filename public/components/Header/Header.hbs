@@ -16,16 +16,16 @@
         {{/if}}
       {{/each}}
     </div>
-    <div class="header__container_widgets">
-      <div id="search-bar" class="search-bar">
-        <div id="search-bar-search" class="search-bar__search">
+    <div class="header__container_widgets {{#if isUserAuth}} authed-widgets{{/if}}">
+      <div id="search-bar-container" class="header__container_widgets_search-bar">
+        {{!-- <div id="search-bar-search" class="search-bar__search">
           <span class="search-bar__search_text">Поиск</span>
           <img class="search-bar__search_icon" src="/assets/icons/searchIcon.svg" alt="">
         </div>
         <input placeholder="Начните поиск" id="search-bar-input" class="search-bar__input" type="text">
         <div id="search-bar-close" class="search-bar__close">
            <img  class="search-bar__close_icon" src="/assets/icons/closeIcon.svg" alt="">
-        </div>
+        </div> --}}
       </div>
       {{#if isUserAuth}}
       <div class='header__container_auth'>

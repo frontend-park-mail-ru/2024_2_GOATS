@@ -1,0 +1,17 @@
+<div class='find-item-list'>
+  {{#each items}}
+    <div class='find-item-list__item'>
+      <img class='find-item-list__item_image' src={{this.albumImage}} alt='' />
+      <div class='find-item-list__item_info'>
+        <h2 class='find-item-list__item_info_title'>{{this.title}}</h2>
+        <div class='find-item-list__item_stats'>
+          <span class='find-item-list__item_stats_stat'>{{this.country}}</span>
+          <span
+            class='find-item-list__item_stats_stat'
+          >{{this.releaseDate}}</span>
+          <span class='find-item-list__item_stats_stat'>{{this.rating}}</span>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>

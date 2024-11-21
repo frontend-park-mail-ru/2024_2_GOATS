@@ -12,6 +12,7 @@ import 'store/ProfilePageStore';
 import 'store/RoomPageStore';
 import 'store/FavoritesPageStore';
 import 'store/GenresPageStore';
+import 'store/SearchBlockStore';
 
 const root = document.getElementById('root') as HTMLElement;
 const pageElement = document.createElement('main');

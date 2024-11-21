@@ -6,6 +6,7 @@ import { userStore } from 'store/UserStore';
 import Handlebars from 'handlebars';
 import { Actions } from 'flux/Actions';
 import { router } from 'modules/Router';
+import { SearchBlock } from 'components/SearchBlock/SearchBlock';
 
 function clickHandler(event: MouseEvent, config: any) {
   let targetElement: HTMLElement;
@@ -157,9 +158,11 @@ export class Header {
       profileItem: items.find((item) => item.id == 'header-profile'),
     });
 
+    Actions.renderSearchBlock();
+
     document.getElementById('header')?.addEventListener('click', this.#handler);
     this.handleLogoClick();
-    this.toggleSearch();
+    // this.toggleSearch();
     this.handleOpenSidebar();
     this.handleCloseSidebar();
   }

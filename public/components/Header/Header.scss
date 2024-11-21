@@ -69,6 +69,13 @@
       align-self: baseline;
       display: flex;
       gap: 16px;
+
+      &.authed-widgets {
+        align-items: center;
+      }
+
+      &_search-bar {
+      }
     }
 
     &_auth {
@@ -110,58 +117,58 @@
   }
 }
 
-.search-bar {
-  align-self: center;
-  margin-bottom: -2px;
-  padding: 0px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  // gap: 8px;
+// .search-bar {
+//   align-self: center;
+//   margin-bottom: -2px;
+//   padding: 0px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: flex-end;
+//   // gap: 8px;
 
-  &.active {
-    .search-bar {
-      align-self: flex-end;
-      &__input {
-        width: 200px;
-        padding-left: 8px;
-      }
-      &__search {
-        &_text {
-          display: none;
-        }
-      }
-      &__close {
-        display: block;
-      }
-    }
-  }
+//   &.active {
+//     .search-bar {
+//       align-self: flex-end;
+//       &__input {
+//         width: 200px;
+//         padding-left: 8px;
+//       }
+//       &__search {
+//         &_text {
+//           display: none;
+//         }
+//       }
+//       &__close {
+//         display: block;
+//       }
+//     }
+//   }
 
-  &__search {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
+//   &__search {
+//     font-size: 20px;
+//     display: flex;
+//     align-items: center;
 
-    gap: 8px;
-  }
+//     gap: 8px;
+//   }
 
-  &__input {
-    width: 0px;
-    font-size: 18px;
-    font-weight: 300;
+//   &__input {
+//     width: 0px;
+//     font-size: 18px;
+//     font-weight: 300;
 
-    transition: width 0.2s linear;
-  }
+//     transition: width 0.2s linear;
+//   }
 
-  &__close {
-    display: none;
-    height: 22px;
+//   &__close {
+//     display: none;
+//     height: 22px;
 
-    &_icon {
-      width: 22px;
-    }
-  }
-}
+//     &_icon {
+//       width: 22px;
+//     }
+//   }
+// }
 
 .sidebar {
   position: fixed;
@@ -319,7 +326,7 @@
         align-items: center;
       }
       &_widgets {
-        gap: 14px;
+        gap: 18px;
       }
     }
   }

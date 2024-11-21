@@ -54,6 +54,11 @@ export const Actions = {
       type: ActionTypes.RENDER_GENRES_PAGE,
     });
   },
+  renderSearchBlock() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_SEARCH_BLOCK,
+    });
+  },
   renderFavoritesPage() {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_FAVORITES_PAGE,
