@@ -117,59 +117,6 @@
   }
 }
 
-// .search-bar {
-//   align-self: center;
-//   margin-bottom: -2px;
-//   padding: 0px;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: flex-end;
-//   // gap: 8px;
-
-//   &.active {
-//     .search-bar {
-//       align-self: flex-end;
-//       &__input {
-//         width: 200px;
-//         padding-left: 8px;
-//       }
-//       &__search {
-//         &_text {
-//           display: none;
-//         }
-//       }
-//       &__close {
-//         display: block;
-//       }
-//     }
-//   }
-
-//   &__search {
-//     font-size: 20px;
-//     display: flex;
-//     align-items: center;
-
-//     gap: 8px;
-//   }
-
-//   &__input {
-//     width: 0px;
-//     font-size: 18px;
-//     font-weight: 300;
-
-//     transition: width 0.2s linear;
-//   }
-
-//   &__close {
-//     display: none;
-//     height: 22px;
-
-//     &_icon {
-//       width: 22px;
-//     }
-//   }
-// }
-
 .sidebar {
   position: fixed;
   top: 0;
@@ -326,6 +273,7 @@
         align-items: center;
       }
       &_widgets {
+        align-items: center;
         gap: 18px;
       }
     }
@@ -363,7 +311,7 @@
     &__container {
       width: 90vw;
 
-      align-items: center;
+      // align-items: center;
 
       &_logo {
         font-size: 24px;
@@ -374,10 +322,10 @@
       }
       &_widgets {
         // align-self: center;
-        align-items: center;
+        align-items: baseline;
       }
       &_burger {
-        height: 18px;
+        height: 24px;
         &_icon {
           width: 100%;
           height: 100%;

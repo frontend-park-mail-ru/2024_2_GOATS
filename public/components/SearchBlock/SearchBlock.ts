@@ -7,15 +7,15 @@ import { SearchList } from 'components/SearchList/SearchList';
 const searchList = new SearchList();
 
 export class SearchBlock {
-  #selectedItem: 'movie' | 'person';
-  #selectedItemEmmitter: Emitter<'movie' | 'person'>;
+  #selectedItem: 'movies' | 'actors';
+  #selectedItemEmmitter: Emitter<'movies' | 'actors'>;
 
   #inputValue: string;
   #inputValueEmmitter: Emitter<string>;
 
   constructor() {
-    this.#selectedItem = 'movie';
-    this.#selectedItemEmmitter = new Emitter<'movie' | 'person'>('movie');
+    this.#selectedItem = 'movies';
+    this.#selectedItemEmmitter = new Emitter<'movies' | 'actors'>('movies');
 
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
@@ -25,34 +25,32 @@ export class SearchBlock {
     //     this.renderItemsList();
     //   });
 
-    // this.ngOnDestroy = () => {
-    //   dataFetchingListener();
-    // };
+    this.ngOnDestroy = () => {
+      // dataFetchingListener();
+    };
   }
 
   ngOnDestroy(): void {}
-
-  get inputEmmitter$(): Emitter<string> {
-    return this.#inputValueEmmitter;
-  }
-  get navEmmitter$(): Emitter<'movie' | 'person'> {
-    return this.#selectedItemEmmitter;
-  }
-
-  renderItemsList() {
-    console.log(searchBlockStore.getMovies());
-    searchList.render(searchBlockStore.getMovies());
-  }
-
-  renderTemplate() {
-    this.render();
-  }
 
   get getInputValue() {
     return this.#inputValue;
   }
   get getSelectedCategory() {
     return this.#selectedItem;
+  }
+  get inputEmmitter$(): Emitter<string> {
+    return this.#inputValueEmmitter;
+  }
+  get navEmmitter$(): Emitter<'movies' | 'actors'> {
+    return this.#selectedItemEmmitter;
+  }
+
+  renderItemsList(type: string) {
+    searchList.render(searchBlockStore.getMovies(), type);
+  }
+
+  renderTemplate() {
+    this.render();
   }
 
   //   handleInputChange() {
@@ -96,15 +94,15 @@ export class SearchBlock {
     personsNav.addEventListener('click', () => {
       activeNav.classList.add('persons-selected');
       activeNav.classList.remove('movies-selected');
-      this.#selectedItem = 'person';
-      this.#selectedItemEmmitter.set('person');
+      this.#selectedItem = 'actors';
+      this.#selectedItemEmmitter.set('actors');
     });
 
     moviesNav.addEventListener('click', () => {
       activeNav.classList.remove('persons-selected');
       activeNav.classList.add('movies-selected');
-      this.#selectedItem = 'movie';
-      this.#selectedItemEmmitter.set('movie');
+      this.#selectedItem = 'movies';
+      this.#selectedItemEmmitter.set('movies');
     });
   }
 

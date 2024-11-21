@@ -7,14 +7,15 @@ import { userStore } from './UserStore';
 import { apiClient } from 'modules/ApiClient';
 import { Emitter } from 'modules/Emmiter';
 import { serializeMovie } from 'modules/Serializer';
+import { findActors, findMovies } from 'types/searchTypes';
 
 const searchBlock = new SearchBlock();
 
 class SearchBlockStore {
-  #findPersons: ActorInfo[];
-  #findMovies: Movie[];
+  #findPersons: findActors[];
+  #findMovies: findMovies[];
 
-  //   #isDataLoading: boolean;
+  // #isDataLoading: boolean;
   // #isDataLoadingEmmitter: Emitter<boolean>;
 
   constructor() {
@@ -40,6 +41,7 @@ class SearchBlockStore {
   }
 
   // get dataLoadingEmmitter$(): Emitter<boolean> {
+  //   console.log('----------')
   //   return this.#isDataLoadingEmmitter;
   // }
 
@@ -56,19 +58,41 @@ class SearchBlockStore {
   async searchRequest() {
     try {
       this.#findMovies = [];
-      //   this.#isDataLoadingEmmitter.set(true);
+      // this.#isDataLoadingEmmitter.set(true);
       console.log(
         'Ищем ',
         searchBlock.getInputValue,
         'в категории',
         searchBlock.getSelectedCategory,
       );
-      const response = await apiClient.get({
-        path: 'movie_collections/',
-      }); // Дождаться реальных данных
 
-      this.#findMovies = response.collections[1].movies.map(serializeMovie);
-      searchBlock.renderItemsList();
+      const tmp =
+        searchBlock.getSelectedCategory === 'movies' ? 'title' : 'name';
+
+      const response = await fetch(
+        `http://localhost:9200/${searchBlock.getSelectedCategory}/_search`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: {
+              match_phrase_prefix: {
+                [tmp]: searchBlock.getInputValue,
+              },
+            },
+          }),
+        },
+      );
+      // const response = await apiClient.get({
+      //   path: 'movie_collections/',
+      // }); // Дождаться реальных данных
+      const data = await response.json();
+
+      this.#findMovies = data.hits.hits;
+      searchBlock.renderItemsList(searchBlock.getSelectedCategory);
+      // this.#isDataLoadingEmmitter.set(false);
     } catch (e) {
       console.log(e);
     }

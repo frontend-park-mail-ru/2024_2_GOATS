@@ -13,7 +13,7 @@
 
   &.active-search-bar {
     border-bottom: 2px solid white;
-    padding-bottom: 7px;
+    padding-bottom: 6px;
     .search-bar {
       align-self: flex-end;
 
@@ -69,6 +69,7 @@
 
   &__list {
     position: absolute;
+    right: 0;
     width: 100%;
     height: 250px;
     background-color: $background-secondary-color;
@@ -138,7 +139,7 @@
       padding-bottom: 6px;
       .search-bar {
         &__input {
-          width: 150px;
+          width: 250px;
           padding-left: 4px;
         }
       }
@@ -154,6 +155,110 @@
       height: 20px;
       &_icon {
         width: 20px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .search-bar {
+    align-items: center;
+    // gap: 6px;
+
+    &.active-search-bar {
+      padding-bottom: 6px;
+      .search-bar {
+        &__input {
+          width: 200px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 18px;
+    }
+    &__input {
+      font-size: 16px;
+    }
+    &__close {
+      height: 20px;
+      &_icon {
+        width: 20px;
+      }
+    }
+  }
+}
+
+@include extraSmallMobile {
+  .search-bar {
+    align-items: center;
+    // gap: 6px;
+
+    &__list {
+      right: -40px;
+      margin: 0 auto;
+      width: 90vw;
+    }
+    &.active-search-bar {
+      padding-bottom: 6px;
+      .search-bar {
+        &__input {
+          width: 150px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 14px;
+    }
+    &__input {
+      font-size: 14px;
+    }
+    &__close {
+      height: 18px;
+      &_icon {
+        width: 18px;
+      }
+    }
+  }
+}
+
+@include ultraSmallMobile {
+  .search-bar {
+    align-items: center;
+    // gap: 6px;
+
+    &__list {
+      right: -40px;
+      margin: 0 auto;
+      width: 90vw;
+    }
+    &.active-search-bar {
+      padding-bottom: 6px;
+
+      #header__container_logo {
+        display: none;
+      }
+      .search-bar {
+        &__input {
+          width: 70px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 14px;
+    }
+    &__input {
+      font-size: 14px;
+    }
+    &__close {
+      height: 18px;
+      &_icon {
+        width: 18px;
       }
     }
   }
