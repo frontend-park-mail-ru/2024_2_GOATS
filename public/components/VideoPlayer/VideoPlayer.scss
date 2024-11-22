@@ -81,6 +81,7 @@
       cursor: pointer;
       background-repeat: no-repeat;
       background-size: 36px;
+      user-select: none;
 
       &_play {
         background-image: url('assets/icons/playIcon.svg');
@@ -161,9 +162,40 @@
     top: 50px;
     left: 50px;
   }
+
+  &-mobile {
+    &__controls {
+      display: none;
+      width: 100%;
+      position: absolute;
+
+      &_bottom {
+        &_icon {
+          display: inline-block;
+          width: 36px;
+          height: 36px;
+          cursor: pointer;
+          background-repeat: no-repeat;
+          background-size: 40px;
+          user-select: none;
+        }
+      }
+
+      &_icon {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-size: 40px;
+        user-select: none;
+      }
+    }
+  }
 }
 
-#prev-series-button {
+#prev-series-button,
+#prev-series-button-mobile {
   transform: rotate(180deg);
 }
 
@@ -200,5 +232,83 @@
     background-color: $brand;
     border-radius: $border-radius-max;
     cursor: pointer;
+  }
+}
+
+#prev-series-button-mobile,
+#next-series-button-mobile {
+  display: none;
+}
+
+@include mediumTablet {
+  .video {
+    &-mobile {
+      &__controls {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+      }
+    }
+  }
+
+  #play-pause,
+  #rewind-back-button,
+  #rewind-front-button,
+  #prev-series-button,
+  #next-series-button {
+    display: none;
+  }
+
+  #prev-series-button-mobile,
+  #next-series-button-mobile {
+    display: block;
+  }
+}
+
+@include mobileLandscape {
+  .video {
+    &__controls {
+      padding: 10px 15px 20px 15px;
+
+      &_icon {
+        width: 30px;
+        height: 30px;
+        background-size: 30px;
+      }
+    }
+
+    &-mobile {
+      &__controls {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+      }
+    }
+
+    &__back {
+      width: 32px;
+      height: 32px;
+      top: 20px;
+      left: 15px;
+    }
+
+    &-mobile {
+      &__controls {
+        &_bottom_icon {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+}
+
+@include extraSmallMobile {
+  .video {
+    &__controls {
+      &_actions_left_time {
+        font-size: 12px;
+      }
+    }
   }
 }

@@ -10,10 +10,30 @@
     <video id='video' class='video'>
       <source src={{url}} type='video/mp4' />
     </video>
+
     <div id='video-placeholder' class='video__placeholder'>
       <div class='loader__wrapper'>
         <div class='loader'></div>
       </div>
+    </div>
+
+    <div id='video-mobile-controls' class='video-mobile__controls'>
+      <img
+        id='rewind-back-button-mobile'
+        class='video-mobile__controls_icon'
+        src='/assets/icons/rewindBackIcon.svg'
+        alt='rewind-back'
+      />
+      <span
+        id='play-pause-mobile'
+        class='video-mobile__controls_icon video__controls_icon_play'
+      ></span>
+      <img
+        id='rewind-front-button-mobile'
+        class='video-mobile__controls_icon'
+        src='/assets/icons/rewindFrontIcon.svg'
+        alt='rewind-back'
+      />
     </div>
   </div>
   <div id='video-controls' class='video__controls'>
@@ -56,11 +76,29 @@
           />
         {{/if}}
 
-        <p>
+        <p class='video__controls_actions_left_time'>
           <span id='current-time' class='video__controls_timer'>00:00</span>
           /
           <span class='video__controls_timer' id='duration'>00:00</span>
         </p>
+
+        {{#if hasPrevSeries}}
+          <img
+            id='prev-series-button-mobile'
+            class='video-mobile__controls_bottom_icon'
+            src='/assets/icons/nextSeries.svg'
+            alt='prev-series'
+          />
+        {{/if}}
+
+        {{#if hasNextSeries}}
+          <img
+            id='next-series-button-mobile'
+            class='video-mobile__controls_bottom_icon'
+            src='/assets/icons/nextSeries.svg'
+            alt='next-series'
+          />
+        {{/if}}
       </div>
 
       <div class='video__controls_actions_right'>

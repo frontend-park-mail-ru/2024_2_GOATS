@@ -1,7 +1,7 @@
 import template from './VideoPlayer.hbs';
 import { timeFormatter } from 'modules/TimeFormatter';
 import { VideoControls } from 'types/video';
-import { Loader } from 'components/Loader/Loader';
+import { isTabletOrMobileLandscape } from 'modules/IsMobileDevice';
 
 export class VideoPlayer {
   #parent;
@@ -88,7 +88,6 @@ export class VideoPlayer {
     this.#controls = {
       video: document.getElementById('video') as HTMLVideoElement,
       videoWrapper: document.querySelector('.video__wrapper') as HTMLElement,
-      playOrPause: document.getElementById('play-pause') as HTMLElement,
       duration: document.getElementById('duration') as HTMLElement,
       currentTime: document.getElementById('current-time') as HTMLElement,
       progressBar: document.querySelector(
@@ -98,26 +97,55 @@ export class VideoPlayer {
       isVolumeOpened: false,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       isFullScreen: false,
-      rewindBackButton: document.getElementById(
-        'rewind-back-button',
-      ) as HTMLElement,
-      rewindFrontButton: document.getElementById(
-        'rewind-front-button',
-      ) as HTMLElement,
       videoBackButton: document.getElementById(
         'video-back-button',
       ) as HTMLElement,
       videoControls: document.getElementById('video-controls') as HTMLElement,
-      nextSeriesButton: document.getElementById(
-        'next-series-button',
-      ) as HTMLElement,
-      prevSeriesButton: document.getElementById(
-        'prev-series-button',
-      ) as HTMLElement,
       videoPlaceholder: document.getElementById(
         'video-placeholder',
       ) as HTMLElement,
     };
+
+    if (!isTabletOrMobileLandscape()) {
+      this.#controls = {
+        ...this.#controls,
+        playOrPause: document.getElementById('play-pause') as HTMLElement,
+        rewindBackButton: document.getElementById(
+          'rewind-back-button',
+        ) as HTMLElement,
+        rewindFrontButton: document.getElementById(
+          'rewind-front-button',
+        ) as HTMLElement,
+        nextSeriesButton: document.getElementById(
+          'next-series-button',
+        ) as HTMLElement,
+        prevSeriesButton: document.getElementById(
+          'prev-series-button',
+        ) as HTMLElement,
+      };
+    } else {
+      this.#controls = {
+        ...this.#controls,
+        playOrPause: document.getElementById(
+          'play-pause-mobile',
+        ) as HTMLElement,
+        rewindBackButton: document.getElementById(
+          'rewind-back-button-mobile',
+        ) as HTMLElement,
+        rewindFrontButton: document.getElementById(
+          'rewind-front-button-mobile',
+        ) as HTMLElement,
+        nextSeriesButton: document.getElementById(
+          'next-series-button-mobile',
+        ) as HTMLElement,
+        prevSeriesButton: document.getElementById(
+          'prev-series-button-mobile',
+        ) as HTMLElement,
+        videoMobileControls: document.getElementById(
+          'video-mobile-controls',
+        ) as HTMLElement,
+      };
+    }
 
     this.#controls.volume.style.setProperty('--progress-volume-value', '100%');
   }
@@ -170,11 +198,14 @@ export class VideoPlayer {
       prevSeriesButton,
     } = this.#controls;
 
-    playOrPause.addEventListener('click', this.togglePlayback.bind(this));
-    video.addEventListener('click', this.togglePlayback.bind(this));
+    playOrPause?.addEventListener('click', this.togglePlayback.bind(this));
 
-    rewindBackButton.addEventListener('click', this.rewindBack.bind(this));
-    rewindFrontButton.addEventListener('click', this.rewindFront.bind(this));
+    if (!isTabletOrMobileLandscape()) {
+      video.addEventListener('click', this.togglePlayback.bind(this));
+    }
+
+    rewindBackButton?.addEventListener('click', this.rewindBack.bind(this));
+    rewindFrontButton?.addEventListener('click', this.rewindFront.bind(this));
 
     const slider = document.getElementById(
       'progress-slider',
@@ -317,8 +348,8 @@ export class VideoPlayer {
       this.#onPlayClick(this.#controls.video.currentTime);
     }
     const { playOrPause } = this.#controls;
-    playOrPause.classList.add('video__controls_icon_pause');
-    playOrPause.classList.remove('video__controls_icon_play');
+    playOrPause?.classList.add('video__controls_icon_pause');
+    playOrPause?.classList.remove('video__controls_icon_play');
   }
 
   onPause() {
@@ -326,14 +357,14 @@ export class VideoPlayer {
       this.#onPauseClick(this.#controls.video.currentTime);
     }
     const { playOrPause } = this.#controls;
-    playOrPause.classList.add('video__controls_icon_play');
-    playOrPause.classList.remove('video__controls_icon_pause');
+    playOrPause?.classList.add('video__controls_icon_play');
+    playOrPause?.classList.remove('video__controls_icon_pause');
   }
 
   onVideoEnd() {
     const { video, playOrPause } = this.#controls;
     video.pause();
-    playOrPause.classList.remove('paused');
+    playOrPause?.classList.remove('paused');
   }
 
   togglePlayback() {
@@ -429,11 +460,18 @@ export class VideoPlayer {
       this.#controls.videoBackButton.classList.remove('video__controls_hidden');
     }
 
+    this.#controls.videoMobileControls?.classList.remove(
+      'video__controls_hidden',
+    );
+
     this.#hideControlsTimeout = window.setTimeout(() => {
+      this.#controls.videoControls.classList.add('video__controls_hidden');
       this.#controls.videoControls.classList.add('video__controls_hidden');
 
       if (this.#isModal) {
-        this.#controls.videoBackButton.classList.add('video__controls_hidden');
+        this.#controls.videoMobileControls?.classList.add(
+          'video__controls_hidden',
+        );
       }
     }, 3000);
   }
