@@ -107,6 +107,12 @@ export class Slider {
         blocksElement = document.querySelector(
           '.main-page__blocks',
         ) as HTMLDivElement;
+
+        if (!blocksElement) {
+          blocksElement = document.querySelector(
+            '.genres-page__blocks',
+          ) as HTMLDivElement;
+        }
       } else if (this.#type === 'actors') {
         blocksElement = document.getElementById(
           'movie-page-persons',
