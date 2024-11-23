@@ -233,9 +233,6 @@ export class MoviePage {
       this.onWatchClick.bind(this),
     );
 
-    if (this.#movie?.seasons) {
-      this.renderSeasonsBlock(false);
-    }
     if (movieDescription) {
       movieDescription.render();
     }
@@ -243,6 +240,9 @@ export class MoviePage {
 
   renderBlocks() {
     this.renderMovieDescription();
+    if (this.#movie?.seasons) {
+      this.renderSeasonsBlock(false);
+    }
 
     const personsBlock = document.getElementById(
       'movie-page-persons',
