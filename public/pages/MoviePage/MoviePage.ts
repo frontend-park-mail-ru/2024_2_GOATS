@@ -223,7 +223,7 @@ export class MoviePage {
     }
   }
 
-  renderBlocks() {
+  renderMovieDescription() {
     const movieDescriptionContainer = document.getElementById(
       'movie-description-container',
     ) as HTMLElement;
@@ -239,6 +239,10 @@ export class MoviePage {
     if (movieDescription) {
       movieDescription.render();
     }
+  }
+
+  renderBlocks() {
+    this.renderMovieDescription();
 
     const personsBlock = document.getElementById(
       'movie-page-persons',

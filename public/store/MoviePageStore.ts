@@ -15,13 +15,12 @@ const moviePage = new MoviePage();
 class MoviePageStore {
   #movie!: MovieDetailed | null;
   #movieSelections: MovieSelection[] = [];
-  #isNewSeriesReceivedEmitter: Emitter<boolean>;
   #lastMovies: MovieSaved[] = [];
-
+  #hasMovieGot: Emitter<boolean>;
   #hasTimeCodeChangedEmitter: Emitter<boolean>;
 
   constructor() {
-    this.#isNewSeriesReceivedEmitter = new Emitter<boolean>(false);
+    this.#hasMovieGot = new Emitter<boolean>(false);
     this.#hasTimeCodeChangedEmitter = new Emitter<boolean>(false);
 
     const unsubscribeLastMovies = this.hasTimeCodeChangedEmitter$.addListener(
@@ -32,17 +31,30 @@ class MoviePageStore {
       },
     );
 
+    const unsubscribeMovie = this.hasMovieGotEmitter$.addListener((status) => {
+      if (status) {
+        moviePage.renderMovieDescription();
+      }
+    });
+
     this.ngOnLastMoviesDestroy = () => {
       unsubscribeLastMovies();
     };
 
+    this.ngOnMovieDestroy = () => {
+      unsubscribeMovie();
+    };
+
     dispatcher.register(this.reduce.bind(this));
   }
-  ngOnLastMoviesDestroy(): void {}
 
-  get isNewSeriesReceivedEmitter$(): Emitter<boolean> {
-    return this.#isNewSeriesReceivedEmitter;
+  ngOnLastMoviesDestroy(): void {}
+  ngOnMovieDestroy(): void {}
+
+  get hasMovieGotEmitter$(): Emitter<boolean> {
+    return this.#hasMovieGot;
   }
+
   get hasTimeCodeChangedEmitter$(): Emitter<boolean> {
     return this.#hasTimeCodeChangedEmitter;
   }
@@ -84,14 +96,19 @@ class MoviePageStore {
   }
 
   async getMovieRequest(id: number) {
-    this.#isNewSeriesReceivedEmitter.set(false);
-    const response = await apiClient.get({
-      path: `movies/${id}`,
-    });
+    this.#hasMovieGot.set(false);
+    try {
+      const response = await apiClient.get({
+        path: `movies/${id}`,
+      });
 
-    const serializedMovieData = serializeMovieDetailed(response.movie_info);
-    this.setMovieState(serializedMovieData);
-    this.#isNewSeriesReceivedEmitter.set(true);
+      const serializedMovieData = serializeMovieDetailed(response.movie_info);
+      this.setMovieState(serializedMovieData);
+    } catch (error) {
+      throw error;
+    } finally {
+      this.#hasMovieGot.set(true);
+    }
   }
 
   getLastMoviesFromLocalStorage() {
@@ -164,7 +181,7 @@ class MoviePageStore {
         this.getLastMoviesFromLocalStorage();
         moviePage.render(action.payload.fromRecentlyWatched);
         break;
-      case ActionTypes.CHANGE_SERIES:
+      case ActionTypes.GET_MOVIE:
         await this.getMovieRequest(action.payload);
         break;
       case ActionTypes.GET_LAST_MOVIES:

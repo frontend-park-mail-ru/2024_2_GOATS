@@ -6,6 +6,8 @@ import { userStore } from './UserStore';
 import { Movie } from 'types/movie';
 import { serializeMovie } from 'modules/Serializer';
 import { router } from 'modules/Router';
+import { Actions } from 'flux/Actions';
+import { moviePageStore } from './MoviePageStore';
 
 const favoritePage = new FavoritesPage();
 
@@ -39,34 +41,48 @@ class FavoritesPageStore {
     const response = await apiClient.get({
       path: `users/${userStore.getUser().id}/favorites`,
     });
-
-    this.#movies = response.movies.map((movie: Movie) => {
-      return serializeMovie(movie);
-    });
+    if (response.movies) {
+      this.#movies = response.movies.map((movie: Movie) => {
+        return serializeMovie(movie);
+      });
+    } else {
+      this.#movies = [];
+    }
   }
 
-  addToFavorites(id: number) {
-    apiClient.post({
-      path: `users/favorites`,
-      body: {
-        movie_id: id,
-      },
-    });
+  async addToFavorites(id: number) {
+    try {
+      await apiClient.post({
+        path: `users/favorites`,
+        body: {
+          movie_id: id,
+        },
+      });
+
+      Actions.getMovie(moviePageStore.getMovie()?.id as number);
+    } catch (error) {
+      throw error;
+    }
   }
 
-  deleteFromFavorites(id: number) {
-    apiClient.delete({
-      path: `users/favorites`,
-      body: {
-        movie_id: id,
-      },
-    });
+  async deleteFromFavorites(id: number) {
+    try {
+      await apiClient.delete({
+        path: `users/favorites`,
+        body: {
+          movie_id: id,
+        },
+      });
+
+      Actions.getMovie(moviePageStore.getMovie()?.id as number);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_FAVORITES_PAGE:
-        favoritePage.render();
         if (userStore.getUser().username) {
           await this.getFavorites();
           favoritePage.render();

@@ -12,7 +12,7 @@ export class FavoritesPage {
   }
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
-    pageElement.innerHTML = template();
+    pageElement.innerHTML = template({ isEmpty: this.#movies?.length === 0 });
 
     const favoritesContainer = document.querySelector(
       '.favorites-page__container',

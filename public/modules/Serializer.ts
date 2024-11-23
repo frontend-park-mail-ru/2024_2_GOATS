@@ -62,6 +62,7 @@ export const serializeMovieDetailed = (movie: any) => {
       movie.seasons.map(serializeSeason).sort((a: Season, b: Season) => {
         return a.seasonNumber - b.seasonNumber;
       }),
+    isFromFavorites: movie.is_favorite,
   };
 };
 

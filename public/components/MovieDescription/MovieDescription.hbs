@@ -26,19 +26,17 @@
             class='button movie-description__actions_show_btn'
           >Смотреть</button>
           {{! TODO: Совместный просмотр в разработке }}
-          {{#if isUserAuth}}
+          {{!-- {{#if isUserAuth}}
             <button
               id='watch-together-btn'
               class='button movie-description__actions_show_together_btn'
             >Смотреть вместе</button>
-          {{/if}}
-          {{! TODO: Избранные к 3 РК }}
-          <img
+          {{/if}} --}}
+
+          <span
             id='favorites-movie-btn'
             class='movie-description__actions_favorites_btn'
-            src='/assets/icons/favoritesIcon.svg'
-            alt='favorites'
-          />
+          ></span>
         </div>
       </div>
     </div>
@@ -50,6 +48,5 @@
         alt='movie-image'
       />
     </div>
-
   </div>
 </div>

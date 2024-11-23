@@ -102,9 +102,9 @@ export const Actions = {
       passwordChangeData,
     });
   },
-  changeSeries(id: number | string) {
+  getMovie(id: number | string) {
     dispatcher.dispatch({
-      type: ActionTypes.CHANGE_SERIES,
+      type: ActionTypes.GET_MOVIE,
       payload: id,
     });
   },
