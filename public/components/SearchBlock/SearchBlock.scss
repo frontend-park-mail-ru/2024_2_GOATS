@@ -1,0 +1,265 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.search-bar {
+  align-self: center;
+  margin-bottom: -2px;
+  padding: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  // gap: 8px;
+
+  &.active-search-bar {
+    border-bottom: 2px solid white;
+    padding-bottom: 6px;
+    .search-bar {
+      align-self: flex-end;
+
+      &__input {
+        width: 300px;
+        padding-left: 8px;
+      }
+      &__search {
+        &:hover {
+          cursor: default;
+        }
+        &_text {
+          display: none;
+        }
+      }
+      &__close {
+        display: block;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &__search {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__input {
+    width: 0px;
+    font-size: 18px;
+    font-weight: 300;
+
+    transition: width 0.2s linear;
+  }
+
+  &__close {
+    display: none;
+    height: 22px;
+
+    &_icon {
+      width: 22px;
+    }
+  }
+
+  &__list {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 250px;
+    background-color: $background-secondary-color;
+    bottom: -258px;
+    margin-top: 8px;
+
+    border-radius: 8px;
+
+    z-index: 1000;
+    display: none;
+
+    &.search-list-open {
+      display: block;
+    }
+
+    &_toggler {
+      width: 90%;
+      margin: 10px auto;
+      position: relative;
+      border-radius: 8px;
+      background: #fff;
+
+      display: flex;
+      justify-content: space-between;
+
+      &_item {
+        font-size: 14px;
+        width: 50%;
+        text-align: center;
+        padding: 6px 0px;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        outline: none;
+        position: relative;
+        text-align: center;
+        color: #000;
+      }
+
+      &_btn {
+        left: 0;
+        top: 0;
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        background: $brand;
+        border-radius: 8px;
+        transition: 0.3s;
+
+        &.movies-selected {
+          left: 50%;
+        }
+        &.persons-selected {
+          left: 0%;
+        }
+      }
+    }
+  }
+}
+
+@include mediumTablet {
+  .search-bar {
+    align-items: center;
+    // gap: 6px;
+
+    &.active-search-bar {
+      padding-bottom: 6px;
+      .search-bar {
+        &__input {
+          width: 250px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 18px;
+    }
+    &__input {
+      font-size: 16px;
+    }
+    &__close {
+      height: 20px;
+      &_icon {
+        width: 20px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .search-bar {
+    align-items: center;
+    // gap: 6px;
+
+    &.active-search-bar {
+      padding-bottom: 6px;
+      .search-bar {
+        &__input {
+          width: 200px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 18px;
+    }
+    &__input {
+      font-size: 16px;
+    }
+    &__close {
+      height: 20px;
+      &_icon {
+        width: 20px;
+      }
+    }
+  }
+}
+
+@include extraSmallMobile {
+  .search-bar {
+    align-items: center;
+    // gap: 6px;
+
+    &__list {
+      right: -40px;
+      margin: 0 auto;
+      width: 90vw;
+    }
+    &.active-search-bar {
+      padding-bottom: 6px;
+      .search-bar {
+        &__input {
+          width: 150px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 14px;
+    }
+    &__input {
+      font-size: 14px;
+    }
+    &__close {
+      height: 18px;
+      &_icon {
+        width: 18px;
+      }
+    }
+  }
+}
+
+@include ultraSmallMobile {
+  .search-bar {
+    align-items: center;
+    // gap: 6px;
+
+    &__list {
+      right: -40px;
+      margin: 0 auto;
+      width: 90vw;
+    }
+    &.active-search-bar {
+      padding-bottom: 6px;
+
+      #header__container_logo {
+        display: none;
+      }
+      .search-bar {
+        &__input {
+          width: 70px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 14px;
+    }
+    &__input {
+      font-size: 14px;
+    }
+    &__close {
+      height: 18px;
+      &_icon {
+        width: 18px;
+      }
+    }
+  }
+}

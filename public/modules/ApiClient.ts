@@ -12,11 +12,13 @@ type ApiClientRequests = {
   id?: number;
   body?: Object;
   formData?: FormData;
+  urlAway?: string;
 };
 
 type GetRequestParams = {
   path: string;
   id?: number;
+  body?: Object;
 };
 
 type PostRequestParams = {
@@ -39,10 +41,11 @@ type DeleteReuquestParams = {
 };
 
 class ApiClient {
-  get({ path, id }: GetRequestParams) {
+  get({ path, body, id }: GetRequestParams) {
     return this._apiClient({
       method: HTTP_METHOD_GET,
       path,
+      body,
       ...(id && { id }),
     });
   }
