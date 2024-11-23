@@ -48,6 +48,8 @@ class FavoritesPageStore {
     } else {
       this.#movies = [];
     }
+
+    favoritePage.render();
   }
 
   async addToFavorites(id: number) {
@@ -83,6 +85,8 @@ class FavoritesPageStore {
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_FAVORITES_PAGE:
+        this.#movies = null;
+        favoritePage.render();
         if (userStore.getUser().username) {
           await this.getFavorites();
           favoritePage.render();
