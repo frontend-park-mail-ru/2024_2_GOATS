@@ -193,9 +193,14 @@ export class Slider {
       switch (this.#type) {
         case 'selection':
           this.#selection?.movies.forEach((movie) => {
-            const card = new Card(track, movie, () => {
-              router.go('/movie', movie.id);
-            });
+            const card = new Card(
+              track,
+              movie,
+              () => {
+                router.go('/movie', movie.id);
+              },
+              `${this.#id}-${movie.id}`,
+            );
             card.render();
           });
           break;

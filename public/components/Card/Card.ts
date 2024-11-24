@@ -13,54 +13,57 @@ export class Card {
     parent: HTMLElement,
     movie: Movie | null,
     onCardClick: () => void,
-    cardId?: number,
+    cardId?: string,
   ) {
     this.#parent = parent;
     this.#movie = movie;
     this.#onCardClick = onCardClick;
     this.#cardId = cardId;
+    console.log(this.#cardId);
   }
 
   showExpandedCard = () => {
     const card = document.getElementById(
-      `movie-card-${this.#movie?.id}`,
+      `movie-card-${this.#cardId ? this.#cardId : this.#movie && this.#movie.id}`,
     ) as HTMLElement;
     const previewBlock = document.getElementById('preview') as HTMLElement;
     let timeoutId: any;
 
-    card.addEventListener('mouseover', () => {
-      timeoutId = setTimeout(() => {
-        const a = card.getBoundingClientRect();
-        previewBlock.classList.add('visible');
-        if (this.#movie) {
-          const preview = new CardPreview(this.#movie, previewBlock, a);
-          preview.render();
+    if (card) {
+      card.addEventListener('mouseover', () => {
+        timeoutId = setTimeout(() => {
+          const a = card.getBoundingClientRect();
+          previewBlock.classList.add('visible');
+          if (this.#movie) {
+            const preview = new CardPreview(this.#movie, previewBlock, a);
+            preview.render();
+          }
+        }, 400);
+      });
+
+      card.addEventListener('mouseout', () => {
+        const cardPreview = document.getElementById(
+          'card-preview',
+        ) as HTMLElement;
+        if (previewBlock.classList.contains('visible')) {
+          cardPreview.classList.add('shrink');
         }
-      }, 400);
-    });
 
-    card.addEventListener('mouseout', () => {
-      const cardPreview = document.getElementById(
-        'card-preview',
-      ) as HTMLElement;
-      if (previewBlock.classList.contains('visible')) {
-        cardPreview.classList.add('shrink');
-      }
+        setTimeout(() => {
+          previewBlock.classList.remove('visible');
+          previewBlock.innerHTML = '';
+        }, 300);
 
-      setTimeout(() => {
+        if (timeoutId) clearTimeout(timeoutId);
+      });
+
+      card.addEventListener('click', () => {
         previewBlock.classList.remove('visible');
         previewBlock.innerHTML = '';
-      }, 300);
 
-      if (timeoutId) clearTimeout(timeoutId);
-    });
-
-    card.addEventListener('click', () => {
-      previewBlock.classList.remove('visible');
-      previewBlock.innerHTML = '';
-
-      if (timeoutId) clearTimeout(timeoutId);
-    });
+        if (timeoutId) clearTimeout(timeoutId);
+      });
+    }
   };
 
   render() {
@@ -69,7 +72,7 @@ export class Card {
 
   handleCardClick() {
     const card = document.getElementById(
-      `movie-card-${this.#movie ? this.#movie.id : this.#cardId && this.#cardId}`,
+      `movie-card-${this.#cardId ? this.#cardId : this.#movie && this.#movie.id}`,
     ) as HTMLElement;
     card.addEventListener('click', this.#onCardClick);
   }
@@ -80,7 +83,10 @@ export class Card {
     } else {
       this.#parent.insertAdjacentHTML(
         'beforeend',
-        template({ movie: this.#movie }),
+        template({
+          movie: this.#movie,
+          id: `${this.#cardId ? this.#cardId : this.#movie && this.#movie.id}`,
+        }),
       );
 
       this.handleCardClick();
