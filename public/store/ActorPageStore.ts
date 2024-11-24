@@ -1,6 +1,5 @@
 import { ActionTypes } from 'flux/ActionTypes';
-import { mockActor, movies } from '../consts';
-import { Actor, ActorInfo } from 'types/actor';
+import { Actor } from 'types/actor';
 import { ActorPage } from 'pages/ActorPage/ActorPage';
 import { dispatcher } from 'flux/Dispatcher';
 import { apiClient } from 'modules/ApiClient';

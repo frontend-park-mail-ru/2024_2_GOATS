@@ -20,6 +20,7 @@ export class Slider {
   #leftDiff;
   #rightDiff;
   #onSeriesClick;
+  #title;
 
   constructor(params: {
     parent: HTMLElement;
@@ -41,6 +42,7 @@ export class Slider {
     this.#onSeriesClick = params.onSeriesClick;
     this.#leftDiff = 0;
     this.#rightDiff = 0;
+    this.#title = '';
   }
 
   render() {
@@ -70,6 +72,31 @@ export class Slider {
     }
   }
 
+  getSliderTitle() {
+    let title = '';
+
+    switch (this.#type) {
+      case 'selection':
+        if (this.#selection) {
+          title = this.#selection.title;
+        }
+        break;
+      case 'actors':
+        title = 'Актеры и создатели';
+        break;
+      case 'progress':
+        title = 'Вы недавно смотрели';
+        break;
+      case 'movies':
+        if (this.#selection) {
+          title = this.#selection.title;
+        }
+        break;
+    }
+
+    return title;
+  }
+
   renderTemplate() {
     if (this.#type === 'series') {
       this.#parent.innerHTML = template({
@@ -82,19 +109,7 @@ export class Slider {
         template({
           id: this.#id,
           type: this.#type,
-          title:
-            this.#selection ||
-            this.#persons ||
-            this.#series ||
-            this.#savedMovies
-              ? this.#type === 'selection' || this.#type === 'movies'
-                ? this.#selection?.title
-                : this.#type === 'actors'
-                  ? 'Актеры и создатели'
-                  : this.#type === 'progress'
-                    ? 'Вы недавно смотрели'
-                    : ''
-              : undefined,
+          title: this.getSliderTitle(),
         }),
       );
     }
@@ -192,6 +207,10 @@ export class Slider {
 
       switch (this.#type) {
         case 'selection':
+          if (this.#selection) {
+            this.#title = this.#selection.title;
+            console.log('selection', this.#selection.title);
+          }
           this.#selection?.movies.forEach((movie) => {
             const card = new Card(
               track,
@@ -215,6 +234,7 @@ export class Slider {
           });
           break;
         case 'actors':
+          this.#title = 'Актеры и создатели';
           this.#persons?.forEach((person) => {
             const personCard = new PersonCard(track, person, () => {
               router.go('/person', person.id);
@@ -223,6 +243,9 @@ export class Slider {
           });
           break;
         case 'movies':
+          if (this.#selection) {
+            this.#title = this.#selection.title;
+          }
           this.#selection?.movies.forEach((movie) => {
             const movieBigCard = new MovieBigCard(track, movie, () => {
               router.go('/movie', movie.id);
@@ -231,6 +254,7 @@ export class Slider {
           });
           break;
         default:
+          this.#title = 'Вы недавно смотрели';
           this.#savedMovies?.forEach((movie) => {
             const progressCard = new ProgressCard(track, movie, () => {
               router.go('/movie', movie.id, { fromRecentlyWatched: true });

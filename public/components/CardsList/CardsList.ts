@@ -32,8 +32,8 @@ export class CardsList {
           card.render();
         });
       } else {
+        cardsList.classList.add('cards-list-skeleton');
         for (let i = 0; i < 10; ++i) {
-          cardsList.classList.add('cards-list-skeleton');
           const card = new Card(cardsList, null, () => {});
           card.render();
         }

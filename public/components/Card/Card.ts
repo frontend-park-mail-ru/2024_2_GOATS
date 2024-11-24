@@ -19,7 +19,6 @@ export class Card {
     this.#movie = movie;
     this.#onCardClick = onCardClick;
     this.#cardId = cardId;
-    console.log(this.#cardId);
   }
 
   showExpandedCard = () => {
