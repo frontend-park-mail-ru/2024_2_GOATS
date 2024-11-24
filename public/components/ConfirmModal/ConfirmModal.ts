@@ -29,7 +29,6 @@ export class ConfirmModal {
     const modalContent = document.getElementById('modal-content');
     if (modalContent && modal) {
       modalContent.addEventListener('click', (event) => {
-        console.log('in');
         event.stopPropagation();
       });
 

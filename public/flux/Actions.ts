@@ -102,9 +102,9 @@ export const Actions = {
       passwordChangeData,
     });
   },
-  changeSeries(id: number | string) {
+  getMovie(id: number | string) {
     dispatcher.dispatch({
-      type: ActionTypes.CHANGE_SERIES,
+      type: ActionTypes.GET_MOVIE,
       payload: id,
     });
   },
@@ -125,12 +125,19 @@ export const Actions = {
       type: ActionTypes.GET_LAST_MOVIES,
     });
   },
-  setLastMovies(timeCode: number, duration: number) {
+  setLastMovies(
+    timeCode: number,
+    duration: number,
+    season?: number,
+    series?: number,
+  ) {
     dispatcher.dispatch({
       type: ActionTypes.SET_LAST_MOVIES,
       payload: {
         timeCode,
         duration,
+        season,
+        series,
       },
     });
   },

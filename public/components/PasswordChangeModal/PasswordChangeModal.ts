@@ -75,20 +75,6 @@ export class PasswordChangeModal {
     );
   }
 
-  // checkIfPasswordsEqual(prevPassword: string, newPassword: string) {
-  //   const newPasswordError = document.getElementById(
-  //     'password-modal-new-password-error',
-  //   ) as HTMLElement;
-
-  //   if (prevPassword === newPassword) {
-  //     newPasswordError.innerText = 'Новый пароль не должен совпадать с старым';
-  //     return false;
-  //   } else {
-  //     newPasswordError.innerText = '';
-  //     return true;
-  //   }
-  // }
-
   onSubmitClick() {
     const confirmButton = document.getElementById(
       'password-modal-confirm-btn',
@@ -108,10 +94,7 @@ export class PasswordChangeModal {
 
       const isPrevPasswordValid =
         this.validatePrevPasswordField(prevPasswordValue);
-      // const isPasswordChanged = this.checkIfPasswordsEqual(
-      //   prevPasswordValue,
-      //   newPasswordValue,
-      // );
+
       const isNewPasswordValid =
         this.validateNewPasswordField(newPasswordValue);
       const isPasswordConfirmValid = this.validatePasswordConrirmField(

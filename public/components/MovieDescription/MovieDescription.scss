@@ -74,8 +74,11 @@
     }
 
     &_favorites_btn {
-      width: 30px;
-      height: 30px;
+      background-image: url('assets/icons/favoritesIcon.svg');
+      background-size: 32px;
+      min-width: 32px;
+      width: 32px;
+      height: 32px;
       cursor: pointer;
     }
   }
@@ -364,8 +367,10 @@
   .movie-description {
     &__actions {
       &_favorites_btn {
+        min-width: 25px;
         width: 25px;
         height: 25px;
+        background-size: 25px;
       }
     }
 

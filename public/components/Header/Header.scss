@@ -60,7 +60,6 @@
 
       justify-content: space-between;
 
-      // &.authed {
       margin-left: 32px;
     }
 
@@ -234,7 +233,6 @@
   }
   .search-bar {
     align-items: center;
-    // gap: 6px;
 
     &.active {
       .search-bar {
@@ -312,8 +310,6 @@
     &__container {
       width: 90vw;
 
-      // align-items: center;
-
       &_logo {
         font-size: 24px;
       }
@@ -322,7 +318,6 @@
         width: 24px;
       }
       &_widgets {
-        // align-self: center;
         align-items: baseline;
       }
       &_burger {

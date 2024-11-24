@@ -50,7 +50,8 @@ class HeaderStore {
             if (router.getCurrentPath() !== '/favorites') {
               router.go('/favorites');
             }
-            router.go('/favorites');
+            // TODO: Согласовать с Тамиком
+            // router.go('/favorites');
             if (roomPageStore.getWs()) {
               roomPageStore.closeWs();
             }

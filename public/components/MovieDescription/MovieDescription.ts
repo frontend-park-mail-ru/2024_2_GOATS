@@ -62,7 +62,6 @@ export class MovieDescription {
   //   });
   // }
 
-  // TODO: Проверить логику изменения состояния
   onFavoritesClick() {
     if (this.#movie) {
       if (this.#movie.isFromFavorites) {
@@ -78,7 +77,22 @@ export class MovieDescription {
       'favorites-movie-btn',
     ) as HTMLButtonElement;
 
-    favoritesBtn.addEventListener('click', this.onFavoritesClick.bind(this));
+    if (favoritesBtn) {
+      favoritesBtn.addEventListener('click', this.onFavoritesClick.bind(this));
+    }
+  }
+
+  checkFavorite() {
+    if (this.#movie?.isFromFavorites) {
+      const favoritesBtn = document.getElementById(
+        'favorites-movie-btn',
+      ) as HTMLButtonElement;
+
+      if (favoritesBtn) {
+        favoritesBtn.style.backgroundImage =
+          'url("/assets/icons/favoritesIconAdded.svg")';
+      }
+    }
   }
 
   renderTemplate() {
@@ -88,6 +102,7 @@ export class MovieDescription {
         isUserAuth: !!userStore.getUser().email,
       });
 
+      this.checkFavorite();
       this.handleShowMovie();
       this.handleFavoritesClick();
     } else {

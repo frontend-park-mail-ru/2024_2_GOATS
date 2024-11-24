@@ -216,6 +216,7 @@ export class RoomPage {
       }
     }
 
+    // TODO: проверить
     // if (this.#room) {
     //   pageElement.innerHTML = template({
     //     movie: this.#room.movie,

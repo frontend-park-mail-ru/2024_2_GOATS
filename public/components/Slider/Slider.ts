@@ -71,23 +71,33 @@ export class Slider {
   }
 
   renderTemplate() {
-    this.#parent.insertAdjacentHTML(
-      'beforeend',
-      template({
+    if (this.#type === 'series') {
+      this.#parent.innerHTML = template({
         id: this.#id,
         type: this.#type,
-        title:
-          this.#selection || this.#persons || this.#series || this.#savedMovies
-            ? this.#type === 'selection' || this.#type === 'movies'
-              ? this.#selection?.title
-              : this.#type === 'actors'
-                ? 'Актеры и создатели'
-                : this.#type === 'progress'
-                  ? 'Вы недавно смотрели'
-                  : ''
-            : undefined,
-      }),
-    );
+      });
+    } else {
+      this.#parent.insertAdjacentHTML(
+        'beforeend',
+        template({
+          id: this.#id,
+          type: this.#type,
+          title:
+            this.#selection ||
+            this.#persons ||
+            this.#series ||
+            this.#savedMovies
+              ? this.#type === 'selection' || this.#type === 'movies'
+                ? this.#selection?.title
+                : this.#type === 'actors'
+                  ? 'Актеры и создатели'
+                  : this.#type === 'progress'
+                    ? 'Вы недавно смотрели'
+                    : ''
+              : undefined,
+        }),
+      );
+    }
 
     const container = document.querySelector('.slider__container');
     const track = document.getElementById(
@@ -107,6 +117,12 @@ export class Slider {
         blocksElement = document.querySelector(
           '.main-page__blocks',
         ) as HTMLDivElement;
+
+        if (!blocksElement) {
+          blocksElement = document.querySelector(
+            '.genres-page__blocks',
+          ) as HTMLDivElement;
+        }
       } else if (this.#type === 'actors') {
         blocksElement = document.getElementById(
           'movie-page-persons',

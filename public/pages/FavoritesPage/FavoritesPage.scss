@@ -9,4 +9,8 @@
     font-size: min($font-size-extra-large, calc(10px + 3.5vw));
     margin-bottom: 15px;
   }
+
+  &-skeleton {
+    margin-bottom: 15px;
+  }
 }
