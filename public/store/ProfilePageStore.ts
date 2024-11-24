@@ -137,7 +137,6 @@ export class ProfilePageStore {
         );
         break;
       case ActionTypes.CHANGE_USER_INFO:
-        console.log(action.userData);
         if (
           this.#user.username !== action.userData.username ||
           this.#user.email !== action.userData.email ||

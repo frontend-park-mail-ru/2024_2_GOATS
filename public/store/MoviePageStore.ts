@@ -127,18 +127,34 @@ class MoviePageStore {
 
   setLastMoviesToLocalStorage(timeCode: number, duration: number) {
     const foundMovie = this.#lastMovies.find((m) => m.id === this.#movie?.id);
-
     if (this.#movie) {
-      if (foundMovie) {
-        foundMovie.timeCode = timeCode;
+      if (this.#movie?.isSerial) {
+        //TODO: Проверить сохранение серий
+        if (foundMovie) {
+          // foundMovie.timeCode = timeCode;
+        } else {
+          // this.#lastMovies.push({
+          //   id: this.#movie.id,
+          //   title: this.#movie.title,
+          //   albumImage: this.#movie.albumImage,
+          //   timeCode: timeCode,
+          //   duration: duration,
+          //   season: season,
+          //   series: series,
+          // });
+        }
       } else {
-        this.#lastMovies.push({
-          id: this.#movie.id,
-          title: this.#movie.title,
-          albumImage: this.#movie.albumImage,
-          timeCode: timeCode,
-          duration: duration,
-        });
+        if (foundMovie) {
+          foundMovie.timeCode = timeCode;
+        } else {
+          this.#lastMovies.push({
+            id: this.#movie.id,
+            title: this.#movie.title,
+            albumImage: this.#movie.albumImage,
+            timeCode: timeCode,
+            duration: duration,
+          });
+        }
       }
 
       try {

@@ -125,12 +125,19 @@ export const Actions = {
       type: ActionTypes.GET_LAST_MOVIES,
     });
   },
-  setLastMovies(timeCode: number, duration: number) {
+  setLastMovies(
+    timeCode: number,
+    duration: number,
+    season?: number,
+    series?: number,
+  ) {
     dispatcher.dispatch({
       type: ActionTypes.SET_LAST_MOVIES,
       payload: {
         timeCode,
         duration,
+        season,
+        series,
       },
     });
   },

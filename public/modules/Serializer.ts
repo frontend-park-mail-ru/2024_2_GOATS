@@ -70,8 +70,8 @@ export const serializeEpisode = (episode: any) => {
   return {
     id: episode.id,
     episodeNumber: episode.episode_number,
-    preview: episode.preview_url,
-    video: episode.video_url,
+    preview: HOST + episode.preview_url,
+    video: HOST + episode.video_url,
     title: episode.title,
     description: episode.description,
     releaseDate: episode.release_date,

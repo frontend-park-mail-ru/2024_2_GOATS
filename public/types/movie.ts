@@ -1,12 +1,12 @@
 import { PersonCardData } from './actor';
 
 export type Movie = {
-  id: number; //
-  title: string; //
-  description: string; //
-  cardImage: string; //
-  albumImage: string; //
-  rating: number; //
+  id: number;
+  title: string;
+  description: string;
+  cardImage: string;
+  albumImage: string;
+  rating: number;
   releaseDate: string;
   movieType: string;
   country: string;

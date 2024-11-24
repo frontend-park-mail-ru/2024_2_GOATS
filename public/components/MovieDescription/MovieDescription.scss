@@ -367,8 +367,10 @@
   .movie-description {
     &__actions {
       &_favorites_btn {
+        min-width: 25px;
         width: 25px;
         height: 25px;
+        background-size: 25px;
       }
     }
 

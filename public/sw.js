@@ -36,7 +36,6 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // console.log('Че-то фетчим');
   event.respondWith(
     (async () => {
       try {
