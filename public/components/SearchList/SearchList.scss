@@ -2,16 +2,21 @@
 @import 'styles/mixins.scss';
 
 .find-item-list {
-  width: 90%;
-  height: 200px;
+  width: 100%;
+  height: fit-content;
+  max-height: 250px;
   margin: 0 auto;
 
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
   padding-bottom: 8px;
 
-  overflow-y: scroll;
+  overflow-y: auto;
+
+  &__subtitle {
+    margin-left: 5%;
+  }
 
   // Эти комменты не удалять
   &::-webkit-scrollbar {
@@ -35,10 +40,17 @@
 
   &__item {
     width: 100%;
+    padding: 8px 0;
 
     display: flex;
+    padding-left: 5%;
     // justify-content: space-between;
     gap: 8px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #313131;
+    }
 
     &_image {
       border-radius: 8px;
@@ -89,27 +101,27 @@
   }
 }
 
-@include extraSmallMobile {
-  .find-item-list {
-    width: 100%;
+// @include extraSmallMobile {
+//   .find-item-list {
+//     width: 100%;
 
-    &__item {
-      gap: 4px;
+//     &__item {
+//       gap: 4px;
 
-      &_image {
-        height: 35px;
-      }
+//       &_image {
+//         height: 35px;
+//       }
 
-      &_info {
-        &_title {
-          font-size: 14px;
-        }
-      }
+//       &_info {
+//         &_title {
+//           font-size: 14px;
+//         }
+//       }
 
-      &_stats {
-        font-size: 10px;
-        gap: 3px;
-      }
-    }
-  }
-}
+//       &_stats {
+//         font-size: 10px;
+//         gap: 3px;
+//       }
+//     }
+//   }
+// }

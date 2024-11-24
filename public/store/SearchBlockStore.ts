@@ -12,7 +12,6 @@ import { findActors, findMovies } from 'types/searchTypes';
 const searchBlock = new SearchBlock();
 
 class SearchBlockStore {
-  #findPersons: findActors[];
   #findMovies: findMovies[];
 
   // #isDataLoading: boolean;
@@ -20,7 +19,6 @@ class SearchBlockStore {
 
   constructor() {
     this.#findMovies = [];
-    this.#findPersons = [];
 
     // this.#isDataLoading = false;
     // this.#isDataLoadingEmmitter = new Emitter<boolean>(false);
@@ -58,13 +56,6 @@ class SearchBlockStore {
   async searchRequest() {
     try {
       this.#findMovies = [];
-      // this.#isDataLoadingEmmitter.set(true);
-      console.log(
-        'Ищем ',
-        searchBlock.getInputValue,
-        'в категории',
-        searchBlock.getSelectedCategory,
-      );
 
       const tmp =
         searchBlock.getSelectedCategory === 'movies' ? 'title' : 'name';
