@@ -1,8 +1,8 @@
 import { AuthUser, User } from 'types/user';
 
 export const HOST = 'http://185.241.195.151/';
-// export const API_URL = HOST + 'api/';
-export const API_URL = 'http://localhost:8080/api/';
+export const API_URL = HOST + 'api/';
+// export const API_URL = 'http://localhost:8080/api/';
 
 export const movies = [
   {
@@ -374,3 +374,14 @@ export const monthDictionary = new Map([
   ['11', 'Ноября'],
   ['12', 'Декабря'],
 ]);
+
+export const setFocusTimeout = (item: HTMLElement, timeout: number) => {
+  setTimeout(() => {
+    item.focus();
+  }, timeout);
+};
+
+export const CARD_PREVIEW_EXPANDING_TIMEOUT = 400;
+export const CARD_PREVIEW_HIDING_TIMEOUT = 300;
+export const PLAYER_CONTROLL_HIDING_TIMEOUT = 3000;
+export const NOTIFIER_WRAPPER_CLEAN_TIMEOUT = 300;

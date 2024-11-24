@@ -1,3 +1,4 @@
+import { NOTIFIER_WRAPPER_CLEAN_TIMEOUT } from '../../consts';
 import template from './Notifier.hbs';
 
 export class Notifier {
@@ -50,7 +51,7 @@ export class Notifier {
       if (notifierWrapper) {
         notifierWrapper.innerHTML = '';
       }
-    }, 300);
+    }, NOTIFIER_WRAPPER_CLEAN_TIMEOUT);
   }
 
   renderTemplate() {

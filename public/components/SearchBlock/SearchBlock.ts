@@ -3,6 +3,7 @@ import template from './SearchBlck.hbs';
 import { debounce } from 'modules/Debounce';
 import { searchBlockStore } from 'store/SearchBlockStore';
 import { SearchList } from 'components/SearchList/SearchList';
+import { setFocusTimeout } from '../../consts';
 
 const searchList = new SearchList();
 
@@ -52,16 +53,6 @@ export class SearchBlock {
   renderTemplate() {
     this.render();
   }
-
-  //   handleInputChange() {
-  //     const searchInput = document.getElementById(
-  //       'search-bar-input',
-  //     ) as HTMLInputElement;
-
-  //     searchInput.addEventListener('change', () => {
-  //       this.#inputValue = searchInput.value;
-  //     });
-  //   }
 
   handleInputChange() {
     const searchInput = document.getElementById(
@@ -126,9 +117,7 @@ export class SearchBlock {
     searchButton.addEventListener('click', () => {
       searchBar.classList.add('active-search-bar');
       searchList.classList.add('search-list-open');
-      setTimeout(() => {
-        searchInput.focus();
-      }, 100);
+      setFocusTimeout(searchInput, 100);
       if (checkScreenWidth()) {
         headerLogo.style.display = 'none';
       }

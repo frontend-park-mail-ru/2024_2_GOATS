@@ -2,6 +2,10 @@ import { CardPreview } from 'components/CardPreview/CardPreview';
 import template from './Card.hbs';
 import skeletonTemplate from './CardSkeleton.hbs';
 import { Movie } from 'types/movie';
+import {
+  CARD_PREVIEW_EXPANDING_TIMEOUT,
+  CARD_PREVIEW_HIDING_TIMEOUT,
+} from '../../consts';
 
 export class Card {
   #parent;
@@ -36,7 +40,7 @@ export class Card {
           const preview = new CardPreview(this.#movie, previewBlock, a);
           preview.render();
         }
-      }, 400);
+      }, CARD_PREVIEW_EXPANDING_TIMEOUT);
     });
 
     card.addEventListener('mouseout', () => {
@@ -50,7 +54,7 @@ export class Card {
       setTimeout(() => {
         previewBlock.classList.remove('visible');
         previewBlock.innerHTML = '';
-      }, 300);
+      }, CARD_PREVIEW_HIDING_TIMEOUT);
 
       if (timeoutId) clearTimeout(timeoutId);
     });
