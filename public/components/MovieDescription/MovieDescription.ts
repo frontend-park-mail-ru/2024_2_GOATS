@@ -77,7 +77,9 @@ export class MovieDescription {
       'favorites-movie-btn',
     ) as HTMLButtonElement;
 
-    favoritesBtn.addEventListener('click', this.onFavoritesClick.bind(this));
+    if (favoritesBtn) {
+      favoritesBtn.addEventListener('click', this.onFavoritesClick.bind(this));
+    }
   }
 
   checkFavorite() {
@@ -86,8 +88,10 @@ export class MovieDescription {
         'favorites-movie-btn',
       ) as HTMLButtonElement;
 
-      favoritesBtn.style.backgroundImage =
-        'url("/assets/icons/favoritesIconAdded.svg")';
+      if (favoritesBtn) {
+        favoritesBtn.style.backgroundImage =
+          'url("/assets/icons/favoritesIconAdded.svg")';
+      }
     }
   }
 

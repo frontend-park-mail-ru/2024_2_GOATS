@@ -33,10 +33,12 @@
             >Смотреть вместе</button>
           {{/if}} --}}
 
-          <span
-            id='favorites-movie-btn'
-            class='movie-description__actions_favorites_btn'
-          ></span>
+          {{#if isUserAuth}}
+            <span
+              id='favorites-movie-btn'
+              class='movie-description__actions_favorites_btn'
+            ></span>
+          {{/if}}
         </div>
       </div>
     </div>
