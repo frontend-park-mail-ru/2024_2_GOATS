@@ -2,6 +2,7 @@ import template from './VideoPlayer.hbs';
 import { timeFormatter } from 'modules/TimeFormatter';
 import { VideoControls } from 'types/video';
 import { isTabletOrMobileLandscape } from 'modules/IsMobileDevice';
+import { PLAYER_CONTROLL_HIDING_TIMEOUT } from '../../consts';
 
 export class VideoPlayer {
   #parent;
@@ -473,7 +474,7 @@ export class VideoPlayer {
           'video__controls_hidden',
         );
       }
-    }, 3000);
+    }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 
   // Для выполнения функции каждые 3 секунды во время проигрывания видео

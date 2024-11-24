@@ -3,6 +3,7 @@ import template from './SearchBlck.hbs';
 import { debounce } from 'modules/Debounce';
 import { searchBlockStore } from 'store/SearchBlockStore';
 import { SearchList } from 'components/SearchList/SearchList';
+import { setFocusTimeout } from '../../consts';
 
 const searchList = new SearchList();
 
@@ -46,22 +47,12 @@ export class SearchBlock {
   }
 
   renderItemsList(type: string) {
-    searchList.render(searchBlockStore.getMovies(), type);
+    searchList.render(searchBlockStore.getMovies(), this.#inputValue, type);
   }
 
   renderTemplate() {
     this.render();
   }
-
-  //   handleInputChange() {
-  //     const searchInput = document.getElementById(
-  //       'search-bar-input',
-  //     ) as HTMLInputElement;
-
-  //     searchInput.addEventListener('change', () => {
-  //       this.#inputValue = searchInput.value;
-  //     });
-  //   }
 
   handleInputChange() {
     const searchInput = document.getElementById(
@@ -74,7 +65,6 @@ export class SearchBlock {
     }, 1000);
 
     searchInput.addEventListener('input', () => {
-      console.log('999');
       debouncedUpdateValue(searchInput.value);
     });
   }
@@ -118,17 +108,28 @@ export class SearchBlock {
       'search-bar-close',
     ) as HTMLElement;
     const searchList = document.getElementById('search-list') as HTMLElement;
+    const headerLogo = document.getElementById('header-logo') as HTMLElement;
+
+    function checkScreenWidth() {
+      return window.innerWidth < 420;
+    }
 
     searchButton.addEventListener('click', () => {
       searchBar.classList.add('active-search-bar');
       searchList.classList.add('search-list-open');
-      setTimeout(() => {
-        searchInput.focus();
-      }, 100);
+      setFocusTimeout(searchInput, 100);
+      if (checkScreenWidth()) {
+        headerLogo.style.display = 'none';
+      }
+      searchBlockStore.searchRequest();
     });
+
     closeButton.addEventListener('click', () => {
       searchBar.classList.remove('active-search-bar');
       searchList.classList.remove('search-list-open');
+      if (checkScreenWidth()) {
+        headerLogo.style.display = 'block';
+      }
     });
   }
 

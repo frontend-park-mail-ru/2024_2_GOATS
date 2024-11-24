@@ -170,3 +170,14 @@ export const monthDictionary = new Map([
   ['11', 'Ноября'],
   ['12', 'Декабря'],
 ]);
+
+export const setFocusTimeout = (item: HTMLElement, timeout: number) => {
+  setTimeout(() => {
+    item.focus();
+  }, timeout);
+};
+
+export const CARD_PREVIEW_EXPANDING_TIMEOUT = 400;
+export const CARD_PREVIEW_HIDING_TIMEOUT = 300;
+export const PLAYER_CONTROLL_HIDING_TIMEOUT = 3000;
+export const NOTIFIER_WRAPPER_CLEAN_TIMEOUT = 300;

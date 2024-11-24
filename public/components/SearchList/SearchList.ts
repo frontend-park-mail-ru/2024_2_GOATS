@@ -3,31 +3,43 @@ import template from './SearchList.hbs';
 import { ActorInfo } from 'types/actor';
 import { yearPicker } from 'modules/DateFormatter';
 import { findActors, findMovies } from 'types/searchTypes';
+import { mainPageStore } from 'store/MainPageStore';
 
 export class SearchList {
-  render(items: findMovies[] | findActors[], type: string) {
-    this.renderTemplate(items, type);
+  render(items: findMovies[] | findActors[], inputValue: string, type: string) {
+    this.renderTemplate(items, inputValue, type);
   }
 
-  renderTemplate(items: findMovies[] | findActors[], type: string) {
+  renderEmpty() {
+    const searchListContainer = document.getElementById(
+      'search-list-items-container',
+    ) as HTMLElement;
+    searchListContainer.innerHTML = template({
+      isRecommended: true,
+      isMovie: true,
+      items: mainPageStore.getSelections()[1].movies,
+    });
+  }
+
+  renderTemplate(
+    items: findMovies[] | findActors[],
+    inputValue: string,
+    type: string,
+  ) {
     const searchListContainer = document.getElementById(
       'search-list-items-container',
     ) as HTMLElement;
 
-    // let findItems;
-    // if (type === 'movie') {
-    //   findItems = items.map((item) => {
-    //     const newItem = { ...item };
-    //     if ('releaseDate' in newItem) {
-    //       newItem.releaseDate = yearPicker(newItem.releaseDate);
-    //     }
-    //     return newItem;
-    //   });
-    // }
-    const tmp = type === 'movies';
-    console.log(tmp);
+    if (items.length === 0 && inputValue === '') {
+      this.renderEmpty();
+      return;
+    }
+
+    const isMovie = type === 'movies';
     searchListContainer.innerHTML = template({
-      tmp: tmp,
+      isNothingFound: items.length === 0,
+      isRecommended: false,
+      isMovie: isMovie,
       items,
     });
   }
