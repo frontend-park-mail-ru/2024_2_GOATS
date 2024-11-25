@@ -72,9 +72,6 @@
       &.authed-widgets {
         align-items: center;
       }
-
-      &_search-bar {
-      }
     }
 
     &_auth {
@@ -173,6 +170,13 @@
 
       &.profile {
         display: none;
+
+        &.active {
+          border: none;
+          color: $brand;
+          font-weight: 600;
+          padding-bottom: 0;
+        }
       }
     }
   }
@@ -270,6 +274,13 @@
         display: flex;
         align-items: center;
         align-self: baseline;
+
+        padding-top: 4px;
+      }
+
+      &_avatar {
+        align-items: center;
+        align-self: baseline;
       }
       &_widgets {
         align-items: center;
@@ -313,18 +324,46 @@
       &_logo {
         font-size: 24px;
       }
+
+      &_auth {
+        align-self: baseline;
+      }
       &_avatar {
         height: 24px;
         width: 24px;
       }
       &_widgets {
         align-items: baseline;
+
+        &.authed {
+          align-items: baseline;
+        }
       }
       &_burger {
+        padding-top: 2px;
         height: 24px;
         &_icon {
           width: 100%;
           height: 100%;
+        }
+      }
+    }
+  }
+}
+
+@include smallMobile {
+  .header {
+    &__container {
+      &_auth {
+        display: none;
+      }
+    }
+  }
+  .sidebar {
+    &__nav {
+      &_item {
+        &.profile {
+          display: block;
         }
       }
     }

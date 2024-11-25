@@ -6,30 +6,38 @@ import { ActorInfo } from 'types/actor';
 import { userStore } from './UserStore';
 import { apiClient } from 'modules/ApiClient';
 import { Emitter } from 'modules/Emmiter';
-import { serializeMovie } from 'modules/Serializer';
+import {
+  serializeActorData,
+  serializeMovie,
+  serializeSearchActorData,
+} from 'modules/Serializer';
 import { findActors, findMovies } from 'types/searchTypes';
 
 const searchBlock = new SearchBlock();
 
 class SearchBlockStore {
-  #findMovies: findMovies[];
-
-  // #isDataLoading: boolean;
-  // #isDataLoadingEmmitter: Emitter<boolean>;
+  #findItems: Movie[];
+  #searchValue: string;
+  #selectedNav: string;
 
   constructor() {
-    this.#findMovies = [];
+    this.#findItems = [];
+    this.#searchValue = '';
+    this.#selectedNav = 'movies';
 
-    // this.#isDataLoading = false;
-    // this.#isDataLoadingEmmitter = new Emitter<boolean>(false);
+    const inputChangeListener = searchBlock.inputEmmitter$.addListener(
+      (value: string) => {
+        this.#searchValue = value;
+        this.searchRequest();
+      },
+    );
 
-    const inputChangeListener = searchBlock.inputEmmitter$.addListener(() => {
-      this.searchRequest();
-    });
-
-    const categoryChangeListener = searchBlock.navEmmitter$.addListener(() => {
-      this.searchRequest();
-    });
+    const categoryChangeListener = searchBlock.navEmmitter$.addListener(
+      (value) => {
+        this.#selectedNav = value;
+        this.searchRequest();
+      },
+    );
 
     this.ngOnDestroy = () => {
       inputChangeListener();
@@ -38,10 +46,11 @@ class SearchBlockStore {
     dispatcher.register(this.reduce.bind(this));
   }
 
-  // get dataLoadingEmmitter$(): Emitter<boolean> {
-  //   console.log('----------')
-  //   return this.#isDataLoadingEmmitter;
-  // }
+  clearFounded() {
+    this.#findItems = [];
+    this.#searchValue = '';
+    this.#selectedNav = 'movies';
+  }
 
   ngOnDestroy(): void {}
 
@@ -50,42 +59,41 @@ class SearchBlockStore {
   }
 
   getMovies() {
-    return this.#findMovies;
+    return this.#findItems;
   }
 
   async searchRequest() {
     try {
-      this.#findMovies = [];
+      this.#findItems = [];
 
-      const tmp =
-        searchBlock.getSelectedCategory === 'movies' ? 'title' : 'name';
+      // const response = await apiClient.get({
+      //   path: `movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
+      // });
 
       const response = await fetch(
-        `http://localhost:9200/${searchBlock.getSelectedCategory}/_search`,
+        `http://localhost:8080/api/movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
         {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            mode: 'cors',
           },
-          body: JSON.stringify({
-            query: {
-              match_phrase_prefix: {
-                [tmp]: searchBlock.getInputValue,
-              },
-            },
-          }),
         },
       );
-      // const response = await apiClient.get({
-      //   path: 'movie_collections/',
-      // }); // Дождаться реальных данных
       const data = await response.json();
 
-      this.#findMovies = data.hits.hits;
-      searchBlock.renderItemsList(searchBlock.getSelectedCategory);
-      // this.#isDataLoadingEmmitter.set(false);
-    } catch (e) {
-      console.log(e);
+      if (this.#selectedNav === 'movies') {
+        this.#findItems = data.map((movie: Movie) => {
+          return serializeMovie(movie);
+        });
+      } else {
+        this.#findItems = data.map((movie: Movie) => {
+          return serializeSearchActorData(movie);
+        });
+      }
+      searchBlock.renderItemsList(this.#selectedNav, false);
+    } catch (e: any) {
+      searchBlock.renderItemsList(this.#selectedNav, true);
     }
   }
 
