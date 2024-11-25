@@ -71,7 +71,7 @@ class SearchBlockStore {
       // });
 
       const response = await fetch(
-        `http://localhost:8080/api/movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
+        `http://83.166.232.3:8080/api/movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
         {
           method: 'GET',
           headers: {
