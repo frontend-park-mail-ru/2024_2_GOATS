@@ -2,7 +2,6 @@
 
 .main-page {
   background-color: $background;
-  padding-bottom: 100px;
 
   &__container {
     max-width: $content-width-max;
@@ -20,7 +19,28 @@
   &__block {
     &_title {
       margin-bottom: 15px;
-      font-size: 30px;
+      font-size: min($font-size-extra-large, calc(10px + 3.5vw));
+    }
+  }
+}
+
+@include smallTablet {
+  .main-page {
+    &__container {
+      max-width: 85dvw;
+      width: 85dvw;
+    }
+  }
+}
+
+@include mobile {
+  .main-page {
+    &__container {
+      max-width: 90dvw;
+      width: 90dvw;
+    }
+    &__blocks {
+      gap: 25px;
     }
   }
 }

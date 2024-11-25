@@ -1,0 +1,41 @@
+<div class='find-item-list'>
+  {{#if isRecommended}}
+    <span class='find-item-list__subtitle'>Начните поиск</span>
+  {{else}}
+    {{#if isNothingFound}}
+      <span class='find-item-list__subtitle'
+      >Ничего не найдено</span>
+    {{else}}
+      {{#each items}}
+        <div class='find-item-list__item'  id='find-id-{{this.id}}'>
+          {{#if ../isMovie}}
+          <img
+            class='find-item-list__item_image'
+            src='{{this.albumImage}}'
+            alt=''
+          />
+          {{else}}
+          <img
+            class='find-item-list__item_image'
+            src={{this.image}}
+            alt=''
+          />
+          {{/if}}
+          
+          <div class='find-item-list__item_info'>
+            
+            {{#if ../isMovie}}
+              <h2
+                class='find-item-list__item_info_title'
+              >{{this.title}}</h2>
+            {{/if}}
+            {{#unless ../isMovie}}
+              <h2 class='find-item-list__item_info_title'>{{this.fullName}}</h2>
+            {{/unless}}
+          </div>
+        </div>
+      {{/each}}
+    {{/if}}
+  {{/if}}
+  
+</div>

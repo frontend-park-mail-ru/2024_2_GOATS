@@ -1,3 +1,4 @@
+import { searchBlockStore } from 'store/SearchBlockStore';
 import { routerHandler } from './RouterHandler';
 
 class Router {
@@ -12,25 +13,32 @@ class Router {
 
     window.onpopstate = (e) => {
       if (e.state) {
+        searchBlockStore.clearFounded();
         routerHandler(new URL(window.location.href), e.state.id);
       } else {
+        searchBlockStore.clearFounded();
         routerHandler(new URL(window.location.href));
       }
     };
   }
 
-  go(path: string, id?: number | string) {
+  go(path: string, id?: number | string, data?: any) {
     let url = id
       ? new URL(`${path}/${id}`, window.location.href)
       : new URL(path, window.location.href);
-
-    if (id) {
+    searchBlockStore.clearFounded();
+    if (id && data) {
+      routerHandler(url, id, data);
+      window.history.pushState({ id }, path, `${path}/${id}`);
+    } else if (id) {
       routerHandler(url, id);
       window.history.pushState({ id }, path, `${path}/${id}`);
     } else {
       routerHandler(url);
       window.history.pushState({}, path, path);
     }
+
+    //Чистим serachBar на каждый переход
   }
 
   parseUrl(url: any) {

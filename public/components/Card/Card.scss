@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .card {
   width: 160px;
@@ -59,5 +60,44 @@
 
   &:hover &__overlay {
     opacity: 1;
+  }
+
+  &-skeleton {
+    background: $skeleton-background;
+    min-width: 160px;
+    width: 160px;
+    height: 224px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+
+    @include skeleton-before(
+      $skeleton-background-secondary,
+      $skeleton-animation
+    );
+  }
+}
+
+@include mobile {
+  .card {
+    width: 140px;
+    height: 188px;
+  }
+  .card-skeleton {
+    min-width: 140px;
+    width: 140px;
+    height: 188px;
+  }
+}
+
+@include tinyMobile {
+  .card {
+    width: 120px;
+    height: 160px;
+  }
+  .card-skeleton {
+    min-width: 120px;
+    width: 120px;
+    height: 160px;
   }
 }

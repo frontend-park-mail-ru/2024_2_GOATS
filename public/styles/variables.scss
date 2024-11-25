@@ -26,12 +26,34 @@ $text-secondary-color: #7d7d7d;
 
 $block-background: #1c1c1c;
 
+$menu-item-background: #3d3d3d;
+$menu-item-active-background: #fff;
+$menu-item-hover-background: #6f6f6f;
+
+$skeleton-background: linear-gradient(
+  45deg,
+  $background-secondary-color,
+  $modal-content-background
+);
+$skeleton-background-secondary: linear-gradient(
+  to right,
+  transparent,
+  $background-secondary-color,
+  transparent
+);
+$skeleton-animation: animate 2s linear infinite;
+
 $border-radius-small: 10px;
 $border-radius-medium: 16px;
 $border-radius-max: 50%;
 
+$font-size-ultra-small: 10px;
 $font-size-extra-small: 12px;
 $font-size-small: 14px;
 $font-size-medium: 16px;
+$font-size-menu: 20px;
 $font-size-large: 24px;
 $font-size-extra-large: 32px;
+
+$movie-left-box-shadow: 45px 1px 63px 25px rgba(0, 0, 0, 1) inset;
+$movie-bottom-box-shadow: 0px -45px 63px 25px rgba(0, 0, 0, 1) inset;

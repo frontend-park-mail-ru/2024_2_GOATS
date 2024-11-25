@@ -1,9 +1,15 @@
-.cards__list {
+.cards-list {
   position: relative;
 
-  height: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  grid-template-rows: auto 1fr auto;
-  grid-gap: 30px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+
+  &-skeleton {
+    display: flex;
+    gap: 30px;
+    overflow: hidden;
+  }
 }

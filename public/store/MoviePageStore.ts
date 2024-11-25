@@ -2,27 +2,61 @@ import { dispatcher } from 'flux/Dispatcher';
 import { ActionTypes } from 'flux/ActionTypes';
 import { MoviePage } from 'pages/MoviePage/MoviePage';
 import { apiClient } from 'modules/ApiClient';
-import { MovieDetailed, MovieSelection } from 'types/movie';
+import { MovieDetailed, MovieSaved, MovieSelection } from 'types/movie';
 import { Emitter } from 'modules/Emmiter';
 import {
   serializeMovieDetailed,
   serializeCollections,
 } from 'modules/Serializer';
+import { userStore } from './UserStore';
 
 const moviePage = new MoviePage();
 
 class MoviePageStore {
   #movie!: MovieDetailed | null;
   #movieSelections: MovieSelection[] = [];
-  #isNewSeriesReceivedEmitter: Emitter<boolean>;
+  #lastMovies: MovieSaved[] = [];
+  #hasMovieGot: Emitter<boolean>;
+  #hasTimeCodeChangedEmitter: Emitter<boolean>;
 
   constructor() {
-    this.#isNewSeriesReceivedEmitter = new Emitter<boolean>(false);
+    this.#hasMovieGot = new Emitter<boolean>(false);
+    this.#hasTimeCodeChangedEmitter = new Emitter<boolean>(false);
+
+    const unsubscribeLastMovies = this.hasTimeCodeChangedEmitter$.addListener(
+      (status) => {
+        if (status) {
+          moviePage.setStartTimecode();
+        }
+      },
+    );
+
+    const unsubscribeMovie = this.hasMovieGotEmitter$.addListener((status) => {
+      if (status) {
+        moviePage.renderMovieDescription();
+      }
+    });
+
+    this.ngOnLastMoviesDestroy = () => {
+      unsubscribeLastMovies();
+    };
+
+    this.ngOnMovieDestroy = () => {
+      unsubscribeMovie();
+    };
+
     dispatcher.register(this.reduce.bind(this));
   }
 
-  get isNewSeriesReceivedEmitter$(): Emitter<boolean> {
-    return this.#isNewSeriesReceivedEmitter;
+  ngOnLastMoviesDestroy(): void {}
+  ngOnMovieDestroy(): void {}
+
+  get hasMovieGotEmitter$(): Emitter<boolean> {
+    return this.#hasMovieGot;
+  }
+
+  get hasTimeCodeChangedEmitter$(): Emitter<boolean> {
+    return this.#hasTimeCodeChangedEmitter;
   }
 
   setMovieState(movie: MovieDetailed) {
@@ -39,6 +73,10 @@ class MoviePageStore {
 
   getSelections() {
     return this.#movieSelections;
+  }
+
+  getLastMovies() {
+    return this.#lastMovies;
   }
 
   async getCollection() {
@@ -58,14 +96,93 @@ class MoviePageStore {
   }
 
   async getMovieRequest(id: number) {
-    this.#isNewSeriesReceivedEmitter.set(false);
-    const response = await apiClient.get({
-      path: `movies/${id}`,
-    });
+    this.#hasMovieGot.set(false);
+    try {
+      const response = await apiClient.get({
+        path: `movies/${id}`,
+      });
 
-    const serializedMovieData = serializeMovieDetailed(response.movie_info);
-    this.setMovieState(serializedMovieData);
-    this.#isNewSeriesReceivedEmitter.set(true);
+      const serializedMovieData = serializeMovieDetailed(response.movie_info);
+      this.setMovieState(serializedMovieData);
+    } catch (error) {
+      throw error;
+    } finally {
+      this.#hasMovieGot.set(true);
+    }
+  }
+
+  getLastMoviesFromLocalStorage() {
+    try {
+      const moviesString = localStorage.getItem('last_movies');
+      if (moviesString) {
+        this.#lastMovies = JSON.parse(moviesString);
+      } else {
+        this.#lastMovies = [];
+      }
+    } catch (e) {
+      this.#lastMovies = [];
+      throw e;
+    }
+  }
+
+  setLastMoviesToLocalStorage(timeCode: number, duration: number) {
+    const foundMovie = this.#lastMovies.find((m) => m.id === this.#movie?.id);
+    if (this.#movie) {
+      if (this.#movie?.isSerial) {
+        //TODO: Проверить сохранение серий
+        if (foundMovie) {
+          // foundMovie.timeCode = timeCode;
+        } else {
+          // this.#lastMovies.push({
+          //   id: this.#movie.id,
+          //   title: this.#movie.title,
+          //   albumImage: this.#movie.albumImage,
+          //   timeCode: timeCode,
+          //   duration: duration,
+          //   season: season,
+          //   series: series,
+          // });
+        }
+      } else {
+        if (foundMovie) {
+          foundMovie.timeCode = timeCode;
+        } else {
+          this.#lastMovies.push({
+            id: this.#movie.id,
+            title: this.#movie.title,
+            albumImage: this.#movie.albumImage,
+            timeCode: timeCode,
+            duration: duration,
+          });
+        }
+      }
+
+      try {
+        localStorage.setItem('last_movies', JSON.stringify(this.#lastMovies));
+      } catch (e) {
+        throw e;
+      } finally {
+        this.#hasTimeCodeChangedEmitter.set(true);
+      }
+    }
+  }
+
+  deleteLastMovieFromLocalStorage() {
+    this.#hasTimeCodeChangedEmitter.set(false);
+    try {
+      const filteredLastMovies = this.#lastMovies.filter(
+        (movie: MovieSaved) => {
+          return movie.id !== this.#movie?.id;
+        },
+      );
+
+      localStorage.setItem('last_movies', JSON.stringify(filteredLastMovies));
+      this.#lastMovies = filteredLastMovies;
+    } catch (e) {
+      throw e;
+    } finally {
+      this.#hasTimeCodeChangedEmitter.set(true);
+    }
   }
 
   async reduce(action: any) {
@@ -75,12 +192,25 @@ class MoviePageStore {
         moviePage.render();
         await Promise.all([
           this.getCollection(),
-          this.getMovieRequest(action.payload),
+          this.getMovieRequest(action.payload.id),
         ]);
-        moviePage.render();
+        this.getLastMoviesFromLocalStorage();
+        moviePage.render(action.payload.fromRecentlyWatched);
         break;
-      case ActionTypes.CHANGE_SERIES:
+      case ActionTypes.GET_MOVIE:
         await this.getMovieRequest(action.payload);
+        break;
+      case ActionTypes.GET_LAST_MOVIES:
+        this.getLastMoviesFromLocalStorage();
+        break;
+      case ActionTypes.SET_LAST_MOVIES:
+        this.setLastMoviesToLocalStorage(
+          action.payload.timeCode,
+          action.payload.duration,
+        );
+        break;
+      case ActionTypes.DELETE_LAST_MOVIE:
+        this.deleteLastMovieFromLocalStorage();
         break;
       default:
         break;

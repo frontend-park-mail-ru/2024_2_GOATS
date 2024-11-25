@@ -1,8 +1,6 @@
 @import 'styles//variables.scss';
 
 .movie-page {
-  padding-bottom: 100px;
-
   &__container {
     padding-top: 30px;
     max-width: $content-width-max;
@@ -12,8 +10,8 @@
   }
 
   &__description {
-    width: 60%;
     padding-top: 30px;
+    width: 60%;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -60,6 +58,64 @@
       align-items: center;
       justify-content: center;
       z-index: -1;
+    }
+  }
+
+  &-skeleton {
+    &__description {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &_text {
+        height: 100px !important;
+      }
+    }
+  }
+}
+
+@include smallTablet {
+  .movie-page {
+    &__container {
+      width: 85dvw;
+      max-width: 85dvw;
+      margin: 0 auto;
+    }
+
+    &__description {
+      width: 100%;
+    }
+  }
+}
+
+@include mobile {
+  .movie-page {
+    &__container {
+      width: 90dvw;
+      max-width: 90dvw;
+      margin: 0 auto;
+    }
+
+    &__description {
+      &_title {
+        font-size: $font-size-large;
+
+        &_block {
+          gap: 10px;
+        }
+      }
+
+      &_text {
+        font-size: $font-size-small;
+        line-height: 20px;
+      }
+
+      &_warning {
+        &_text {
+          font-size: $font-size-ultra-small;
+          color: $brand-dull;
+        }
+      }
     }
   }
 }

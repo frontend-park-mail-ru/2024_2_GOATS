@@ -1,0 +1,16 @@
+.favorites-page {
+  &__container {
+    padding-top: 15px;
+    width: $content-width;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-size: min($font-size-extra-large, calc(10px + 3.5vw));
+    margin-bottom: 15px;
+  }
+
+  &-skeleton {
+    margin-bottom: 15px;
+  }
+}

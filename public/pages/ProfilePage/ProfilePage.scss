@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .profile-page {
   margin-top: 10px;
@@ -11,6 +12,7 @@
     grid-template-columns: 60% 35%;
     grid-template-rows: repeat(2, 1fr);
     justify-content: space-between;
+    row-gap: 12px;
   }
 
   &__profile-block {
@@ -25,7 +27,7 @@
 
     &_content {
       padding: 18px;
-      height: 400px;
+      height: auto;
       background-color: $background-secondary-color;
       border-radius: $border-radius-medium;
 
@@ -98,6 +100,8 @@
         border-radius: 0.5em;
         transition: transform 0.2s ease;
 
+        text-align: center;
+
         &:hover {
           cursor: pointer;
           transform: scale(1.02);
@@ -114,7 +118,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 20px;
+    gap: 24px;
   }
 
   &__input {
@@ -148,7 +152,7 @@
     }
     &_error {
       display: block;
-      font-size: $font-size-extra-small;
+      font-size: 10px;
       color: $error-color;
       position: absolute;
       margin-top: 2px;
@@ -171,6 +175,14 @@
       transition: background-color 0.2s ease;
       &:hover {
         background-color: #590da6;
+      }
+
+      &.disable {
+        background-color: grey;
+
+        &:hover {
+          cursor: default;
+        }
       }
     }
   }
@@ -214,6 +226,114 @@
       transition: background-color 0.2s ease;
       &:hover {
         background-color: #590da6;
+      }
+    }
+  }
+}
+
+@include largeTablet {
+  .user {
+    &__image-field_avatar {
+      width: 250px;
+      height: 250px;
+    }
+  }
+}
+
+@include mediumTablet {
+  .profile-page {
+    &__container {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+  }
+}
+
+@include smallTablet {
+  .profile-page {
+    &__container {
+      width: 85vw;
+      gap: 24px;
+    }
+    &__profile-block {
+      &_title {
+        font-size: 22px;
+      }
+    }
+
+    &__security-block {
+      &_title {
+        font-size: 22px;
+      }
+    }
+    &__exit-block {
+      &_title {
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .profile-page {
+    &__container {
+      width: 90vw;
+      gap: 16px;
+    }
+  }
+  .user {
+    &__image-field {
+      &_avatar {
+        width: 200px;
+        height: 200px;
+      }
+      &_input {
+        &_label {
+          font-size: 14px;
+        }
+      }
+    }
+
+    &__submit {
+      &_button {
+        font-size: 14px;
+      }
+    }
+    &__input {
+      &_field {
+        font-size: 14px;
+      }
+      &_label {
+        font-size: 14px;
+      }
+      &_error {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+@include extraSmallMobile {
+  .profile-page {
+    &__profile-block {
+      &_content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  }
+  .user__image-field_input_label_icon {
+    width: 20px;
+  }
+}
+
+@include tinyMobile {
+  .user {
+    &__input {
+      &_error {
+        font-size: 8px;
       }
     }
   }

@@ -3,15 +3,18 @@ import template from './ProfilePage.hbs';
 import { PasswordChangeModal } from 'components/PasswordChangeModal/PasswordChangeModal';
 import { Actions } from 'flux/Actions';
 import { AvatarComponent } from 'components/AvatarComponent/AvatarComponent';
-import { UserData } from 'types/user';
-import { validateEmailAddress, validateLogin } from 'modules/Validators';
+import {
+  validateEmailAddress,
+  validateImage,
+  validateLogin,
+} from 'modules/Validators';
 import { userStore } from 'store/UserStore';
 import { ConfirmModal } from 'components/ConfirmModal/ConfirmModal';
-import { apiClient } from 'modules/ApiClient';
-import { router } from 'modules/Router';
+import { Notifier } from 'components/Notifier/Notifier';
 
 export class ProfilePage {
   #userAvatar!: File;
+  #notifier!: Notifier;
 
   constructor() {}
 
@@ -107,20 +110,96 @@ export class ProfilePage {
     avatarComponent.render();
   }
 
-  uploadAvatar(event: Event) {
+  async validateAvatarField(file: File): Promise<boolean> {
+    const imageError = document.getElementById(
+      'user-image-type-error',
+    ) as HTMLElement;
+
+    const imageErrorMessage = await validateImage(file);
+
+    if (imageErrorMessage) {
+      this.#notifier = new Notifier('error', imageErrorMessage, 3000);
+      this.#notifier.render();
+      return Promise.resolve(false);
+    } else {
+      imageError.innerText = '';
+      return Promise.resolve(true);
+    }
+  }
+
+  async uploadAvatar(event: Event) {
     const fileInput = event.target as HTMLInputElement;
+
     if (fileInput.files && fileInput.files[0]) {
-      const avatarUrl = URL.createObjectURL(fileInput.files[0]);
-      this.#userAvatar = fileInput.files[0];
-      this.renderAvatar(avatarUrl);
+      const file = fileInput.files[0];
+      const isValid = await this.validateAvatarField(file);
+
+      if (isValid) {
+        const avatarUrl = URL.createObjectURL(file);
+        this.#userAvatar = file;
+        this.renderAvatar(avatarUrl);
+      }
+    }
+  }
+
+  listenInputsChange() {
+    const usernameInput = document.getElementById(
+      'user-change-login',
+    ) as HTMLInputElement;
+    const emailInput = document.getElementById(
+      'user-change-email',
+    ) as HTMLInputElement;
+    const avatarInput = document.getElementById(
+      'upload-avatar-input',
+    ) as HTMLInputElement;
+
+    emailInput.addEventListener('input', () => {
+      this.controlButtonDisable();
+    });
+
+    usernameInput.addEventListener('input', () => {
+      this.controlButtonDisable();
+    });
+
+    avatarInput.addEventListener('change', () => {
+      this.controlButtonDisable();
+    });
+  }
+
+  controlButtonDisable() {
+    const emailValue = (<HTMLInputElement>(
+      document.getElementById('user-change-email')
+    )).value;
+    const usernameValue = (<HTMLInputElement>(
+      document.getElementById('user-change-login')
+    )).value;
+
+    const submitButton = document.getElementById(
+      'user-change-btn',
+    ) as HTMLButtonElement;
+
+    if (
+      usernameValue !== userStore.getUser().username ||
+      emailValue !== userStore.getUser().email ||
+      this.#userAvatar !== undefined
+    ) {
+      submitButton.classList.remove('disable');
+      submitButton.disabled = false;
+    } else {
+      submitButton.classList.add('disable');
+      submitButton.disabled = true;
     }
   }
 
   onExitClick() {
     if (userStore.getUserAuthStatus()) {
-      const modal = new ConfirmModal('Вы уверены, что хотите выйти?', () => {
-        profilePageStore.logout();
-      });
+      const modal = new ConfirmModal(
+        'Вы уверены, что хотите выйти?',
+        true,
+        () => {
+          profilePageStore.logout();
+        },
+      );
       const exitButton = document.getElementById('exit-button') as HTMLElement;
       exitButton.addEventListener('click', () => {
         modal.render();
@@ -148,5 +227,6 @@ export class ProfilePage {
     }
 
     this.onExitClick();
+    this.listenInputsChange();
   }
 }

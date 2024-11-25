@@ -94,12 +94,14 @@ export class PasswordChangeModal {
 
       const isPrevPasswordValid =
         this.validatePrevPasswordField(prevPasswordValue);
+
       const isNewPasswordValid =
         this.validateNewPasswordField(newPasswordValue);
       const isPasswordConfirmValid = this.validatePasswordConrirmField(
         newPasswordValue,
         newPasswordComfirmValue,
       );
+
       if (
         !isNewPasswordValid ||
         !isPasswordConfirmValid ||

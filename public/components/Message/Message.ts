@@ -1,21 +1,19 @@
 import { User } from 'types/user';
 import template from './Message.hbs';
+import { MessageData } from 'types/room';
 
 export class Message {
   #parent;
-  #user;
-  #text;
+  #message;
   #isCurrentUser;
 
   constructor(params: {
     parent: HTMLDivElement;
-    user: User;
-    text: string;
+    message: MessageData;
     isCurrentUser: boolean;
   }) {
     this.#parent = params.parent;
-    this.#user = params.user;
-    this.#text = params.text;
+    this.#message = params.message;
     this.#isCurrentUser = params.isCurrentUser;
   }
 
@@ -27,8 +25,7 @@ export class Message {
     this.#parent.insertAdjacentHTML(
       'beforeend',
       template({
-        user: this.#user,
-        text: this.#text,
+        message: this.#message,
         isCurrentUser: this.#isCurrentUser,
       }),
     );

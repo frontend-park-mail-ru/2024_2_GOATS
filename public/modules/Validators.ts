@@ -7,6 +7,8 @@ import {
   CHAR_z_CODE,
   passwordValidationRules,
   loginValidationRules,
+  avatarValidationRules,
+  allowedTypes,
 } from '../consts';
 
 export function validateEmailAddress(emailAddress: string): boolean {
@@ -91,4 +93,35 @@ export function validateLogin(username: string): string | undefined {
       ].errorMessage;
     }
   }
+}
+
+export function validateImage(file: File): Promise<string | undefined> {
+  return new Promise((resolve) => {
+    avatarValidationRules.reset();
+    let isTypeValid = false;
+
+    if (allowedTypes.includes(file.type)) {
+      isTypeValid = true;
+    }
+
+    // Проверка, является ли файл действительно изображением
+    const img = new Image();
+    img.onload = () => {
+      const maxSize = 1 * 1024 * 1024;
+      if (file.size > maxSize) {
+        resolve('Максималный размер файла - 1 МБ');
+        return;
+      }
+      if (isTypeValid) {
+        resolve(undefined);
+      } else {
+        resolve(`Неверный формат изображения`);
+      }
+    };
+
+    img.onerror = () => {
+      resolve(avatarValidationRules.rules.invalidType.errorMessage);
+    };
+    img.src = URL.createObjectURL(file);
+  });
 }

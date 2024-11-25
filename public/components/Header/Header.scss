@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .active {
   border-bottom: 2px solid $brand;
@@ -12,13 +13,24 @@
   padding: 12px 0px;
 
   &__container {
+    z-index: 101;
+
     max-width: $content-width-max;
     width: $content-width;
     margin: 0 auto;
 
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
+
+    &.not-authed {
+      & > *:nth-child(2) {
+        order: 2; /* Второй элемент перемещается перед третьим */
+      }
+      & > *:nth-child(3) {
+        order: 1; /* Третий элемент остается на своем месте */
+      }
+    }
 
     &_item {
       width: fit-content;
@@ -45,25 +57,41 @@
       font-weight: 600;
       display: flex;
       gap: 24px;
+
       justify-content: space-between;
+
+      margin-left: 32px;
+    }
+
+    &_widgets {
+      margin-left: auto;
+      align-self: baseline;
+      display: flex;
+      gap: 16px;
+
+      &.authed-widgets {
+        align-items: center;
+      }
     }
 
     &_auth {
       font-size: 20px;
       display: flex;
+
       align-items: center;
       gap: 20px;
     }
 
-    &_exit_btn {
-      background-color: $brand;
-      color: $brand-secondary;
-      font-size: $font-size-medium;
-      font-weight: 600;
+    &_search-bar {
+      font-size: 20px;
+    }
 
-      &:hover {
-        background-color: $button-background-hover;
-      }
+    &_profile {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+      font-size: 20px;
     }
 
     &_avatar {
@@ -76,6 +104,267 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+    }
+
+    &_burger {
+      display: none;
+    }
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 100;
+
+  right: -250px;
+  transition: all 0.3s ease-in-out;
+  visibility: hidden;
+
+  background-color: rgb(0, 0, 0);
+
+  flex-direction: column;
+  gap: 32px;
+
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 18px;
+  display: flex;
+
+  &.sidebar-visible {
+    right: 0;
+
+    visibility: visible;
+    animation: slideIn 0.3s ease-in-out forwards;
+  }
+  &.sidebar-hidden {
+    right: -250px;
+    visibility: hidden;
+    right: -250px;
+    animation: slideOut 0.3s ease-in-out backwards;
+  }
+
+  &__actions {
+    align-self: flex-end;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 24px;
+
+    &_item {
+      font-size: 24px;
+
+      &.active {
+        border: none;
+        color: $brand;
+        font-weight: 600;
+        padding-bottom: 0;
+      }
+
+      &.profile {
+        display: none;
+
+        &.active {
+          border: none;
+          color: $brand;
+          font-weight: 600;
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    right: -250px;
+    opacity: 0;
+  }
+  to {
+    right: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    right: 0;
+    opacity: 1;
+  }
+  to {
+    right: -250px;
+    opacity: 0;
+  }
+}
+
+@include largeTablet {
+  .header {
+    &__container {
+      &_nav {
+        gap: 18px;
+        margin-left: 24px;
+      }
+    }
+  }
+}
+
+@include mediumTablet {
+  .header {
+    &__container {
+      &_logo {
+        font-size: 32px;
+      }
+      &_nav {
+        font-size: 18px;
+        gap: 12px;
+        margin-left: 18px;
+      }
+      &_widgets {
+        gap: 10px;
+      }
+      &_avatar {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+  .search-bar {
+    align-items: center;
+
+    &.active {
+      .search-bar {
+        &__input {
+          width: 150px;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    &__search {
+      font-size: 18px;
+    }
+    &__input {
+      font-size: 16px;
+    }
+    &__close {
+      height: 20px;
+      &_icon {
+        width: 20px;
+      }
+    }
+  }
+}
+
+@include smallTablet {
+  .header {
+    &__container {
+      width: 85vw;
+      &_nav {
+        display: none;
+      }
+      &_burger {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        align-self: baseline;
+
+        padding-top: 4px;
+      }
+
+      &_avatar {
+        align-items: center;
+        align-self: baseline;
+      }
+      &_widgets {
+        align-items: center;
+        gap: 18px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .sidebar {
+    width: 100vw;
+
+    align-items: center;
+    font-size: 32px;
+    justify-content: center;
+
+    &__nav {
+      gap: 32px;
+      text-align: center;
+      order: 1;
+    }
+    &__actions {
+      order: 2;
+      align-self: center;
+      margin-top: 48px;
+    }
+  }
+
+  .search-bar {
+    &__search {
+      &_text {
+        display: none;
+      }
+    }
+  }
+  .header {
+    &__container {
+      width: 90vw;
+
+      &_logo {
+        font-size: 24px;
+      }
+
+      &_auth {
+        align-self: baseline;
+      }
+      &_avatar {
+        height: 24px;
+        width: 24px;
+      }
+      &_widgets {
+        align-items: baseline;
+
+        &.authed {
+          align-items: baseline;
+        }
+      }
+      &_burger {
+        padding-top: 2px;
+        height: 24px;
+        &_icon {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+@include smallMobile {
+  .header {
+    &__container {
+      &_auth {
+        display: none;
+      }
+    }
+  }
+  .sidebar {
+    &__nav {
+      &_item {
+        &.profile {
+          display: block;
+        }
       }
     }
   }

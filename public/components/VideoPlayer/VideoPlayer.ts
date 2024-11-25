@@ -1,7 +1,8 @@
 import template from './VideoPlayer.hbs';
 import { timeFormatter } from 'modules/TimeFormatter';
 import { VideoControls } from 'types/video';
-import { Loader } from 'components/Loader/Loader';
+import { isTabletOrMobileLandscape } from 'modules/IsMobileDevice';
+import { PLAYER_CONTROLL_HIDING_TIMEOUT } from '../../consts';
 
 export class VideoPlayer {
   #parent;
@@ -10,6 +11,7 @@ export class VideoPlayer {
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
   #tickInterval!: number;
+  #startTimeCode;
   #onBackClick;
   #onPauseClick;
   #onPlayClick;
@@ -21,12 +23,15 @@ export class VideoPlayer {
   #hasPrevSeries;
   #onNextButtonClick;
   #onPrevButtonClick;
+  #handleSaveTimecode;
+  #boundHandleKeyPress;
 
   constructor(params: {
     parent: HTMLElement;
     url: string;
     hasNextSeries: boolean;
     hasPrevSeries: boolean;
+    startTimeCode?: number;
     onBackClick?: () => void;
     onPlayClick?: (timeCode: number) => void;
     onPauseClick?: (timeCode: number) => void;
@@ -34,10 +39,12 @@ export class VideoPlayer {
     hanldeIntervalTick?: (timeCode: number) => void;
     onNextButtonClick?: () => void;
     onPrevButtonClick?: () => void;
+    handleSaveTimecode?: (timeCode: number, duration: number) => void;
   }) {
     this.#parent = params.parent;
     this.#url = params.url;
     this.#isPlaying = false;
+    this.#startTimeCode = params.startTimeCode;
     this.#onBackClick = params.onBackClick;
     this.#onPlayClick = params.onPlayClick;
     this.#onPauseClick = params.onPauseClick;
@@ -48,12 +55,18 @@ export class VideoPlayer {
     this.#hasPrevSeries = params.hasPrevSeries;
     this.#onNextButtonClick = params.onNextButtonClick;
     this.#onPrevButtonClick = params.onPrevButtonClick;
+    this.#handleSaveTimecode = params.handleSaveTimecode;
+    this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
   }
 
   render() {
     this.renderTemplate();
     this.initControls();
     this.addEventListeners();
+
+    if (this.#startTimeCode) {
+      this.#controls.video.currentTime = this.#startTimeCode;
+    }
   }
 
   renderTemplate() {
@@ -76,7 +89,6 @@ export class VideoPlayer {
     this.#controls = {
       video: document.getElementById('video') as HTMLVideoElement,
       videoWrapper: document.querySelector('.video__wrapper') as HTMLElement,
-      playOrPause: document.getElementById('play-pause') as HTMLElement,
       duration: document.getElementById('duration') as HTMLElement,
       currentTime: document.getElementById('current-time') as HTMLElement,
       progressBar: document.querySelector(
@@ -86,49 +98,69 @@ export class VideoPlayer {
       isVolumeOpened: false,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       isFullScreen: false,
-      rewindBackButton: document.getElementById(
-        'rewind-back-button',
-      ) as HTMLElement,
-      rewindFrontButton: document.getElementById(
-        'rewind-front-button',
-      ) as HTMLElement,
       videoBackButton: document.getElementById(
         'video-back-button',
       ) as HTMLElement,
       videoControls: document.getElementById('video-controls') as HTMLElement,
-      nextSeriesButton: document.getElementById(
-        'next-series-button',
-      ) as HTMLElement,
-      prevSeriesButton: document.getElementById(
-        'prev-series-button',
+      videoPlaceholder: document.getElementById(
+        'video-placeholder',
       ) as HTMLElement,
     };
+
+    if (!isTabletOrMobileLandscape()) {
+      this.#controls = {
+        ...this.#controls,
+        playOrPause: document.getElementById('play-pause') as HTMLElement,
+        rewindBackButton: document.getElementById(
+          'rewind-back-button',
+        ) as HTMLElement,
+        rewindFrontButton: document.getElementById(
+          'rewind-front-button',
+        ) as HTMLElement,
+        nextSeriesButton: document.getElementById(
+          'next-series-button',
+        ) as HTMLElement,
+        prevSeriesButton: document.getElementById(
+          'prev-series-button',
+        ) as HTMLElement,
+      };
+    } else {
+      this.#controls = {
+        ...this.#controls,
+        playOrPause: document.getElementById(
+          'play-pause-mobile',
+        ) as HTMLElement,
+        rewindBackButton: document.getElementById(
+          'rewind-back-button-mobile',
+        ) as HTMLElement,
+        rewindFrontButton: document.getElementById(
+          'rewind-front-button-mobile',
+        ) as HTMLElement,
+        nextSeriesButton: document.getElementById(
+          'next-series-button-mobile',
+        ) as HTMLElement,
+        prevSeriesButton: document.getElementById(
+          'prev-series-button-mobile',
+        ) as HTMLElement,
+        videoMobileControls: document.getElementById(
+          'video-mobile-controls',
+        ) as HTMLElement,
+      };
+    }
+
+    this.#controls.volume.style.setProperty('--progress-volume-value', '100%');
   }
 
   // Добавляем все события
   addEventListeners() {
-    const {
-      video,
-      playOrPause,
-      fullOrSmallScreen,
-      rewindBackButton,
-      rewindFrontButton,
-      volume,
-      nextSeriesButton,
-      prevSeriesButton,
-    } = this.#controls;
+    const { video, fullOrSmallScreen, volume } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
     video.addEventListener('pause', this.onPause.bind(this));
     video.addEventListener('timeupdate', this.updateProgress.bind(this));
     video.addEventListener('ended', this.onVideoEnd.bind(this));
-
-    playOrPause.addEventListener('click', this.togglePlayback.bind(this));
-    video.addEventListener('click', this.togglePlayback.bind(this));
-
-    rewindBackButton.addEventListener('click', this.rewindBack.bind(this));
-    rewindFrontButton.addEventListener('click', this.rewindFront.bind(this));
+    video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
 
     fullOrSmallScreen.addEventListener(
       'click',
@@ -148,17 +180,41 @@ export class VideoPlayer {
       this.handleBackButtonClick();
     }
 
-    document.addEventListener('keydown', this.handleKeyPress.bind(this));
+    const slider = document.getElementById(
+      'progress-slider',
+    ) as HTMLInputElement;
+    slider.disabled = true;
+
+    slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
+    slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
+  }
+
+  addControlsListeners() {
+    const {
+      video,
+      playOrPause,
+      rewindBackButton,
+      rewindFrontButton,
+      nextSeriesButton,
+      prevSeriesButton,
+    } = this.#controls;
+
+    playOrPause?.addEventListener('click', this.togglePlayback.bind(this));
+
+    if (!isTabletOrMobileLandscape()) {
+      video.addEventListener('click', this.togglePlayback.bind(this));
+    }
+
+    rewindBackButton?.addEventListener('click', this.rewindBack.bind(this));
+    rewindFrontButton?.addEventListener('click', this.rewindFront.bind(this));
 
     const slider = document.getElementById(
       'progress-slider',
     ) as HTMLInputElement;
+    slider.disabled = false;
     slider.addEventListener('input', this.updateSliderByInput.bind(this));
 
     slider.addEventListener('change', this.setVideoTimeBySlider.bind(this));
-
-    slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
-    slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
 
     if (nextSeriesButton) {
       nextSeriesButton.addEventListener('click', () => {
@@ -175,6 +231,14 @@ export class VideoPlayer {
         }
       });
     }
+
+    document.addEventListener('keydown', this.#boundHandleKeyPress);
+
+    window.addEventListener('beforeunload', () => {
+      if (this.#handleSaveTimecode) {
+        this.#handleSaveTimecode(video.currentTime, video.duration);
+      }
+    });
   }
 
   // Вспомогательные функции для использования снаружи
@@ -186,12 +250,14 @@ export class VideoPlayer {
   videoPlay() {
     const { video } = this.#controls;
     video.play();
+    this.intervalTick();
   }
 
   videoPause(timeCode: number) {
     const { video } = this.#controls;
     video.pause();
     video.currentTime = timeCode;
+    clearInterval(this.#tickInterval);
   }
 
   videoRewind(timeCode: number) {
@@ -217,17 +283,19 @@ export class VideoPlayer {
 
     const percentage = ((video.currentTime / video.duration) * 100).toFixed(3);
 
-    if (Number(percentage) <= 40) {
-      slider.style.setProperty(
-        '--progress-value',
-        `calc(${percentage}% + 5px)`,
-      );
-    } else {
-      slider.style.setProperty('--progress-value', `${percentage}%`);
-    }
+    if (slider) {
+      if (Number(percentage) <= 40) {
+        slider.style.setProperty(
+          '--progress-value',
+          `calc(${percentage}% + 5px)`,
+        );
+      } else {
+        slider.style.setProperty('--progress-value', `${percentage}%`);
+      }
 
-    slider.value = percentage.toString();
-    this.#controls.currentTime.textContent = timeFormatter(video.currentTime);
+      slider.value = percentage.toString();
+      this.#controls.currentTime.textContent = timeFormatter(video.currentTime);
+    }
   }
 
   updateSliderByInput() {
@@ -260,8 +328,10 @@ export class VideoPlayer {
       event.preventDefault();
       this.togglePlayback();
     } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
       this.rewindBack();
     } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
       this.rewindFront();
     }
   }
@@ -270,7 +340,8 @@ export class VideoPlayer {
   updateDuration() {
     const { video, duration } = this.#controls;
     duration.textContent = timeFormatter(video.duration);
-    video.play();
+    // TODO: Обработать автовоспроизведение
+    // video.play();
   }
 
   onPlay() {
@@ -278,8 +349,8 @@ export class VideoPlayer {
       this.#onPlayClick(this.#controls.video.currentTime);
     }
     const { playOrPause } = this.#controls;
-    playOrPause.classList.add('video__controls_icon_pause');
-    playOrPause.classList.remove('video__controls_icon_play');
+    playOrPause?.classList.add('video__controls_icon_pause');
+    playOrPause?.classList.remove('video__controls_icon_play');
   }
 
   onPause() {
@@ -287,14 +358,14 @@ export class VideoPlayer {
       this.#onPauseClick(this.#controls.video.currentTime);
     }
     const { playOrPause } = this.#controls;
-    playOrPause.classList.add('video__controls_icon_play');
-    playOrPause.classList.remove('video__controls_icon_pause');
+    playOrPause?.classList.add('video__controls_icon_play');
+    playOrPause?.classList.remove('video__controls_icon_pause');
   }
 
   onVideoEnd() {
     const { video, playOrPause } = this.#controls;
     video.pause();
-    playOrPause.classList.remove('paused');
+    playOrPause?.classList.remove('paused');
   }
 
   togglePlayback() {
@@ -348,6 +419,8 @@ export class VideoPlayer {
 
   updateVolumeByClick() {
     const { volume, video } = this.#controls;
+    const percentage = Number(volume.value) * 100;
+    volume.style.setProperty('--progress-volume-value', `${percentage}%`);
     video.volume = Number(volume.value);
   }
 
@@ -388,13 +461,20 @@ export class VideoPlayer {
       this.#controls.videoBackButton.classList.remove('video__controls_hidden');
     }
 
+    this.#controls.videoMobileControls?.classList.remove(
+      'video__controls_hidden',
+    );
+
     this.#hideControlsTimeout = window.setTimeout(() => {
+      this.#controls.videoControls.classList.add('video__controls_hidden');
       this.#controls.videoControls.classList.add('video__controls_hidden');
 
       if (this.#isModal) {
-        this.#controls.videoBackButton.classList.add('video__controls_hidden');
+        this.#controls.videoMobileControls?.classList.add(
+          'video__controls_hidden',
+        );
       }
-    }, 3000);
+    }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 
   // Для выполнения функции каждые 3 секунды во время проигрывания видео
@@ -405,17 +485,31 @@ export class VideoPlayer {
       if (this.#hanldeIntervalTick) {
         this.#hanldeIntervalTick(this.#controls.video.currentTime);
       }
-    }, 3000);
+    }, 1000);
   }
 
   handleBackButtonClick() {
+    const { video } = this.#controls;
+
     this.#controls.videoBackButton.addEventListener('click', (event) => {
       event.stopPropagation();
       if (this.#onBackClick) {
         this.#onBackClick();
+        if (this.#handleSaveTimecode) {
+          this.#handleSaveTimecode(video.currentTime, video.duration);
+        }
+
+        document.removeEventListener('keydown', this.#boundHandleKeyPress);
       }
       const root = document.getElementById('root') as HTMLElement;
       root.classList.remove('lock');
     });
+  }
+
+  hidePlaceholder() {
+    const { videoPlaceholder } = this.#controls;
+    videoPlaceholder.style.display = 'none';
+
+    this.addControlsListeners();
   }
 }

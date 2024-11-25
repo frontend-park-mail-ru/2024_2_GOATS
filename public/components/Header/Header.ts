@@ -6,6 +6,7 @@ import { userStore } from 'store/UserStore';
 import Handlebars from 'handlebars';
 import { Actions } from 'flux/Actions';
 import { router } from 'modules/Router';
+import { SearchBlock } from 'components/SearchBlock/SearchBlock';
 
 function clickHandler(event: MouseEvent, config: any) {
   let targetElement: HTMLElement;
@@ -75,6 +76,27 @@ export class Header {
     });
   }
 
+  handleOpenSidebar() {
+    const burgerButton = document.getElementById(
+      'header-burger-button',
+    ) as HTMLElement;
+    const sidebar = document.getElementById('header-sidebar') as HTMLElement;
+    burgerButton.addEventListener('click', () => {
+      sidebar.classList.add('sidebar-visible');
+      sidebar.classList.remove('sidebar-hidden');
+    });
+  }
+  handleCloseSidebar() {
+    const closeButton = document.getElementById(
+      'close-sidebar-icon',
+    ) as HTMLElement;
+    const sidebar = document.getElementById('header-sidebar') as HTMLElement;
+    closeButton.addEventListener('click', () => {
+      sidebar.classList.remove('sidebar-visible');
+      sidebar.classList.add('sidebar-hidden');
+    });
+  }
+
   async logout() {
     try {
       await apiClient.post({
@@ -108,11 +130,15 @@ export class Header {
       navItems: items.filter((item) => item.id != 'header-profile'),
       isUserAuth: userStore.getUserAuthStatus(),
       currentUserAvatar: user.avatar.replace(/ /g, '%20'),
-      // currentUserAvatar: encodeURIComponent(user.avatar), // не работает
+      currentUsername: user.username,
       profileItem: items.find((item) => item.id == 'header-profile'),
     });
 
+    Actions.renderSearchBlock();
+
     document.getElementById('header')?.addEventListener('click', this.#handler);
     this.handleLogoClick();
+    this.handleOpenSidebar();
+    this.handleCloseSidebar();
   }
 }

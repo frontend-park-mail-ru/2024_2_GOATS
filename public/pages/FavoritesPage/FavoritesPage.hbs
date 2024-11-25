@@ -1,0 +1,14 @@
+<div id='favorites-page' class='favorites-page'>
+  <div class='favorites-page__container'>
+    {{#if isLoaded}}
+      {{#if isEmpty}}
+        <h4 class='favorites-page__title'>Вы пока ничего не сохранили</h4>
+      {{else}}
+        <h4 class='favorites-page__title'>Вы сохранили</h4>
+      {{/if}}
+
+    {{else}}
+      <h4 class='slider-skeleton__header favorites-page-skeleton'></h4>
+    {{/if}}
+  </div>
+</div>

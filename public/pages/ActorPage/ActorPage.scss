@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .actor-page {
   margin-top: 20px;
@@ -14,13 +15,16 @@
 
   &__about {
     display: flex;
-    gap: 56px;
+    gap: 5%;
 
     &_image {
-      height: 450px;
+      width: 35%;
+      min-width: 140px;
+      max-width: 300px;
     }
 
     &_info {
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 40px;
@@ -77,6 +81,86 @@
       font-weight: bold;
     }
   }
+
+  &-skeleton {
+    width: $content-width;
+    max-width: $content-width-max;
+    margin: 0 auto;
+    padding-bottom: 40px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 20px;
+    &__about {
+      display: flex;
+      gap: 50px;
+    }
+
+    &__about-person {
+      width: 50%;
+      margin-bottom: 12px;
+
+      &_stat {
+        height: 24px !important;
+        width: 70%;
+      }
+    }
+
+    &__image {
+      width: 35%;
+      min-width: 140px;
+      max-width: 300px;
+      aspect-ratio: 2 / 3;
+      background: $skeleton-background;
+      overflow: hidden;
+      position: relative;
+
+      @include skeleton-before(
+        $skeleton-background-secondary,
+        $skeleton-animation
+      );
+    }
+    &__info-wrapper {
+      width: 100%;
+    }
+
+    &__info {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      &_title {
+        height: 64px !important;
+        margin-bottom: 32px;
+        width: 60%;
+      }
+
+      &.adaptive {
+        display: none;
+      }
+    }
+
+    &__biography {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &_title {
+        width: 50%;
+        margin-bottom: 8px;
+      }
+    }
+
+    &__filmography {
+      &_title {
+        width: 40%;
+        margin-bottom: 16px;
+      }
+    }
+  }
 }
 
 .show-more {
@@ -96,14 +180,20 @@
 
 .actor {
   &__name {
-    font-size: 48px;
+    font-size: min(48px, calc(10px + 3.5vw));
+
     font-weight: bold;
+    white-space: normal;
   }
   &__info {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    width: 500px;
+    width: 100%;
+
+    &.adaptive {
+      display: none;
+    }
 
     &_title {
       font-weight: bold;
@@ -113,10 +203,9 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       row-gap: 16px;
-
+      width: 400px;
+      font-size: $font-size-medium;
       &_stat {
-        font-size: $font-size-medium;
-
         &:nth-child(odd) {
           color: $text-secondary-color;
           font-weight: 400;
@@ -124,6 +213,182 @@
         &:nth-child(even) {
           font-weight: bold;
         }
+      }
+    }
+  }
+}
+
+@include mediumTablet {
+  .actor-page-skeleton {
+    &__info_title {
+      height: 48px !important;
+      margin-bottom: 16px;
+    }
+    &__info {
+      width: 70%;
+    }
+    &__about-person {
+      width: 60%;
+      height: 32px !important;
+      margin-bottom: 8px;
+
+      &_stat {
+        width: 100%;
+        height: 24px !important;
+      }
+    }
+  }
+}
+
+@include smallTablet {
+  .actor-page {
+    &__container {
+      width: 85vw;
+      gap: 24px;
+    }
+
+    &__biography {
+      gap: 12px;
+
+      &_title {
+        font-size: 22px;
+      }
+      &_content {
+        width: 85%;
+      }
+    }
+
+    &__filmography {
+      gap: 12px;
+      &_title {
+        font-size: 22px;
+      }
+    }
+  }
+
+  .actor {
+    &__info {
+      gap: 16px;
+      &_stats {
+        width: 300px;
+        gap: 12px;
+      }
+      &_title {
+        font-size: 22px;
+      }
+    }
+  }
+
+  .actor-page-skeleton {
+    width: 85vw;
+    gap: 24px;
+  }
+}
+
+@include mobile {
+  .actor-page {
+    &__container {
+      width: 90vw;
+      gap: 16px;
+    }
+
+    &__biography {
+      gap: 8px;
+      &_title {
+        font-size: 20px;
+      }
+      &_content {
+        width: 90%;
+        font-size: 14px;
+        line-height: 1.2em;
+
+        &_toggle {
+          margin-top: 4px;
+        }
+      }
+    }
+
+    &__filmography {
+      gap: 8px;
+      &_title {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .actor {
+    &__name {
+      font-size: 28px;
+    }
+
+    &__info {
+      gap: 8px;
+      &_title {
+        font-size: 20px;
+      }
+
+      &_stats {
+        font-size: 14px;
+      }
+      &.main {
+        display: none;
+      }
+      &.adaptive {
+        display: flex;
+      }
+    }
+  }
+  .show-more {
+    &.more:after {
+      font-size: 14px;
+    }
+    &.less:after {
+      font-size: 14px;
+    }
+  }
+  .toggler_icon {
+    width: 18px;
+  }
+
+  .actor-page-skeleton {
+    &__about {
+      gap: 32px;
+    }
+    &__info {
+      &_title {
+        width: 90%;
+      }
+      &.main {
+        display: none;
+      }
+      &.adaptive {
+        display: block;
+      }
+    }
+
+    &__about-person {
+      width: 50%;
+      margin-bottom: 8px;
+      &_stat {
+        margin-bottom: 4px;
+        width: 100%;
+      }
+    }
+    &__biography {
+      gap: 4px;
+
+      &_title {
+        height: 32px !important;
+        margin-bottom: 4px;
+      }
+      &_text {
+        height: 24px !important;
+      }
+    }
+    &__filmography {
+      &_title {
+        height: 32px !important;
+        margin-bottom: 8px;
       }
     }
   }

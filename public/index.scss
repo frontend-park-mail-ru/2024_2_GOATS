@@ -22,6 +22,11 @@
 @import './components/Message/Message.scss';
 @import './components/UsersList/UsersList.scss';
 @import './components/CardPreview/CardPreview.scss';
+@import './components/ProgressCard/ProgressCard.scss';
+@import './components/MovieBigCard/MovieBigCard.scss';
+@import './components/SeasonsMenu/SeasonsMenu.scss';
+@import './components/SearchBlock/SearchBlock.scss';
+@import './components/SearchList/SearchList.scss';
 
 @import './pages/MainPage/MainPage.scss';
 @import './pages/AuthPage/AuthPage.scss';
@@ -31,6 +36,9 @@
 @import './pages/MoviePage/MoviePage.scss';
 @import './pages/ProfilePage/ProfilePage.scss';
 @import './pages/RoomPage/RoomPage.scss';
+@import './pages/ErrorPage/ErrorPage.scss';
+@import './pages/GenresPage/GenresPage.scss';
+@import './pages/FavoritesPage/FavoritesPage.scss';
 
 body {
   margin: 0;
@@ -100,5 +108,19 @@ main {
     display: block;
 
     z-index: 10;
+  }
+}
+
+.skeleton {
+  &__text {
+    height: 40px;
+    background: $skeleton-background;
+    overflow: hidden;
+    position: relative;
+
+    @include skeleton-before(
+      $skeleton-background-secondary,
+      $skeleton-animation
+    );
   }
 }

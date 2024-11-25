@@ -1,129 +1,42 @@
 import template from './MovieDescription.hbs';
+import skeletonTemplate from './MovieDescriptionSkeleton.hbs';
 import { moviePageStore } from 'store/MoviePageStore';
 import { roomPageStore } from 'store/RoomPageStore';
-import { MovieDetailed, MovieSelection } from 'types/movie';
+import { userStore } from 'store/UserStore';
+import { MovieDetailed } from 'types/movie';
 import { router } from 'modules/Router';
-import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
 import { Actions } from 'flux/Actions';
 
 export class MovieDescription {
   #parent;
   #movie!: MovieDetailed | null;
-  #movieSelections: MovieSelection[] = [];
-  #onFavoritesClick;
-  #onVideoBackClick;
-  #currentMovieSelection!: MovieSelection;
-  #isModalOpened;
   #createdRoomId = '';
+  #onWatchClick;
 
-  constructor(
-    parent: HTMLElement,
-    onFavoritesClick: () => void,
-    onVideoBackClick: (id: number) => void,
-  ) {
+  constructor(parent: HTMLElement, onWatchClick: () => void) {
     this.#parent = parent;
-    this.#onFavoritesClick = onFavoritesClick;
-    this.#onVideoBackClick = onVideoBackClick;
-    this.#isModalOpened = false;
-
-    const unsubscribeMovie =
-      moviePageStore.isNewSeriesReceivedEmitter$.addListener(() => {
-        if (this.#isModalOpened) {
-          this.#movie = moviePageStore.getMovie();
-          this.renderVideoPlayer();
-        }
-      });
+    this.#onWatchClick = onWatchClick;
 
     const unsubscribeRoomId = roomPageStore.isCreatedRoomReceived$.addListener(
       () => {
         if (roomPageStore.getCreatedRoomId()) {
           this.#createdRoomId = roomPageStore.getCreatedRoomId();
+          roomPageStore.setIsModalConfirm(true);
           router.go('/room', roomPageStore.getCreatedRoomId());
         }
       },
     );
-
-    this.ngOnMovieDestroy = () => {
-      unsubscribeMovie();
-    };
 
     this.ngOnRoomIdDestroy = () => {
       unsubscribeRoomId();
     };
   }
 
-  ngOnMovieDestroy(): void {}
   ngOnRoomIdDestroy(): void {}
 
   render() {
     this.#movie = moviePageStore.getMovie();
-    this.#movieSelections = moviePageStore.getSelections();
     this.renderTemplate();
-  }
-
-  setCurrentMovieSelection() {
-    this.#movieSelections.forEach((selection) => {
-      if (selection.movies.some((movie) => movie.id === this.#movie?.id)) {
-        this.#currentMovieSelection = selection;
-      }
-    });
-  }
-
-  getCurrentSeriesId() {
-    return this.#currentMovieSelection.movies.findIndex(
-      (movie) => movie.id === this.#movie?.id,
-    );
-  }
-
-  onBackClick() {
-    this.#isModalOpened = false;
-    const videoContainer = document.getElementById(
-      'video-container',
-    ) as HTMLElement;
-
-    videoContainer.innerHTML = '';
-    videoContainer.style.zIndex = '-1';
-
-    if (this.#movie) {
-      this.#onVideoBackClick(this.#movie.id);
-    }
-  }
-
-  onNextSeriesClick() {
-    Actions.changeSeries(
-      this.#currentMovieSelection.movies[this.getCurrentSeriesId() + 1].id,
-    );
-  }
-
-  onPrevSeriesClick() {
-    Actions.changeSeries(
-      this.#currentMovieSelection.movies[this.getCurrentSeriesId() - 1].id,
-    );
-  }
-
-  renderVideoPlayer() {
-    this.#isModalOpened = true;
-    const videoContainer = document.getElementById(
-      'video-container',
-    ) as HTMLElement;
-
-    if (this.#movie) {
-      const video = new VideoPlayer({
-        parent: videoContainer,
-        url: this.#movie.video,
-        hasNextSeries:
-          this.#currentMovieSelection.movies[
-            this.#currentMovieSelection.movies.length - 1
-          ].id > this.#movie.id,
-        hasPrevSeries:
-          this.#currentMovieSelection.movies[0].id < this.#movie.id,
-        onBackClick: this.onBackClick.bind(this),
-        onNextButtonClick: this.onNextSeriesClick.bind(this),
-        onPrevButtonClick: this.onPrevSeriesClick.bind(this),
-      });
-      video.render();
-      videoContainer.style.zIndex = '10';
-    }
   }
 
   handleShowMovie() {
@@ -132,7 +45,7 @@ export class MovieDescription {
     ) as HTMLButtonElement;
 
     showBtn.addEventListener('click', () => {
-      this.renderVideoPlayer();
+      this.#onWatchClick();
     });
   }
 
@@ -144,24 +57,56 @@ export class MovieDescription {
 
   //   watchTogetherBtn.addEventListener('click', async () => {
   //     if (this.#movie) {
-  //       Actions.createRoom(2); // TODO: поменять на movie.id после тестирования
+  //       Actions.createRoom(1); // TODO: поменять на movie.id после тестирования
   //     }
   //   });
   // }
 
-  // TODO: Избранные к 3 РК
-  // handleFavoritesClick() {
-  //   const favoritesBtn = document.getElementById(
-  //     'favorites-movie-btn',
-  //   ) as HTMLButtonElement;
-  //   favoritesBtn.addEventListener('click', this.#onFavoritesClick);
-  // }
+  onFavoritesClick() {
+    if (this.#movie) {
+      if (this.#movie.isFromFavorites) {
+        Actions.deleteFromFavorites(this.#movie.id);
+      } else {
+        Actions.addToFavorites(this.#movie.id);
+      }
+    }
+  }
+
+  handleFavoritesClick() {
+    const favoritesBtn = document.getElementById(
+      'favorites-movie-btn',
+    ) as HTMLButtonElement;
+
+    if (favoritesBtn) {
+      favoritesBtn.addEventListener('click', this.onFavoritesClick.bind(this));
+    }
+  }
+
+  checkFavorite() {
+    if (this.#movie?.isFromFavorites) {
+      const favoritesBtn = document.getElementById(
+        'favorites-movie-btn',
+      ) as HTMLButtonElement;
+
+      if (favoritesBtn) {
+        favoritesBtn.style.backgroundImage =
+          'url("/assets/icons/favoritesIconAdded.svg")';
+      }
+    }
+  }
 
   renderTemplate() {
-    this.setCurrentMovieSelection();
-    this.#parent.innerHTML = template({ movie: this.#movie });
-    this.handleShowMovie();
-    // this.handleWatchTogether();
-    // this.handleFavoritesClick();
+    if (this.#movie) {
+      this.#parent.innerHTML = template({
+        movie: this.#movie,
+        isUserAuth: !!userStore.getUser().email,
+      });
+
+      this.checkFavorite();
+      this.handleShowMovie();
+      this.handleFavoritesClick();
+    } else {
+      this.#parent.innerHTML = skeletonTemplate();
+    }
   }
 }

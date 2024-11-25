@@ -1,9 +1,11 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .footer {
   width: 100%;
   border-top: 1px solid #7d7d7d;
   padding: 24px 0;
+  margin-top: 32px;
 
   &__container {
     width: fit-content;
@@ -30,6 +32,8 @@
       gap: 32px;
 
       &_icon {
+        width: 32px;
+        height: 32px;
         transition: transform 0.2s ease;
         &:hover {
           transform: scale(1.15);
@@ -39,9 +43,81 @@
   }
 
   &__rights {
+    font-size: $font-size-medium;
+    color: $text-secondary-color;
+    width: 80vw;
     &_text {
-      font-size: $font-size-medium;
-      color: $text-secondary-color;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+
+      column-gap: 16px;
+      row-gap: 4px;
+    }
+  }
+}
+
+@include mobile {
+  .footer {
+    &__container {
+      gap: 24px;
+    }
+    &__contacts {
+      flex-direction: column;
+      gap: 8px;
+
+      &_socials {
+        &_icon {
+          width: 28px;
+          width: 28px;
+        }
+      }
+    }
+  }
+}
+
+@include smallMobile {
+  .footer {
+    &__container {
+      gap: 24px;
+    }
+    &__contacts {
+      flex-direction: column;
+      gap: 8px;
+
+      &_socials {
+        &_icon {
+          width: 28px;
+          width: 28px;
+        }
+      }
+    }
+  }
+}
+
+@include extraSmallMobile {
+  .footer {
+    &__container {
+      gap: 24px;
+    }
+    &__contacts {
+      gap: 8px;
+
+      &_text {
+        font-size: 12px;
+      }
+
+      &_socials {
+        &_icon {
+          width: 28px;
+          width: 28px;
+        }
+      }
+    }
+
+    &__rights {
+      font-size: 12px;
     }
   }
 }

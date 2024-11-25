@@ -12,11 +12,13 @@ type ApiClientRequests = {
   id?: number;
   body?: Object;
   formData?: FormData;
+  urlAway?: string;
 };
 
 type GetRequestParams = {
   path: string;
   id?: number;
+  body?: Object;
 };
 
 type PostRequestParams = {
@@ -35,13 +37,15 @@ type PutReuqestParams = {
 type DeleteReuquestParams = {
   path: string;
   id?: number;
+  body?: Object;
 };
 
 class ApiClient {
-  get({ path, id }: GetRequestParams) {
+  get({ path, body, id }: GetRequestParams) {
     return this._apiClient({
       method: HTTP_METHOD_GET,
       path,
+      body,
       ...(id && { id }),
     });
   }
@@ -65,11 +69,12 @@ class ApiClient {
     });
   }
 
-  delete({ path, id }: DeleteReuquestParams) {
+  delete({ path, id, body }: DeleteReuquestParams) {
     return this._apiClient({
       method: HTTP_METHOD_DELETE,
       path,
       id,
+      body,
     });
   }
 
@@ -93,6 +98,7 @@ class ApiClient {
         'X-CSRF-Token': userStore.getCsrfToken(),
       };
       options.body = formData;
+    } else {
     }
 
     const response = await fetch(url, options);

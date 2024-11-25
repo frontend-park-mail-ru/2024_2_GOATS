@@ -1,21 +1,25 @@
 <div id='header' class='header'>
-  <div class='header__container'>
+  <div class='header__container {{#unless isUserAuth}} not-authed{{/unless}}'>
     <div id='header-logo' class='header__container_logo'>
       <span>Cassette</span>
     </div>
 
-    <div class='header__container_nav'>
+    <div class='header__container_nav {{#if isUserAuth}} authed{{/if}}'>
       {{#each navItems}}
         {{#if this.isAvailable}}
           <a
-            class='header__container_item {{this.className}}'
+            class='header__container_item {{this.className}} '
             href='{{this.href}}'
             id='{{this.id}}'
             data-section='{{this.key}}'
-          >{{this.text}}</a>{{/if}}
+          >{{this.text}}</a>
+        {{/if}}
       {{/each}}
     </div>
-    {{#if isUserAuth}}
+    <div class="header__container_widgets {{#if isUserAuth}} authed-widgets{{/if}}">
+      <div id="search-bar-container" class="header__container_widgets_search-bar">
+      </div>
+      {{#if isUserAuth}}
       <div class='header__container_auth'>
         <a
           class='header__container_item {{profileItem.className}}'
@@ -23,17 +27,49 @@
           id='{{profileItem.id}}'
           data-section='{{profileItem.key}}'
         >
-          <div class='header__container_avatar'>
-            <img
-              class='header__container_avatar_img'
-              src={{currentUserAvatar}}
-              alt='userIcon'
-            />
+          <div class='header__container_profile'> 
+            <div class='header__container_avatar'>
+              <img
+                class='header__container_avatar_img'
+                src={{currentUserAvatar}}
+                alt='userIcon'
+              />
+            </div>
           </div>
-
         </a>
-
+        
       </div>
-    {{/if}}
+      {{/if}}
+      <div id="header-burger-button" class="header__container_burger">
+          <img class="header__container_burger_icon" src="/assets/icons/burgerIcon.svg" alt="">
+        </div>
+    </div>
   </div>
+  <div class="sidebar sidebar-hidden" id="header-sidebar">
+      <div class="sidebar__actions">
+        <div id="close-sidebar-icon" class="sidebar__actions_close">
+          <img class="sidebar__actions_close_icon" src="/assets/icons/closeIcon.svg" alt="">
+        </div>
+      </div>
+      <div class="sidebar__nav">
+        {{#each navItems}}
+          {{#if this.isAvailable}}
+            <a
+              class='sidebar__nav_item {{this.className}} '
+              href='{{this.href}}'
+              id='{{this.id}}'
+              data-section='{{this.key}}'
+            >{{this.text}}</a>
+          {{/if}}
+        {{/each}}
+        {{#if isUserAuth}}
+          <a  
+            class='sidebar__nav_item {{profileItem.className}} profile'
+            href='{{profileItem.href}}'
+            id='{{profileItem.id}}'
+            data-section='{{profileItem.key}}'
+          >{{profileItem.text}}</a>
+        {{/if}}
+      </div>
+    </div>
 </div>

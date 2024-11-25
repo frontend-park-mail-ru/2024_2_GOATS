@@ -2,6 +2,7 @@ import { User, AuthUser, UserData } from 'types/user';
 import { ActionTypes } from './ActionTypes';
 import { dispatcher } from './Dispatcher';
 import { Action } from 'types/room';
+import { MovieSaved } from 'types/movie';
 
 export const Actions = {
   renderMainPage() {
@@ -19,10 +20,10 @@ export const Actions = {
       type: ActionTypes.RENDER_REG_PAGE,
     });
   },
-  renderMoviePage(id: number | string) {
+  renderMoviePage(id: number | string, fromRecentlyWatched?: boolean) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_MOVIE_PAGE,
-      payload: id,
+      payload: { id, fromRecentlyWatched },
     });
   },
   renderHeader(url: string) {
@@ -46,6 +47,21 @@ export const Actions = {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_ROOM_PAGE,
       payload: id,
+    });
+  },
+  renderGenresPage() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_GENRES_PAGE,
+    });
+  },
+  renderSearchBlock() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_SEARCH_BLOCK,
+    });
+  },
+  renderFavoritesPage() {
+    dispatcher.dispatch({
+      type: ActionTypes.RENDER_FAVORITES_PAGE,
     });
   },
   getUser() {
@@ -86,9 +102,9 @@ export const Actions = {
       passwordChangeData,
     });
   },
-  changeSeries(id: number | string) {
+  getMovie(id: number | string) {
     dispatcher.dispatch({
-      type: ActionTypes.CHANGE_SERIES,
+      type: ActionTypes.GET_MOVIE,
       payload: id,
     });
   },
@@ -102,6 +118,44 @@ export const Actions = {
     dispatcher.dispatch({
       type: ActionTypes.SEND_ACTION_MESSAGE,
       actionData,
+    });
+  },
+  getLastMovies() {
+    dispatcher.dispatch({
+      type: ActionTypes.GET_LAST_MOVIES,
+    });
+  },
+  setLastMovies(
+    timeCode: number,
+    duration: number,
+    season?: number,
+    series?: number,
+  ) {
+    dispatcher.dispatch({
+      type: ActionTypes.SET_LAST_MOVIES,
+      payload: {
+        timeCode,
+        duration,
+        season,
+        series,
+      },
+    });
+  },
+  deleteLastMovie() {
+    dispatcher.dispatch({
+      type: ActionTypes.DELETE_LAST_MOVIE,
+    });
+  },
+  addToFavorites(id: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.ADD_TO_FAVORITES,
+      id,
+    });
+  },
+  deleteFromFavorites(id: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.DELETE_FROM_FAVORITES,
+      id,
     });
   },
 };

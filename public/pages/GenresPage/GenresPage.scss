@@ -1,0 +1,23 @@
+.genres-page {
+  min-height: 100vh;
+  &__container {
+    min-height: 100vh;
+    padding-top: 15px;
+    width: $content-width;
+    margin: 0 auto;
+  }
+
+  &__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+@include mobile {
+  .genres-page {
+    &__blocks {
+      gap: 25px;
+    }
+  }
+}

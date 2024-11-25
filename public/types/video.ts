@@ -1,8 +1,7 @@
 export type VideoControls = {
   video: HTMLVideoElement;
   videoWrapper: HTMLElement;
-  playOrPause: HTMLElement;
-  // playbackline: HTMLElement;
+  playOrPause?: HTMLElement;
   duration: HTMLElement;
   currentTime: HTMLElement;
   progressBar: HTMLElement;
@@ -10,10 +9,12 @@ export type VideoControls = {
   isVolumeOpened: boolean;
   fullOrSmallScreen: HTMLElement;
   isFullScreen: boolean;
-  rewindBackButton: HTMLElement;
-  rewindFrontButton: HTMLElement;
+  rewindBackButton?: HTMLElement;
+  rewindFrontButton?: HTMLElement;
   videoControls: HTMLElement;
+  videoMobileControls?: HTMLElement;
   videoBackButton: HTMLElement;
-  nextSeriesButton: HTMLElement;
-  prevSeriesButton: HTMLElement;
+  nextSeriesButton?: HTMLElement;
+  prevSeriesButton?: HTMLElement;
+  videoPlaceholder: HTMLElement;
 };

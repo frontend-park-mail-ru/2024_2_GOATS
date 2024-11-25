@@ -70,6 +70,8 @@ export class ProfilePageStore {
         },
       });
       this.#passwordChangedEmitter.set(true);
+      const not = new Notifier('success', 'Пароль успешно изменен', 2000);
+      not.render();
     } catch {
       throwBackendError('change-password', 'Неверно указан старый пароль');
     }
@@ -109,11 +111,15 @@ export class ProfilePageStore {
       const not = new Notifier('success', 'Данные успешно обновлены', 2000);
       not.render();
       userStore.checkAuth();
-    } catch {
-      throw throwBackendError(
-        'update-profile',
-        'Уже существует аккаунт с таким логином или почтой',
-      );
+    } catch (e: any) {
+      if (e.status === 409) {
+        throw throwBackendError(
+          'update-profile',
+          'Уже существует аккаунт с таким логином или почтой',
+        );
+      } else {
+        throwBackendError('auth', 'Что-то пошло не так. Попробуйте позже');
+      }
     }
   }
 
@@ -131,7 +137,13 @@ export class ProfilePageStore {
         );
         break;
       case ActionTypes.CHANGE_USER_INFO:
-        await this.changeUserInfoRequest(action.userData);
+        if (
+          this.#user.username !== action.userData.username ||
+          this.#user.email !== action.userData.email ||
+          action.userData.avatar
+        ) {
+          await this.changeUserInfoRequest(action.userData);
+        }
         break;
       default:
         break;

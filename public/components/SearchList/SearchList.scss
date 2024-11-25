@@ -1,0 +1,127 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.find-item-list {
+  width: 100%;
+  height: fit-content;
+  max-height: 250px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-bottom: 8px;
+
+  overflow-y: auto;
+
+  &__subtitle {
+    margin-left: 5%;
+  }
+
+  // Эти комменты не удалять
+  &::-webkit-scrollbar {
+    width: 12px; // ширина области бара
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #fff; // фон скроллбара
+    border-radius: 10px; // радиус углов бара
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $brand; // цвет ползунка скроллбара
+    border-radius: 10px; // радиус углов ползунка
+    border: 3px solid #f1f1f1; // бордер ползунка
+
+    &:hover {
+      background: $button-background-hover;
+    }
+  }
+
+  &__item {
+    width: 100%;
+    padding: 8px 0;
+
+    display: flex;
+    padding-left: 5%;
+    // justify-content: space-between;
+    gap: 8px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #313131;
+    }
+
+    &_image {
+      border-radius: 8px;
+      height: 50px;
+      width: auto;
+    }
+
+    &_info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+
+      &_title {
+        font-size: 16px;
+      }
+    }
+
+    &_stats {
+      font-size: 12px;
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
+
+@include mobile {
+  .find-item-list {
+    width: 95%;
+
+    &__item {
+      gap: 4px;
+
+      &_image {
+        height: 40px;
+      }
+
+      &_info {
+        &_title {
+          font-size: 14px;
+        }
+      }
+
+      &_stats {
+        font-size: 10px;
+        gap: 4px;
+      }
+    }
+  }
+}
+
+// @include extraSmallMobile {
+//   .find-item-list {
+//     width: 100%;
+
+//     &__item {
+//       gap: 4px;
+
+//       &_image {
+//         height: 35px;
+//       }
+
+//       &_info {
+//         &_title {
+//           font-size: 14px;
+//         }
+//       }
+
+//       &_stats {
+//         font-size: 10px;
+//         gap: 3px;
+//       }
+//     }
+//   }
+// }

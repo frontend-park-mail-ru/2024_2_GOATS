@@ -1,0 +1,56 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.progress-card {
+  width: 300px;
+  height: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+
+  &__image {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+
+    &_block {
+      position: relative;
+      box-shadow: $card-box-shadow;
+      border-radius: $border-radius-medium;
+    }
+
+    &_progress {
+      height: 5px;
+      width: 100%;
+      background-color: $brand-dull;
+
+      &_line {
+        height: 100%;
+        background-color: $brand;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 16px;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: $brand-dull;
+  }
+}
+
+@include mobile {
+  .progress-card {
+    width: 200px;
+  }
+}
+
+@include tinyMobile {
+  .progress-card {
+    width: 100px;
+  }
+}

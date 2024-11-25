@@ -1,12 +1,16 @@
 import template from './SeriesCard.hbs';
-import { Series } from 'types/movie';
+import { Episode } from 'types/movie';
 
 export class SeriesCard {
   #parent;
   #series;
   #onCardClick;
 
-  constructor(parent: HTMLElement, series: Series, onCardClick: () => void) {
+  constructor(
+    parent: HTMLElement,
+    series: Episode,
+    onCardClick: (episodeNumber: number) => void,
+  ) {
     this.#parent = parent;
     this.#series = series;
     this.#onCardClick = onCardClick;
@@ -20,7 +24,9 @@ export class SeriesCard {
     const card = document.getElementById(
       `series-card-${this.#series.id}`,
     ) as HTMLElement;
-    card.addEventListener('click', this.#onCardClick);
+    card.addEventListener('click', () =>
+      this.#onCardClick(this.#series.episodeNumber),
+    );
   }
 
   renderTemplate() {

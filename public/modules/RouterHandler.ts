@@ -18,9 +18,11 @@ export const Urls = {
   actor: '/person',
   profile: '/profile',
   room: '/room',
+  genres: '/genres',
+  favorites: '/favorites',
 };
 
-export const routerHandler = (url: URL, id?: string | number) => {
+export const routerHandler = (url: URL, id?: string | number, data?: any) => {
   switch (url.pathname.toString()) {
     case Urls.root:
       Actions.renderHeader(Urls.root);
@@ -39,14 +41,17 @@ export const routerHandler = (url: URL, id?: string | number) => {
       break;
     case `${Urls.actor}/${id}`:
       Actions.renderHeader(Urls.actor);
-
       id && Actions.renderActorPage(id);
       footer.render(Urls.actor);
       break;
     case `${Urls.movie}/${id}`:
       Actions.renderHeader(Urls.movie);
 
-      id && Actions.renderMoviePage(id);
+      if (id && data) {
+        Actions.renderMoviePage(id, data.fromRecentlyWatched);
+      } else if (id) {
+        id && Actions.renderMoviePage(id);
+      }
       footer.render(Urls.movie);
       break;
     case Urls.profile:
@@ -59,7 +64,16 @@ export const routerHandler = (url: URL, id?: string | number) => {
       id && Actions.renderRoomPage(id);
       footer.render(Urls.room);
       break;
-
+    case Urls.favorites:
+      Actions.renderHeader(Urls.favorites);
+      Actions.renderFavoritesPage();
+      footer.render(Urls.favorites);
+      break;
+    case Urls.genres:
+      Actions.renderHeader(Urls.genres);
+      Actions.renderGenresPage();
+      footer.render(Urls.genres);
+      break;
     default:
       router.go('/');
   }

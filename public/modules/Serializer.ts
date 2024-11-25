@@ -1,5 +1,6 @@
 import { dateFormatter } from './DateFormatter';
 import { HOST } from '../consts';
+import { Episode, Season } from 'types/movie';
 
 export const serializeMovie = (movie: any) => {
   return {
@@ -52,8 +53,40 @@ export const serializeMovieDetailed = (movie: any) => {
     country: movie.country,
     isSerial: movie.movie_type === 'serial',
     video: HOST + movie.video_url,
-    actors: serializePersonCards(movie.actors_info),
-    director: movie.director,
+    actors: movie.actors_info
+      ? serializePersonCards(movie.actors_info)
+      : undefined,
+    director: movie.director ? movie.director : undefined,
+    seasons:
+      movie.seasons.length &&
+      movie.seasons.map(serializeSeason).sort((a: Season, b: Season) => {
+        return a.seasonNumber - b.seasonNumber;
+      }),
+    isFromFavorites: movie.is_favorite,
+  };
+};
+
+export const serializeEpisode = (episode: any) => {
+  return {
+    id: episode.id,
+    episodeNumber: episode.episode_number,
+    preview: HOST + episode.preview_url,
+    video: HOST + episode.video_url,
+    title: episode.title,
+    description: episode.description,
+    releaseDate: episode.release_date,
+    rating: episode.rating,
+  };
+};
+
+export const serializeSeason = (season: any) => {
+  return {
+    seasonNumber: season.season_number,
+    episodes: season.episodes
+      .map(serializeEpisode)
+      .sort((a: Episode, b: Episode) => {
+        return a.episodeNumber - b.episodeNumber;
+      }),
   };
 };
 
@@ -69,6 +102,16 @@ export const serializeActorData = (actor: any) => {
   };
 };
 
+export const serializeSearchActorData = (actor: any) => {
+  return {
+    id: actor.id,
+    fullName: actor.full_name,
+    birthdate: actor.birthdate,
+    country: actor.country,
+    image: HOST + actor.photo_url,
+  };
+};
+
 export const serializeUserData = (user: any) => {
   return {
     id: user.id,
@@ -77,5 +120,14 @@ export const serializeUserData = (user: any) => {
     birthdate: user.birthdate,
     sex: user.sex,
     avatar: HOST + user.avatar_url,
+  };
+};
+
+export const serializeRoom = (room: any) => {
+  return {
+    id: room.id,
+    movie: serializeMovieDetailed(room.movie),
+    status: room.status,
+    timeCode: room.time_code,
   };
 };

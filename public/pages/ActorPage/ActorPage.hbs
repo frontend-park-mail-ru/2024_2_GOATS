@@ -4,7 +4,7 @@
       <img src={{actor.image}} alt='' class='actor-page__about_image' />
       <div class='actor-page__about_info'>
         <h1 class='actor__name'>{{actor.fullName}}</h1>
-        <div class='actor__info'>
+        <div class='actor__info main'>
           <h2 class='actor__info_title'>О персоне</h2>
           <div class='actor__info_stats'>
             <span class='actor__info_stats_stat'>Дата рождения</span>
@@ -13,6 +13,15 @@
             <span class='actor__info_stats_stat'>{{actor.country}}</span>
           </div>
         </div>
+      </div>
+    </div>
+    <div class='actor__info adaptive'>
+      <h2 class='actor__info_title'>О персоне</h2>
+      <div class='actor__info_stats'>
+        <span class='actor__info_stats_stat'>Дата рождения</span>
+        <span class='actor__info_stats_stat'>{{birthDate}}</span>
+        <span class='actor__info_stats_stat'>Место рождения</span>
+        <span class='actor__info_stats_stat'>{{actor.country}}</span>
       </div>
     </div>
     <div class='actor-page__biography'>
