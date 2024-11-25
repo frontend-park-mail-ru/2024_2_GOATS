@@ -102,6 +102,16 @@ export const serializeActorData = (actor: any) => {
   };
 };
 
+export const serializeSearchActorData = (actor: any) => {
+  return {
+    id: actor.id,
+    fullName: actor.full_name,
+    birthdate: actor.birthdate,
+    country: actor.country,
+    image: HOST + actor.photo_url,
+  };
+};
+
 export const serializeUserData = (user: any) => {
   return {
     id: user.id,

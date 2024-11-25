@@ -1,30 +1,41 @@
 <div class='find-item-list'>
   {{#if isRecommended}}
-    <span class='find-item-list__subtitle'>Популярные фильмы</span>
-  {{/if}}
-  {{#if isNothingFound}}
-    <span class='find-item-list__subtitle'
-    >Ничего не найдено</span>
+    <span class='find-item-list__subtitle'>Начните поиск</span>
   {{else}}
-    {{#each items}}
-      <div class='find-item-list__item'>
-        <img
-          class='find-item-list__item_image'
-          src='/assets/mockImages/mockMoviePoster.png'
-          alt=''
-        />
-        <div class='find-item-list__item_info'>
-          
+    {{#if isNothingFound}}
+      <span class='find-item-list__subtitle'
+      >Ничего не найдено</span>
+    {{else}}
+      {{#each items}}
+        <div class='find-item-list__item'  id='find-id-{{this.id}}'>
           {{#if ../isMovie}}
-            <h2
-              class='find-item-list__item_info_title'
-            >{{this.title}}</h2>
+          <img
+            class='find-item-list__item_image'
+            src='{{this.albumImage}}'
+            alt=''
+          />
+          {{else}}
+          <img
+            class='find-item-list__item_image'
+            src={{this.image}}
+            alt=''
+          />
           {{/if}}
-          {{#unless ../isMovie}}
-            <h2 class='find-item-list__item_info_title'>{{this.name}}</h2>
-          {{/unless}}
+          
+          <div class='find-item-list__item_info'>
+            
+            {{#if ../isMovie}}
+              <h2
+                class='find-item-list__item_info_title'
+              >{{this.title}}</h2>
+            {{/if}}
+            {{#unless ../isMovie}}
+              <h2 class='find-item-list__item_info_title'>{{this.fullName}}</h2>
+            {{/unless}}
+          </div>
         </div>
-      </div>
-    {{/each}}
+      {{/each}}
+    {{/if}}
   {{/if}}
+  
 </div>

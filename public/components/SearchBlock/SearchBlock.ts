@@ -33,6 +33,11 @@ export class SearchBlock {
 
   ngOnDestroy(): void {}
 
+  resetFilters() {
+    this.#selectedItem = 'movies';
+    this.#inputValue = '';
+  }
+
   get getInputValue() {
     return this.#inputValue;
   }
@@ -46,8 +51,13 @@ export class SearchBlock {
     return this.#selectedItemEmmitter;
   }
 
-  renderItemsList(type: string) {
-    searchList.render(searchBlockStore.getMovies(), this.#inputValue, type);
+  renderItemsList(type: string, isEmptyRequest: boolean) {
+    searchList.render(
+      searchBlockStore.getMovies(),
+      this.#inputValue,
+      type,
+      isEmptyRequest,
+    );
   }
 
   renderTemplate() {
@@ -100,7 +110,7 @@ export class SearchBlock {
     const searchBar = document.getElementById('search-bar') as HTMLElement;
     const searchInput = document.getElementById(
       'search-bar-input',
-    ) as HTMLElement;
+    ) as HTMLInputElement;
     const searchButton = document.getElementById(
       'search-bar-search',
     ) as HTMLElement;
@@ -130,6 +140,8 @@ export class SearchBlock {
       if (checkScreenWidth()) {
         headerLogo.style.display = 'block';
       }
+      searchInput.value = '';
+      searchBlockStore.clearFounded();
     });
   }
 
