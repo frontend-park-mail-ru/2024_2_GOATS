@@ -101,6 +101,11 @@ class MoviePageStore {
       const response = await apiClient.get({
         path: `movies/${id}`,
       });
+      console.log(response);
+
+      if (response.movie_info.id === 1 || response.movie_info.id === 2) {
+        response.movie_info.movie_type = 'movie';
+      }
 
       const serializedMovieData = serializeMovieDetailed(response.movie_info);
       this.setMovieState(serializedMovieData);

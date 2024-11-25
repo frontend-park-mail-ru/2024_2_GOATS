@@ -209,7 +209,6 @@ export class Slider {
         case 'selection':
           if (this.#selection) {
             this.#title = this.#selection.title;
-            console.log('selection', this.#selection.title);
           }
           this.#selection?.movies.forEach((movie) => {
             const card = new Card(
