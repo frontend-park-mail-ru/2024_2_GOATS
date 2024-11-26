@@ -28,6 +28,7 @@ export class VideoPlayer {
   #boundHandleKeyPress;
   #currentSeries;
   #currentSeason;
+  #nextOrPrevClicked;
 
   constructor(params: {
     parent: HTMLElement;
@@ -66,6 +67,7 @@ export class VideoPlayer {
     this.#onPrevButtonClick = params.onPrevButtonClick;
     this.#handleSaveTimecode = params.handleSaveTimecode;
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
+    this.#nextOrPrevClicked = false;
   }
 
   render() {
@@ -171,7 +173,9 @@ export class VideoPlayer {
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
     video.addEventListener('pause', this.onPause.bind(this));
-    video.addEventListener('timeupdate', this.updateProgress.bind(this));
+    video.addEventListener('timeupdate', () => {
+      !this.#nextOrPrevClicked && this.updateProgress.bind(this)();
+    });
     video.addEventListener('ended', this.onVideoEnd.bind(this));
     video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
 
@@ -233,6 +237,7 @@ export class VideoPlayer {
       nextSeriesButton.addEventListener('click', () => {
         if (this.#onNextButtonClick) {
           this.#onNextButtonClick();
+          this.#nextOrPrevClicked = true;
         }
       });
     }
@@ -241,6 +246,7 @@ export class VideoPlayer {
       prevSeriesButton.addEventListener('click', () => {
         if (this.#onPrevButtonClick) {
           this.#onPrevButtonClick();
+          this.#nextOrPrevClicked = true;
         }
       });
     }
@@ -353,8 +359,6 @@ export class VideoPlayer {
   updateDuration() {
     const { video, duration } = this.#controls;
     duration.textContent = timeFormatter(video.duration);
-    // TODO: Обработать автовоспроизведение
-    // video.play();
   }
 
   onPlay() {
