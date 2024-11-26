@@ -102,6 +102,7 @@ export class MoviePage {
     }
   }
 
+  // renderVideoPlayer(videoUrl: string) {
   renderVideoPlayer(videoUrl: string) {
     this.#isModalOpened = true;
     const videoContainer = document.getElementById(
@@ -121,19 +122,24 @@ export class MoviePage {
 
     const hasPrevSeries = this.#movie?.seasons && this.#seriesPosition > 1;
 
-    const video = new VideoPlayer({
-      parent: videoContainer,
-      url: videoUrl,
-      hasNextSeries: !!hasNextSeries,
-      hasPrevSeries: !!hasPrevSeries,
-      startTimeCode: this.#startTimeCode,
-      onBackClick: this.onBackClick.bind(this),
-      onNextButtonClick: this.onNextSeriesClick.bind(this),
-      onPrevButtonClick: this.onPrevSeriesClick.bind(this),
-      handleSaveTimecode: this.handleSaveTimecode.bind(this),
-    });
-    video.render();
-    videoContainer.style.zIndex = '10';
+    if (this.#movie) {
+      const video = new VideoPlayer({
+        parent: videoContainer,
+        videoUrl,
+        titleImage: this.#movie.titleImage,
+        ...(this.#movie.isSerial && { currentSeason: this.#currentSeason }),
+        ...(this.#movie.isSerial && { currentSeries: this.#currentSeries }),
+        hasNextSeries: !!hasNextSeries,
+        hasPrevSeries: !!hasPrevSeries,
+        startTimeCode: this.#startTimeCode,
+        onBackClick: this.onBackClick.bind(this),
+        onNextButtonClick: this.onNextSeriesClick.bind(this),
+        onPrevButtonClick: this.onPrevSeriesClick.bind(this),
+        handleSaveTimecode: this.handleSaveTimecode.bind(this),
+      });
+      video.render();
+      videoContainer.style.zIndex = '10';
+    }
   }
 
   onBackClick() {

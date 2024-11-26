@@ -176,7 +176,7 @@ export class RoomPage {
         ) as HTMLElement;
         this.#video = new VideoPlayer({
           parent: videoContainer,
-          url: this.#room.movie.video,
+          videoUrl: this.#room.movie.video,
           hasNextSeries: true,
           hasPrevSeries: true,
           onPlayClick: this.onPlayClick,

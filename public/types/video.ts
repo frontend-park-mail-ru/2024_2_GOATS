@@ -14,6 +14,7 @@ export type VideoControls = {
   videoControls: HTMLElement;
   videoMobileControls?: HTMLElement;
   videoBackButton: HTMLElement;
+  videoTitle: HTMLElement;
   nextSeriesButton?: HTMLElement;
   prevSeriesButton?: HTMLElement;
   videoPlaceholder: HTMLElement;

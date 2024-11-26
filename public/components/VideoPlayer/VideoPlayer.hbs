@@ -8,13 +8,23 @@
   {{/if}}
   <div class='video__container'>
     <video id='video' class='video'>
-      <source src={{url}} type='video/mp4' />
+      <source src={{videoUrl}} type='video/mp4' />
     </video>
 
     <div id='video-placeholder' class='video__placeholder'>
       <div class='loader__wrapper'>
         <div class='loader'></div>
       </div>
+    </div>
+
+    <div class='video__title'>
+      <img class='video__title_image' src={{titleImage}} alt='title' />
+      {{#if currentSeason}}
+        <h4 class='video__title_text'>{{currentSeason}}
+          сезон,
+          {{currentSeries}}
+          серия</h4>
+      {{/if}}
     </div>
 
     <div id='video-mobile-controls' class='video-mobile__controls'>

@@ -103,7 +103,10 @@ class MoviePageStore {
       });
       console.log(response);
 
-      if (response.movie_info.id === 1 || response.movie_info.id === 2) {
+      if (
+        response.movie_info.title === 'Игра в кальмара' ||
+        response.movie_info.title === 'Бумажный дом'
+      ) {
         response.movie_info.movie_type = 'movie';
       }
 

@@ -6,7 +6,8 @@ import { PLAYER_CONTROLL_HIDING_TIMEOUT } from '../../consts';
 
 export class VideoPlayer {
   #parent;
-  #url;
+  #videoUrl;
+  #titleImage;
   #isPlaying;
   #controls!: VideoControls;
   #hideControlsTimeout!: number;
@@ -25,13 +26,18 @@ export class VideoPlayer {
   #onPrevButtonClick;
   #handleSaveTimecode;
   #boundHandleKeyPress;
+  #currentSeries;
+  #currentSeason;
 
   constructor(params: {
     parent: HTMLElement;
-    url: string;
+    videoUrl: string;
+    titleImage?: string;
     hasNextSeries: boolean;
     hasPrevSeries: boolean;
     startTimeCode?: number;
+    currentSeries?: number;
+    currentSeason?: number;
     onBackClick?: () => void;
     onPlayClick?: (timeCode: number) => void;
     onPauseClick?: (timeCode: number) => void;
@@ -42,9 +48,12 @@ export class VideoPlayer {
     handleSaveTimecode?: (timeCode: number, duration: number) => void;
   }) {
     this.#parent = params.parent;
-    this.#url = params.url;
+    this.#videoUrl = params.videoUrl;
+    this.#titleImage = params.titleImage;
     this.#isPlaying = false;
     this.#startTimeCode = params.startTimeCode;
+    this.#currentSeries = params.currentSeries;
+    this.#currentSeason = params.currentSeason;
     this.#onBackClick = params.onBackClick;
     this.#onPlayClick = params.onPlayClick;
     this.#onPauseClick = params.onPauseClick;
@@ -72,7 +81,10 @@ export class VideoPlayer {
   renderTemplate() {
     const isPlaying = this.#isPlaying;
     this.#parent.innerHTML = template({
-      url: this.#url,
+      videoUrl: this.#videoUrl,
+      titleImage: this.#titleImage,
+      currentSeason: this.#currentSeason,
+      currentSeries: this.#currentSeries,
       isPlaying,
       isModal: this.#isModal,
       hasNextSeries: this.#hasNextSeries,
@@ -101,6 +113,7 @@ export class VideoPlayer {
       videoBackButton: document.getElementById(
         'video-back-button',
       ) as HTMLElement,
+      videoTitle: document.querySelector('.video__title') as HTMLElement,
       videoControls: document.getElementById('video-controls') as HTMLElement,
       videoPlaceholder: document.getElementById(
         'video-placeholder',
@@ -457,8 +470,10 @@ export class VideoPlayer {
     clearTimeout(this.#hideControlsTimeout);
 
     this.#controls.videoControls.classList.remove('video__controls_hidden');
+    this.#controls.videoWrapper.classList.remove('hidden');
     if (this.#isModal) {
       this.#controls.videoBackButton.classList.remove('video__controls_hidden');
+      this.#controls.videoTitle.classList.remove('video__controls_hidden');
     }
 
     this.#controls.videoMobileControls?.classList.remove(
@@ -467,7 +482,9 @@ export class VideoPlayer {
 
     this.#hideControlsTimeout = window.setTimeout(() => {
       this.#controls.videoControls.classList.add('video__controls_hidden');
-      this.#controls.videoControls.classList.add('video__controls_hidden');
+      this.#controls.videoBackButton.classList.add('video__controls_hidden');
+      this.#controls.videoTitle.classList.add('video__controls_hidden');
+      this.#controls.videoWrapper.classList.add('hidden');
 
       if (this.#isModal) {
         this.#controls.videoMobileControls?.classList.add(
