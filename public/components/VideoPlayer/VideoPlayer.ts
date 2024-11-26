@@ -111,6 +111,7 @@ export class VideoPlayer {
       volume: document.getElementById('volume-input') as HTMLInputElement,
       isVolumeOpened: false,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
+      volumeOffOrUp: document.getElementById('volume-off-up') as HTMLElement,
       isFullScreen: false,
       videoBackButton: document.getElementById(
         'video-back-button',
@@ -168,7 +169,7 @@ export class VideoPlayer {
 
   // Добавляем все события
   addEventListeners() {
-    const { video, fullOrSmallScreen, volume } = this.#controls;
+    const { video, fullOrSmallScreen, volume, volumeOffOrUp } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
@@ -183,6 +184,8 @@ export class VideoPlayer {
       'click',
       this.toggleFullScreen.bind(this),
     );
+
+    volumeOffOrUp.addEventListener('click', this.setVolume.bind(this));
 
     volume.addEventListener('input', this.updateVolumeByClick.bind(this));
 
@@ -434,11 +437,44 @@ export class VideoPlayer {
     }
   }
 
+  volumeCheck() {
+    const { volume, volumeOffOrUp } = this.#controls;
+    if (volume.value === '0') {
+      volumeOffOrUp.classList.remove('video__controls_icon_volume-up');
+      volumeOffOrUp.classList.add('video__controls_icon_volume-off');
+    } else if (
+      !Array.from(volumeOffOrUp.classList).includes(
+        'video__controls_icon_volume-up',
+      )
+    ) {
+      volumeOffOrUp.classList.remove('video__controls_icon_volume-off');
+      volumeOffOrUp.classList.add('video__controls_icon_volume-up');
+    }
+  }
+
   updateVolumeByClick() {
     const { volume, video } = this.#controls;
     const percentage = Number(volume.value) * 100;
     volume.style.setProperty('--progress-volume-value', `${percentage}%`);
     video.volume = Number(volume.value);
+
+    this.volumeCheck();
+  }
+
+  setVolume() {
+    const { volume, video } = this.#controls;
+
+    if (video.volume > 0) {
+      video.volume = 0;
+      volume.value = '0';
+      volume.style.setProperty('--progress-volume-value', `0%`);
+    } else {
+      video.volume = 1;
+      volume.value = '1';
+      volume.style.setProperty('--progress-volume-value', `100%`);
+    }
+
+    this.volumeCheck();
   }
 
   rewindBack() {
