@@ -25,7 +25,7 @@ export class MoviePage {
   render(fromRecentlyWatched?: boolean) {
     this.#currentSeason = 1;
     this.#currentSeries = 1;
-    // this.#seriesPosition = 1;
+    this.#seriesPosition = 1;
     this.#movie = moviePageStore.getMovie();
     this.#fromRecentlyWatched = !!fromRecentlyWatched;
     this.renderTemplate();
