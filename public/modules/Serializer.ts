@@ -58,7 +58,7 @@ export const serializeMovieDetailed = (movie: any) => {
       : undefined,
     director: movie.director ? movie.director : undefined,
     seasons:
-      movie.seasons &&
+      movie.seasons.length &&
       movie.seasons.map(serializeSeason).sort((a: Season, b: Season) => {
         return a.seasonNumber - b.seasonNumber;
       }),
