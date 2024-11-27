@@ -101,7 +101,6 @@ class MoviePageStore {
       const response = await apiClient.get({
         path: `movies/${id}`,
       });
-      console.log(response);
 
       if (
         response.movie_info.title === 'Игра в кальмара' ||

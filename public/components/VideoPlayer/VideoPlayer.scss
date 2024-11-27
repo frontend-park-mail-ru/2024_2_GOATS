@@ -109,6 +109,10 @@
         display: flex;
         align-items: center;
         gap: 10px;
+
+        &_time {
+          margin-top: 15px;
+        }
       }
     }
 
@@ -121,6 +125,7 @@
       background-repeat: no-repeat;
       background-size: 36px;
       user-select: none;
+      margin-top: 15px;
 
       &_play {
         background-image: url('assets/icons/playIcon.svg');
@@ -147,6 +152,19 @@
       }
     }
 
+    &_seasons {
+      position: relative;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+
+      &_title {
+        margin-top: 15px;
+      }
+    }
+
     &_timer {
       min-width: 45px !important;
     }
@@ -157,6 +175,7 @@
       gap: 5px;
 
       &_input {
+        margin-top: 15px;
         -webkit-appearance: none;
         appearance: none;
         width: 80px;
@@ -208,6 +227,15 @@
     position: absolute;
     top: 50px;
     left: 50px;
+  }
+
+  &__series {
+    display: none;
+    z-index: 100;
+    width: 500px;
+    position: absolute;
+    bottom: 50px;
+    right: -150px;
   }
 
   &-mobile {

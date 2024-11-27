@@ -3,6 +3,8 @@ import { timeFormatter } from 'modules/TimeFormatter';
 import { VideoControls } from 'types/video';
 import { isTabletOrMobileLandscape } from 'modules/IsMobileDevice';
 import { PLAYER_CONTROLL_HIDING_TIMEOUT } from '../../consts';
+import { Season } from 'types/movie';
+import { SeriesList } from 'components/SeriesList/SeriesList';
 
 export class VideoPlayer {
   #parent;
@@ -29,6 +31,7 @@ export class VideoPlayer {
   #currentSeries;
   #currentSeason;
   #nextOrPrevClicked;
+  #seasons;
 
   constructor(params: {
     parent: HTMLElement;
@@ -39,6 +42,7 @@ export class VideoPlayer {
     startTimeCode?: number;
     currentSeries?: number;
     currentSeason?: number;
+    seasons?: Season[];
     onBackClick?: () => void;
     onPlayClick?: (timeCode: number) => void;
     onPauseClick?: (timeCode: number) => void;
@@ -55,6 +59,7 @@ export class VideoPlayer {
     this.#startTimeCode = params.startTimeCode;
     this.#currentSeries = params.currentSeries;
     this.#currentSeason = params.currentSeason;
+    this.#seasons = params.seasons;
     this.#onBackClick = params.onBackClick;
     this.#onPlayClick = params.onPlayClick;
     this.#onPauseClick = params.onPauseClick;
@@ -68,9 +73,13 @@ export class VideoPlayer {
     this.#handleSaveTimecode = params.handleSaveTimecode;
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
     this.#nextOrPrevClicked = false;
+    if (params.seasons) {
+    }
   }
 
   render() {
+    console.log('season', this.#currentSeason);
+    console.log('series', this.#currentSeries);
     this.renderTemplate();
     this.initControls();
     this.addEventListeners();
@@ -92,9 +101,15 @@ export class VideoPlayer {
       hasNextSeries: this.#hasNextSeries,
       hasPrevSeries: this.#hasPrevSeries,
     });
+
     const root = document.getElementById('root') as HTMLElement;
     if (this.#isModal) {
       root.classList.add('lock');
+    }
+
+    if (this.#seasons) {
+      // this.renderSeriesSlider();
+      this.renderSeriesList();
     }
   }
 
@@ -112,6 +127,7 @@ export class VideoPlayer {
       isVolumeOpened: false,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       volumeOffOrUp: document.getElementById('volume-off-up') as HTMLElement,
+      seriesBlock: document.getElementById('series-block') as HTMLElement,
       isFullScreen: false,
       videoBackButton: document.getElementById(
         'video-back-button',
@@ -165,17 +181,24 @@ export class VideoPlayer {
     }
 
     this.#controls.volume.style.setProperty('--progress-volume-value', '100%');
+
+    const slider = document.getElementById(
+      'progress-slider',
+    ) as HTMLInputElement;
+    slider.style.setProperty('--progress-value', `0%`);
   }
 
   // Добавляем все события
   addEventListeners() {
-    const { video, fullOrSmallScreen, volume, volumeOffOrUp } = this.#controls;
+    const { video, fullOrSmallScreen, volume, volumeOffOrUp, seriesBlock } =
+      this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
     video.addEventListener('pause', this.onPause.bind(this));
     video.addEventListener('timeupdate', () => {
       !this.#nextOrPrevClicked && this.updateProgress.bind(this)();
+      console.log('updare');
     });
     video.addEventListener('ended', this.onVideoEnd.bind(this));
     video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
@@ -207,6 +230,15 @@ export class VideoPlayer {
 
     slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
     slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
+
+    seriesBlock.addEventListener(
+      'mouseenter',
+      this.seriesHandleMouseEnter.bind(this),
+    );
+    seriesBlock.addEventListener(
+      'mouseleave',
+      this.seriesHandleMouseLeave.bind(this),
+    );
   }
 
   addControlsListeners() {
@@ -568,5 +600,43 @@ export class VideoPlayer {
     videoPlaceholder.style.display = 'none';
 
     this.addControlsListeners();
+  }
+
+  onSeriesClick(seriesNumber: number, seasonNumber: number) {
+    console.log(seasonNumber, seriesNumber);
+    if (this.#seasons) {
+      this.#videoUrl =
+        this.#seasons[seasonNumber - 1].episodes[seriesNumber - 1].video;
+      this.#currentSeason = seasonNumber;
+      this.#currentSeries = seriesNumber;
+      this.#nextOrPrevClicked = false;
+      this.render();
+      this.#nextOrPrevClicked = true;
+    }
+  }
+
+  renderSeriesList() {
+    const seriesBlock = document.getElementById('video-series') as HTMLElement;
+
+    if (this.#seasons && this.#currentSeason && this.#currentSeries) {
+      const seiesList = new SeriesList({
+        parent: seriesBlock,
+        seasons: this.#seasons,
+        currentSeason: this.#currentSeason,
+        currentSeries: this.#currentSeries,
+        onSeriesClick: this.onSeriesClick.bind(this),
+      });
+      seiesList.render();
+    }
+  }
+
+  seriesHandleMouseEnter() {
+    const seriesBlock = document.getElementById('video-series') as HTMLElement;
+    seriesBlock.style.display = 'block';
+  }
+
+  seriesHandleMouseLeave() {
+    const seriesBlock = document.getElementById('video-series') as HTMLElement;
+    seriesBlock.style.display = 'none';
   }
 }

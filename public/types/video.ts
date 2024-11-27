@@ -1,3 +1,5 @@
+import { Season } from './movie';
+
 export type VideoControls = {
   video: HTMLVideoElement;
   videoWrapper: HTMLElement;
@@ -9,6 +11,7 @@ export type VideoControls = {
   isVolumeOpened: boolean;
   fullOrSmallScreen: HTMLElement;
   volumeOffOrUp: HTMLElement;
+  seriesBlock: HTMLElement;
   isFullScreen: boolean;
   rewindBackButton?: HTMLElement;
   rewindFrontButton?: HTMLElement;
@@ -19,4 +22,5 @@ export type VideoControls = {
   nextSeriesButton?: HTMLElement;
   prevSeriesButton?: HTMLElement;
   videoPlaceholder: HTMLElement;
+  seasons?: Season[];
 };

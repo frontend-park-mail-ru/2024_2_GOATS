@@ -25,7 +25,7 @@ export class MoviePage {
   render(fromRecentlyWatched?: boolean) {
     this.#currentSeason = 1;
     this.#currentSeries = 1;
-    this.#seriesPosition = 1;
+    // this.#seriesPosition = 1;
     this.#movie = moviePageStore.getMovie();
     this.#fromRecentlyWatched = !!fromRecentlyWatched;
     this.renderTemplate();
@@ -55,6 +55,7 @@ export class MoviePage {
         seasonsBlock,
         this.#movie?.seasons.length,
         this.#currentSeason,
+        1,
         this.onSeasonClick.bind(this),
       );
       seasonsMenu.render();
@@ -102,7 +103,6 @@ export class MoviePage {
     }
   }
 
-  // renderVideoPlayer(videoUrl: string) {
   renderVideoPlayer(videoUrl: string) {
     this.#isModalOpened = true;
     const videoContainer = document.getElementById(
@@ -132,6 +132,7 @@ export class MoviePage {
         hasNextSeries: !!hasNextSeries,
         hasPrevSeries: !!hasPrevSeries,
         startTimeCode: this.#startTimeCode,
+        ...(this.#movie.isSerial && { seasons: this.#movie.seasons }),
         onBackClick: this.onBackClick.bind(this),
         onNextButtonClick: this.onNextSeriesClick.bind(this),
         onPrevButtonClick: this.onPrevSeriesClick.bind(this),

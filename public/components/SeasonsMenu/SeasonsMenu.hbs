@@ -2,7 +2,7 @@
   <p class='seasons-menu__title'>Сезон</p>
   <div class='seasons-menu__items'>
     {{#each seasons}}
-      <div id="season-{{this.number}}" class='seasons-menu__item {{#if this.isActive}}seasons-menu__item_active{{/if}}'>
+      <div id="season-{{this.key}}-{{this.number}}" class='seasons-menu__item {{#if this.isActive}}seasons-menu__item_active{{/if}}'>
         <span>{{this.number}}</span>
       </div>
     {{/each}}

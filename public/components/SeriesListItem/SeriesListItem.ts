@@ -5,19 +5,20 @@ export class SeriesListItem {
   #parent;
   #series;
   #currentSeason;
-  //   #currentSeries;
+  #currentSeries;
   #onSeriesListItemClick;
 
   constructor(params: {
     parent: HTMLElement;
     series: Episode;
     currentSeason: number;
+    currentSeries: number;
     onSeriesListItemClick: (seriesNumber: number, seasonNumber: number) => void;
   }) {
     this.#parent = params.parent;
     this.#series = params.series;
     this.#currentSeason = params.currentSeason;
-    // this.#currentSeries = params.currentSeries;
+    this.#currentSeries = params.currentSeries;
     this.#onSeriesListItemClick = params.onSeriesListItemClick;
   }
 
