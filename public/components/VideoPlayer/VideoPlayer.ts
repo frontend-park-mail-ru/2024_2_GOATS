@@ -22,23 +22,19 @@ export class VideoPlayer {
   #isDragging = false;
   #isModal;
   #hanldeIntervalTick;
-  #hasNextSeries;
-  #hasPrevSeries;
-  #onNextButtonClick;
-  #onPrevButtonClick;
+  #onVideoUpdate;
   #handleSaveTimecode;
   #boundHandleKeyPress;
   #currentSeries;
   #currentSeason;
   #nextOrPrevClicked;
   #seasons;
+  #seriesPosition: number | null = null;
 
   constructor(params: {
     parent: HTMLElement;
     videoUrl: string;
     titleImage?: string;
-    hasNextSeries: boolean;
-    hasPrevSeries: boolean;
     startTimeCode?: number;
     currentSeries?: number;
     currentSeason?: number;
@@ -48,8 +44,11 @@ export class VideoPlayer {
     onPauseClick?: (timeCode: number) => void;
     handleRewindVideo?: (timeCode: number) => void;
     hanldeIntervalTick?: (timeCode: number) => void;
-    onNextButtonClick?: () => void;
-    onPrevButtonClick?: () => void;
+    onVideoUpdate?: (
+      videoUrl: string,
+      currentSeason: number,
+      currentSeries: number,
+    ) => void;
     handleSaveTimecode?: (timeCode: number, duration: number) => void;
   }) {
     this.#parent = params.parent;
@@ -66,20 +65,18 @@ export class VideoPlayer {
     this.#handleRewindVideo = params.handleRewindVideo;
     this.#hanldeIntervalTick = params.hanldeIntervalTick;
     this.#isModal = params.onBackClick ? true : false;
-    this.#hasNextSeries = params.hasNextSeries;
-    this.#hasPrevSeries = params.hasPrevSeries;
-    this.#onNextButtonClick = params.onNextButtonClick;
-    this.#onPrevButtonClick = params.onPrevButtonClick;
+    this.#onVideoUpdate = params.onVideoUpdate;
     this.#handleSaveTimecode = params.handleSaveTimecode;
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
     this.#nextOrPrevClicked = false;
+
+    this.checkSeriesPosition();
+
     if (params.seasons) {
     }
   }
 
   render() {
-    console.log('season', this.#currentSeason);
-    console.log('series', this.#currentSeries);
     this.renderTemplate();
     this.initControls();
     this.addEventListeners();
@@ -91,6 +88,27 @@ export class VideoPlayer {
 
   renderTemplate() {
     const isPlaying = this.#isPlaying;
+
+    let allSeriesCount = 0;
+    if (this.#seasons) {
+      this.#seasons.forEach((season) => {
+        season.episodes.forEach(() => {
+          allSeriesCount++;
+        });
+      });
+    }
+
+    let hasNextSeries = false;
+    let hasPrevSeries = false;
+
+    if (this.#seriesPosition) {
+      hasNextSeries = !!(
+        this.#seasons && this.#seriesPosition < allSeriesCount
+      );
+
+      hasPrevSeries = !!(this.#seasons && this.#seriesPosition > 1);
+    }
+
     this.#parent.innerHTML = template({
       videoUrl: this.#videoUrl,
       titleImage: this.#titleImage,
@@ -98,8 +116,8 @@ export class VideoPlayer {
       currentSeries: this.#currentSeries,
       isPlaying,
       isModal: this.#isModal,
-      hasNextSeries: this.#hasNextSeries,
-      hasPrevSeries: this.#hasPrevSeries,
+      hasNextSeries: hasNextSeries,
+      hasPrevSeries: hasPrevSeries,
     });
 
     const root = document.getElementById('root') as HTMLElement;
@@ -108,7 +126,6 @@ export class VideoPlayer {
     }
 
     if (this.#seasons) {
-      // this.renderSeriesSlider();
       this.renderSeriesList();
     }
   }
@@ -198,7 +215,6 @@ export class VideoPlayer {
     video.addEventListener('pause', this.onPause.bind(this));
     video.addEventListener('timeupdate', () => {
       !this.#nextOrPrevClicked && this.updateProgress.bind(this)();
-      console.log('updare');
     });
     video.addEventListener('ended', this.onVideoEnd.bind(this));
     video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
@@ -270,19 +286,15 @@ export class VideoPlayer {
 
     if (nextSeriesButton) {
       nextSeriesButton.addEventListener('click', () => {
-        if (this.#onNextButtonClick) {
-          this.#onNextButtonClick();
-          this.#nextOrPrevClicked = true;
-        }
+        this.onNextSeriesClick();
+        this.#nextOrPrevClicked = true;
       });
     }
 
     if (prevSeriesButton) {
       prevSeriesButton.addEventListener('click', () => {
-        if (this.#onPrevButtonClick) {
-          this.#onPrevButtonClick();
-          this.#nextOrPrevClicked = true;
-        }
+        this.onPrevSeriesClick();
+        this.#nextOrPrevClicked = true;
       });
     }
 
@@ -603,14 +615,35 @@ export class VideoPlayer {
   }
 
   onSeriesClick(seriesNumber: number, seasonNumber: number) {
-    console.log(seasonNumber, seriesNumber);
+    let seriesCounter = 0;
+    if (this.#currentSeason) {
+      for (let i = 0; i < seasonNumber - 1; ++i) {
+        if (this.#seasons) {
+          this.#seasons[i].episodes.forEach(() => {
+            seriesCounter++;
+          });
+        }
+      }
+
+      this.#currentSeason = seasonNumber;
+      this.#currentSeries = seriesNumber;
+      this.#seriesPosition = seriesCounter + seriesNumber;
+    }
+
     if (this.#seasons) {
       this.#videoUrl =
         this.#seasons[seasonNumber - 1].episodes[seriesNumber - 1].video;
       this.#currentSeason = seasonNumber;
       this.#currentSeries = seriesNumber;
       this.#nextOrPrevClicked = false;
-      this.render();
+      if (this.#onVideoUpdate) {
+        this.#onVideoUpdate(
+          this.#videoUrl,
+          this.#currentSeason,
+          this.#currentSeries,
+        );
+      }
+
       this.#nextOrPrevClicked = true;
     }
   }
@@ -638,5 +671,78 @@ export class VideoPlayer {
   seriesHandleMouseLeave() {
     const seriesBlock = document.getElementById('video-series') as HTMLElement;
     seriesBlock.style.display = 'none';
+  }
+
+  checkSeriesPosition() {
+    if (this.#currentSeason && this.#currentSeries) {
+      let seriesCounter = 0;
+      for (let i = 0; i < this.#currentSeason - 1; ++i) {
+        if (this.#seasons) {
+          this.#seasons[i].episodes.forEach(() => {
+            seriesCounter++;
+          });
+        }
+      }
+
+      this.#seriesPosition = seriesCounter + this.#currentSeries;
+    }
+  }
+
+  onNextSeriesClick() {
+    if (
+      this.#currentSeason &&
+      this.#currentSeries &&
+      this.#seasons &&
+      this.#seriesPosition
+    ) {
+      this.#seriesPosition++;
+      if (
+        this.#currentSeries ===
+        this.#seasons[this.#currentSeason - 1].episodes.length
+      ) {
+        this.#currentSeason++;
+        this.#currentSeries = 1;
+      } else {
+        this.#currentSeries++;
+      }
+
+      if (this.#onVideoUpdate) {
+        this.#onVideoUpdate(
+          this.#seasons[this.#currentSeason - 1].episodes[
+            this.#currentSeries - 1
+          ].video,
+          this.#currentSeason,
+          this.#currentSeries,
+        );
+      }
+    }
+  }
+
+  onPrevSeriesClick() {
+    if (
+      this.#currentSeason &&
+      this.#currentSeries &&
+      this.#seasons &&
+      this.#seriesPosition
+    ) {
+      this.#seriesPosition--;
+      if (this.#seasons && this.#currentSeries === 1) {
+        this.#currentSeason--;
+        this.#currentSeries =
+          this.#seasons[this.#currentSeason - 1].episodes.length;
+      } else {
+        this.#currentSeries--;
+      }
+
+      if (this.#onVideoUpdate) {
+        this.#onVideoUpdate(
+          this.#seasons[this.#currentSeason - 1].episodes[
+            this.#currentSeries - 1
+          ].video,
+          this.#currentSeason,
+          this.#currentSeries,
+        );
+      }
+    }
   }
 }
