@@ -1,0 +1,19 @@
+.series-list-item {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px;
+  transition: background 0.2s ease;
+
+  &__img {
+    width: 150px;
+  }
+
+  &__title {
+    width: 100%;
+  }
+
+  &:hover {
+    background-color: $series-menu-hover-background;
+  }
+}

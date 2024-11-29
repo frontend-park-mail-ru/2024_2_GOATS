@@ -3,12 +3,10 @@ import { MovieDetailed, MovieSaved } from 'types/movie';
 import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDescription } from 'components/MovieDescription/MovieDescription';
 import { Slider } from 'components/Slider/Slider';
-import { mockSeries } from '../../consts';
 import { roomPageStore } from 'store/RoomPageStore';
 import { SeasonsMenu } from 'components/SeasonsMenu/SeasonsMenu';
 import { Actions } from 'flux/Actions';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
-import { HOST } from '../../consts';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
