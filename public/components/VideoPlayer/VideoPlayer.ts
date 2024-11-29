@@ -30,6 +30,8 @@ export class VideoPlayer {
   #nextOrPrevClicked;
   #seasons;
   #seriesPosition: number | null = null;
+  #seriesBlockTimeout!: number;
+  #isSeriesBlockVisible: boolean;
 
   constructor(params: {
     parent: HTMLElement;
@@ -69,6 +71,7 @@ export class VideoPlayer {
     this.#handleSaveTimecode = params.handleSaveTimecode;
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
     this.#nextOrPrevClicked = false;
+    this.#isSeriesBlockVisible = false;
 
     this.checkSeriesPosition();
 
@@ -144,7 +147,6 @@ export class VideoPlayer {
       isVolumeOpened: false,
       fullOrSmallScreen: document.getElementById('full-small') as HTMLElement,
       volumeOffOrUp: document.getElementById('volume-off-up') as HTMLElement,
-      seriesBlock: document.getElementById('series-block') as HTMLElement,
       isFullScreen: false,
       videoBackButton: document.getElementById(
         'video-back-button',
@@ -155,6 +157,14 @@ export class VideoPlayer {
         'video-placeholder',
       ) as HTMLElement,
     };
+
+    if (this.#seasons) {
+      this.#controls = {
+        ...this.#controls,
+        seriesBlock: document.getElementById('series-block') as HTMLElement,
+        seriesButton: document.getElementById('seasons-button') as HTMLElement,
+      };
+    }
 
     if (!isTabletOrMobileLandscape()) {
       this.#controls = {
@@ -207,8 +217,14 @@ export class VideoPlayer {
 
   // Добавляем все события
   addEventListeners() {
-    const { video, fullOrSmallScreen, volume, volumeOffOrUp, seriesBlock } =
-      this.#controls;
+    const {
+      video,
+      fullOrSmallScreen,
+      volume,
+      volumeOffOrUp,
+      seriesBlock,
+      seriesButton,
+    } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
     video.addEventListener('play', this.onPlay.bind(this));
@@ -247,14 +263,20 @@ export class VideoPlayer {
     slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
     slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
 
-    seriesBlock.addEventListener(
-      'mouseenter',
-      this.seriesHandleMouseEnter.bind(this),
-    );
-    seriesBlock.addEventListener(
-      'mouseleave',
-      this.seriesHandleMouseLeave.bind(this),
-    );
+    if (this.#seasons) {
+      seriesButton?.addEventListener(
+        'mouseenter',
+        this.seriesHandleMouseEnter.bind(this),
+      );
+      seriesBlock?.addEventListener(
+        'mouseleave',
+        this.seriesHandleMouseLeave.bind(this),
+      );
+      seriesBlock?.addEventListener(
+        'mouseenter',
+        this.clearSeriesBlockTimeout.bind(this),
+      );
+    }
   }
 
   addControlsListeners() {
@@ -665,12 +687,25 @@ export class VideoPlayer {
 
   seriesHandleMouseEnter() {
     const seriesBlock = document.getElementById('video-series') as HTMLElement;
-    seriesBlock.style.display = 'block';
+    seriesBlock.classList.add('video__series_show');
+    this.#isSeriesBlockVisible = true;
   }
 
   seriesHandleMouseLeave() {
-    const seriesBlock = document.getElementById('video-series') as HTMLElement;
-    seriesBlock.style.display = 'none';
+    this.#seriesBlockTimeout = window.setTimeout(() => {
+      const seriesBlock = document.getElementById(
+        'video-series',
+      ) as HTMLElement;
+      seriesBlock.classList.remove('video__series_show');
+      this.#isSeriesBlockVisible = false;
+    }, 500);
+  }
+
+  clearSeriesBlockTimeout() {
+    console.log('timout cleared');
+    if (this.#isSeriesBlockVisible) {
+      clearTimeout(this.#seriesBlockTimeout);
+    }
   }
 
   checkSeriesPosition() {

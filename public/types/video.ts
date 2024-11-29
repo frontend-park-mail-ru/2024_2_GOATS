@@ -11,7 +11,8 @@ export type VideoControls = {
   isVolumeOpened: boolean;
   fullOrSmallScreen: HTMLElement;
   volumeOffOrUp: HTMLElement;
-  seriesBlock: HTMLElement;
+  seriesBlock?: HTMLElement;
+  seriesButton?: HTMLElement;
   isFullScreen: boolean;
   rewindBackButton?: HTMLElement;
   rewindFrontButton?: HTMLElement;

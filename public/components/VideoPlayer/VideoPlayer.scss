@@ -155,13 +155,16 @@
     &_seasons {
       position: relative;
       font-size: 16px;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      cursor: pointer;
 
       &_title {
         margin-top: 15px;
+
+        &_block {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          cursor: pointer;
+        }
       }
     }
 
@@ -230,12 +233,25 @@
   }
 
   &__series {
-    display: none;
-    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
     width: 500px;
+    height: 400px;
     position: absolute;
-    bottom: 50px;
-    right: -150px;
+    bottom: -400px;
+    right: 0;
+    transition:
+      opacity 0.5s ease-in-out,
+      visibility 0.5s ease-in-out,
+      bottom 0.5s ease-in-out;
+
+    &_show {
+      opacity: 1;
+      visibility: visible;
+      z-index: 100;
+      bottom: 50px;
+    }
   }
 
   &-mobile {
