@@ -11,6 +11,20 @@
 
   &__title {
     width: 100%;
+
+    &_block {
+      height: 16px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  &__current {
+    background-color: $brand;
+    border-radius: $border-radius-max;
+    min-width: 10px;
+    min-height: 10px;
   }
 
   &:hover {

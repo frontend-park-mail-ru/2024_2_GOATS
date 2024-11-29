@@ -31,11 +31,10 @@ export class SeriesList {
   }
 
   onSeasonClick(number: number) {
-    if (number !== this.#currentSeason) {
-      this.#currentSeason = number;
+    if (number !== this.#selectedSeason) {
+      this.#selectedSeason = number;
       this.renderSeasonsBlock();
       this.seriesKill();
-      this.#selectedSeason++;
       this.render;
       this.renderSeries();
     }
@@ -49,7 +48,7 @@ export class SeriesList {
       const seasonsMenu = new SeasonsMenu(
         seasonsBlock,
         this.#seasons.length,
-        this.#currentSeason,
+        this.#selectedSeason,
         2,
         this.onSeasonClick.bind(this),
       );
@@ -65,14 +64,19 @@ export class SeriesList {
       parent: seriesBlock,
       series: series,
       currentSeason: this.#currentSeason,
-      currentSeries: this.#currentSeries,
+      selectedSeason: this.#selectedSeason,
+      currentSeriesId:
+        this.#seasons[this.#selectedSeason - 1].episodes[
+          this.#currentSeries - 1
+        ].id,
       onSeriesListItemClick: this.#onSeriesClick,
     });
+
     seriesListItem.render();
   }
 
   renderSeries() {
-    this.#seasons[this.#currentSeason - 1].episodes.forEach((series) => {
+    this.#seasons[this.#selectedSeason - 1].episodes.forEach((series) => {
       this.renderSeriesListItem(series);
     });
   }
@@ -85,7 +89,7 @@ export class SeriesList {
   }
 
   getSeriesCaption() {
-    const seriesCount = this.#seasons[this.#currentSeason - 1].episodes.length;
+    const seriesCount = this.#seasons[this.#selectedSeason - 1].episodes.length;
     let caption = String(seriesCount);
     if (seriesCount === 1) {
       caption += ' серия';

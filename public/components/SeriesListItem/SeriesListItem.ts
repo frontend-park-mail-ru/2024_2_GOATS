@@ -5,20 +5,23 @@ export class SeriesListItem {
   #parent;
   #series;
   #currentSeason;
-  #currentSeries;
+  #selectedSeason;
+  #currentSeriesId;
   #onSeriesListItemClick;
 
   constructor(params: {
     parent: HTMLElement;
     series: Episode;
     currentSeason: number;
-    currentSeries: number;
+    selectedSeason: number;
+    currentSeriesId: number;
     onSeriesListItemClick: (seriesNumber: number, seasonNumber: number) => void;
   }) {
     this.#parent = params.parent;
     this.#series = params.series;
     this.#currentSeason = params.currentSeason;
-    this.#currentSeries = params.currentSeries;
+    this.#selectedSeason = params.selectedSeason;
+    this.#currentSeriesId = params.currentSeriesId;
     this.#onSeriesListItemClick = params.onSeriesListItemClick;
   }
 
@@ -30,7 +33,7 @@ export class SeriesListItem {
     currentSeriesListItem?.addEventListener('click', () => {
       this.#onSeriesListItemClick(
         this.#series.episodeNumber,
-        this.#currentSeason,
+        this.#selectedSeason,
       );
     });
   }
@@ -42,7 +45,12 @@ export class SeriesListItem {
   renderTemplate() {
     this.#parent.insertAdjacentHTML(
       'beforeend',
-      template({ series: this.#series }),
+      template({
+        series: this.#series,
+        isCurrentSeries:
+          this.#series.id === this.#currentSeriesId &&
+          this.#selectedSeason === this.#currentSeason,
+      }),
     );
 
     this.onSeriesClick();
