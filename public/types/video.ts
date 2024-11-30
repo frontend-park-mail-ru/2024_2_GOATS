@@ -6,6 +6,7 @@ export type VideoControls = {
   playOrPause?: HTMLElement;
   duration: HTMLElement;
   currentTime: HTMLElement;
+  currentTimeMobile?: HTMLElement;
   progressBar: HTMLElement;
   volume: HTMLInputElement;
   isVolumeOpened: boolean;

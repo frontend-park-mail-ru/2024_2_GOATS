@@ -1,7 +1,10 @@
 import template from './VideoPlayer.hbs';
 import { timeFormatter } from 'modules/TimeFormatter';
 import { VideoControls } from 'types/video';
-import { isTabletOrMobileLandscape } from 'modules/IsMobileDevice';
+import {
+  isMobileDevice,
+  isTabletOrMobileLandscape,
+} from 'modules/IsMobileDevice';
 import { PLAYER_CONTROLL_HIDING_TIMEOUT } from '../../consts';
 import { Season } from 'types/movie';
 import { SeriesList } from 'components/SeriesList/SeriesList';
@@ -207,6 +210,15 @@ export class VideoPlayer {
       };
     }
 
+    if (isMobileDevice()) {
+      this.#controls = {
+        ...this.#controls,
+        currentTimeMobile: document.getElementById(
+          'current-time-mobile',
+        ) as HTMLElement,
+      };
+    }
+
     this.#controls.volume.style.setProperty('--progress-volume-value', '100%');
 
     const slider = document.getElementById(
@@ -382,7 +394,16 @@ export class VideoPlayer {
       }
 
       slider.value = percentage.toString();
-      this.#controls.currentTime.textContent = timeFormatter(video.currentTime);
+
+      if (this.#controls.currentTimeMobile) {
+        this.#controls.currentTimeMobile.textContent = timeFormatter(
+          video.currentTime,
+        );
+      } else {
+        this.#controls.currentTime.textContent = timeFormatter(
+          video.currentTime,
+        );
+      }
     }
   }
 
@@ -443,6 +464,7 @@ export class VideoPlayer {
     if (this.#onPauseClick) {
       this.#onPauseClick(this.#controls.video.currentTime);
     }
+    clearTimeout(this.#hideControlsTimeout);
     const { playOrPause } = this.#controls;
     playOrPause?.classList.add('video__controls_icon_play');
     playOrPause?.classList.remove('video__controls_icon_pause');
@@ -562,12 +584,13 @@ export class VideoPlayer {
   }
 
   initAutoHideControls() {
-    const { videoWrapper } = this.#controls;
+    const { videoWrapper, video } = this.#controls;
 
-    videoWrapper.addEventListener(
-      'mousemove',
-      this.resetHideControlsTimer.bind(this),
-    );
+    videoWrapper.addEventListener('mousemove', () => {
+      if (!video.paused && !this.#isSeriesBlockVisible) {
+        this.resetHideControlsTimer.bind(this)();
+      }
+    });
     this.resetHideControlsTimer();
   }
 
@@ -597,6 +620,7 @@ export class VideoPlayer {
           'video__controls_hidden',
         );
       }
+      // }, PLAYER_CONTROLL_HIDING_TIMEOUT);
     }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 
@@ -689,6 +713,7 @@ export class VideoPlayer {
     const seriesBlock = document.getElementById('video-series') as HTMLElement;
     seriesBlock.classList.add('video__series_show');
     this.#isSeriesBlockVisible = true;
+    clearTimeout(this.#hideControlsTimeout);
   }
 
   seriesHandleMouseLeave() {
@@ -698,11 +723,14 @@ export class VideoPlayer {
       ) as HTMLElement;
       seriesBlock.classList.remove('video__series_show');
       this.#isSeriesBlockVisible = false;
+
+      if (!this.#controls.video.paused) {
+        this.resetHideControlsTimer();
+      }
     }, 500);
   }
 
   clearSeriesBlockTimeout() {
-    console.log('timout cleared');
     if (this.#isSeriesBlockVisible) {
       clearTimeout(this.#seriesBlockTimeout);
     }
