@@ -132,12 +132,14 @@ export class ProfilePage {
 
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
+
       const isValid = await this.validateAvatarField(file);
 
       if (isValid) {
         const avatarUrl = URL.createObjectURL(file);
         this.#userAvatar = file;
         this.renderAvatar(avatarUrl);
+        this.controlButtonDisable();
       }
     }
   }
@@ -161,9 +163,9 @@ export class ProfilePage {
       this.controlButtonDisable();
     });
 
-    avatarInput.addEventListener('change', () => {
-      this.controlButtonDisable();
-    });
+    // avatarInput.addEventListener('change', () => {
+    //   this.controlButtonDisable();
+    // });
   }
 
   controlButtonDisable() {
