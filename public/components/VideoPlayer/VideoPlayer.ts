@@ -5,7 +5,10 @@ import {
   isMobileDevice,
   isTabletOrMobileLandscape,
 } from 'modules/IsMobileDevice';
-import { PLAYER_CONTROLL_HIDING_TIMEOUT } from '../../consts';
+import {
+  CLOSING_SERIES_MENU_TIMEOUT,
+  PLAYER_CONTROLL_HIDING_TIMEOUT,
+} from '../../consts';
 import { Season } from 'types/movie';
 import { SeriesList } from 'components/SeriesList/SeriesList';
 
@@ -121,6 +124,7 @@ export class VideoPlayer {
       currentSeason: this.#currentSeason,
       currentSeries: this.#currentSeries,
       isPlaying,
+      isSerial: this.#seasons,
       isModal: this.#isModal,
       hasNextSeries: hasNextSeries,
       hasPrevSeries: hasPrevSeries,
@@ -727,7 +731,7 @@ export class VideoPlayer {
       if (!this.#controls.video.paused) {
         this.resetHideControlsTimer();
       }
-    }, 500);
+    }, CLOSING_SERIES_MENU_TIMEOUT);
   }
 
   clearSeriesBlockTimeout() {

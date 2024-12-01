@@ -98,17 +98,20 @@
     &_actions {
       display: flex;
       justify-content: space-between;
+      width: calc(100% + 15px);
+      position: relative;
+      right: 5px;
 
       &_right {
-        position: relative;
-        right: -5px;
+        position: static;
+        // right: -5px;
         display: flex;
         align-items: center;
         gap: 10px;
       }
 
       &_left {
-        position: relative;
+        position: static;
         left: -5px;
         display: flex;
         align-items: center;
@@ -242,19 +245,19 @@
     width: 500px;
     height: 400px;
     position: absolute;
-    bottom: -200px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     transition:
       opacity 0.2s ease-in-out,
-      visibility 0.2s ease-in-out,
-      bottom 0.5s ease-in-out;
+      visibility 0.2s ease-in-out;
+    // bottom 0.5s ease-in-out;
 
     &_show {
       opacity: 1;
       visibility: visible;
       z-index: 100;
-      bottom: 50px;
+      // bottom: 50px;
     }
   }
 
@@ -344,7 +347,41 @@
 @include mediumTablet {
   .video {
     &__title {
-      width: 25%;
+      width: 20%;
+    }
+
+    &__back {
+      top: 20px;
+      left: 15px;
+    }
+
+    // &__title {
+    // }
+
+    &__title {
+      top: 20px;
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+
+      &_image {
+        margin-bottom: 0;
+      }
+
+      &_text {
+        min-width: 200px;
+        font-size: 14px;
+      }
+    }
+
+    &__controls {
+      padding: 10px 15px 20px 15px;
+
+      &_actions_left_time {
+        padding-left: 5px;
+      }
     }
 
     &-mobile {
@@ -373,7 +410,7 @@
 @include mobileLandscape {
   .video {
     &__controls {
-      padding: 10px 15px 20px 15px;
+      // padding: 10px 15px 20px 15px;
 
       &_actions_left_time {
         display: none;
@@ -385,19 +422,10 @@
         background-size: 30px;
         margin-top: 10px;
       }
-
-      // &_seasons {
-      //   position: static;
-      // }
     }
 
-    &__title {
-      top: 20px;
-    }
-
-    // &__series {
-    // width: calc(100vw - 30px);
-    // right: 15px;
+    // &__title {
+    //   top: 20px;
     // }
 
     &-mobile {
@@ -443,26 +471,28 @@
       }
     }
 
-    &__title {
-      width: 30%;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
+    // &__title {
+    //   width: 20%;
+    //   display: flex;
+    //   flex-direction: column;
+    //   gap: 15px;
+    //   align-items: center;
 
-      &_image {
-        margin-bottom: 0;
-      }
+    //   &_image {
+    //     margin-bottom: 0;
+    //   }
 
-      &_text {
-        min-width: 200px;
-        font-size: 14px;
-      }
-    }
+    //   &_text {
+    //     min-width: 200px;
+    //     font-size: 14px;
+    //   }
+    // }
 
     &__series {
-      width: calc(100vw - 30px);
-      left: 0;
+      // width: calc(100vw - 10px);
+      width: 100%;
+      // left: -200%;
+      left: -2px;
       transform: translateX(0);
     }
   }
@@ -474,6 +504,24 @@
       &_actions_left_time {
         font-size: 12px;
       }
+    }
+  }
+}
+
+@media (max-height: 500px) {
+  .video {
+    &__series {
+      height: 300px;
+      bottom: 30px;
+    }
+  }
+}
+
+@media (max-height: 370px) {
+  .video {
+    &__series {
+      height: 250px;
+      position: absolute;
     }
   }
 }

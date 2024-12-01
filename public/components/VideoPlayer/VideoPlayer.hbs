@@ -95,7 +95,7 @@
         {{/if}}
 
         <p class='video__controls_actions_left_time'>
-          <span id='current-time' class='video__controls_timer'>00:00</span>
+          <span class='video__controls_timer'>00:00</span>
           /
           <span class='video__controls_timer' id='duration'>00:00</span>
         </p>
@@ -120,18 +120,22 @@
       </div>
 
       <div class='video__controls_actions_right'>
-        <div id='series-block' class='video__controls_seasons'>
-          <div id='video-series' class='video__series'></div>
-          <div id='seasons-button' class='video__controls_seasons_title_block'>
-            <img
-              class='video__controls_icon'
-              src='/assets/icons/episodesIcon.svg'
-              alt='rewind-back'
-            />
-            <p class='video__controls_seasons_title'>Сезоны и серии</p>
+        {{#if isSerial}}
+          <div id='series-block' class='video__controls_seasons'>
+            <div id='video-series' class='video__series'></div>
+            <div
+              id='seasons-button'
+              class='video__controls_seasons_title_block'
+            >
+              <img
+                class='video__controls_icon'
+                src='/assets/icons/episodesIcon.svg'
+                alt='rewind-back'
+              />
+              <p class='video__controls_seasons_title'>Сезоны и серии</p>
+            </div>
           </div>
-
-        </div>
+        {{/if}}
 
         <img
           id='rewind-back-button'

@@ -1,6 +1,7 @@
 .series-list {
   width: 100%;
-  height: 400px;
+  // height: 400px;
+  height: 100%;
   background-color: $series-menu-background;
   padding: 15px 0;
   border-radius: $border-radius-medium;
@@ -14,6 +15,7 @@
 
   &__caption {
     color: $brand-dull;
+    align-self: start;
   }
 
   &__seasons {
@@ -32,6 +34,22 @@
       flex-direction: column;
       max-height: 100%;
       overflow-y: auto;
+    }
+  }
+}
+
+@media (max-height: 500px) {
+  .series-list {
+    &__series {
+      height: 85%;
+    }
+  }
+}
+
+@media (max-height: 370px) {
+  .series-list {
+    &__series {
+      height: 82%;
     }
   }
 }
