@@ -1,0 +1,107 @@
+import { userStore } from 'store/UserStore';
+import template from './RateBlock.hbs';
+import { router } from 'modules/Router';
+
+export class RateBlock {
+  #rating: number | undefined;
+  #userRating: number;
+  #parent: HTMLElement;
+
+  constructor(
+    rating: number | undefined,
+    userRating: number,
+    parent: HTMLElement,
+  ) {
+    this.#rating = rating;
+    this.#userRating = userRating;
+    this.#parent = parent;
+  }
+
+  render() {
+    this.renderTemplate();
+  }
+
+  handleAuthClick() {
+    if (!userStore.getUser().email) {
+      const authButton = document.getElementById(
+        'rate-block-auth-button',
+      ) as HTMLElement;
+      authButton.addEventListener('click', () => {
+        router.go('/auth');
+      });
+    }
+  }
+
+  handleStarsHover() {
+    const stars = document.querySelectorAll(
+      '.rating-star',
+    ) as NodeListOf<HTMLElement>;
+
+    if (this.#userRating === 0) {
+      stars.forEach((star, index) => {
+        star.addEventListener('mouseenter', () => {
+          this.highlightStars(index);
+        });
+        star.addEventListener('mouseleave', () => {
+          this.resetStars();
+        });
+      });
+    }
+  }
+
+  highlightStars(index: number) {
+    const stars = document.querySelectorAll(
+      '.rating-star',
+    ) as NodeListOf<HTMLElement>;
+
+    stars.forEach((star, i) => {
+      if (i <= index) {
+        star.classList.add('active-star');
+      } else {
+        star.classList.remove('active-star');
+      }
+    });
+  }
+
+  resetStars() {
+    const stars = document.querySelectorAll(
+      '.rating-star',
+    ) as NodeListOf<HTMLElement>;
+
+    stars.forEach((star) => {
+      star.classList.remove('active-star');
+    });
+
+    if (this.#userRating !== 0) {
+      for (let i = 0; i < this.#userRating; i++) {
+        stars[i].classList.add('active-star');
+      }
+    }
+  }
+  coloringInitialRatingStars() {
+    if (!!userStore.getUser().email) {
+      const stars = document.querySelectorAll(
+        '.rating-star',
+      ) as NodeListOf<HTMLElement>;
+
+      if (stars) {
+        for (let i = 0; i < this.#userRating; i++) {
+          stars[i].classList.add('active-star');
+        }
+      }
+    }
+  }
+
+  renderTemplate() {
+    this.#parent.innerHTML = template({
+      isUserAuth: !!userStore.getUser().email,
+      rating: this.#rating,
+      userRating: this.#userRating,
+      isUserVoted: this.#userRating !== 0,
+    });
+
+    this.handleAuthClick();
+    this.coloringInitialRatingStars();
+    this.handleStarsHover();
+  }
+}

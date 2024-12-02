@@ -42,6 +42,8 @@ class MainPageStore {
     }
   }
 
+  rateMovie() {}
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MAIN_PAGE:
