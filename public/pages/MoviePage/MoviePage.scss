@@ -171,3 +171,9 @@
     width: 100%;
   }
 }
+
+@include megaSmallMobile {
+  .movie-page__rating {
+    display: none;
+  }
+}

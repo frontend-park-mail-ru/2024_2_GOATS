@@ -6,6 +6,7 @@ import { userStore } from 'store/UserStore';
 import { MovieDetailed } from 'types/movie';
 import { router } from 'modules/Router';
 import { Actions } from 'flux/Actions';
+import { RateModalBlock } from 'components/RateModalBlock/RateModalBlock';
 
 export class MovieDescription {
   #parent;
@@ -13,9 +14,12 @@ export class MovieDescription {
   #createdRoomId = '';
   #onWatchClick;
 
+  #isMobileRateOpen: boolean;
+
   constructor(parent: HTMLElement, onWatchClick: () => void) {
     this.#parent = parent;
     this.#onWatchClick = onWatchClick;
+    this.#isMobileRateOpen = false;
 
     const unsubscribeRoomId = roomPageStore.isCreatedRoomReceived$.addListener(
       () => {
@@ -37,6 +41,18 @@ export class MovieDescription {
   render() {
     this.#movie = moviePageStore.getMovie();
     this.renderTemplate();
+  }
+
+  handleModalRateOpen() {
+    const rateButton = document.getElementById(
+      'mobile-rate-movie-btn',
+    ) as HTMLElement;
+    if (rateButton) {
+      rateButton.addEventListener('click', () => {
+        const m = new RateModalBlock();
+        m.render();
+      });
+    }
   }
 
   handleShowMovie() {
@@ -105,6 +121,7 @@ export class MovieDescription {
       this.checkFavorite();
       this.handleShowMovie();
       this.handleFavoritesClick();
+      this.handleModalRateOpen();
     } else {
       this.#parent.innerHTML = skeletonTemplate();
     }

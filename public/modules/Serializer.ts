@@ -63,6 +63,8 @@ export const serializeMovieDetailed = (movie: any) => {
         return a.seasonNumber - b.seasonNumber;
       }),
     isFromFavorites: movie.is_favorite,
+    //For rating test
+    userRating: 7,
   };
 };
 

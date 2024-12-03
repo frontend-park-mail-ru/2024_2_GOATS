@@ -1,23 +1,27 @@
 import { userStore } from 'store/UserStore';
 import template from './RateBlock.hbs';
 import { router } from 'modules/Router';
+import { moviePageStore } from 'store/MoviePageStore';
+import { MovieDetailed } from 'types/movie';
 
 export class RateBlock {
-  #rating: number | undefined;
-  #userRating: number;
+  #movie!: MovieDetailed | null;
+  //   #rating: number | undefined;
+  //   #userRating: number;
   #parent: HTMLElement;
 
   constructor(
-    rating: number | undefined,
-    userRating: number,
+    // rating: number | undefined,
+    // userRating: number,
     parent: HTMLElement,
   ) {
-    this.#rating = rating;
-    this.#userRating = userRating;
+    // this.#rating = rating;
+    // this.#userRating = userRating;
     this.#parent = parent;
   }
 
   render() {
+    this.#movie = moviePageStore.getMovie();
     this.renderTemplate();
   }
 
@@ -37,7 +41,7 @@ export class RateBlock {
       '.rating-star',
     ) as NodeListOf<HTMLElement>;
 
-    if (this.#userRating === 0) {
+    if (this.#movie?.userRating === 0) {
       stars.forEach((star, index) => {
         star.addEventListener('mouseenter', () => {
           this.highlightStars(index);
@@ -72,8 +76,8 @@ export class RateBlock {
       star.classList.remove('active-star');
     });
 
-    if (this.#userRating !== 0) {
-      for (let i = 0; i < this.#userRating; i++) {
+    if (this.#movie?.userRating !== 0 && this.#movie?.userRating) {
+      for (let i = 0; i < this.#movie?.userRating; i++) {
         stars[i].classList.add('active-star');
       }
     }
@@ -84,8 +88,8 @@ export class RateBlock {
         '.rating-star',
       ) as NodeListOf<HTMLElement>;
 
-      if (stars) {
-        for (let i = 0; i < this.#userRating; i++) {
+      if (stars && this.#movie?.userRating) {
+        for (let i = 0; i < this.#movie.userRating; i++) {
           stars[i].classList.add('active-star');
         }
       }
@@ -95,9 +99,9 @@ export class RateBlock {
   renderTemplate() {
     this.#parent.innerHTML = template({
       isUserAuth: !!userStore.getUser().email,
-      rating: this.#rating,
-      userRating: this.#userRating,
-      isUserVoted: this.#userRating !== 0,
+      rating: this.#movie?.rating,
+      userRating: this.#movie?.userRating,
+      isUserVoted: this.#movie?.userRating !== 0,
     });
 
     this.handleAuthClick();

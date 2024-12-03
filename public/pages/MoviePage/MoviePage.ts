@@ -223,7 +223,7 @@ export class MoviePage {
     const rateBlockContainer = document.getElementById(
       'movie-page-rating-block',
     ) as HTMLElement;
-    const rateBlock = new RateBlock(this.#movie?.rating, 0, rateBlockContainer);
+    const rateBlock = new RateBlock(rateBlockContainer);
     if (rateBlock) {
       rateBlock.render();
     }
