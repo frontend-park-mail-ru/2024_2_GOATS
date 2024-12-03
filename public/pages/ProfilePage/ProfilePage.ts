@@ -214,9 +214,18 @@ export class ProfilePage {
       'subscription-btn',
     ) as HTMLButtonElement;
 
+    const subscriptionForm = document.getElementById(
+      'subscription-form',
+    ) as HTMLFormElement;
+
+    const subscriptionFormLabel = document.getElementById(
+      'subscription-form-label',
+    ) as HTMLInputElement;
+
     if (subscribtionButton) {
-      subscribtionButton.addEventListener('click', () => {
-        console.log('subs click');
+      subscribtionButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        Actions.buySubscription({ subscriptionForm, subscriptionFormLabel });
       });
     }
   }

@@ -1,6 +1,6 @@
 import { ProfilePage } from 'pages/ProfilePage/ProfilePage';
 import { ActionTypes } from 'flux/ActionTypes';
-import { User, UserData } from 'types/user';
+import { Subscription, User, UserData } from 'types/user';
 import { dispatcher } from 'flux/Dispatcher';
 import { apiClient } from 'modules/ApiClient';
 import { Emitter } from 'modules/Emmiter';
@@ -123,6 +123,11 @@ export class ProfilePageStore {
     }
   }
 
+  buySubscription(subscriptionFields: Subscription) {
+    subscriptionFields.subscriptionFormLabel.value = `subscribe;${this.#user.id}`;
+    subscriptionFields.subscriptionForm.submit();
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_PROFILE_PAGE:
@@ -144,6 +149,9 @@ export class ProfilePageStore {
         ) {
           await this.changeUserInfoRequest(action.userData);
         }
+        break;
+      case ActionTypes.BUY_SUBSCRIPTION:
+        this.buySubscription(action.subscriptionFields);
         break;
       default:
         break;

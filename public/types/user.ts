@@ -29,3 +29,8 @@ export type UserNew = {
   avatar?: string;
   isAdmin?: boolean;
 };
+
+export type Subscription = {
+  subscriptionForm: HTMLFormElement;
+  subscriptionFormLabel: HTMLInputElement;
+};

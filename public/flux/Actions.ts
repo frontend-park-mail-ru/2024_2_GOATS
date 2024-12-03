@@ -1,4 +1,4 @@
-import { User, AuthUser, UserData } from 'types/user';
+import { User, AuthUser, UserData, Subscription } from 'types/user';
 import { ActionTypes } from './ActionTypes';
 import { dispatcher } from './Dispatcher';
 import { Action } from 'types/room';
@@ -156,6 +156,12 @@ export const Actions = {
     dispatcher.dispatch({
       type: ActionTypes.DELETE_FROM_FAVORITES,
       id,
+    });
+  },
+  buySubscription(subscriptionFields: Subscription) {
+    dispatcher.dispatch({
+      type: ActionTypes.BUY_SUBSCRIPTION,
+      subscriptionFields,
     });
   },
 };
