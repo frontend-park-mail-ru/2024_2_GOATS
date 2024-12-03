@@ -209,6 +209,30 @@ export class ProfilePage {
     }
   }
 
+  onSubscribeClick() {
+    const subscribtionButton = document.getElementById(
+      'subscription-btn',
+    ) as HTMLButtonElement;
+
+    if (subscribtionButton) {
+      subscribtionButton.addEventListener('click', () => {
+        console.log('subs click');
+      });
+    }
+  }
+
+  onCancelSubscriptionClick() {
+    const calcelSubscriptionButton = document.getElementById(
+      'subscription-cancel-btn',
+    ) as HTMLButtonElement;
+
+    if (calcelSubscriptionButton) {
+      calcelSubscriptionButton.addEventListener('click', () => {
+        console.log('cancel subs click');
+      });
+    }
+  }
+
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
 
@@ -230,5 +254,7 @@ export class ProfilePage {
 
     this.onExitClick();
     this.listenInputsChange();
+    this.onSubscribeClick();
+    this.onCancelSubscriptionClick();
   }
 }

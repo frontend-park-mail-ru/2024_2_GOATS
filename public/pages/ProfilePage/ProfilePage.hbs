@@ -79,15 +79,33 @@
 
       </div>
     </div>
-    <div class='profile-page__security-block'>
-      <h2 class='profile-page__security-block_title'>Управление доступом</h2>
-      <div class='profile-page__security-block_content'>
-        <h3 class='security__title'>Смена пароля</h3>
-        <span class='security__desc'>При смене пароля будут завершены все
-          активные сеансы на других устройствах</span>
-        <div class='security__select'>
+    <div class='profile-page__additional-block'>
+      <h2 class='profile-page__additional-block_title'>Подписка</h2>
+      <div class='profile-page__additional-block_content'>
+        <h3 class='additional__title'>Подписка не активна</h3>
+        <div class='additional__select'>
           <button
-            class='button security__select_button'
+            class='button additional__select_button'
+            id='subscription-btn'
+          >Оформить</button>
+
+          <button
+            class='button additional__select_button additional__select_button_secondary'
+            id='subscription-cancel-btn'
+          >Отменить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class='profile-page__additional-block'>
+      <h2 class='profile-page__additional-block_title'>Управление доступом</h2>
+      <div class='profile-page__additional-block_content'>
+        <h3 class='additional__title'>Смена пароля</h3>
+        <span class='additional__desc'>При смене пароля будут завершены все
+          активные сеансы на других устройствах</span>
+        <div class='additional__select'>
+          <button
+            class='button additional__select_button'
             id='security-change-btn'
           >Изменить пароль</button>
         </div>
