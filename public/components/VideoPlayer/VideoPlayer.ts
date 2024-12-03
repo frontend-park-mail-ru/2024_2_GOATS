@@ -215,12 +215,23 @@ export class VideoPlayer {
       };
     }
 
-    if (isMobileDevice()) {
+    if (isMobileDevice() && this.#seasons) {
+      const timeBlock = document.querySelector(
+        '.video__controls_actions_left_time',
+      ) as HTMLElement;
+      const timeBlockMobile = document.querySelector(
+        '.video-mobile__controls_timer',
+      ) as HTMLElement;
+
+      timeBlock.style.display = 'none';
+      timeBlockMobile.style.display = 'block';
+
       this.#controls = {
         ...this.#controls,
         currentTimeMobile: document.getElementById(
           'current-time-mobile',
         ) as HTMLElement,
+        duration: document.getElementById('duration-mobile') as HTMLElement,
       };
     }
 
@@ -691,6 +702,7 @@ export class VideoPlayer {
   }
 
   onSeriesClick(seriesNumber: number, seasonNumber: number) {
+    document.removeEventListener('keydown', this.#boundHandleKeyPress);
     let seriesCounter = 0;
     if (this.#currentSeason) {
       for (let i = 0; i < seasonNumber - 1; ++i) {
@@ -782,6 +794,7 @@ export class VideoPlayer {
   }
 
   onNextSeriesClick() {
+    document.removeEventListener('keydown', this.#boundHandleKeyPress);
     if (
       this.#currentSeason &&
       this.#currentSeries &&
@@ -812,6 +825,7 @@ export class VideoPlayer {
   }
 
   onPrevSeriesClick() {
+    document.removeEventListener('keydown', this.#boundHandleKeyPress);
     if (
       this.#currentSeason &&
       this.#currentSeries &&
