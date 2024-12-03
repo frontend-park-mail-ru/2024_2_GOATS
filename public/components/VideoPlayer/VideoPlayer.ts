@@ -2,6 +2,7 @@ import template from './VideoPlayer.hbs';
 import { timeFormatter } from 'modules/TimeFormatter';
 import { VideoControls } from 'types/video';
 import {
+  isiOS,
   isMobileDevice,
   isTabletOrMobileLandscape,
 } from 'modules/IsMobileDevice';
@@ -293,6 +294,15 @@ export class VideoPlayer {
         this.clearSeriesBlockTimeout.bind(this),
       );
     }
+
+    video.addEventListener(
+      'webkitendfullscreen',
+      this.handleFullscreenChange.bind(this),
+    );
+
+    if (isiOS()) {
+      volume.style.display = 'none';
+    }
   }
 
   addControlsListeners() {
@@ -456,18 +466,24 @@ export class VideoPlayer {
   }
 
   onPlay() {
+    const { video } = this.#controls;
+    video.setAttribute('playsinline', '');
+
     if (this.#onPlayClick) {
       this.#onPlayClick(this.#controls.video.currentTime);
     }
     const { playOrPause } = this.#controls;
     playOrPause?.classList.add('video__controls_icon_pause');
     playOrPause?.classList.remove('video__controls_icon_play');
+    video.setAttribute('playsinline', '');
   }
 
   onPause() {
+    const { video } = this.#controls;
     if (this.#onPauseClick) {
       this.#onPauseClick(this.#controls.video.currentTime);
     }
+    video.setAttribute('playsinline', '');
     clearTimeout(this.#hideControlsTimeout);
     const { playOrPause } = this.#controls;
     playOrPause?.classList.add('video__controls_icon_play');
@@ -494,7 +510,8 @@ export class VideoPlayer {
   }
 
   toggleFullScreen() {
-    const { videoWrapper, isFullScreen } = this.#controls;
+    const { videoWrapper, isFullScreen, video } = this.#controls;
+
     if (isFullScreen) {
       document.exitFullscreen();
       this.#controls.isFullScreen = false;
@@ -504,8 +521,18 @@ export class VideoPlayer {
       this.#controls.fullOrSmallScreen.classList.remove(
         'video__controls_icon_small',
       );
+
+      video.removeAttribute('controls');
+      video.setAttribute('playsinline', '');
+      this.resetHideControlsTimer();
     } else {
-      videoWrapper.requestFullscreen();
+      video.removeAttribute('playsinline');
+      if (videoWrapper.requestFullscreen) {
+        videoWrapper.requestFullscreen();
+      } else {
+        (video as any).webkitEnterFullScreen();
+      }
+
       this.#controls.isFullScreen = true;
       this.#controls.fullOrSmallScreen.classList.add(
         'video__controls_icon_small',
@@ -530,7 +557,7 @@ export class VideoPlayer {
   }
 
   volumeCheck() {
-    const { volume, volumeOffOrUp } = this.#controls;
+    const { volume, volumeOffOrUp, video } = this.#controls;
     if (volume.value === '0') {
       volumeOffOrUp.classList.remove('video__controls_icon_volume-up');
       volumeOffOrUp.classList.add('video__controls_icon_volume-off');
@@ -624,7 +651,6 @@ export class VideoPlayer {
           'video__controls_hidden',
         );
       }
-      // }, PLAYER_CONTROLL_HIDING_TIMEOUT);
     }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 
@@ -658,7 +684,7 @@ export class VideoPlayer {
   }
 
   hidePlaceholder() {
-    const { videoPlaceholder } = this.#controls;
+    const { videoPlaceholder, video } = this.#controls;
     videoPlaceholder.style.display = 'none';
 
     this.addControlsListeners();
@@ -811,5 +837,16 @@ export class VideoPlayer {
         );
       }
     }
+  }
+
+  handleFullscreenChange() {
+    const { video } = this.#controls;
+    video.removeAttribute('controls');
+    this.resetHideControlsTimer();
+    this.#controls.isFullScreen = false;
+    this.#controls.fullOrSmallScreen.classList.add('video__controls_icon_full');
+    this.#controls.fullOrSmallScreen.classList.remove(
+      'video__controls_icon_small',
+    );
   }
 }

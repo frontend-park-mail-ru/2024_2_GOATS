@@ -53,7 +53,10 @@
         class='video-mobile__controls_timer_time'
       >00:00</span>
       /
-      <span class='video-mobile__controls_timer_time' id='duration'>00:00</span>
+      <span
+        class='video-mobile__controls_timer_time'
+        id='duration-mobile'
+      >00:00</span>
     </p>
     <div class='video__controls_progress'>
       <div class='video__progress'>
@@ -95,7 +98,7 @@
         {{/if}}
 
         <p class='video__controls_actions_left_time'>
-          <span class='video__controls_timer'>00:00</span>
+          <span id='current-time' class='video__controls_timer'>00:00</span>
           /
           <span class='video__controls_timer' id='duration'>00:00</span>
         </p>
