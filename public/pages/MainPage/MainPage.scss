@@ -24,6 +24,11 @@
   }
 }
 
+.cowatch-wrapper {
+  width: 100%;
+  height: fit-content;
+}
+
 @include smallTablet {
   .main-page {
     &__container {

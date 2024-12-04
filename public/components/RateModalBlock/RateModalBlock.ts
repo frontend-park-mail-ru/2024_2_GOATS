@@ -60,7 +60,7 @@ export class RateModalBlock {
 
     const itemWidth = items[0].offsetWidth;
     if (this.#movie?.userRating) {
-      slider.scrollLeft = itemWidth * this.#movie?.userRating;
+      slider.scrollLeft = itemWidth * this.#movie?.userRating - itemWidth / 2;
       items[this.#movie?.userRating].classList.add('selected');
     }
   }
