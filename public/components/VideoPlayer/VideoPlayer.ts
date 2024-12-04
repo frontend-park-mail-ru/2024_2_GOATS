@@ -5,6 +5,7 @@ import {
   isiOS,
   isMobileDevice,
   isTabletOrMobileLandscape,
+  isTouchDevice,
 } from 'modules/IsMobileDevice';
 import {
   CLOSING_SERIES_MENU_TIMEOUT,
@@ -39,6 +40,7 @@ export class VideoPlayer {
   #seriesPosition: number | null = null;
   #seriesBlockTimeout!: number;
   #isSeriesBlockVisible: boolean;
+  #currentSeriesAction: 'enter' | 'leave';
 
   constructor(params: {
     parent: HTMLElement;
@@ -79,6 +81,8 @@ export class VideoPlayer {
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
     this.#nextOrPrevClicked = false;
     this.#isSeriesBlockVisible = false;
+
+    this.#currentSeriesAction = 'leave';
 
     this.checkSeriesPosition();
 
@@ -277,8 +281,6 @@ export class VideoPlayer {
       this.checkScreenButton.bind(this),
     );
 
-    this.initAutoHideControls();
-
     if (this.#isModal) {
       this.handleBackButtonClick();
     }
@@ -292,18 +294,25 @@ export class VideoPlayer {
     slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
 
     if (this.#seasons) {
-      seriesButton?.addEventListener(
-        'mouseenter',
-        this.seriesHandleMouseEnter.bind(this),
-      );
-      seriesBlock?.addEventListener(
-        'mouseleave',
-        this.seriesHandleMouseLeave.bind(this),
-      );
-      seriesBlock?.addEventListener(
-        'mouseenter',
-        this.clearSeriesBlockTimeout.bind(this),
-      );
+      if (!isTouchDevice()) {
+        seriesButton?.addEventListener(
+          'mouseenter',
+          this.seriesHandleMouseEnter.bind(this),
+        );
+
+        seriesBlock?.addEventListener(
+          'mouseleave',
+          this.seriesHandleMouseLeave.bind(this),
+        );
+        seriesBlock?.addEventListener(
+          'mouseenter',
+          this.clearSeriesBlockTimeout.bind(this),
+        );
+      } else {
+        seriesButton?.addEventListener('click', () => {
+          this.onSeriesButtonClick();
+        });
+      }
     }
 
     video.addEventListener(
@@ -569,7 +578,7 @@ export class VideoPlayer {
 
   volumeCheck() {
     const { volume, volumeOffOrUp, video } = this.#controls;
-    if (volume.value === '0') {
+    if (video.muted || volume.value === '0') {
       volumeOffOrUp.classList.remove('video__controls_icon_volume-up');
       volumeOffOrUp.classList.add('video__controls_icon_volume-off');
     } else if (
@@ -583,25 +592,30 @@ export class VideoPlayer {
   }
 
   updateVolumeByClick() {
+    this.resetHideControlsTimer();
     const { volume, video } = this.#controls;
     const percentage = Number(volume.value) * 100;
     volume.style.setProperty('--progress-volume-value', `${percentage}%`);
     video.volume = Number(volume.value);
 
+    if (Number(volume.value) > 0 && video.muted) {
+      video.muted = false;
+    }
+
     this.volumeCheck();
   }
 
   setVolume() {
-    const { volume, video } = this.#controls;
+    const { video, volume } = this.#controls;
 
-    if (video.volume > 0) {
-      video.volume = 0;
-      volume.value = '0';
-      volume.style.setProperty('--progress-volume-value', `0%`);
-    } else {
-      video.volume = 1;
+    if (video.muted) {
+      video.muted = false;
       volume.value = '1';
       volume.style.setProperty('--progress-volume-value', `100%`);
+    } else {
+      video.muted = true;
+      volume.value = '0';
+      volume.style.setProperty('--progress-volume-value', `0%`);
     }
 
     this.volumeCheck();
@@ -699,6 +713,8 @@ export class VideoPlayer {
     videoPlaceholder.style.display = 'none';
 
     this.addControlsListeners();
+
+    this.initAutoHideControls();
   }
 
   onSeriesClick(seriesNumber: number, seasonNumber: number) {
@@ -790,6 +806,25 @@ export class VideoPlayer {
       }
 
       this.#seriesPosition = seriesCounter + this.#currentSeries;
+    }
+  }
+
+  onSeriesButtonClick() {
+    const seriesBlock = document.getElementById('video-series') as HTMLElement;
+    if (this.#isSeriesBlockVisible) {
+      seriesBlock.classList.remove('video__series_show');
+      this.#isSeriesBlockVisible = false;
+
+      if (!this.#controls.video.paused) {
+        this.resetHideControlsTimer();
+      }
+    } else {
+      clearTimeout(this.#hideControlsTimeout);
+      const seriesBlock = document.getElementById(
+        'video-series',
+      ) as HTMLElement;
+      seriesBlock.classList.add('video__series_show');
+      this.#isSeriesBlockVisible = true;
     }
   }
 
