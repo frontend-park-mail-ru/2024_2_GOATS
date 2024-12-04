@@ -40,7 +40,7 @@ export class VideoPlayer {
   #seriesPosition: number | null = null;
   #seriesBlockTimeout!: number;
   #isSeriesBlockVisible: boolean;
-  #currentSeriesAction: 'enter' | 'leave';
+  #autoplay!: boolean;
 
   constructor(params: {
     parent: HTMLElement;
@@ -50,6 +50,7 @@ export class VideoPlayer {
     currentSeries?: number;
     currentSeason?: number;
     seasons?: Season[];
+    autoPlay?: boolean;
     onBackClick?: () => void;
     onPlayClick?: (timeCode: number) => void;
     onPauseClick?: (timeCode: number) => void;
@@ -81,8 +82,7 @@ export class VideoPlayer {
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
     this.#nextOrPrevClicked = false;
     this.#isSeriesBlockVisible = false;
-
-    this.#currentSeriesAction = 'leave';
+    this.#autoplay = !!params.autoPlay;
 
     this.checkSeriesPosition();
 
@@ -322,6 +322,10 @@ export class VideoPlayer {
 
     if (isiOS()) {
       volume.style.display = 'none';
+    }
+
+    if (this.#autoplay) {
+      video.autoplay = true;
     }
   }
 

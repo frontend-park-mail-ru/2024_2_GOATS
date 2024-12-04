@@ -117,6 +117,7 @@ export class MoviePage {
         onBackClick: this.onBackClick.bind(this),
         onVideoUpdate: this.rerenderVideo.bind(this),
         handleSaveTimecode: this.handleSaveTimecode.bind(this),
+        autoPlay: true,
       });
       video.render();
       videoContainer.style.zIndex = '10';
