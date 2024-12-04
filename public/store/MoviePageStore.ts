@@ -192,6 +192,20 @@ class MoviePageStore {
     }
   }
 
+  rateMovieRequest(rating: number) {
+    if (this.#movie?.userRating !== undefined) {
+      this.#movie.userRating = rating;
+    }
+    console.log(`Фильм ${this.#movie?.title} оценен на ${rating}`);
+  }
+
+  deleteRating() {
+    if (this.#movie?.userRating) {
+      this.#movie.userRating = 0;
+    }
+    console.log(`Удалена оценка с ${this.#movie?.title}`);
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
@@ -218,6 +232,12 @@ class MoviePageStore {
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
         this.deleteLastMovieFromLocalStorage();
+        break;
+      case ActionTypes.RATE_MOVIE:
+        this.rateMovieRequest(action.payload.rating);
+        break;
+      case ActionTypes.DELETE_RATING:
+        this.deleteRating();
         break;
       default:
         break;

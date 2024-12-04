@@ -3,6 +3,7 @@ import template from './RateBlock.hbs';
 import { router } from 'modules/Router';
 import { moviePageStore } from 'store/MoviePageStore';
 import { MovieDetailed } from 'types/movie';
+import { Actions } from 'flux/Actions';
 
 export class RateBlock {
   #movie!: MovieDetailed | null;
@@ -43,6 +44,10 @@ export class RateBlock {
 
     if (this.#movie?.userRating === 0) {
       stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+          Actions.rateMovie(index + 1);
+          this.render();
+        });
         star.addEventListener('mouseenter', () => {
           this.highlightStars(index);
         });
@@ -82,6 +87,7 @@ export class RateBlock {
       }
     }
   }
+
   coloringInitialRatingStars() {
     if (!!userStore.getUser().email) {
       const stars = document.querySelectorAll(
@@ -96,6 +102,19 @@ export class RateBlock {
     }
   }
 
+  deleteRating() {
+    const deleteRatingButton = document.getElementById(
+      'rate-block-delete-rate-button',
+    ) as HTMLElement;
+
+    if (deleteRatingButton) {
+      deleteRatingButton.addEventListener('click', () => {
+        Actions.deleteRating();
+        this.render();
+      });
+    }
+  }
+
   renderTemplate() {
     this.#parent.innerHTML = template({
       isUserAuth: !!userStore.getUser().email,
@@ -107,5 +126,6 @@ export class RateBlock {
     this.handleAuthClick();
     this.coloringInitialRatingStars();
     this.handleStarsHover();
+    this.deleteRating();
   }
 }
