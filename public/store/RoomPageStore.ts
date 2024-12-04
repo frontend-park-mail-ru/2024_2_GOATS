@@ -116,8 +116,8 @@ class RoomPageStore {
 
       if (messageData.movie) {
         // TODO: Убрать тестовый сценарий после мержа на бэке:
-        messageData.movie.title_url = '/static/movies/squid-game/logo.png';
-        messageData.movie.video_url = '/static/movies/squid-game/movie.mp4';
+        // messageData.movie.title_url = '/static/movies/squid-game/logo.png';
+        // messageData.movie.video_url = '/static/movies/squid-game/movie.mp4';
 
         this.setState(serializeRoom(messageData));
 

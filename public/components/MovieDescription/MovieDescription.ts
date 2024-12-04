@@ -50,17 +50,17 @@ export class MovieDescription {
   }
 
   // TODO: Совместный просмор в разработке
-  // handleWatchTogether() {
-  //   const watchTogetherBtn = document.getElementById(
-  //     'watch-together-btn',
-  //   ) as HTMLButtonElement;
+  handleWatchTogether() {
+    const watchTogetherBtn = document.getElementById(
+      'watch-together-btn',
+    ) as HTMLButtonElement;
 
-  //   watchTogetherBtn.addEventListener('click', async () => {
-  //     if (this.#movie) {
-  //       Actions.createRoom(1); // TODO: поменять на movie.id после тестирования
-  //     }
-  //   });
-  // }
+    watchTogetherBtn.addEventListener('click', async () => {
+      if (this.#movie) {
+        Actions.createRoom(this.#movie.id);
+      }
+    });
+  }
 
   onFavoritesClick() {
     if (this.#movie) {
@@ -105,6 +105,7 @@ export class MovieDescription {
       this.checkFavorite();
       this.handleShowMovie();
       this.handleFavoritesClick();
+      this.handleWatchTogether();
     } else {
       this.#parent.innerHTML = skeletonTemplate();
     }
