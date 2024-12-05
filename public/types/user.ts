@@ -11,6 +11,7 @@ export type User = {
   username: string;
   birthDate?: Date;
   avatar: string;
+  isPremium: boolean;
 };
 
 // For profile editing

@@ -31,6 +31,7 @@ class UserStore {
       email: '',
       username: '',
       avatar: '',
+      isPremium: false,
     };
     dispatcher.register(this.reduce.bind(this));
   }
@@ -65,6 +66,7 @@ class UserStore {
     this.#user.email = user.email;
     this.#user.username = user.username;
     this.#user.avatar = user.avatar;
+    this.#user.isPremium = user.isPremium;
 
     this.#isUserAuthEmmiter.set(true);
 
@@ -118,7 +120,11 @@ class UserStore {
       const response = await apiClient.get({
         path: 'auth/session',
       });
+
+      //TODO: Убрать после интеграции
+      response.user_data.is_premium = false;
       this.setState(serializeUserData(response.user_data));
+      console.log(this.#user);
     } catch {
       this.clearUser();
     }
