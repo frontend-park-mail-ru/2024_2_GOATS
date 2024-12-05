@@ -232,18 +232,6 @@ export class ProfilePage {
     }
   }
 
-  onCancelSubscriptionClick() {
-    const calcelSubscriptionButton = document.getElementById(
-      'subscription-cancel-btn',
-    ) as HTMLButtonElement;
-
-    if (calcelSubscriptionButton) {
-      calcelSubscriptionButton.addEventListener('click', () => {
-        console.log('cancel subs click');
-      });
-    }
-  }
-
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
 
@@ -266,6 +254,5 @@ export class ProfilePage {
     this.onExitClick();
     this.listenInputsChange();
     this.onSubscribeClick();
-    this.onCancelSubscriptionClick();
   }
 }

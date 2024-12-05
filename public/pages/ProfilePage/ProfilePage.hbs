@@ -96,12 +96,30 @@
         <input type='hidden' name='receiver' value='4100118910706695' />
         <input type='hidden' name='quickpay-form' value='button' />
         <div class='profile-page__additional-block_content'>
-          <h3 class='additional__title'>Подписка не активна</h3>
+
+          {{#if user.isPremium}}
+            <h3 class='additional__title'>Подписка подключена</h3>
+            <span class='additional__desc'>
+              До конца подписки осталось 13 дней
+            </span>
+          {{else}}
+            <h3 class='additional__title'>Подписка не активна</h3>
+            <span class='additional__desc'>Подписка стоит
+              <strong>299р.</strong>
+              и оформляется на
+              <strong>1 месяц</strong>
+            </span>
+          {{/if}}
+          <span class='additional__desc'>В подписку входят эксклюзывные фильмы и
+            сериалы, а также возможность создания комнат совместного просмотра
+          </span>
           <div class='additional__select'>
-            <button
-              class='button additional__select_button'
-              id='subscription-btn'
-            >Оформить</button>
+            {{#unless user.isPremium}}
+              <button
+                class='button additional__select_button'
+                id='subscription-btn'
+              >Оформить подписку</button>
+            {{/unless}}
           </div>
         </div>
       </form>

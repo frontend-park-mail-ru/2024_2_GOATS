@@ -122,9 +122,8 @@ class UserStore {
       });
 
       //TODO: Убрать после интеграции
-      response.user_data.is_premium = false;
+      response.user_data.is_premium = true;
       this.setState(serializeUserData(response.user_data));
-      console.log(this.#user);
     } catch {
       this.clearUser();
     }

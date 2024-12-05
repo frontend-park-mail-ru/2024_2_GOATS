@@ -41,11 +41,22 @@
     }
 
     &_logo {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 10px;
       font-size: 36px;
       font-weight: 700;
+
+      &_caption {
+        font-weight: 800;
+        font-size: 14px;
+        color: $brand;
+        position: absolute;
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
 
       &:hover {
         cursor: pointer;

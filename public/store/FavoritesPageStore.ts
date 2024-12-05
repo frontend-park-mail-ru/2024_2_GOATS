@@ -92,11 +92,9 @@ class FavoritesPageStore {
     this.#movies = null;
     favoritePage.render();
     if (userStore.getisUserLoading()) {
-      console.log('b');
       return;
     } else {
       if (userStore.getUser().username) {
-        console.log('a');
         await this.getFavorites();
         favoritePage.render();
       } else {
