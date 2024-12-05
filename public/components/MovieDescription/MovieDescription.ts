@@ -55,11 +55,13 @@ export class MovieDescription {
       'watch-together-btn',
     ) as HTMLButtonElement;
 
-    watchTogetherBtn.addEventListener('click', async () => {
-      if (this.#movie) {
-        Actions.createRoom(this.#movie.id);
-      }
-    });
+    if (userStore.getUser().username) {
+      watchTogetherBtn.addEventListener('click', async () => {
+        if (this.#movie) {
+          Actions.createRoom(this.#movie.id);
+        }
+      });
+    }
   }
 
   onFavoritesClick() {
