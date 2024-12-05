@@ -141,7 +141,7 @@ export class ProfilePageStore {
   async buySubscription(subscriptionFields: Subscription) {
     subscriptionFields.subscriptionFormLabel.value =
       this.#subscriptionFormLabel;
-    await this.sendPayment();
+    // await this.sendPayment();
     subscriptionFields.subscriptionForm.submit();
   }
 
