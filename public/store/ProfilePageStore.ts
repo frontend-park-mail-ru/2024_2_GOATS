@@ -8,11 +8,11 @@ import { removeBackendError, throwBackendError } from 'modules/BackendErrors';
 import { Notifier } from 'components/Notifier/Notifier';
 import { router } from 'modules/Router';
 import { userStore } from './UserStore';
-import { Actions } from 'flux/Actions';
 
 export class ProfilePageStore {
   #user!: User;
   #passwordChangedEmitter: Emitter<boolean>;
+  #subscriptionFormLabel!: string;
 
   constructor() {
     this.#passwordChangedEmitter = new Emitter<boolean>(false);
@@ -29,6 +29,8 @@ export class ProfilePageStore {
     this.ngOnDestroy = () => {
       userLoadingListener();
     };
+
+    this.#subscriptionFormLabel = '';
   }
   ngOnDestroy(): void {}
 
@@ -123,8 +125,23 @@ export class ProfilePageStore {
     }
   }
 
-  buySubscription(subscriptionFields: Subscription) {
-    subscriptionFields.subscriptionFormLabel.value = `subscribe;${this.#user.id}`;
+  async sendPayment() {
+    try {
+      const response = await apiClient.post({
+        path: 'subscription/',
+        body: { amount: 2 },
+      });
+
+      this.#subscriptionFormLabel = response.subscription_idp;
+    } catch {
+      throw new Error('subscription error');
+    }
+  }
+
+  async buySubscription(subscriptionFields: Subscription) {
+    subscriptionFields.subscriptionFormLabel.value =
+      this.#subscriptionFormLabel;
+    await this.sendPayment();
     subscriptionFields.subscriptionForm.submit();
   }
 
@@ -151,7 +168,7 @@ export class ProfilePageStore {
         }
         break;
       case ActionTypes.BUY_SUBSCRIPTION:
-        this.buySubscription(action.subscriptionFields);
+        await this.buySubscription(action.subscriptionFields);
         break;
       default:
         break;
