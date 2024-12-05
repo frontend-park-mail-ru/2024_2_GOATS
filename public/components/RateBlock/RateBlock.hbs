@@ -1,0 +1,54 @@
+<div class='rate-block'>
+  <div class='rate-block__rating'>
+    <span class='rate-block__rating_number'>{{rating}}</span>
+  </div>
+  <div class='rate-block__line'></div>
+  <div class='rate-block__content'>
+    {{#if isUserAuth}}
+      {{#if isUserVoted}}
+        <div class='rate-block__delete-rate-block'>
+          <div class='rate-block__content_description'>
+            <h3 class='rate-block__content_title'>Спасибо за вашу оценку</h3>
+            <span class='rate-block__content_subtitle'>Оценки помогают сделать
+              сервис лучше</span>
+          </div>
+          <button
+            id='rate-block-delete-rate-button'
+            class='button rate-block__content_remove-rate'
+          >Удалить</button>
+        </div>
+      {{else}}
+        <div class='rate-block__content_description'>
+          <h3 class='rate-block__content_title'>Поставьте оценку</h3>
+          <span class='rate-block__content_subtitle'>Оценки помогают сделать
+            сервис лучше</span>
+        </div>
+      {{/if}}
+      <div id='stars-container' class='rate-block__content_stars'>
+        <div id='rating-star' class='rating-star'>1</div>
+        <div id='rating-star' class='rating-star'>2</div>
+        <div id='rating-star' class='rating-star'>3</div>
+        <div id='rating-star' class='rating-star'>4</div>
+        <div id='rating-star' class='rating-star'>5</div>
+        <div id='rating-star' class='rating-star'>6</div>
+        <div id='rating-star' class='rating-star'>7</div>
+        <div id='rating-star' class='rating-star'>8</div>
+        <div id='rating-star' class='rating-star'>9</div>
+        <div id='rating-star' class='rating-star'>10</div>
+      </div>
+    {{else}}
+      <div class='rate-block__content_description'>
+        <h3 class='rate-block__content_title'>Войдите, чтобы оставить оценку</h3>
+        <span class='rate-block__content_subtitle'>Оставлять оценки могут только
+          авторизованные пользователи
+        </span>
+      </div>
+
+      <button
+        id='rate-block-auth-button'
+        class='button rate-block__content_auth-btn'
+      >Войти</button>
+    {{/if}}
+  </div>
+
+</div>

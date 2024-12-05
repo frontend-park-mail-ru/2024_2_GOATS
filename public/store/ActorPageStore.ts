@@ -34,12 +34,12 @@ export class ActorPageStore {
       this.setState(serializedActorData);
       actorPage.render();
     } catch (e: any) {
-      const error = new ErrorPage({
+      const errorPage = new ErrorPage({
         errorTitle: '404. Страница не найдена',
         errorDescription:
           'Возможно, вы воспользовались недействительной ссылкой или страница была удалена. Проверьте URL-адрес или перейдите на главную страницу, там вас ожидают лучшие фильмы и сериалы.',
       });
-      error.render();
+      errorPage.render();
     }
   }
 

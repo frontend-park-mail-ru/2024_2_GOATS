@@ -7,6 +7,7 @@ import { roomPageStore } from 'store/RoomPageStore';
 import { SeasonsMenu } from 'components/SeasonsMenu/SeasonsMenu';
 import { Actions } from 'flux/Actions';
 import { VideoPlayer } from 'components/VideoPlayer/VideoPlayer';
+import { RateBlock } from 'components/RateBlock/RateBlock';
 
 export class MoviePage {
   #movie!: MovieDetailed | null;
@@ -219,8 +220,19 @@ export class MoviePage {
     }
   }
 
+  renderRateBlock() {
+    const rateBlockContainer = document.getElementById(
+      'movie-page-rating-block',
+    ) as HTMLElement;
+    const rateBlock = new RateBlock(rateBlockContainer);
+    if (rateBlock) {
+      rateBlock.render();
+    }
+  }
+
   renderBlocks() {
     this.renderMovieDescription();
+    this.renderRateBlock();
     if (this.#movie?.seasons) {
       this.renderSeasonsBlock(false);
     }
@@ -269,6 +281,11 @@ export class MoviePage {
 
   renderTemplate() {
     this.setStartTimecode();
+    const rootElem = document.getElementById('root');
+    if (rootElem) {
+      rootElem.classList.add('root-black');
+      rootElem.classList.remove('root-image');
+    }
     const pageElement = document.getElementsByTagName('main')[0];
     window.scrollTo(0, 0);
 

@@ -9,24 +9,32 @@
       <div id='movie-page-series'></div>
 
     </div>
-
-    <div class='movie-page__description'>
-      <div class='movie-page__description_title_block'>
-        <h4 class='movie-page__description_title'>Описание</h4>
-        <div class='movie-page__description_warning'>
-          <img
-            class='movie-page__description_warning_icon'
-            src='/assets/icons/warningIcon.svg'
-            alt='warning-icon'
-          />
-          <p class='movie-page__description_warning_text'>Осторожно, возможны
-            спойлеры</p>
+    <div class='movie-page__content'>
+      <div class='movie-page__description'>
+        <div class='movie-page__description_title_block'>
+          <h4 class='movie-page__description_title'>Описание</h4>
+          <div class='movie-page__description_warning'>
+            <img
+              class='movie-page__description_warning_icon'
+              src='/assets/icons/warningIcon.svg'
+              alt='warning-icon'
+            />
+            <p class='movie-page__description_warning_text'>Осторожно, возможны
+              спойлеры</p>
+          </div>
         </div>
-      </div>
 
-      <p class='movie-page__description_text'>
-        {{longDescription}}
-      </p>
+        <p class='movie-page__description_text'>
+          {{longDescription}}
+        </p>
+      </div>
+      <div class='movie-page__rating'>
+        <h4 class='movie-page__rating_title'>Рейтинг</h4>
+        <div
+          id='movie-page-rating-block'
+          class='movie-page__rating_block'
+        ></div>
+      </div>
     </div>
 
     <div id='movie-page-persons' class='movie-page__persons'>

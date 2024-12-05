@@ -7,6 +7,7 @@ import { moviePageStore } from 'store/MoviePageStore';
 import { router } from 'modules/Router';
 import { Actions } from 'flux/Actions';
 import { isMobileDevice } from 'modules/IsMobileDevice';
+import { CoWatchBlock } from 'components/CoWatchBlock/CoWatchBlock';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -116,5 +117,12 @@ export class MainPage {
     pageElement.innerHTML = template();
 
     this.renderBlocks();
+
+    //TODO: Вынести
+    const coWatchBlockContainer = document.getElementById(
+      'cowatch-wrapper',
+    ) as HTMLElement;
+    const block = new CoWatchBlock(coWatchBlockContainer);
+    block.render();
   }
 }

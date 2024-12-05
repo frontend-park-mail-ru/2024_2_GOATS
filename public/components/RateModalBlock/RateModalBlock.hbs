@@ -1,0 +1,44 @@
+<div id='rate-modal-block' class='rate-modal-block'>
+  <div class='rate-modal-block__overlay'></div>
+  <div class='rate-modal-block__content'>
+    <div class='rate-modal-block__content_header'>
+      <h2 class='rate-modal-block__content_header_title'>
+        {{#if isUserVoted}} Спасибо за оценку {{else}}Поставьте оценку{{/if}}
+      </h2>
+      <spam class='rate-modal-block__content_header_subtitle'>Оценки помогают
+        сделать сервис лучше</spam>
+    </div>
+    <div class='rate-modal-block__content_body'>
+      <div class='stars-slider'>
+
+        <div class='stars-slider__item'>1</div>
+        <div class='stars-slider__item'>2</div>
+        <div class='stars-slider__item'>3</div>
+        <div class='stars-slider__item'>4</div>
+        <div class='stars-slider__item'>5</div>
+        <div class='stars-slider__item'>6</div>
+        <div class='stars-slider__item'>7</div>
+        <div class='stars-slider__item'>8</div>
+        <div class='stars-slider__item'>9</div>
+        <div class='stars-slider__item'>10</div>
+
+      </div>
+      <div class='stars-slider__selected-rate'></div>
+    </div>
+    <div class='rate-modal-block__content_actions'>
+      <button
+        id='modal-rate-block-rate-button'
+        class='button rate-modal-block__content_add-rate'
+      >Оценить</button>
+      {{#if isUserVoted}}
+        <button
+          id='modal-rate-block-remove-rate-button'
+          class='button rate-modal-block__content_remove-rate'
+        >Удалить</button>
+
+      {{/if}}
+
+    </div>
+
+  </div>
+</div>

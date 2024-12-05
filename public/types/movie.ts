@@ -35,6 +35,8 @@ export type MovieDetailed = {
   director: string;
   seasons?: Season[];
   isFromFavorites?: boolean;
+  //For rating test
+  userRating?: number;
 };
 
 export type Episode = {

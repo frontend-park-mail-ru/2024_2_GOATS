@@ -164,4 +164,15 @@ export const Actions = {
       subscriptionFields,
     });
   },
+  rateMovie(rating: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.RATE_MOVIE,
+      payload: { rating },
+    });
+  },
+  deleteRating() {
+    dispatcher.dispatch({
+      type: ActionTypes.DELETE_RATING,
+    });
+  },
 };

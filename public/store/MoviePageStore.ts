@@ -9,6 +9,7 @@ import {
   serializeCollections,
 } from 'modules/Serializer';
 import { userStore } from './UserStore';
+import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
 
 const moviePage = new MoviePage();
 
@@ -113,6 +114,12 @@ class MoviePageStore {
       this.setMovieState(serializedMovieData);
     } catch (error) {
       throw error;
+      // const errorPage = new ErrorPage({
+      //   errorTitle: '404. Страница не найдена',
+      //   errorDescription:
+      //     'Возможно, вы воспользовались недействительной ссылкой или страница была удалена. Проверьте URL-адрес или перейдите на главную страницу, там вас ожидают лучшие фильмы и сериалы.',
+      // });
+      // errorPage.render();
     } finally {
       this.#hasMovieGot.set(true);
     }
@@ -192,6 +199,20 @@ class MoviePageStore {
     }
   }
 
+  rateMovieRequest(rating: number) {
+    if (this.#movie?.userRating !== undefined) {
+      this.#movie.userRating = rating;
+    }
+    console.log(`Фильм ${this.#movie?.title} оценен на ${rating}`);
+  }
+
+  deleteRating() {
+    if (this.#movie?.userRating) {
+      this.#movie.userRating = 0;
+    }
+    console.log(`Удалена оценка с ${this.#movie?.title}`);
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
@@ -218,6 +239,12 @@ class MoviePageStore {
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
         this.deleteLastMovieFromLocalStorage();
+        break;
+      case ActionTypes.RATE_MOVIE:
+        this.rateMovieRequest(action.payload.rating);
+        break;
+      case ActionTypes.DELETE_RATING:
+        this.deleteRating();
         break;
       default:
         break;
