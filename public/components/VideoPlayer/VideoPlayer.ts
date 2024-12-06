@@ -265,7 +265,11 @@ export class VideoPlayer {
       !this.#nextOrPrevClicked && this.updateProgress.bind(this)();
     });
     video.addEventListener('ended', this.onVideoEnd.bind(this));
-    video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
+
+    // TODO: проверить на мобилке
+    if (this.#isModal) {
+      video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
+    }
 
     fullOrSmallScreen.addEventListener(
       'click',
@@ -326,6 +330,11 @@ export class VideoPlayer {
 
     if (this.#autoplay) {
       video.autoplay = true;
+    }
+
+    // TODO: проверить на мобилке
+    if (!this.#isModal) {
+      this.hidePlaceholder();
     }
   }
 

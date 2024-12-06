@@ -177,6 +177,7 @@ export class RoomPage {
         this.#video = new VideoPlayer({
           parent: videoContainer,
           videoUrl: this.#room.movie.video,
+          titleImage: this.#room.movie.titleImage,
           onPlayClick: this.onPlayClick,
           onPauseClick: this.onPauseClick,
           handleRewindVideo: this.handleRewindVideo,
