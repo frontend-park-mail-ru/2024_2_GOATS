@@ -288,7 +288,9 @@ export class ProfilePage {
 
     pageElement.innerHTML = template({
       user: profilePageStore.getUserInfo(),
-      expirationDays: this.getCountDaysString(),
+      ...(userStore.getUser().expirationDate && {
+        expirationDays: this.getCountDaysString(),
+      }),
     });
     this.renderAvatar(profilePageStore.getUserInfo().avatar);
 
