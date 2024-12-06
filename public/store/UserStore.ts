@@ -32,6 +32,7 @@ class UserStore {
       username: '',
       avatar: '',
       isPremium: false,
+      expirationDate: '',
     };
     dispatcher.register(this.reduce.bind(this));
   }
@@ -67,6 +68,7 @@ class UserStore {
     this.#user.username = user.username;
     this.#user.avatar = user.avatar;
     this.#user.isPremium = user.isPremium;
+    this.#user.expirationDate = user.expirationDate;
 
     this.#isUserAuthEmmiter.set(true);
 
@@ -120,6 +122,10 @@ class UserStore {
       const response = await apiClient.get({
         path: 'auth/session',
       });
+
+      // TODO: Убрать после тестирование
+      // response.user_data.subscription_expiration_date = '2025-1-2';
+      // response.user_data.subscription_status = true;
 
       this.setState(serializeUserData(response.user_data));
     } catch {
