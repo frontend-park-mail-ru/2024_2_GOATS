@@ -123,6 +123,7 @@ export const serializeUserData = (user: any) => {
     sex: user.sex,
     avatar: HOST + user.avatar_url,
     isPremium: user.subscription_status,
+    expirationDate: user.subscription_expiration_date,
   };
 };
 

@@ -121,8 +121,6 @@ class UserStore {
         path: 'auth/session',
       });
 
-      //TODO: Убрать после интеграции
-      response.user_data.is_premium = true;
       this.setState(serializeUserData(response.user_data));
     } catch {
       this.clearUser();
