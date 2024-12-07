@@ -432,8 +432,6 @@ export class VideoPlayer {
     const { video } = this.#controls;
     video.play();
     this.resetHideControlsTimer();
-    console.log('video play');
-    // this.intervalTick();
   }
 
   videoPause(timeCode: number) {
@@ -537,11 +535,8 @@ export class VideoPlayer {
 
   onPlay() {
     const { video } = this.#controls;
-    video.setAttribute('playsinline', '');
 
-    if (this.#onPlayClick) {
-      this.#onPlayClick(this.#controls.video.currentTime);
-    }
+    video.setAttribute('playsinline', '');
     const { playOrPause } = this.#controls;
     playOrPause?.classList.add('video__controls_icon_pause');
     playOrPause?.classList.remove('video__controls_icon_play');
@@ -550,9 +545,7 @@ export class VideoPlayer {
 
   onPause() {
     const { video } = this.#controls;
-    if (this.#onPauseClick) {
-      this.#onPauseClick(this.#controls.video.currentTime);
-    }
+
     video.setAttribute('playsinline', '');
     clearTimeout(this.#hideControlsTimeout);
     const { playOrPause } = this.#controls;
@@ -571,11 +564,30 @@ export class VideoPlayer {
     this.resetHideControlsTimer();
     if (video.paused) {
       video.play();
-      this.intervalTick();
+      video.setAttribute('playsinline', '');
+
+      if (this.#onPlayClick) {
+        this.#onPlayClick(this.#controls.video.currentTime);
+      }
+      this.onPlay();
     } else {
       video.pause();
-      clearInterval(this.#tickInterval);
+      if (this.#onPauseClick) {
+        this.#onPauseClick(this.#controls.video.currentTime);
+      }
+      this.onPause();
     }
+
+    // video.setAttribute('playsinline', '');
+
+    // if (this.#onPlayClick) {
+    //   this.#onPlayClick(this.#controls.video.currentTime);
+    // }
+    // const { playOrPause } = this.#controls;
+    // playOrPause?.classList.add('video__controls_icon_pause');
+    // playOrPause?.classList.remove('video__controls_icon_play');
+    // video.setAttribute('playsinline', '');
+
     this.#isPlaying = !this.#isPlaying;
   }
 
