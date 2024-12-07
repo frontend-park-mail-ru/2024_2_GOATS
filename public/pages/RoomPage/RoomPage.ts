@@ -155,14 +155,27 @@ export class RoomPage {
     const pageElement = document.getElementsByTagName('main')[0];
     this.#loader = new Loader(pageElement, template());
 
-    if (!this.#isModalConfirm) {
+    if (!userStore.getUser().username) {
+      Actions.setGlobalRoomId(roomPageStore.getRoomIdFromUrl());
+      const notifier = new Notifier(
+        'error',
+        'Сначала необходимо войти в аккаунт',
+        3000,
+      );
+      notifier.render();
+      router.go('/auth');
+    } else if (!this.#isModalConfirm) {
+      pageElement.innerHTML = '';
       const modal = new ConfirmModal(
         'Присоединиться к комнате совместного просмотра',
         false,
         () => {
           roomPageStore.setIsModalConfirm(true);
         },
-        () => router.go('/'),
+        () => {
+          router.go('/');
+          Actions.setGlobalRoomId('');
+        },
       );
       modal.render();
     } else {
@@ -177,10 +190,11 @@ export class RoomPage {
         this.#video = new VideoPlayer({
           parent: videoContainer,
           videoUrl: this.#room.movie.video,
+          titleImage: this.#room.movie.titleImage,
           onPlayClick: this.onPlayClick,
           onPauseClick: this.onPauseClick,
           handleRewindVideo: this.handleRewindVideo,
-          hanldeIntervalTick: this.hanldeTimerTick,
+          // hanldeIntervalTick: this.hanldeTimerTick,
         });
         this.#video.render();
 

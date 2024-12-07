@@ -132,6 +132,7 @@ export class Header {
       currentUserAvatar: user.avatar.replace(/ /g, '%20'),
       currentUsername: user.username,
       profileItem: items.find((item) => item.id == 'header-profile'),
+      isPremium: user.isPremium,
     });
 
     Actions.renderSearchBlock();

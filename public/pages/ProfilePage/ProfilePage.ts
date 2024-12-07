@@ -232,15 +232,54 @@ export class ProfilePage {
     }
   }
 
-  onCancelSubscriptionClick() {
-    const calcelSubscriptionButton = document.getElementById(
-      'subscription-cancel-btn',
-    ) as HTMLButtonElement;
+  getCountDaysString() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const currentDay = String(currentDate.getDate()).padStart(2, '0');
 
-    if (calcelSubscriptionButton) {
-      calcelSubscriptionButton.addEventListener('click', () => {
-        console.log('cancel subs click');
-      });
+    const currentDateArray = [currentYear.toString(), currentMonth, currentDay];
+
+    const expirationDateArray = userStore.getUser().expirationDate.split('-');
+
+    const currentYearNum = parseInt(currentDateArray[0], 10);
+    const currentMonthNum = parseInt(currentDateArray[1], 10);
+    const currentDayNum = parseInt(currentDateArray[2], 10);
+
+    const expirationYearNum = parseInt(expirationDateArray[0], 10);
+    const expirationMonthNum = parseInt(expirationDateArray[1], 10);
+    const expirationDayNum = parseInt(expirationDateArray[2], 10);
+
+    const currentDateObj = new Date(
+      currentYearNum,
+      currentMonthNum - 1,
+      currentDayNum,
+      0,
+      0,
+      0,
+    );
+    const expirationDateObj = new Date(
+      expirationYearNum,
+      expirationMonthNum - 1,
+      expirationDayNum,
+      0,
+      0,
+      0,
+    );
+
+    const differenceInTime =
+      expirationDateObj.getTime() - currentDateObj.getTime();
+
+    const differenceInDays = Math.ceil(
+      differenceInTime / (1000 * 60 * 60 * 24),
+    );
+
+    if ([1, 21, 31].includes(differenceInDays)) {
+      return String(differenceInDays) + ' день';
+    } else if ([2, 3, 4, 22, 23, 24].includes(differenceInDays)) {
+      return String(differenceInDays) + ' дня';
+    } else {
+      return String(differenceInDays) + ' дней';
     }
   }
 
@@ -249,6 +288,9 @@ export class ProfilePage {
 
     pageElement.innerHTML = template({
       user: profilePageStore.getUserInfo(),
+      ...(userStore.getUser().expirationDate && {
+        expirationDays: this.getCountDaysString(),
+      }),
     });
     this.renderAvatar(profilePageStore.getUserInfo().avatar);
 
@@ -266,6 +308,5 @@ export class ProfilePage {
     this.onExitClick();
     this.listenInputsChange();
     this.onSubscribeClick();
-    this.onCancelSubscriptionClick();
   }
 }

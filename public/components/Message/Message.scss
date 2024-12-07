@@ -3,14 +3,15 @@
 .message {
   &__info {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 2px;
     width: 100%;
 
     &_user {
       display: flex;
       align-items: center;
       gap: 5px;
-      width: 30%;
       max-height: 25px;
 
       &_image {
@@ -31,7 +32,7 @@
   }
 
   &__text {
-    width: 60%;
+    min-width: 30%;
     padding-top: 3px;
     word-wrap: break-word;
     overflow-wrap: break-word;

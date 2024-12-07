@@ -265,7 +265,11 @@ export class VideoPlayer {
       !this.#nextOrPrevClicked && this.updateProgress.bind(this)();
     });
     video.addEventListener('ended', this.onVideoEnd.bind(this));
-    video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
+
+    // TODO: проверить на мобилке
+    if (this.#isModal) {
+      video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
+    }
 
     fullOrSmallScreen.addEventListener(
       'click',
@@ -315,6 +319,11 @@ export class VideoPlayer {
       }
     }
 
+    //TODO: проверить
+    if (isTouchDevice()) {
+      volume.style.display = 'none';
+    }
+
     video.addEventListener(
       'webkitendfullscreen',
       this.handleFullscreenChange.bind(this),
@@ -324,8 +333,21 @@ export class VideoPlayer {
       volume.style.display = 'none';
     }
 
-    if (this.#autoplay) {
+    if (this.#autoplay || isiOS()) {
       video.autoplay = true;
+    }
+
+    // TODO: проверить на мобилке
+    if (!this.#isModal) {
+      this.hidePlaceholder();
+
+      if (isTouchDevice() && isTabletOrMobileLandscape()) {
+        const controls = document.querySelector(
+          '.video__controls',
+        ) as HTMLElement;
+        controls.style.padding = '10px';
+        controls.style.gap = '0';
+      }
     }
   }
 
@@ -388,7 +410,9 @@ export class VideoPlayer {
   videoPlay() {
     const { video } = this.#controls;
     video.play();
-    this.intervalTick();
+    this.resetHideControlsTimer();
+    console.log('video play');
+    // this.intervalTick();
   }
 
   videoPause(timeCode: number) {
@@ -396,6 +420,7 @@ export class VideoPlayer {
     video.pause();
     video.currentTime = timeCode;
     clearInterval(this.#tickInterval);
+    this.resetHideControlsTimer();
   }
 
   videoRewind(timeCode: number) {
@@ -651,7 +676,10 @@ export class VideoPlayer {
         this.resetHideControlsTimer.bind(this)();
       }
     });
-    this.resetHideControlsTimer();
+
+    if (!video.paused) {
+      this.resetHideControlsTimer();
+    }
   }
 
   // Показываем и скрываем плеер по таймеру
@@ -671,15 +699,17 @@ export class VideoPlayer {
 
     this.#hideControlsTimeout = window.setTimeout(() => {
       this.#controls.videoControls.classList.add('video__controls_hidden');
-      this.#controls.videoBackButton.classList.add('video__controls_hidden');
+      if (this.#controls.videoBackButton) {
+        this.#controls.videoBackButton.classList.add('video__controls_hidden');
+      }
       this.#controls.videoTitle.classList.add('video__controls_hidden');
       this.#controls.videoWrapper.classList.add('hidden');
 
-      if (this.#isModal) {
-        this.#controls.videoMobileControls?.classList.add(
-          'video__controls_hidden',
-        );
-      }
+      // if (this.#isModal) {
+      this.#controls.videoMobileControls?.classList.add(
+        'video__controls_hidden',
+      );
+      // }
     }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 

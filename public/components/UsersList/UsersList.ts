@@ -15,6 +15,8 @@ export class UsersList {
   }
 
   renderTemplate() {
-    this.#parent.innerHTML = template({ users: this.#users });
+    if (this.#parent) {
+      this.#parent.innerHTML = template({ users: this.#users });
+    }
   }
 }

@@ -175,4 +175,10 @@ export const Actions = {
       type: ActionTypes.DELETE_RATING,
     });
   },
+  setGlobalRoomId(id: string) {
+    dispatcher.dispatch({
+      type: ActionTypes.SET_GLOBAL_ROOM_ID,
+      id,
+    });
+  },
 };

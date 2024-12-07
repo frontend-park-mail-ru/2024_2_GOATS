@@ -12,6 +12,7 @@ export type User = {
   birthDate?: Date;
   avatar: string;
   isPremium: boolean;
+  expirationDate: string;
 };
 
 // For profile editing
