@@ -122,7 +122,7 @@ export const serializeUserData = (user: any) => {
     birthdate: user.birthdate,
     sex: user.sex,
     avatar: HOST + user.avatar_url,
-    isPremium: user.subscription_status,
+    isPremium: false,
     expirationDate: user.subscription_expiration_date,
   };
 };

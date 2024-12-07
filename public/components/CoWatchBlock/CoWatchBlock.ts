@@ -4,9 +4,11 @@ import { Actions } from 'flux/Actions';
 
 export class CoWatchBlock {
   #parent: HTMLElement;
+  #isLoading: boolean;
 
-  constructor(parent: HTMLElement) {
+  constructor(parent: HTMLElement, isLoading: boolean) {
     this.#parent = parent;
+    this.#isLoading = isLoading;
   }
 
   render() {
@@ -37,6 +39,7 @@ export class CoWatchBlock {
   renderTemplate() {
     this.#parent.innerHTML = template({
       isPremium: userStore.getUser().isPremium,
+      isLoading: this.#isLoading,
     });
 
     this.onSubscribeClick();

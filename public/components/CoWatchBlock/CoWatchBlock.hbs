@@ -1,48 +1,52 @@
 <div class='cowatch-block'>
-  <div class='cowatch-block__container'>
-    <div class='cowatch-block__content'>
-      <div class='cowatch-block__content_info'>
-        <h1 class='cowatch-block__content_info_title'>Смотрите кино вместе даже
-          на расстоянии</h1>
-        <span class='cowatch-block__content_info_description'>Мы создали
-          возможность совместного просмотра ваших любимых фильмов и сериалов,
-          чтобы вы могли наслаждаться кино вместе с друзьями и семьей, даже
-          находясь в разных уголках мира. Просто оформите подписку, создайте
-          комнату и пригласите своих близких. Никаких сложностей, только
-          удовольствие от совместного просмотра!</span>
+  {{#if isLoading}}
+    <div class='cowatch-block__skeleton'></div>
+  {{else}}
+    <div class='cowatch-block__container'>
+      <div class='cowatch-block__content'>
+        <div class='cowatch-block__content_info'>
+          <h1 class='cowatch-block__content_info_title'>Смотрите кино вместе
+            даже на расстоянии</h1>
+          <span class='cowatch-block__content_info_description'>Мы создали
+            возможность совместного просмотра ваших любимых фильмов и сериалов,
+            чтобы вы могли наслаждаться кино вместе с друзьями и семьей, даже
+            находясь в разных уголках мира. Просто оформите подписку, создайте
+            комнату и пригласите своих близких. Никаких сложностей, только
+            удовольствие от совместного просмотра!</span>
 
-        {{#if isPremium}}
-          <button
-            id='exit-button'
-            class='button cowatch-block__content_info_btn'
-          >Выбрать фильм</button>
-        {{else}}
-          <form
-            id='subscription-form'
-            method='POST'
-            action='https://yoomoney.ru/quickpay/confirm'
-          >
-            <input
-              id='subscription-form-label'
-              type='hidden'
-              name='label'
-              value=''
-            />
-            <input type='hidden' name='sum' value='2' data-type='number' />
-            <input type='hidden' name='receiver' value='4100118910706695' />
-            <input type='hidden' name='quickpay-form' value='button' />
+          {{#if isPremium}}
             <button
-              id='buy-subscription'
+              id='exit-button'
               class='button cowatch-block__content_info_btn'
-            >Оформить подписку</button>
-          </form>
-        {{/if}}
+            >Выбрать фильм</button>
+          {{else}}
+            <form
+              id='subscription-form'
+              method='POST'
+              action='https://yoomoney.ru/quickpay/confirm'
+            >
+              <input
+                id='subscription-form-label'
+                type='hidden'
+                name='label'
+                value=''
+              />
+              <input type='hidden' name='sum' value='2' data-type='number' />
+              <input type='hidden' name='receiver' value='4100118910706695' />
+              <input type='hidden' name='quickpay-form' value='button' />
+              <button
+                id='buy-subscription'
+                class='button cowatch-block__content_info_btn'
+              >Оформить подписку</button>
+            </form>
+          {{/if}}
+        </div>
       </div>
     </div>
-  </div>
-  <img
-    class='cowatch-block__background'
-    src='/assets/images/cowatchBackground.png'
-    alt=''
-  />
+    <img
+      class='cowatch-block__background'
+      src='/assets/images/cowatchBackground.png'
+      alt=''
+    />
+  {{/if}}
 </div>

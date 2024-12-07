@@ -27,6 +27,9 @@ export class MainPage {
     const mainPageBlocks = document.querySelector(
       '.main-page__blocks',
     ) as HTMLElement;
+    const coWatchBlockContainer = document.getElementById(
+      'cowatch-wrapper',
+    ) as HTMLElement;
 
     if (isLoaded && moviePageStore.getLastMovies().length) {
       const newBlock = document.createElement('div');
@@ -43,6 +46,14 @@ export class MainPage {
       });
 
       slider.render();
+    }
+
+    if (isLoaded) {
+      const coWatchBlock = new CoWatchBlock(coWatchBlockContainer, false);
+      coWatchBlock.render();
+    } else {
+      const coWatchBlock = new CoWatchBlock(coWatchBlockContainer, true);
+      coWatchBlock.render();
     }
 
     const trendMoviesBlock = document.getElementById(
@@ -119,10 +130,10 @@ export class MainPage {
     this.renderBlocks();
 
     //TODO: Вынести
-    const coWatchBlockContainer = document.getElementById(
-      'cowatch-wrapper',
-    ) as HTMLElement;
-    const block = new CoWatchBlock(coWatchBlockContainer);
-    block.render();
+    // const coWatchBlockContainer = document.getElementById(
+    //   'cowatch-wrapper',
+    // ) as HTMLElement;
+    // const block = new CoWatchBlock(coWatchBlockContainer, false);
+    // block.render();
   }
 }

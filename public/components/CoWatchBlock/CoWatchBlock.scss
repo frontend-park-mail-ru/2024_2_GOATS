@@ -3,6 +3,19 @@
 
 .cowatch-block {
   position: relative;
+
+  &__skeleton {
+    background: $skeleton-background;
+    width: 100%;
+    aspect-ratio: 3/1;
+    position: relative;
+    overflow: hidden;
+
+    @include skeleton-before(
+      $skeleton-background-secondary,
+      $skeleton-animation
+    );
+  }
   &__background {
     width: 100%;
     user-select: none;
@@ -57,6 +70,118 @@
         &:hover {
           background-color: #ffffff4e;
         }
+      }
+    }
+  }
+}
+
+@include tablet {
+  .cowatch-block {
+    &__content {
+      &_info {
+        padding: 24px;
+        &_title {
+          font-size: 32px;
+        }
+        &_description {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+@include largeTablet {
+  .cowatch-block {
+    &__content {
+      &_info {
+        width: 60%;
+      }
+    }
+  }
+}
+
+@include mediumTablet {
+  .cowatch-block {
+    &__skeleton {
+      height: 420px;
+    }
+    &__background {
+      display: none;
+    }
+    height: 420px;
+    &__container {
+      background-image: url('assets/images/cowatchBackgroundMobile.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    &__content {
+      &_info {
+        width: 75%;
+        padding: 16px 24px;
+
+        &_title {
+          margin-bottom: 12px;
+        }
+        &_description {
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }
+}
+
+@include smallTablet {
+  .cowatch-block {
+    &__content {
+      width: 85vw;
+    }
+  }
+}
+
+@include mobile {
+  .cowatch-block {
+    &__content {
+      width: 90vw;
+      height: 400px;
+
+      &_info {
+        // width: 75%;
+        padding: 16px 24px;
+
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+
+        &_title {
+          font-size: 24px;
+          margin-bottom: 12px;
+        }
+        &_description {
+          font-size: 14px;
+          margin-bottom: 12px;
+        }
+
+        &_btn {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+@include smallMobile {
+  .cowatch-block {
+    &__content {
+      &_info {
+        width: 85%;
+      }
+    }
+  }
+}
+@include ultraSmallMobile {
+  .cowatch-block {
+    &__content {
+      &_info {
+        width: 95%;
       }
     }
   }
