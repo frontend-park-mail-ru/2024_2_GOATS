@@ -2,12 +2,26 @@
 
 .users-list {
   height: auto;
-  display: flex;
-  gap: 20px;
   padding: 20px;
   background-color: $modal-content-background;
   border-radius: $border-radius-small;
   width: 70%;
+  overflow: hidden;
+
+  &__wrapper {
+    max-width: 95%;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
   &__item {
     display: flex;
@@ -27,5 +41,11 @@
       font-size: $font-size-small;
       color: $brand-secondary;
     }
+  }
+}
+
+@include largeTablet {
+  .users-list {
+    width: 100%;
   }
 }
