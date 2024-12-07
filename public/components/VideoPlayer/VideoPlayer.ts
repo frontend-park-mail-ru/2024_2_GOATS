@@ -41,6 +41,7 @@ export class VideoPlayer {
   #seriesBlockTimeout!: number;
   #isSeriesBlockVisible: boolean;
   #autoplay!: boolean;
+  #onSeriesClick;
 
   constructor(params: {
     parent: HTMLElement;
@@ -61,7 +62,13 @@ export class VideoPlayer {
       currentSeason: number,
       currentSeries: number,
     ) => void;
-    handleSaveTimecode?: (timeCode: number, duration: number) => void;
+    handleSaveTimecode?: (
+      timeCode: number,
+      duration: number,
+      season?: number,
+      series?: number,
+    ) => void;
+    onSeriesClick?: () => void;
   }) {
     this.#parent = params.parent;
     this.#videoUrl = params.videoUrl;
@@ -83,6 +90,7 @@ export class VideoPlayer {
     this.#nextOrPrevClicked = false;
     this.#isSeriesBlockVisible = false;
     this.#autoplay = !!params.autoPlay;
+    this.#onSeriesClick = params.onSeriesClick;
 
     this.checkSeriesPosition();
 
@@ -380,12 +388,18 @@ export class VideoPlayer {
 
     if (nextSeriesButton) {
       nextSeriesButton.addEventListener('click', () => {
+        if (this.#onSeriesClick) {
+          this.#onSeriesClick();
+        }
         this.onNextSeriesClick();
         this.#nextOrPrevClicked = true;
       });
     }
 
     if (prevSeriesButton) {
+      if (this.#onSeriesClick) {
+        this.#onSeriesClick();
+      }
       prevSeriesButton.addEventListener('click', () => {
         this.onPrevSeriesClick();
         this.#nextOrPrevClicked = true;
@@ -395,8 +409,15 @@ export class VideoPlayer {
     document.addEventListener('keydown', this.#boundHandleKeyPress);
 
     window.addEventListener('beforeunload', () => {
-      if (this.#handleSaveTimecode) {
+      if (this.#handleSaveTimecode && !this.#seasons) {
         this.#handleSaveTimecode(video.currentTime, video.duration);
+      } else if (this.#handleSaveTimecode) {
+        this.#handleSaveTimecode(
+          video.currentTime,
+          video.duration,
+          this.#currentSeason,
+          this.#currentSeries,
+        );
       }
     });
   }
@@ -731,8 +752,15 @@ export class VideoPlayer {
       event.stopPropagation();
       if (this.#onBackClick) {
         this.#onBackClick();
-        if (this.#handleSaveTimecode) {
+        if (this.#handleSaveTimecode && !this.#seasons) {
           this.#handleSaveTimecode(video.currentTime, video.duration);
+        } else if (this.#handleSaveTimecode) {
+          this.#handleSaveTimecode(
+            video.currentTime,
+            video.duration,
+            this.#currentSeason,
+            this.#currentSeries,
+          );
         }
 
         document.removeEventListener('keydown', this.#boundHandleKeyPress);
@@ -752,6 +780,10 @@ export class VideoPlayer {
   }
 
   onSeriesClick(seriesNumber: number, seasonNumber: number) {
+    if (this.#onSeriesClick) {
+      this.#onSeriesClick();
+    }
+
     document.removeEventListener('keydown', this.#boundHandleKeyPress);
     let seriesCounter = 0;
     if (this.#currentSeason) {

@@ -48,7 +48,12 @@ export const routerHandler = (url: URL, id?: string | number, data?: any) => {
       Actions.renderHeader(Urls.movie);
 
       if (id && data) {
-        Actions.renderMoviePage(id, data.fromRecentlyWatched);
+        Actions.renderMoviePage(
+          id,
+          data.fromRecentlyWatched,
+          data.receivedSeason,
+          data.receivedSeries,
+        );
       } else if (id) {
         id && Actions.renderMoviePage(id);
       }
