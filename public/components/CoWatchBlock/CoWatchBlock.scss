@@ -5,6 +5,7 @@
   position: relative;
   &__background {
     width: 100%;
+    user-select: none;
   }
   &__container {
     position: absolute;

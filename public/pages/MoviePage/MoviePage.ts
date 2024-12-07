@@ -268,14 +268,32 @@ export class MoviePage {
         'movie-page-skeleton__description_text',
         'skeleton__text',
       );
-
       descriptionSkeleton.appendChild(descriptionTitleSkeleton);
       descriptionSkeleton.appendChild(descriptionTextSkeleton);
+      //------------------
+      const rateSkeleton = document.createElement('div');
+      rateSkeleton.classList.add('movie-page-skeleton__rate');
+
+      const rateTitleSkeleton = document.createElement('div');
+      rateTitleSkeleton.classList.add('skeleton__text');
+
+      const rateBlockSkeleton = document.createElement('div');
+      rateBlockSkeleton.classList.add(
+        'movie-page-skeleton__rate_text',
+        'skeleton__text',
+      );
+      rateSkeleton.appendChild(rateTitleSkeleton);
+      rateSkeleton.appendChild(rateBlockSkeleton);
 
       const movieDescription = document.querySelector(
         '.movie-page__description',
       ) as HTMLDivElement;
+      const movieRateBlock = document.querySelector(
+        '.movie-page__rating',
+      ) as HTMLDivElement;
+
       movieDescription.innerHTML = descriptionSkeleton.outerHTML;
+      movieRateBlock.innerHTML = rateSkeleton.outerHTML;
     }
   }
 

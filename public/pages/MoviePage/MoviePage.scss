@@ -57,6 +57,10 @@
       align-items: center;
       gap: 5px;
 
+      &_icon {
+        user-select: none;
+      }
+
       &_text {
         font-size: $font-size-small;
         color: $brand-dull;
@@ -97,6 +101,17 @@
         height: 100px !important;
       }
     }
+    &__rate {
+      width: 35vw;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &_text {
+        height: 120px !important;
+      }
+    }
   }
 }
 
@@ -110,6 +125,11 @@
     &__description {
       width: 80%;
       max-width: none;
+    }
+    &-skeleton {
+      &__rate {
+        width: 50vw;
+      }
     }
   }
 }
@@ -125,6 +145,11 @@
     &__description {
       width: 100%;
     }
+    &-skeleton {
+      &__rate {
+        width: 70vw;
+      }
+    }
   }
 }
 
@@ -139,6 +164,11 @@
       height: 175px;
       &_title {
         font-size: $font-size-large;
+      }
+    }
+    &-skeleton {
+      &__rate {
+        width: 80vw;
       }
     }
 

@@ -16,8 +16,9 @@
 
   &__subtitle {
     margin-left: 5%;
+    white-space: nowrap;
+    overflow: hidden;
   }
-
   // Эти комменты не удалять
   &::-webkit-scrollbar {
     width: 12px; // ширина области бара
