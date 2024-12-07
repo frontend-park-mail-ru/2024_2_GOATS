@@ -181,7 +181,7 @@ export class RoomPage {
           onPlayClick: this.onPlayClick,
           onPauseClick: this.onPauseClick,
           handleRewindVideo: this.handleRewindVideo,
-          hanldeIntervalTick: this.hanldeTimerTick,
+          // hanldeIntervalTick: this.hanldeTimerTick,
         });
         this.#video.render();
 
