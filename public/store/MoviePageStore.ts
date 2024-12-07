@@ -175,6 +175,10 @@ class MoviePageStore {
 
       this.#lastMovies.sort((a, b) => b.savingSeconds - a.savingSeconds);
 
+      if (this.#lastMovies.length > 5) {
+        this.#lastMovies.pop();
+      }
+
       try {
         localStorage.setItem('last_movies', JSON.stringify(this.#lastMovies));
       } catch (e) {
