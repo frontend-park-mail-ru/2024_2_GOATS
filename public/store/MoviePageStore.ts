@@ -160,6 +160,7 @@ class MoviePageStore {
       } else {
         if (foundMovie) {
           foundMovie.timeCode = timeCode;
+          foundMovie.savingSeconds = Date.now();
         } else {
           this.#lastMovies.push({
             id: this.#movie.id,
@@ -167,9 +168,12 @@ class MoviePageStore {
             albumImage: this.#movie.albumImage,
             timeCode: timeCode,
             duration: duration,
+            savingSeconds: Date.now(),
           });
         }
       }
+
+      this.#lastMovies.sort((a, b) => b.savingSeconds - a.savingSeconds);
 
       try {
         localStorage.setItem('last_movies', JSON.stringify(this.#lastMovies));
