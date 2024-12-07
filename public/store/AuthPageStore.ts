@@ -5,6 +5,7 @@ import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { userStore } from 'store/UserStore';
 import { throwBackendError, removeBackendError } from 'modules/BackendErrors';
+import { roomPageStore } from './RoomPageStore';
 import { User } from 'types/user';
 
 class AuthPageStore {
@@ -19,11 +20,26 @@ class AuthPageStore {
       },
     );
 
+    const userAuthListener = userStore.isUserAuthEmmiter$.addListener(() => {
+      if (router.getCurrentPath() === '/auth') {
+        if (roomPageStore.getGlobalRoomId() && userStore.getUser().username) {
+          roomPageStore.setIsModalConfirm(false);
+          router.go('/room', roomPageStore.getGlobalRoomId());
+          // Actions.setGlobalRoomId('');
+        }
+      }
+    });
+
     this.ngOnDestroy = () => {
       userLoadingListener();
     };
+
+    this.ngOnUserAuthDestroy = () => {
+      userAuthListener();
+    };
   }
   ngOnDestroy(): void {}
+  ngOnUserAuthDestroy(): void {}
 
   renderAuth() {
     if (userStore.getisUserLoading()) {
@@ -33,7 +49,9 @@ class AuthPageStore {
         const authPage = new AuthPage();
         authPage.render();
       } else {
-        router.go('/');
+        if (!roomPageStore.getGlobalRoomId()) {
+          router.go('/');
+        }
       }
     }
   }
@@ -47,7 +65,9 @@ class AuthPageStore {
       });
 
       userStore.checkAuth();
-      router.go('/');
+      if (!roomPageStore.getGlobalRoomId()) {
+        router.go('/');
+      }
     } catch (e: any) {
       // TODO: поменять обработку статус
       if (e.status === 404 || e.status === 409) {

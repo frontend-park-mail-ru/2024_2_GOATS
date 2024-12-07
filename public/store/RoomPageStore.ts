@@ -20,6 +20,7 @@ class RoomPageStore {
   #roomIdFromUrl = '';
   #isModalConfirm = false;
   #isCreatedRoomReceived; // Емиттер для получения айди комнаты после создания
+  #globalRoomId = '';
 
   constructor() {
     this.#isCreatedRoomReceived = new Emitter<boolean>(false);
@@ -32,6 +33,13 @@ class RoomPageStore {
         !this.#ws
       ) {
         this.wsInit();
+      }
+
+      if (
+        !this.#isModalConfirm &&
+        router.getCurrentPath() === `/room/${this.#roomIdFromUrl}`
+      ) {
+        roomPage.render();
       }
     });
 
@@ -55,7 +63,12 @@ class RoomPageStore {
   setIsModalConfirm(isModalConfirm: boolean) {
     this.#isModalConfirm = isModalConfirm;
     roomPage.render();
-    if (!this.#ws && userStore.getUser().username && !this.#createdRoomId) {
+    if (
+      !this.#ws &&
+      userStore.getUser().username &&
+      !this.#createdRoomId &&
+      isModalConfirm
+    ) {
       this.wsInit();
     }
   }
@@ -74,6 +87,14 @@ class RoomPageStore {
 
   getIsModalConfirm() {
     return this.#isModalConfirm;
+  }
+
+  getRoomIdFromUrl() {
+    return this.#roomIdFromUrl;
+  }
+
+  getGlobalRoomId() {
+    return this.#globalRoomId;
   }
 
   async createRoom(movieId: number) {
@@ -102,6 +123,10 @@ class RoomPageStore {
     );
 
     this.#ws = ws;
+
+    if (this.#globalRoomId) {
+      this.#globalRoomId = '';
+    }
 
     ws.onclose = (event) => {
       console.log('WebSocket соединение закрыто:', event.code, event.reason);
@@ -163,16 +188,19 @@ class RoomPageStore {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
         this.#roomIdFromUrl = action.payload;
-        if (this.#createdRoomId && !this.#ws) {
+        if (this.#createdRoomId && !this.#ws && this.#isModalConfirm) {
           this.wsInit();
         }
-        roomPage.render();
+        // roomPage.render();
         break;
       case ActionTypes.CREATE_ROOM:
         await this.createRoom(action.movieId);
         break;
       case ActionTypes.SEND_ACTION_MESSAGE:
         this.sendActionMessage(action.actionData);
+        break;
+      case ActionTypes.SET_GLOBAL_ROOM_ID:
+        this.#globalRoomId = action.id;
         break;
       default:
         break;

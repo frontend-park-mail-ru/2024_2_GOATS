@@ -335,9 +335,7 @@ export class VideoPlayer {
 
     if (this.#autoplay || isiOS()) {
       video.autoplay = true;
-      // video.play();
     }
-    // video.autoplay = true;
 
     // TODO: проверить на мобилке
     if (!this.#isModal) {
