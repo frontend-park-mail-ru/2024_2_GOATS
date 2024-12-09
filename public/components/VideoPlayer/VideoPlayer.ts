@@ -42,6 +42,7 @@ export class VideoPlayer {
   #isSeriesBlockVisible: boolean;
   #autoplay!: boolean;
   #onSeriesClick;
+  #areControlsVisible: boolean;
 
   constructor(params: {
     parent: HTMLElement;
@@ -91,6 +92,7 @@ export class VideoPlayer {
     this.#isSeriesBlockVisible = false;
     this.#autoplay = !!params.autoPlay;
     this.#onSeriesClick = params.onSeriesClick;
+    this.#areControlsVisible = true;
 
     this.checkSeriesPosition();
 
@@ -373,6 +375,25 @@ export class VideoPlayer {
 
     if (!isTabletOrMobileLandscape()) {
       video.addEventListener('click', this.togglePlayback.bind(this));
+    } else {
+      video.addEventListener('click', () => {
+        console.log('HIDE CONTROLS TIMEOUT');
+        if (video.paused) {
+          clearTimeout(this.#hideControlsTimeout);
+          this.removeHidden();
+        }
+        // else {
+        //   if (this.#areControlsVisible) {
+        //     this.addHidden();
+        //     this.#areControlsVisible = false;
+        //   } else {
+        //     this.removeHidden();
+        //     this.#areControlsVisible = true;
+        //   }
+        // }
+
+        // this.resetHideControlsTimer();
+      });
     }
 
     rewindBackButton?.addEventListener('click', this.rewindBack.bind(this));
@@ -720,10 +741,7 @@ export class VideoPlayer {
     }
   }
 
-  // Показываем и скрываем плеер по таймеру
-  resetHideControlsTimer() {
-    clearTimeout(this.#hideControlsTimeout);
-
+  removeHidden() {
     this.#controls.videoControls.classList.remove('video__controls_hidden');
     this.#controls.videoWrapper.classList.remove('hidden');
     if (this.#isModal) {
@@ -734,20 +752,30 @@ export class VideoPlayer {
     this.#controls.videoMobileControls?.classList.remove(
       'video__controls_hidden',
     );
+  }
+
+  addHidden() {
+    this.#controls.videoControls.classList.add('video__controls_hidden');
+    if (this.#controls.videoBackButton) {
+      this.#controls.videoBackButton.classList.add('video__controls_hidden');
+    }
+    this.#controls.videoTitle.classList.add('video__controls_hidden');
+    this.#controls.videoWrapper.classList.add('hidden');
+
+    // if (this.#isModal) {
+    this.#controls.videoMobileControls?.classList.add('video__controls_hidden');
+    // }
+  }
+
+  // Показываем и скрываем плеер по таймеру
+  resetHideControlsTimer() {
+    this.#areControlsVisible = true;
+    clearTimeout(this.#hideControlsTimeout);
+    this.removeHidden();
 
     this.#hideControlsTimeout = window.setTimeout(() => {
-      this.#controls.videoControls.classList.add('video__controls_hidden');
-      if (this.#controls.videoBackButton) {
-        this.#controls.videoBackButton.classList.add('video__controls_hidden');
-      }
-      this.#controls.videoTitle.classList.add('video__controls_hidden');
-      this.#controls.videoWrapper.classList.add('hidden');
-
-      // if (this.#isModal) {
-      this.#controls.videoMobileControls?.classList.add(
-        'video__controls_hidden',
-      );
-      // }
+      this.#areControlsVisible = false;
+      this.addHidden();
     }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 
