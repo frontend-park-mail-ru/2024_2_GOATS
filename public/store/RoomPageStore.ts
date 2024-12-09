@@ -140,15 +140,23 @@ class RoomPageStore {
       const messageData = JSON.parse(event.data);
 
       if (messageData.movie) {
-        // TODO: Убрать тестовый сценарий после мержа на бэке:
-        // messageData.movie.title_url = '/static/movies/squid-game/logo.png';
-        // messageData.movie.video_url = '/static/movies/squid-game/movie.mp4';
-
         this.setState(serializeRoom(messageData));
-
         roomPage.render();
       } else if (Array.isArray(messageData)) {
         roomPage.renderUsersList(messageData);
+      } else if (messageData.timeCode) {
+        console.log('RECEIVED FROM SERVER', messageData.timeCode);
+        console.log('FROM PLAYER', roomPage.getCurrentVideoTime());
+        if (messageData.timeCode - roomPage.getCurrentVideoTime() > 2) {
+          console.log('SET TIMECODE FROM SERVER');
+          console.log(
+            'FROM',
+            roomPage.getCurrentVideoTime(),
+            'TO',
+            messageData.timeCode,
+          );
+          roomPage.setVideoTime(messageData.timeCode);
+        }
       } else {
         switch (messageData.name) {
           case 'play':

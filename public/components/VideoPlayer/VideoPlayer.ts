@@ -428,6 +428,11 @@ export class VideoPlayer {
     return video.currentTime;
   }
 
+  setVideoTime(timeCode: number) {
+    const { video } = this.#controls;
+    video.currentTime = timeCode;
+  }
+
   videoPlay() {
     const { video } = this.#controls;
     video.play();

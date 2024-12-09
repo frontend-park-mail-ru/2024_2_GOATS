@@ -146,6 +146,14 @@ export class RoomPage {
     }
   }
 
+  getCurrentVideoTime() {
+    return this.#video.getCurrentVideoTime();
+  }
+
+  setVideoTime(timeCode: number) {
+    this.#video.setVideoTime(timeCode);
+  }
+
   renderTemplate() {
     const rootElem = document.getElementById('root');
     if (rootElem) {
