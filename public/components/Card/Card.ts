@@ -12,6 +12,7 @@ export class Card {
   #movie;
   #onCardClick;
   #cardId;
+  #imageBlobUrl: string | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -35,10 +36,10 @@ export class Card {
     if (card) {
       card.addEventListener('mouseover', () => {
         timeoutId = setTimeout(() => {
-          const a = card.getBoundingClientRect();
+          const coor = card.getBoundingClientRect();
           previewBlock.classList.add('visible');
           if (this.#movie) {
-            const preview = new CardPreview(this.#movie, previewBlock, a);
+            const preview = new CardPreview(this.#movie, previewBlock, coor);
             preview.render();
           }
         }, CARD_PREVIEW_EXPANDING_TIMEOUT);

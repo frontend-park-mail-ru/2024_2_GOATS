@@ -1,6 +1,7 @@
 import template from './CoWatchBlock.hbs';
 import { userStore } from 'store/UserStore';
 import { Actions } from 'flux/Actions';
+import { CreateRoomModal } from 'components/CreateRoomModal/CreateRoomModal';
 
 export class CoWatchBlock {
   #parent: HTMLElement;
@@ -13,6 +14,19 @@ export class CoWatchBlock {
 
   render() {
     this.renderTemplate();
+  }
+
+  handleCreateRoomClick() {
+    const modal = new CreateRoomModal();
+    const createRoomButton = document.getElementById(
+      'cowatch-block-create-room-btn',
+    ) as HTMLElement;
+
+    if (createRoomButton) {
+      createRoomButton.addEventListener('click', () => {
+        modal.render();
+      });
+    }
   }
 
   onSubscribeClick() {
@@ -43,5 +57,6 @@ export class CoWatchBlock {
     });
 
     this.onSubscribeClick();
+    this.handleCreateRoomClick();
   }
 }

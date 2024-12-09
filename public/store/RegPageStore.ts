@@ -75,7 +75,7 @@ class RegPageStore {
         router.go('/');
       }
     } catch (e: any) {
-      if (e.status === 409) {
+      if (e.status === 422) {
         throwBackendError('reg', 'Такой пользователь уже существует');
       } else {
         throwBackendError('reg', 'Что-то пошло не так. Попробуйте позже');

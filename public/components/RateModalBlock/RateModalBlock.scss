@@ -33,7 +33,7 @@
   }
 
   &__content {
-    height: 38vh;
+    height: 320px;
     max-height: 100vh;
     width: 100%;
     max-width: 1150px;
@@ -64,7 +64,8 @@
       }
     }
     &_body {
-      height: fit-content;
+      height: 80px;
+      // height: fit-content;
       position: relative;
     }
 
@@ -92,10 +93,15 @@
   max-width: 100%;
   display: flex;
   overflow-x: scroll;
+  overflow-y: hidden;
+  height: 80px;
+
   scroll-snap-type: x mandatory;
   -ms-scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none; // IOS Solution
+  }
 
   &:before {
     content: '';

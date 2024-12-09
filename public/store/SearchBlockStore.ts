@@ -12,8 +12,10 @@ import {
   serializeSearchActorData,
 } from 'modules/Serializer';
 import { findActors, findMovies } from 'types/searchTypes';
+import { CreateRoomModal } from 'components/CreateRoomModal/CreateRoomModal';
 
 const searchBlock = new SearchBlock();
+const createRoomModal = new CreateRoomModal();
 
 class SearchBlockStore {
   #findItems: Movie[];
@@ -28,22 +30,35 @@ class SearchBlockStore {
     const inputChangeListener = searchBlock.inputEmmitter$.addListener(
       (value: string) => {
         this.#searchValue = value;
-        this.searchRequest();
+        this.globalSearchRequest();
       },
     );
 
     const categoryChangeListener = searchBlock.navEmmitter$.addListener(
       (value) => {
         this.#selectedNav = value;
-        this.searchRequest();
+        this.globalSearchRequest();
       },
     );
+
+    const createRoomInputChangeListener =
+      createRoomModal.inputEmmitter$.addListener((value) => {
+        this.#searchValue = value;
+        this.#selectedNav = 'movies';
+        this.globalSearchRequest();
+      });
 
     this.ngOnDestroy = () => {
       inputChangeListener();
       categoryChangeListener();
+      createRoomInputChangeListener();
     };
     dispatcher.register(this.reduce.bind(this));
+  }
+
+  findMovies(a: string) {
+    console.log(a);
+    this.moviesSearchRequest(a);
   }
 
   clearFounded() {
@@ -62,38 +77,45 @@ class SearchBlockStore {
     return this.#findItems;
   }
 
-  async searchRequest() {
+  async globalSearchRequest() {
     try {
       this.#findItems = [];
 
-      // const response = await apiClient.get({
-      //   path: `movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
-      // });
-
-      const response = await fetch(
-        `https://cassette-world.ru/api/movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            mode: 'cors',
-          },
-        },
-      );
-      const data = await response.json();
+      const response = await apiClient.get({
+        path: `movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
+      });
 
       if (this.#selectedNav === 'movies') {
-        this.#findItems = data.map((movie: Movie) => {
+        this.#findItems = response.map((movie: Movie) => {
           return serializeMovie(movie);
         });
       } else {
-        this.#findItems = data.map((movie: Movie) => {
+        this.#findItems = response.map((movie: Movie) => {
           return serializeSearchActorData(movie);
         });
       }
       searchBlock.renderItemsList(this.#selectedNav, false);
     } catch (e: any) {
       searchBlock.renderItemsList(this.#selectedNav, true);
+    }
+  }
+
+  async moviesSearchRequest(searchQuery: string) {
+    try {
+      this.#findItems = [];
+
+      const response = await apiClient.get({
+        path: `movies/movies/search?query=${searchQuery}`,
+      });
+      console.log(response);
+
+      this.#findItems = response.map((movie: Movie) => {
+        return serializeMovie(movie);
+      });
+
+      createRoomModal.renderMoviesList(this.#findItems, searchQuery);
+    } catch (e: any) {
+      createRoomModal.renderMoviesList(this.#findItems, searchQuery);
     }
   }
 
