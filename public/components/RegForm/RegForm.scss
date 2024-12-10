@@ -173,3 +173,15 @@
     }
   }
 }
+
+@include smallTablet {
+  .note {
+    width: 250px;
+  }
+}
+
+@include megaSmallMobile {
+  .note {
+    width: 200px;
+  }
+}
