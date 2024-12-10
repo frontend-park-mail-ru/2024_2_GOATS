@@ -76,6 +76,16 @@ export class CreateRoomModal {
     }
     searchBlockStore.findMovies('');
     this.handleInputChange();
+    this.handleCloseButtonClick();
+  }
+
+  handleCloseButtonClick() {
+    const closeButton = document.getElementById(
+      'create-room-modal-close-button',
+    ) as HTMLElement;
+    closeButton.addEventListener('click', () => {
+      this.hideModal();
+    });
   }
 
   hideModal() {
