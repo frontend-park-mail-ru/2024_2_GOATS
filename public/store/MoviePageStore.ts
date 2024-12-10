@@ -80,22 +80,6 @@ class MoviePageStore {
     return this.#lastMovies;
   }
 
-  async getCollection() {
-    const response = await apiClient.get({
-      path: 'movie_collections/',
-    });
-
-    const serializedSelections = serializeCollections(
-      response.collections,
-    ).sort((selection1: any, selection2: any) => selection1.id - selection2.id);
-
-    if (serializedSelections.length !== this.#movieSelections.length) {
-      this.setSelectionsState(serializedSelections);
-    } else {
-      this.setSelectionsState(serializedSelections);
-    }
-  }
-
   async getMovieRequest(id: number) {
     this.#hasMovieGot.set(false);
     try {
@@ -240,11 +224,8 @@ class MoviePageStore {
       case ActionTypes.RENDER_MOVIE_PAGE:
         this.#movie = null;
         moviePage.render();
-        await Promise.all([
-          this.getCollection(),
-          this.getMovieRequest(action.payload.id),
-        ]);
-        this.getLastMoviesFromLocalStorage();
+        await this.getMovieRequest(action.payload.id),
+          this.getLastMoviesFromLocalStorage();
         moviePage.render(
           action.payload.fromRecentlyWatched,
           action.payload.receivedSeason,
