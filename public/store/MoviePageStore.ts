@@ -140,21 +140,26 @@ class MoviePageStore {
     }
   }
 
-  setLastMoviesRequest(watchedMovie?: MovieSaved) {
-    try {
-      apiClient.post({
-        path: `users/${userStore.getUser().id}/watched`,
-        ...(watchedMovie
-          ? { body: { watched_movies: [deserializeSavedMovie(watchedMovie)] } }
-          : {
-              body: {
-                watched_movies: deserializeSavedMovies(this.#lastMovies),
-              },
-            }),
-      });
-    } catch (e) {
-      throw e;
-    }
+  setLastMoviesRequest(savedMovie?: MovieSaved) {
+    apiClient.post({
+      path: `users/${userStore.getUser().id}/watched`,
+      ...(savedMovie
+        ? { body: { watched_movies: [deserializeSavedMovie(savedMovie)] } }
+        : {
+            body: {
+              watched_movies: deserializeSavedMovies(this.#lastMovies),
+            },
+          }),
+    });
+  }
+
+  deleteLastMovieRequest() {
+    apiClient.delete({
+      path: `users/${userStore.getUser().id}/watched`,
+      body: {
+        movie_id: this.#movie?.id,
+      },
+    });
   }
 
   setLastMoviesToLocalStorage(
@@ -301,13 +306,16 @@ class MoviePageStore {
             action.payload.series,
           );
         }
-
         break;
       case ActionTypes.COPY_LAST_MOVIES:
         this.setLastMoviesRequest();
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
-        this.deleteLastMovieFromLocalStorage();
+        if (userStore.getUser().username) {
+          this.deleteLastMovieRequest();
+        } else {
+          this.deleteLastMovieFromLocalStorage();
+        }
         break;
       case ActionTypes.RATE_MOVIE:
         this.rateMovieRequest(action.payload.rating);
