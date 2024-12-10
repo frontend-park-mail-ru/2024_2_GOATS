@@ -71,6 +71,7 @@ export type MovieSaved = {
   duration: number;
   season?: number;
   series?: number;
+  savingSeconds: number;
 };
 
 export type SeasonsNumber = {

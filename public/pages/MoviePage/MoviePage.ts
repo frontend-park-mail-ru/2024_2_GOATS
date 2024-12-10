@@ -22,9 +22,19 @@ export class MoviePage {
     this.#isModalOpened = false;
   }
 
-  render(fromRecentlyWatched?: boolean) {
-    this.#currentSeason = 1;
-    this.#currentSeries = 1;
+  render(
+    fromRecentlyWatched?: boolean,
+    receivedSeason?: number,
+    receivedSeries?: number,
+  ) {
+    if (!fromRecentlyWatched) {
+      this.#currentSeason = 1;
+      this.#currentSeries = 1;
+    } else if (receivedSeason && receivedSeries) {
+      this.#currentSeason = receivedSeason;
+      this.#currentSeries = receivedSeries;
+    }
+
     this.#movie = moviePageStore.getMovie();
     this.#fromRecentlyWatched = !!fromRecentlyWatched;
     this.renderTemplate();
@@ -67,6 +77,8 @@ export class MoviePage {
 
   onSeriesClick(seriesNumber: number) {
     this.#currentSeries = seriesNumber;
+
+    this.setSeriesStartTimecode();
 
     if (this.#movie?.seasons) {
       this.renderVideoPlayer(
@@ -119,6 +131,9 @@ export class MoviePage {
         onVideoUpdate: this.rerenderVideo.bind(this),
         handleSaveTimecode: this.handleSaveTimecode.bind(this),
         autoPlay: true,
+        ...(this.#movie.isSerial && {
+          onSeriesClick: () => (this.#startTimeCode = 0),
+        }),
       });
       video.render();
       videoContainer.style.zIndex = '10';
@@ -137,16 +152,6 @@ export class MoviePage {
     this.#currentSeason = 1;
     this.#currentSeries = 1;
 
-    // TODO: Для сохранения сериалов в сторадж
-    // let seriesCounter = 0;
-    // for (let i = 0; i < this.#currentSeason - 1; ++i) {
-    //   if (this.#movie && this.#movie.seasons) {
-    //     this.#movie.seasons[i].episodes.forEach(() => {
-    //       seriesCounter++;
-    //     });
-    //   }
-    // }
-
     if (this.#movie) {
       Actions.getLastMovies();
       this.setStartTimecode();
@@ -162,8 +167,28 @@ export class MoviePage {
         return movie.id === this.#movie?.id;
       });
 
-    if (foundSavedMovie) {
+    if (foundSavedMovie && !foundSavedMovie.season) {
       this.#startTimeCode = foundSavedMovie.timeCode;
+    } else {
+      this.#startTimeCode = 0;
+    }
+  }
+
+  setSeriesStartTimecode() {
+    const foundSavedMovie = moviePageStore
+      .getLastMovies()
+      .find((movie: MovieSaved) => {
+        return movie.id === this.#movie?.id;
+      });
+    if (foundSavedMovie) {
+      if (
+        this.#currentSeason === foundSavedMovie.season &&
+        this.#currentSeries === foundSavedMovie.series
+      ) {
+        this.#startTimeCode = foundSavedMovie.timeCode;
+      } else {
+        this.#startTimeCode = 0;
+      }
     } else {
       this.#startTimeCode = 0;
     }
@@ -179,7 +204,12 @@ export class MoviePage {
     this.renderVideoPlayer(videoUrl);
   }
 
-  handleSaveTimecode(timeCode: number, duration: number) {
+  handleSaveTimecode(
+    timeCode: number,
+    duration: number,
+    season?: number,
+    series?: number,
+  ) {
     if (timeCode > duration * 0.95 || timeCode < duration * 0.05) {
       Actions.deleteLastMovie();
       return;
@@ -188,12 +218,7 @@ export class MoviePage {
     if (!this.#movie?.isSerial) {
       Actions.setLastMovies(timeCode, duration);
     } else {
-      Actions.setLastMovies(
-        timeCode,
-        duration,
-        this.#currentSeason,
-        this.#currentSeries,
-      );
+      Actions.setLastMovies(timeCode, duration, season, series);
     }
   }
 
@@ -201,7 +226,20 @@ export class MoviePage {
     if (!this.#movie?.isSerial && this.#movie) {
       this.renderVideoPlayer(this.#movie?.video);
     } else if (this.#movie && this.#movie.seasons) {
-      this.renderVideoPlayer(this.#movie.seasons[0].episodes[0].video);
+      const currentSavedMovie = moviePageStore
+        .getLastMovies()
+        .find((movie) => movie.id === this.#movie?.id);
+      if (!currentSavedMovie) {
+        this.renderVideoPlayer(this.#movie.seasons[0].episodes[0].video);
+      } else {
+        this.#currentSeason = currentSavedMovie.season as number;
+        this.#currentSeries = currentSavedMovie.series as number;
+        this.#startTimeCode = currentSavedMovie.timeCode;
+        this.renderVideoPlayer(
+          this.#movie.seasons[(currentSavedMovie.season as number) - 1]
+            .episodes[(currentSavedMovie.series as number) - 1].video,
+        );
+      }
     }
   }
 
@@ -298,7 +336,11 @@ export class MoviePage {
   }
 
   renderTemplate() {
-    this.setStartTimecode();
+    if (!this.#movie?.isSerial) {
+      this.setStartTimecode();
+    } else {
+      this.setSeriesStartTimecode();
+    }
     const rootElem = document.getElementById('root');
     if (rootElem) {
       rootElem.classList.add('root-black');
@@ -314,7 +356,17 @@ export class MoviePage {
     this.checkWs();
 
     if (this.#movie && this.#fromRecentlyWatched) {
-      this.renderVideoPlayer(this.#movie.video);
+      if (!this.#movie.isSerial) {
+        this.renderVideoPlayer(this.#movie.video);
+      } else if (this.#movie.seasons) {
+        this.renderVideoPlayer(
+          this.#movie.seasons
+            .find((season) => season.seasonNumber === this.#currentSeason)
+            ?.episodes.find(
+              (series) => series.episodeNumber === this.#currentSeries,
+            )?.video as string,
+        );
+      }
     }
   }
 }

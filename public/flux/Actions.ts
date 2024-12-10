@@ -20,10 +20,15 @@ export const Actions = {
       type: ActionTypes.RENDER_REG_PAGE,
     });
   },
-  renderMoviePage(id: number | string, fromRecentlyWatched?: boolean) {
+  renderMoviePage(
+    id: number | string,
+    fromRecentlyWatched?: boolean,
+    receivedSeason?: boolean,
+    receivedSeries?: boolean,
+  ) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_MOVIE_PAGE,
-      payload: { id, fromRecentlyWatched },
+      payload: { id, fromRecentlyWatched, receivedSeason, receivedSeries },
     });
   },
   renderHeader(url: string) {

@@ -119,7 +119,7 @@ class RoomPageStore {
   wsInit() {
     this.#user = userStore.getUser();
     const ws = new WebSocket(
-      `ws://192.168.12.105:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
+      `ws://192.168.0.101:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
     );
 
     this.#ws = ws;
@@ -139,16 +139,27 @@ class RoomPageStore {
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
 
-      if (messageData.movie) {
-        // TODO: Убрать тестовый сценарий после мержа на бэке:
-        // messageData.movie.title_url = '/static/movies/squid-game/logo.png';
-        // messageData.movie.video_url = '/static/movies/squid-game/movie.mp4';
-
+      if ((messageData.movie && messageData.movie.id) || messageData.id) {
+        console.log(messageData);
+        messageData.movie.video_url =
+          '/static/movies_all/how-you-see-me/movie.mp4';
         this.setState(serializeRoom(messageData));
-
         roomPage.render();
       } else if (Array.isArray(messageData)) {
         roomPage.renderUsersList(messageData);
+      } else if (messageData.timeCode) {
+        console.log('RECEIVED FROM SERVER', messageData.timeCode);
+        console.log('FROM PLAYER', roomPage.getCurrentVideoTime());
+        if (messageData.timeCode - roomPage.getCurrentVideoTime() > 2) {
+          console.log('SET TIMECODE FROM SERVER');
+          console.log(
+            'FROM',
+            roomPage.getCurrentVideoTime(),
+            'TO',
+            messageData.timeCode,
+          );
+          roomPage.setVideoTime(messageData.timeCode);
+        }
       } else {
         switch (messageData.name) {
           case 'play':

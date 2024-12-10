@@ -139,27 +139,42 @@ class MoviePageStore {
     }
   }
 
-  setLastMoviesToLocalStorage(timeCode: number, duration: number) {
+  setLastMoviesToLocalStorage(
+    timeCode: number,
+    duration: number,
+    season?: number,
+    series?: number,
+  ) {
     const foundMovie = this.#lastMovies.find((m) => m.id === this.#movie?.id);
     if (this.#movie) {
       if (this.#movie?.isSerial) {
-        //TODO: Проверить сохранение серий
+        const seriesImage = this.#movie.seasons
+          ?.find((seasonObject) => seasonObject.seasonNumber === season)
+          ?.episodes.find(
+            (episode) => episode.episodeNumber === series,
+          )?.preview;
+
         if (foundMovie) {
-          // foundMovie.timeCode = timeCode;
+          foundMovie.timeCode = timeCode;
+          foundMovie.season = season;
+          foundMovie.series = series;
+          foundMovie.albumImage = seriesImage as string;
         } else {
-          // this.#lastMovies.push({
-          //   id: this.#movie.id,
-          //   title: this.#movie.title,
-          //   albumImage: this.#movie.albumImage,
-          //   timeCode: timeCode,
-          //   duration: duration,
-          //   season: season,
-          //   series: series,
-          // });
+          this.#lastMovies.push({
+            id: this.#movie.id,
+            title: this.#movie.title,
+            albumImage: seriesImage as string,
+            timeCode: timeCode,
+            duration: duration,
+            season: season,
+            series: series,
+            savingSeconds: Date.now(),
+          });
         }
       } else {
         if (foundMovie) {
           foundMovie.timeCode = timeCode;
+          foundMovie.savingSeconds = Date.now();
         } else {
           this.#lastMovies.push({
             id: this.#movie.id,
@@ -167,8 +182,15 @@ class MoviePageStore {
             albumImage: this.#movie.albumImage,
             timeCode: timeCode,
             duration: duration,
+            savingSeconds: Date.now(),
           });
         }
+      }
+
+      this.#lastMovies.sort((a, b) => b.savingSeconds - a.savingSeconds);
+
+      if (this.#lastMovies.length > 5) {
+        this.#lastMovies.pop();
       }
 
       try {
@@ -223,7 +245,11 @@ class MoviePageStore {
           this.getMovieRequest(action.payload.id),
         ]);
         this.getLastMoviesFromLocalStorage();
-        moviePage.render(action.payload.fromRecentlyWatched);
+        moviePage.render(
+          action.payload.fromRecentlyWatched,
+          action.payload.receivedSeason,
+          action.payload.receivedSeries,
+        );
         break;
       case ActionTypes.GET_MOVIE:
         await this.getMovieRequest(action.payload);
@@ -235,6 +261,8 @@ class MoviePageStore {
         this.setLastMoviesToLocalStorage(
           action.payload.timeCode,
           action.payload.duration,
+          action.payload.season,
+          action.payload.series,
         );
         break;
       case ActionTypes.DELETE_LAST_MOVIE:

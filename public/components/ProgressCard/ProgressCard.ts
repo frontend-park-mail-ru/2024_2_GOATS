@@ -41,6 +41,15 @@ export class ProgressCard {
     ) as HTMLDivElement;
 
     progressLine.style.width = `${percentage}%`;
+
+    // TODO: для тестирования ползунка
+    // console.log(this.#movie.title, progressLine.style.width);
+    // console.log(
+    //   'timecode',
+    //   this.#movie.timeCode,
+    //   ', duration',
+    //   this.#movie.duration,
+    // );
   }
 
   renderTemplate() {

@@ -41,6 +41,8 @@ export class VideoPlayer {
   #seriesBlockTimeout!: number;
   #isSeriesBlockVisible: boolean;
   #autoplay!: boolean;
+  #onSeriesClick;
+  #areControlsVisible: boolean;
 
   constructor(params: {
     parent: HTMLElement;
@@ -61,7 +63,13 @@ export class VideoPlayer {
       currentSeason: number,
       currentSeries: number,
     ) => void;
-    handleSaveTimecode?: (timeCode: number, duration: number) => void;
+    handleSaveTimecode?: (
+      timeCode: number,
+      duration: number,
+      season?: number,
+      series?: number,
+    ) => void;
+    onSeriesClick?: () => void;
   }) {
     this.#parent = params.parent;
     this.#videoUrl = params.videoUrl;
@@ -83,6 +91,8 @@ export class VideoPlayer {
     this.#nextOrPrevClicked = false;
     this.#isSeriesBlockVisible = false;
     this.#autoplay = !!params.autoPlay;
+    this.#onSeriesClick = params.onSeriesClick;
+    this.#areControlsVisible = true;
 
     this.checkSeriesPosition();
 
@@ -365,6 +375,25 @@ export class VideoPlayer {
 
     if (!isTabletOrMobileLandscape()) {
       video.addEventListener('click', this.togglePlayback.bind(this));
+    } else {
+      video.addEventListener('click', () => {
+        console.log('HIDE CONTROLS TIMEOUT');
+        if (video.paused) {
+          clearTimeout(this.#hideControlsTimeout);
+          this.removeHidden();
+        }
+        // else {
+        //   if (this.#areControlsVisible) {
+        //     this.addHidden();
+        //     this.#areControlsVisible = false;
+        //   } else {
+        //     this.removeHidden();
+        //     this.#areControlsVisible = true;
+        //   }
+        // }
+
+        // this.resetHideControlsTimer();
+      });
     }
 
     rewindBackButton?.addEventListener('click', this.rewindBack.bind(this));
@@ -380,12 +409,18 @@ export class VideoPlayer {
 
     if (nextSeriesButton) {
       nextSeriesButton.addEventListener('click', () => {
+        if (this.#onSeriesClick) {
+          this.#onSeriesClick();
+        }
         this.onNextSeriesClick();
         this.#nextOrPrevClicked = true;
       });
     }
 
     if (prevSeriesButton) {
+      if (this.#onSeriesClick) {
+        this.#onSeriesClick();
+      }
       prevSeriesButton.addEventListener('click', () => {
         this.onPrevSeriesClick();
         this.#nextOrPrevClicked = true;
@@ -395,8 +430,15 @@ export class VideoPlayer {
     document.addEventListener('keydown', this.#boundHandleKeyPress);
 
     window.addEventListener('beforeunload', () => {
-      if (this.#handleSaveTimecode) {
+      if (this.#handleSaveTimecode && !this.#seasons) {
         this.#handleSaveTimecode(video.currentTime, video.duration);
+      } else if (this.#handleSaveTimecode) {
+        this.#handleSaveTimecode(
+          video.currentTime,
+          video.duration,
+          this.#currentSeason,
+          this.#currentSeries,
+        );
       }
     });
   }
@@ -407,12 +449,15 @@ export class VideoPlayer {
     return video.currentTime;
   }
 
+  setVideoTime(timeCode: number) {
+    const { video } = this.#controls;
+    video.currentTime = timeCode;
+  }
+
   videoPlay() {
     const { video } = this.#controls;
     video.play();
     this.resetHideControlsTimer();
-    console.log('video play');
-    // this.intervalTick();
   }
 
   videoPause(timeCode: number) {
@@ -516,11 +561,8 @@ export class VideoPlayer {
 
   onPlay() {
     const { video } = this.#controls;
-    video.setAttribute('playsinline', '');
 
-    if (this.#onPlayClick) {
-      this.#onPlayClick(this.#controls.video.currentTime);
-    }
+    video.setAttribute('playsinline', '');
     const { playOrPause } = this.#controls;
     playOrPause?.classList.add('video__controls_icon_pause');
     playOrPause?.classList.remove('video__controls_icon_play');
@@ -529,9 +571,7 @@ export class VideoPlayer {
 
   onPause() {
     const { video } = this.#controls;
-    if (this.#onPauseClick) {
-      this.#onPauseClick(this.#controls.video.currentTime);
-    }
+
     video.setAttribute('playsinline', '');
     clearTimeout(this.#hideControlsTimeout);
     const { playOrPause } = this.#controls;
@@ -550,11 +590,30 @@ export class VideoPlayer {
     this.resetHideControlsTimer();
     if (video.paused) {
       video.play();
-      this.intervalTick();
+      video.setAttribute('playsinline', '');
+
+      if (this.#onPlayClick) {
+        this.#onPlayClick(this.#controls.video.currentTime);
+      }
+      this.onPlay();
     } else {
       video.pause();
-      clearInterval(this.#tickInterval);
+      if (this.#onPauseClick) {
+        this.#onPauseClick(this.#controls.video.currentTime);
+      }
+      this.onPause();
     }
+
+    // video.setAttribute('playsinline', '');
+
+    // if (this.#onPlayClick) {
+    //   this.#onPlayClick(this.#controls.video.currentTime);
+    // }
+    // const { playOrPause } = this.#controls;
+    // playOrPause?.classList.add('video__controls_icon_pause');
+    // playOrPause?.classList.remove('video__controls_icon_play');
+    // video.setAttribute('playsinline', '');
+
     this.#isPlaying = !this.#isPlaying;
   }
 
@@ -682,10 +741,7 @@ export class VideoPlayer {
     }
   }
 
-  // Показываем и скрываем плеер по таймеру
-  resetHideControlsTimer() {
-    clearTimeout(this.#hideControlsTimeout);
-
+  removeHidden() {
     this.#controls.videoControls.classList.remove('video__controls_hidden');
     this.#controls.videoWrapper.classList.remove('hidden');
     if (this.#isModal) {
@@ -696,20 +752,30 @@ export class VideoPlayer {
     this.#controls.videoMobileControls?.classList.remove(
       'video__controls_hidden',
     );
+  }
+
+  addHidden() {
+    this.#controls.videoControls.classList.add('video__controls_hidden');
+    if (this.#controls.videoBackButton) {
+      this.#controls.videoBackButton.classList.add('video__controls_hidden');
+    }
+    this.#controls.videoTitle.classList.add('video__controls_hidden');
+    this.#controls.videoWrapper.classList.add('hidden');
+
+    // if (this.#isModal) {
+    this.#controls.videoMobileControls?.classList.add('video__controls_hidden');
+    // }
+  }
+
+  // Показываем и скрываем плеер по таймеру
+  resetHideControlsTimer() {
+    this.#areControlsVisible = true;
+    clearTimeout(this.#hideControlsTimeout);
+    this.removeHidden();
 
     this.#hideControlsTimeout = window.setTimeout(() => {
-      this.#controls.videoControls.classList.add('video__controls_hidden');
-      if (this.#controls.videoBackButton) {
-        this.#controls.videoBackButton.classList.add('video__controls_hidden');
-      }
-      this.#controls.videoTitle.classList.add('video__controls_hidden');
-      this.#controls.videoWrapper.classList.add('hidden');
-
-      // if (this.#isModal) {
-      this.#controls.videoMobileControls?.classList.add(
-        'video__controls_hidden',
-      );
-      // }
+      this.#areControlsVisible = false;
+      this.addHidden();
     }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 
@@ -731,8 +797,15 @@ export class VideoPlayer {
       event.stopPropagation();
       if (this.#onBackClick) {
         this.#onBackClick();
-        if (this.#handleSaveTimecode) {
+        if (this.#handleSaveTimecode && !this.#seasons) {
           this.#handleSaveTimecode(video.currentTime, video.duration);
+        } else if (this.#handleSaveTimecode) {
+          this.#handleSaveTimecode(
+            video.currentTime,
+            video.duration,
+            this.#currentSeason,
+            this.#currentSeries,
+          );
         }
 
         document.removeEventListener('keydown', this.#boundHandleKeyPress);
@@ -752,6 +825,10 @@ export class VideoPlayer {
   }
 
   onSeriesClick(seriesNumber: number, seasonNumber: number) {
+    if (this.#onSeriesClick) {
+      this.#onSeriesClick();
+    }
+
     document.removeEventListener('keydown', this.#boundHandleKeyPress);
     let seriesCounter = 0;
     if (this.#currentSeason) {
