@@ -98,7 +98,12 @@ export class MainPage {
       slider.render();
       slider.render();
     } else {
-      this.#movieSelections.slice(1).forEach((selection) => {
+      this.#movieSelections.slice(1).forEach((selection, index) => {
+        // TODO: убрать мок
+        if (index === 0) {
+          console.log(selection.movies[0].cardImage)
+          selection.movies[0].cardImage = "https://cassette-world.ru//static/movies_all/1_plus_1/card.webp"
+        }
         const newBlock = document.createElement('div');
         newBlock.classList.add('main-page__block');
         newBlock.id = `main-page-block-${selection.id}`;

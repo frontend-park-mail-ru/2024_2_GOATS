@@ -349,6 +349,13 @@ export class MoviePage {
     const pageElement = document.getElementsByTagName('main')[0];
     window.scrollTo(0, 0);
 
+    // TODO: убрать моки
+    if (this.#movie?.title === '1+1') {
+      this.#movie.albumImage = "https://cassette-world.ru//static/movies_all/1_plus_1/poster.webp"
+      this.#movie.titleImage = "https://cassette-world.ru//static/movies_all/1_plus_1/logo.webp"
+      this.#movie.video = "https://cassette-world.ru//static/movies_all/1_plus_1/movie.mp4"
+    }
+
     pageElement.innerHTML = template({
       longDescription: this.#movie?.longDescription,
     });
