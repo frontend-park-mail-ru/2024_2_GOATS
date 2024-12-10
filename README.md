@@ -24,6 +24,6 @@
 
 [Репозиторий бэкенда](https://github.com/go-park-mail-ru/2024_2_GOATS)
 
-[Деплой](http://83.166.232.3/)
+[Деплой](https://cassette-world.ru/)
 
 [Figma](https://www.figma.com/design/DDjZq4D69KioS73dRLYfaS/Netflix?node-id=101-37&node-type=canvas&t=x9dJ23PAS1ipyVlz-0)
