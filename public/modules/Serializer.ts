@@ -135,3 +135,22 @@ export const serializeRoom = (room: any) => {
     timeCode: room.time_code,
   };
 };
+
+export const serializeSavedMovie = (savedMovie: any) => {
+  return {
+    id: savedMovie.id,
+    title: savedMovie.title,
+    albumImage: savedMovie.album_url,
+    timeCode: savedMovie.timecode,
+    duration: savedMovie.duration,
+    savingSeconds: savedMovie.saving_seconds,
+    ...(savedMovie.season && { season: savedMovie.season }),
+    ...(savedMovie.series && { series: savedMovie.series }),
+  };
+};
+
+export const serializeSavedMovies = (savedMovies: any) => {
+  return savedMovies.map((savedMovie: any) => {
+    return serializeSavedMovie(savedMovie);
+  });
+};

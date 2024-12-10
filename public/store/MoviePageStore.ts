@@ -6,10 +6,11 @@ import { MovieDetailed, MovieSaved, MovieSelection } from 'types/movie';
 import { Emitter } from 'modules/Emmiter';
 import {
   serializeMovieDetailed,
-  serializeCollections,
+  serializeSavedMovies,
 } from 'modules/Serializer';
 import { userStore } from './UserStore';
 import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
+import { UsersList } from 'components/UsersList/UsersList';
 
 const moviePage = new MoviePage();
 
@@ -123,6 +124,18 @@ class MoviePageStore {
     }
   }
 
+  async getLastMoviesRequest() {
+    try {
+      const response = await apiClient.get({
+        path: `users/${userStore.getUser().id}/watched`,
+      });
+
+      this.#lastMovies = serializeSavedMovies(response.watched_movies);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   setLastMoviesToLocalStorage(
     timeCode: number,
     duration: number,
@@ -224,8 +237,15 @@ class MoviePageStore {
       case ActionTypes.RENDER_MOVIE_PAGE:
         this.#movie = null;
         moviePage.render();
-        await this.getMovieRequest(action.payload.id),
-          this.getLastMoviesFromLocalStorage();
+        await this.getMovieRequest(action.payload.id);
+        if (!userStore.isUserLoadingEmmiter$.get()) {
+          if (userStore.getUser().username) {
+            await this.getLastMoviesRequest();
+          } else {
+            this.getLastMoviesFromLocalStorage();
+          }
+        }
+        // this.getLastMoviesFromLocalStorage();
         moviePage.render(
           action.payload.fromRecentlyWatched,
           action.payload.receivedSeason,
@@ -236,7 +256,12 @@ class MoviePageStore {
         await this.getMovieRequest(action.payload);
         break;
       case ActionTypes.GET_LAST_MOVIES:
-        this.getLastMoviesFromLocalStorage();
+        if (
+          !userStore.isUserLoadingEmmiter$.get() &&
+          !userStore.getUser().username
+        ) {
+          this.getLastMoviesFromLocalStorage();
+        }
         break;
       case ActionTypes.SET_LAST_MOVIES:
         this.setLastMoviesToLocalStorage(
