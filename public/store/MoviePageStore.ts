@@ -8,6 +8,10 @@ import {
   serializeMovieDetailed,
   serializeSavedMovies,
 } from 'modules/Serializer';
+import {
+  deserializeSavedMovie,
+  deserializeSavedMovies,
+} from 'modules/Deserializer';
 import { userStore } from './UserStore';
 import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
 import { UsersList } from 'components/UsersList/UsersList';
@@ -131,6 +135,23 @@ class MoviePageStore {
       });
 
       this.#lastMovies = serializeSavedMovies(response.watched_movies);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  setLastMoviesRequest(watchedMovie?: MovieSaved) {
+    try {
+      apiClient.post({
+        path: `users/${userStore.getUser().id}/watched`,
+        ...(watchedMovie
+          ? { body: { watched_movies: [deserializeSavedMovie(watchedMovie)] } }
+          : {
+              body: {
+                watched_movies: deserializeSavedMovies(this.#lastMovies),
+              },
+            }),
+      });
     } catch (e) {
       throw e;
     }
@@ -270,6 +291,9 @@ class MoviePageStore {
           action.payload.season,
           action.payload.series,
         );
+        break;
+      case ActionTypes.COPY_LAST_MOVIES:
+        this.setLastMoviesRequest();
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
         this.deleteLastMovieFromLocalStorage();

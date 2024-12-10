@@ -7,6 +7,7 @@ import { User } from 'types/user';
 import { EventEmitter } from 'events';
 import { Emitter } from 'modules/Emmiter';
 import { serializeUserData } from 'modules/Serializer';
+import { checkLocalStorage, clearLocalStorage } from 'modules/LocalStorage';
 const headerElement = document.createElement('header');
 
 class UserStore {
@@ -128,6 +129,10 @@ class UserStore {
       // response.user_data.subscription_status = true;
 
       this.setState(serializeUserData(response.user_data));
+      if (checkLocalStorage()) {
+        Actions.copyLastMovies();
+        clearLocalStorage();
+      }
     } catch {
       this.clearUser();
     }

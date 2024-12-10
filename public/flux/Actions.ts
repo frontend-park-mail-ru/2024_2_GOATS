@@ -146,6 +146,11 @@ export const Actions = {
       },
     });
   },
+  copyLastMovies() {
+    dispatcher.dispatch({
+      type: ActionTypes.COPY_LAST_MOVIES,
+    });
+  },
   deleteLastMovie() {
     dispatcher.dispatch({
       type: ActionTypes.DELETE_LAST_MOVIE,
