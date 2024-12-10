@@ -285,12 +285,23 @@ class MoviePageStore {
         }
         break;
       case ActionTypes.SET_LAST_MOVIES:
-        this.setLastMoviesToLocalStorage(
-          action.payload.timeCode,
-          action.payload.duration,
-          action.payload.season,
-          action.payload.series,
-        );
+        if (userStore.getUser().username) {
+          this.setLastMoviesRequest({
+            ...action.payload,
+            id: this.#movie?.id,
+            title: this.#movie?.title,
+            albumImage: this.#movie?.albumImage,
+            savingSeconds: Date.now(),
+          });
+        } else {
+          this.setLastMoviesToLocalStorage(
+            action.payload.timeCode,
+            action.payload.duration,
+            action.payload.season,
+            action.payload.series,
+          );
+        }
+
         break;
       case ActionTypes.COPY_LAST_MOVIES:
         this.setLastMoviesRequest();
