@@ -37,6 +37,11 @@ export class GenresPage {
           genresContainer.appendChild(newBlock);
         }
 
+        // TODO: убрать проверку
+        movieGenre.movies = movieGenre.movies.filter(
+          (movie) => movie.title !== '1+1',
+        );
+
         const slider = new Slider({
           parent: newBlock,
           id: movieGenre.id,
