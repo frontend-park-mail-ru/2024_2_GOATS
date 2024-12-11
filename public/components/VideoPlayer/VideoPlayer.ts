@@ -306,6 +306,9 @@ export class VideoPlayer {
 
     slider.addEventListener('mousedown', this.onSliderMouseDown.bind(this));
     slider.addEventListener('mouseup', this.onSliderMouseUp.bind(this));
+    slider.addEventListener('touchstart', this.onSliderMouseDown.bind(this));
+    slider.addEventListener('touchend', this.onSliderMouseUp.bind(this));
+    slider.addEventListener('touchcancel', this.onSliderMouseUp.bind(this));
 
     if (this.#seasons) {
       if (!isTouchDevice()) {
@@ -358,6 +361,8 @@ export class VideoPlayer {
         controls.style.padding = '10px';
         controls.style.gap = '0';
       }
+    } else {
+      video.autoplay = true;
     }
   }
 
@@ -377,22 +382,16 @@ export class VideoPlayer {
       video.addEventListener('click', this.togglePlayback.bind(this));
     } else {
       video.addEventListener('click', () => {
-        console.log('HIDE CONTROLS TIMEOUT');
-        if (video.paused) {
-          clearTimeout(this.#hideControlsTimeout);
+        if (this.#areControlsVisible) {
+          this.addHidden();
+        } else {
           this.removeHidden();
-        }
-        // else {
-        //   if (this.#areControlsVisible) {
-        //     this.addHidden();
-        //     this.#areControlsVisible = false;
-        //   } else {
-        //     this.removeHidden();
-        //     this.#areControlsVisible = true;
-        //   }
-        // }
 
-        // this.resetHideControlsTimer();
+          if (!video.paused) {
+            this.resetHideControlsTimer();
+          }
+        }
+        this.#areControlsVisible = !this.#areControlsVisible;
       });
     }
 
@@ -521,6 +520,7 @@ export class VideoPlayer {
     ) as HTMLInputElement;
     const percentage = slider.value;
 
+    this.resetHideControlsTimer();
     slider.style.setProperty('--progress-value', `${Number(percentage)}%`);
   }
 
@@ -769,7 +769,6 @@ export class VideoPlayer {
 
   // Показываем и скрываем плеер по таймеру
   resetHideControlsTimer() {
-    this.#areControlsVisible = true;
     clearTimeout(this.#hideControlsTimeout);
     this.removeHidden();
 
