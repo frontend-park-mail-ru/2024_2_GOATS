@@ -7,6 +7,7 @@ import { MovieDetailed } from 'types/movie';
 import { router } from 'modules/Router';
 import { Actions } from 'flux/Actions';
 import { RateModalBlock } from 'components/RateModalBlock/RateModalBlock';
+import { Notifier } from 'components/Notifier/Notifier';
 
 export class MovieDescription {
   #parent;
@@ -27,6 +28,14 @@ export class MovieDescription {
           this.#createdRoomId = roomPageStore.getCreatedRoomId();
           roomPageStore.setIsModalConfirm(true);
           router.go('/room', roomPageStore.getCreatedRoomId());
+
+          const notifier = new Notifier(
+            'success',
+            'Комната успешно создана',
+            3000,
+          );
+
+          notifier.render();
         }
       },
     );

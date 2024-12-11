@@ -5,8 +5,10 @@ import { searchBlockStore } from 'store/SearchBlockStore';
 import { GridMoviesList } from 'components/GridMoviesList/GridMoviesList';
 import { Movie } from 'types/movie';
 import { mainPageStore } from 'store/MainPageStore';
-
-const gridList = new GridMoviesList();
+import { Actions } from 'flux/Actions';
+import { roomPageStore } from 'store/RoomPageStore';
+import { router } from 'modules/Router';
+import { Notifier } from 'components/Notifier/Notifier';
 
 export class CreateRoomModal {
   #inputValue: string;
@@ -15,13 +17,38 @@ export class CreateRoomModal {
   constructor() {
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
+
+    const unsubscribeRoomId = roomPageStore.isCreatedRoomReceived$.addListener(
+      () => {
+        if (roomPageStore.getCreatedRoomId()) {
+          roomPageStore.setIsModalConfirm(true);
+          router.go('/room', roomPageStore.getCreatedRoomId());
+
+          const notifier = new Notifier(
+            'success',
+            'Комната успешно создана',
+            3000,
+          );
+
+          notifier.render();
+        }
+      },
+    );
+
+    this.ngOnRoomIdDestroy = () => {
+      unsubscribeRoomId();
+    };
   }
+
+  ngOnRoomIdDestroy(): void {}
 
   get inputEmmitter$(): Emitter<string> {
     return this.#inputValueEmmitter;
   }
 
   renderMoviesList(items: Movie[], value: string) {
+    const gridList = new GridMoviesList(this.onMovieClick.bind(this));
+
     if (value === '') {
       gridList.render(mainPageStore.getSelections()[2].movies, value);
     } else {
@@ -76,6 +103,11 @@ export class CreateRoomModal {
     }
     searchBlockStore.findMovies('');
     this.handleInputChange();
+  }
+
+  onMovieClick(id: number) {
+    Actions.createRoom(Number(id));
+    this.hideModal();
   }
 
   hideModal() {
