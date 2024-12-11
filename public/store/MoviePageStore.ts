@@ -266,7 +266,8 @@ class MoviePageStore {
         await this.getMovieRequest(action.payload.id);
         if (!userStore.isUserLoadingEmmiter$.get()) {
           if (userStore.getUser().username) {
-            await this.getLastMoviesRequest();
+            // TODO: Расскомментировать после мержа
+            // await this.getLastMoviesRequest();
           } else {
             this.getLastMoviesFromLocalStorage();
           }
@@ -291,13 +292,14 @@ class MoviePageStore {
         break;
       case ActionTypes.SET_LAST_MOVIES:
         if (userStore.getUser().username) {
-          this.setLastMoviesRequest({
-            ...action.payload,
-            id: this.#movie?.id,
-            title: this.#movie?.title,
-            albumImage: this.#movie?.albumImage,
-            savingSeconds: Date.now(),
-          });
+          // TODO: Расскомментировать после мержа
+          // this.setLastMoviesRequest({
+          //   ...action.payload,
+          //   id: this.#movie?.id,
+          //   title: this.#movie?.title,
+          //   albumImage: this.#movie?.albumImage,
+          //   savingSeconds: Date.now(),
+          // });
         } else {
           this.setLastMoviesToLocalStorage(
             action.payload.timeCode,
@@ -308,11 +310,13 @@ class MoviePageStore {
         }
         break;
       case ActionTypes.COPY_LAST_MOVIES:
-        this.setLastMoviesRequest();
+        // TODO: Расскомментировать после мержа
+        // this.setLastMoviesRequest();
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
         if (userStore.getUser().username) {
-          this.deleteLastMovieRequest();
+          // TODO: Расскомментировать после мержа
+          // this.deleteLastMovieRequest();
         } else {
           this.deleteLastMovieFromLocalStorage();
         }

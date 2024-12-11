@@ -54,7 +54,8 @@ class MainPageStore {
           userStore.getUser().username &&
           !userStore.isUserLoadingEmmiter$.get()
         ) {
-          await moviePageStore.getLastMoviesRequest();
+          // TODO: Расскомментировать после мержа
+          // await moviePageStore.getLastMoviesRequest();
         }
         mainPage.render();
         break;
