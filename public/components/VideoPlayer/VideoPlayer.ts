@@ -482,8 +482,18 @@ export class VideoPlayer {
   }
 
   updateProgress() {
-    if (this.#isDragging) return;
     const { video } = this.#controls;
+
+    if (this.#controls.currentTimeMobile) {
+      this.#controls.currentTimeMobile.textContent = timeFormatter(
+        video.currentTime,
+      );
+    } else {
+      this.#controls.currentTime.textContent = timeFormatter(video.currentTime);
+    }
+
+    if (this.#isDragging) return;
+
     const slider = document.getElementById(
       'progress-slider',
     ) as HTMLInputElement;
@@ -501,16 +511,6 @@ export class VideoPlayer {
       }
 
       slider.value = percentage.toString();
-
-      if (this.#controls.currentTimeMobile) {
-        this.#controls.currentTimeMobile.textContent = timeFormatter(
-          video.currentTime,
-        );
-      } else {
-        this.#controls.currentTime.textContent = timeFormatter(
-          video.currentTime,
-        );
-      }
     }
   }
 
@@ -775,6 +775,7 @@ export class VideoPlayer {
     this.#hideControlsTimeout = window.setTimeout(() => {
       this.#areControlsVisible = false;
       this.addHidden();
+      this.#controls.videoWrapper.style.zIndex = '1000';
     }, PLAYER_CONTROLL_HIDING_TIMEOUT);
   }
 
