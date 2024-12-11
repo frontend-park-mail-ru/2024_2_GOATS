@@ -127,8 +127,12 @@ class UserStore {
       // TODO: Убрать после тестирование
       // response.user_data.subscription_expiration_date = '2025-1-2';
       // response.user_data.subscription_status = true;
-
+      response.user_data.email = response.user_data.email.replace(
+        /&#34;/g,
+        '"',
+      );
       this.setState(serializeUserData(response.user_data));
+
       if (checkLocalStorage()) {
         Actions.copyLastMovies();
         clearLocalStorage();
