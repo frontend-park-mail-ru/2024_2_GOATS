@@ -17,13 +17,13 @@ export class CoWatchBlock {
   }
 
   handleCreateRoomClick() {
-    const modal = new CreateRoomModal();
     const createRoomButton = document.getElementById(
       'cowatch-block-create-room-btn',
     ) as HTMLElement;
 
     if (createRoomButton) {
       createRoomButton.addEventListener('click', () => {
+        const modal = new CreateRoomModal();
         modal.render();
       });
     }

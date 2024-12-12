@@ -17,6 +17,18 @@
   z-index: 10000;
   backdrop-filter: blur(3px);
 
+  &__close-icon {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    top: 15px;
+    right: 15px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   &__active {
     opacity: 1;
     pointer-events: all;
@@ -71,6 +83,10 @@
     &__content {
       width: 550px;
     }
+    &__close-icon {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 
@@ -79,11 +95,19 @@
     &__content {
       width: 85vw;
     }
+    &__close-icon {
+      width: 22px;
+      height: 22px;
+    }
   }
 }
 
 @include extraSmallMobile {
   .create-room-modal {
+    &__close-icon {
+      width: 18px;
+      height: 18px;
+    }
     &__content {
       width: 90vw;
       padding: 24px;
@@ -106,6 +130,10 @@
 
 @include tinyMobile {
   .create-room-modal {
+    &__close-icon {
+      width: 16px;
+      height: 16px;
+    }
     &__content {
       width: 90vw;
       padding: 24px;

@@ -13,10 +13,20 @@ import { Notifier } from 'components/Notifier/Notifier';
 export class CreateRoomModal {
   #inputValue: string;
   #inputValueEmmitter: Emitter<string>;
+  #isModalOpen: boolean;
 
   constructor() {
+    console.log('modal room created');
+    this.#isModalOpen = false;
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
+
+    const userLoadingListener = searchBlockStore.movEm$.addListener(() => {
+      this.renderMoviesList(searchBlockStore.getMovies(), this.#inputValue);
+    });
+    this.ngOnDestroy = () => {
+      userLoadingListener();
+    };
 
     const unsubscribeRoomId = roomPageStore.isCreatedRoomReceived$.addListener(
       () => {
@@ -41,18 +51,21 @@ export class CreateRoomModal {
   }
 
   ngOnRoomIdDestroy(): void {}
+  ngOnDestroy(): void {}
 
   get inputEmmitter$(): Emitter<string> {
     return this.#inputValueEmmitter;
   }
 
   renderMoviesList(items: Movie[], value: string) {
-    const gridList = new GridMoviesList(this.onMovieClick.bind(this));
+    if (this.#isModalOpen) {
+      const gridList = new GridMoviesList(this.onMovieClick.bind(this));
 
-    if (value === '') {
-      gridList.render(mainPageStore.getSelections()[2].movies, value);
-    } else {
-      gridList.render(items, value);
+      if (value === '') {
+        gridList.render(mainPageStore.getSelections()[2].movies, value);
+      } else {
+        gridList.render(items, value);
+      }
     }
   }
 
@@ -62,6 +75,7 @@ export class CreateRoomModal {
     ) as HTMLInputElement;
 
     const debouncedUpdateValue = debounce((newValue: string) => {
+      this.#inputValue = newValue;
       searchBlockStore.findMovies(newValue);
     }, 1000);
 
@@ -101,8 +115,19 @@ export class CreateRoomModal {
         isDragging = false;
       });
     }
+    this.#isModalOpen = true;
     searchBlockStore.findMovies('');
     this.handleInputChange();
+    this.handleCloseButtonClick();
+  }
+
+  handleCloseButtonClick() {
+    const closeButton = document.getElementById(
+      'create-room-modal-close-button',
+    ) as HTMLElement;
+    closeButton.addEventListener('click', () => {
+      this.hideModal();
+    });
   }
 
   onMovieClick(id: number) {
@@ -132,7 +157,9 @@ export class CreateRoomModal {
         { once: true },
       );
     }
+    this.#isModalOpen = false;
     searchBlockStore.clearFounded();
+    this.#inputValue = '';
   }
 
   renderTemplate() {}
