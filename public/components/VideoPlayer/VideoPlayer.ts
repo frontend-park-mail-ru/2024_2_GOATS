@@ -107,6 +107,12 @@ export class VideoPlayer {
 
     if (this.#startTimeCode) {
       this.#controls.video.currentTime = this.#startTimeCode;
+    } else {
+      this.#controls.video.currentTime = 0;
+      const slider = document.getElementById(
+        'progress-slider',
+      ) as HTMLInputElement;
+      slider.style.setProperty('--progress-value', `0%`);
     }
   }
 

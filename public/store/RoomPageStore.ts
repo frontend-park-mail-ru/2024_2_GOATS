@@ -8,7 +8,7 @@ import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { Emitter } from 'modules/Emmiter';
-import { serializeRoom } from 'modules/Serializer';
+import { serializeRoom, serializeMovieDetailed } from 'modules/Serializer';
 
 const roomPage = new RoomPage();
 
@@ -119,7 +119,7 @@ class RoomPageStore {
   wsInit() {
     this.#user = userStore.getUser();
     const ws = new WebSocket(
-      `ws://192.168.0.101:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
+      `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
     );
 
     this.#ws = ws;
@@ -138,9 +138,8 @@ class RoomPageStore {
 
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
-
       if ((messageData.movie && messageData.movie.id) || messageData.id) {
-        console.log(messageData);
+        console.log('RECEIVED ROOM DATA', messageData);
         messageData.movie.video_url =
           '/static/movies_all/how-you-see-me/movie.mp4';
         this.setState(serializeRoom(messageData));
@@ -148,16 +147,7 @@ class RoomPageStore {
       } else if (Array.isArray(messageData)) {
         roomPage.renderUsersList(messageData);
       } else if (messageData.timeCode) {
-        console.log('RECEIVED FROM SERVER', messageData.timeCode);
-        console.log('FROM PLAYER', roomPage.getCurrentVideoTime());
         if (messageData.timeCode - roomPage.getCurrentVideoTime() > 2) {
-          console.log('SET TIMECODE FROM SERVER');
-          console.log(
-            'FROM',
-            roomPage.getCurrentVideoTime(),
-            'TO',
-            messageData.timeCode,
-          );
           roomPage.setVideoTime(messageData.timeCode);
         }
       } else {
@@ -174,6 +164,24 @@ class RoomPageStore {
           case 'message':
             roomPage.renderMessage(messageData.message);
             break;
+          default:
+            // TODO: проверить на новом формате прихода измененного фильма
+            // console.log('serialized movie', this.#room.movie);
+
+            console.log('MSG DATA', messageData);
+            if (messageData['movie '].id !== this.#room.movie.id) {
+              messageData['movie '].video_url =
+                '/static/movies_all/avatar/movie.mp4';
+              this.#room.movie = serializeMovieDetailed(messageData['movie ']);
+              roomPage.renderVideo(
+                this.#room.movie.video,
+                this.#room.movie.titleImage,
+              );
+              roomPage.changeMovieInfo(
+                this.#room.movie.titleImage,
+                this.#room.movie.shortDescription,
+              );
+            }
         }
       }
     };
@@ -212,6 +220,22 @@ class RoomPageStore {
         break;
       case ActionTypes.SET_GLOBAL_ROOM_ID:
         this.#globalRoomId = action.id;
+        break;
+      case ActionTypes.CHANGE_MOVIE:
+        if (action.id !== this.#room.movie.id) {
+          roomPage.videoPause(0);
+
+          this.sendActionMessage({
+            name: 'change',
+            movie_id: action.id,
+            time_code: 0,
+          });
+
+          this.sendActionMessage({
+            name: 'pause',
+            time_code: 0,
+          });
+        }
         break;
       default:
         break;

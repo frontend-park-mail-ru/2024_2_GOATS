@@ -11,6 +11,8 @@ import { Message } from 'components/Message/Message';
 import { UsersList } from 'components/UsersList/UsersList';
 import { userStore } from 'store/UserStore';
 import { router } from 'modules/Router';
+import { CreateRoomModal } from 'components/CreateRoomModal/CreateRoomModal';
+import { Season } from 'types/movie';
 
 export class RoomPage {
   #room!: Room;
@@ -154,6 +156,49 @@ export class RoomPage {
     this.#video.setVideoTime(timeCode);
   }
 
+  handleChangeMovieClick() {
+    const modal = new CreateRoomModal((id: number) => Actions.changeMovie(id));
+    const createRoomButton = document.getElementById(
+      'change-movie-btn',
+    ) as HTMLElement;
+
+    if (createRoomButton) {
+      createRoomButton.addEventListener('click', () => {
+        modal.render();
+      });
+    }
+  }
+
+  renderVideo(videoUrl?: string, titleImage?: string, seasons?: Season[]) {
+    console.log('RENDER VIDEO', videoUrl, titleImage);
+    // TODO: Добавить обработку серий и сезонов при первой загрузке страницы
+    const videoContainer = document.getElementById('room-video') as HTMLElement;
+    this.#video = new VideoPlayer({
+      parent: videoContainer,
+      ...(videoUrl ? { videoUrl } : { videoUrl: this.#room.movie.video }),
+      ...(titleImage
+        ? { titleImage }
+        : { titleImage: this.#room.movie.titleImage }),
+      ...(seasons && { seasons, currentSeason: 1, currentSeries: 1 }),
+      onPlayClick: this.onPlayClick,
+      onPauseClick: this.onPauseClick,
+      handleRewindVideo: this.handleRewindVideo,
+    });
+    this.#video.render();
+  }
+
+  changeMovieInfo(titleImage: string, shortDescription: string) {
+    const titleBlock = document.querySelector(
+      '.room-page__info_description_title',
+    ) as HTMLImageElement;
+    const descriptionBlock = document.querySelector(
+      '.room-page__info_description_text',
+    ) as HTMLParagraphElement;
+
+    titleBlock.src = titleImage;
+    descriptionBlock.textContent = shortDescription;
+  }
+
   renderTemplate() {
     const rootElem = document.getElementById('root');
     if (rootElem) {
@@ -192,19 +237,7 @@ export class RoomPage {
           movie: this.#room.movie,
         });
 
-        const videoContainer = document.getElementById(
-          'room-video',
-        ) as HTMLElement;
-        this.#video = new VideoPlayer({
-          parent: videoContainer,
-          videoUrl: this.#room.movie.video,
-          titleImage: this.#room.movie.titleImage,
-          onPlayClick: this.onPlayClick,
-          onPauseClick: this.onPauseClick,
-          handleRewindVideo: this.handleRewindVideo,
-          // hanldeIntervalTick: this.hanldeTimerTick,
-        });
-        this.#video.render();
+        this.renderVideo();
 
         // Для установки текущего тайм кода новому пользователю
         this.videoRewind(this.#room.timeCode);
@@ -231,53 +264,10 @@ export class RoomPage {
           'send-message-button',
         ) as HTMLButtonElement;
         sendMessageButton.addEventListener('click', () => this.sendMessage());
+        this.handleChangeMovieClick();
       } else {
         this.#loader.render();
       }
     }
-
-    // TODO: проверить
-    // if (this.#room) {
-    //   pageElement.innerHTML = template({
-    //     movie: this.#room.movie,
-    //   });
-
-    //   const videoContainer = document.getElementById(
-    //     'room-video',
-    //   ) as HTMLElement;
-    //   this.#video = new VideoPlayer({
-    //     parent: videoContainer,
-    //     url: this.#room.movie.video,
-    //     hasNextSeries: true,
-    //     hasPrevSeries: true,
-    //     onPlayClick: this.onPlayClick,
-    //     onPauseClick: this.onPauseClick,
-    //     handleRewindVideo: this.handleRewindVideo,
-    //     hanldeIntervalTick: this.hanldeTimerTick,
-    //   });
-    //   this.#video.render();
-
-    //   // Для установки текущего тайм кода новому пользователю
-    //   this.videoRewind(this.#room.timeCode);
-
-    //   const invitationBtn = document.getElementById(
-    //     'invitation-btn',
-    //   ) as HTMLButtonElement;
-
-    //   invitationBtn.addEventListener('click', () => this.onInviteButtonClick());
-
-    //   this.#notifier = new Notifier(
-    //     'success',
-    //     'Ссылка для приглашения скопирована',
-    //     3000,
-    //   );
-
-    //   const sendMessageButton = document.getElementById(
-    //     'send-message-button',
-    //   ) as HTMLButtonElement;
-    //   sendMessageButton.addEventListener('click', () => this.sendMessage());
-    // } else {
-    //   this.#loader.render();
-    // }
   }
 }

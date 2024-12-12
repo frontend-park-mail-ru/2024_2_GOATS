@@ -14,12 +14,13 @@ export class CreateRoomModal {
   #inputValue: string;
   #inputValueEmmitter: Emitter<string>;
   #isModalOpen: boolean;
+  #onClick;
 
-  constructor() {
-    console.log('modal room created');
+  constructor(onClick?: (id: number) => void) {
     this.#isModalOpen = false;
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
+    this.#onClick = onClick;
 
     const userLoadingListener = searchBlockStore.movEm$.addListener(() => {
       this.renderMoviesList(searchBlockStore.getMovies(), this.#inputValue);
@@ -131,7 +132,12 @@ export class CreateRoomModal {
   }
 
   onMovieClick(id: number) {
-    Actions.createRoom(Number(id));
+    if (this.#onClick) {
+      this.#onClick(Number(id));
+    } else {
+      Actions.createRoom(Number(id));
+    }
+
     this.hideModal();
   }
 

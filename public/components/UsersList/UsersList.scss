@@ -49,3 +49,9 @@
     width: 100%;
   }
 }
+
+@include mobile {
+  .users-list {
+    padding: 10px;
+  }
+}

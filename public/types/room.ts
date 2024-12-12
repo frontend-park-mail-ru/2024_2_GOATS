@@ -11,6 +11,7 @@ export type Action = {
   time_code?: number;
   message?: MessageData;
   username?: string;
+  movie_id?: number;
 };
 
 export type MessageData = {

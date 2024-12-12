@@ -191,4 +191,10 @@ export const Actions = {
       id,
     });
   },
+  changeMovie(id: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.CHANGE_MOVIE,
+      id,
+    });
+  },
 };

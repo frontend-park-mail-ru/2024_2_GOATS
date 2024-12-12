@@ -36,6 +36,19 @@
     height: 500px;
   }
 
+  &__button {
+    background-color: $brand;
+    color: $brand-secondary;
+    max-width: 200px;
+    font-size: $font-size-medium;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $button-background-hover;
+    }
+  }
+
   &__video {
     border: 1px $modal-content-background solid;
     border-radius: $border-radius-small;
@@ -126,14 +139,14 @@
     }
 
     &_button {
-      background-color: $brand;
-      color: $brand-secondary;
+      // background-color: $brand;
+      color: $brand;
       font-size: $font-size-medium;
       font-weight: 600;
-      transition: background-color 0.2s ease;
+      transition: color 0.2s ease;
 
       &:hover {
-        background-color: $button-background-hover;
+        color: $button-background-hover;
       }
     }
   }
