@@ -11,19 +11,19 @@ import {
   serializeMovie,
   serializeSearchActorData,
 } from 'modules/Serializer';
-import { findActors, findMovies } from 'types/searchTypes';
-import { CreateRoomModal } from 'components/CreateRoomModal/CreateRoomModal';
 
 const searchBlock = new SearchBlock();
-const createRoomModal = new CreateRoomModal();
 
 class SearchBlockStore {
   #findItems: Movie[];
   #searchValue: string;
   #selectedNav: string;
 
+  #findItemsEmmiter: Emitter<boolean>;
+
   constructor() {
     this.#findItems = [];
+    this.#findItemsEmmiter = new Emitter<boolean>(false);
     this.#searchValue = '';
     this.#selectedNav = 'movies';
 
@@ -41,23 +41,16 @@ class SearchBlockStore {
       },
     );
 
-    const createRoomInputChangeListener =
-      createRoomModal.inputEmmitter$.addListener((value) => {
-        this.#searchValue = value;
-        this.#selectedNav = 'movies';
-        this.globalSearchRequest();
-      });
-
     this.ngOnDestroy = () => {
       inputChangeListener();
       categoryChangeListener();
-      createRoomInputChangeListener();
     };
     dispatcher.register(this.reduce.bind(this));
   }
-
+  get movEm$(): Emitter<boolean> {
+    return this.#findItemsEmmiter;
+  }
   findMovies(a: string) {
-    console.log(a);
     this.moviesSearchRequest(a);
   }
 
@@ -65,6 +58,7 @@ class SearchBlockStore {
     this.#findItems = [];
     this.#searchValue = '';
     this.#selectedNav = 'movies';
+    this.#findItemsEmmiter.set(false);
   }
 
   ngOnDestroy(): void {}
@@ -103,19 +97,17 @@ class SearchBlockStore {
   async moviesSearchRequest(searchQuery: string) {
     try {
       this.#findItems = [];
-
       const response = await apiClient.get({
         path: `movies/movies/search?query=${searchQuery}`,
       });
       console.log(response);
-
       this.#findItems = response.map((movie: Movie) => {
         return serializeMovie(movie);
       });
-
-      createRoomModal.renderMoviesList(this.#findItems, searchQuery);
+      this.#findItemsEmmiter.set(true);
     } catch (e: any) {
-      createRoomModal.renderMoviesList(this.#findItems, searchQuery);
+      this.#findItems = [];
+      this.#findItemsEmmiter.set(false);
     }
   }
 
