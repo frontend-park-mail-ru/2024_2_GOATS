@@ -11,21 +11,34 @@ const gridList = new GridMoviesList();
 export class CreateRoomModal {
   #inputValue: string;
   #inputValueEmmitter: Emitter<string>;
+  #isModalOpen: boolean;
 
   constructor() {
+    console.log('modal room created');
+    this.#isModalOpen = false;
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
+
+    const userLoadingListener = searchBlockStore.movEm$.addListener(() => {
+      this.renderMoviesList(searchBlockStore.getMovies(), this.#inputValue);
+    });
+    this.ngOnDestroy = () => {
+      userLoadingListener();
+    };
   }
+  ngOnDestroy(): void {}
 
   get inputEmmitter$(): Emitter<string> {
     return this.#inputValueEmmitter;
   }
 
   renderMoviesList(items: Movie[], value: string) {
-    if (value === '') {
-      gridList.render(mainPageStore.getSelections()[2].movies, value);
-    } else {
-      gridList.render(items, value);
+    if (this.#isModalOpen) {
+      if (value === '') {
+        gridList.render(mainPageStore.getSelections()[2].movies, value);
+      } else {
+        gridList.render(items, value);
+      }
     }
   }
 
@@ -35,6 +48,7 @@ export class CreateRoomModal {
     ) as HTMLInputElement;
 
     const debouncedUpdateValue = debounce((newValue: string) => {
+      this.#inputValue = newValue;
       searchBlockStore.findMovies(newValue);
     }, 1000);
 
@@ -74,6 +88,7 @@ export class CreateRoomModal {
         isDragging = false;
       });
     }
+    this.#isModalOpen = true;
     searchBlockStore.findMovies('');
     this.handleInputChange();
     this.handleCloseButtonClick();
@@ -110,7 +125,9 @@ export class CreateRoomModal {
         { once: true },
       );
     }
+    this.#isModalOpen = false;
     searchBlockStore.clearFounded();
+    this.#inputValue = '';
   }
 
   renderTemplate() {}

@@ -11,7 +11,7 @@ export class GridMoviesList {
     });
   }
   render(items: Movie[], inputValue: string) {
-    console.log(inputValue, items[0].title);
+    console.log(items);
     const isEmpty = inputValue !== '' && items[0].title === undefined;
     const gridContainer = document.getElementById(
       'create-room-modal-find-list',
