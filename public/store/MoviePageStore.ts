@@ -92,13 +92,15 @@ class MoviePageStore {
         path: `movies/${id}`,
       });
 
+      // TODO: Убрать мок
       if (
         response.movie_info.title === 'Игра в кальмара' ||
         response.movie_info.title === 'Бумажный дом'
       ) {
         response.movie_info.movie_type = 'movie';
       }
-
+      // response.movie_info.video_url =
+      //   '/static/movies_all/how-you-see-me/movie.mp4';
       const serializedMovieData = serializeMovieDetailed(response.movie_info);
       this.setMovieState(serializedMovieData);
     } catch (error) {
