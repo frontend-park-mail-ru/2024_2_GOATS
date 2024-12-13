@@ -43,6 +43,10 @@ export class VideoPlayer {
   #autoplay!: boolean;
   #onSeriesClick;
   #areControlsVisible: boolean;
+  #wasRewindByOthers: boolean;
+  #wasPlayOrPauseByOthers: boolean;
+  #isSeeking = false;
+  #seekTimeout: any;
 
   constructor(params: {
     parent: HTMLElement;
@@ -93,6 +97,9 @@ export class VideoPlayer {
     this.#autoplay = !!params.autoPlay;
     this.#onSeriesClick = params.onSeriesClick;
     this.#areControlsVisible = true;
+    this.#wasRewindByOthers = false;
+    this.#wasPlayOrPauseByOthers = false;
+    this.#seekTimeout = null;
 
     this.checkSeriesPosition();
 
@@ -272,6 +279,7 @@ export class VideoPlayer {
       volumeOffOrUp,
       seriesBlock,
       seriesButton,
+      isFullScreen,
     } = this.#controls;
 
     video.addEventListener('canplay', this.updateDuration.bind(this));
@@ -345,7 +353,12 @@ export class VideoPlayer {
 
     video.addEventListener(
       'webkitendfullscreen',
-      this.handleFullscreenChange.bind(this),
+      this.handleIOSFullscreenEnd.bind(this),
+    );
+
+    video.addEventListener(
+      'webkitbeginfullscreen',
+      this.handleIOSFullscreenIn.bind(this),
     );
 
     if (isiOS()) {
@@ -369,6 +382,13 @@ export class VideoPlayer {
       }
     } else {
       video.autoplay = true;
+    }
+
+    if (isiOS()) {
+      if (isiOS()) {
+        video.addEventListener('seeking', this.handleSeekingIOS.bind(this));
+        video.addEventListener('seeked', this.handleSeekedIOS.bind(this));
+      }
     }
   }
 
@@ -463,6 +483,7 @@ export class VideoPlayer {
     const { video } = this.#controls;
     video.play();
     this.resetHideControlsTimer();
+    this.#wasPlayOrPauseByOthers = true;
   }
 
   videoPause(timeCode: number) {
@@ -471,11 +492,13 @@ export class VideoPlayer {
     video.currentTime = timeCode;
     clearInterval(this.#tickInterval);
     this.resetHideControlsTimer();
+    this.#wasPlayOrPauseByOthers = true;
   }
 
   videoRewind(timeCode: number) {
     const { video } = this.#controls;
     video.currentTime = timeCode;
+    this.#wasRewindByOthers = true;
   }
 
   // Обработчики событий
@@ -567,6 +590,7 @@ export class VideoPlayer {
 
   onPlay() {
     const { video } = this.#controls;
+    this.handlePlayOrPauseIOS();
 
     video.setAttribute('playsinline', '');
     const { playOrPause } = this.#controls;
@@ -577,6 +601,7 @@ export class VideoPlayer {
 
   onPause() {
     const { video } = this.#controls;
+    this.handlePlayOrPauseIOS();
 
     video.setAttribute('playsinline', '');
     clearTimeout(this.#hideControlsTimeout);
@@ -610,6 +635,7 @@ export class VideoPlayer {
       this.onPause();
     }
 
+    // TODO: проверить autoplay на мобилке
     // video.setAttribute('playsinline', '');
 
     // if (this.#onPlayClick) {
@@ -1005,7 +1031,7 @@ export class VideoPlayer {
     }
   }
 
-  handleFullscreenChange() {
+  handleIOSFullscreenEnd() {
     const { video } = this.#controls;
     video.removeAttribute('controls');
     this.resetHideControlsTimer();
@@ -1014,5 +1040,48 @@ export class VideoPlayer {
     this.#controls.fullOrSmallScreen.classList.remove(
       'video__controls_icon_small',
     );
+  }
+
+  handleIOSFullscreenIn() {
+    this.#controls.isFullScreen = true;
+  }
+
+  handleSeekingIOS() {
+    this.#isSeeking = true;
+
+    if (this.#seekTimeout) {
+      clearTimeout(this.#seekTimeout);
+    }
+  }
+
+  handleSeekedIOS() {
+    const { video } = this.#controls;
+
+    if (this.#isSeeking) {
+      this.#isSeeking = false;
+      this.#seekTimeout = setTimeout(() => {
+        if (!this.#wasRewindByOthers) {
+          if (this.#handleRewindVideo && this.#controls.isFullScreen) {
+            this.#handleRewindVideo(video.currentTime);
+          }
+        } else {
+          this.#wasRewindByOthers = false;
+        }
+      }, 300);
+    }
+  }
+
+  handlePlayOrPauseIOS() {
+    if (!this.#wasPlayOrPauseByOthers) {
+      if (this.#controls.isFullScreen) {
+        if (this.#controls.video.paused && this.#onPauseClick) {
+          this.#onPauseClick(this.#controls.video.currentTime);
+        } else if (this.#onPlayClick) {
+          this.#onPlayClick(this.#controls.video.currentTime);
+        }
+      }
+    } else {
+      this.#wasPlayOrPauseByOthers = false;
+    }
   }
 }
