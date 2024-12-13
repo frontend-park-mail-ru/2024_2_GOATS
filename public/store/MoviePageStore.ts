@@ -221,18 +221,43 @@ class MoviePageStore {
     }
   }
 
-  rateMovieRequest(rating: number) {
-    if (this.#movie?.userRating !== undefined) {
-      this.#movie.userRating = rating;
+  async rateMovieRequest(rating: number) {
+    try {
+      // const response = await apiClient.post({
+      //   path: 'rate',
+      //   body: { rate: rating },
+      // });
+      console.log(`Фильм ${this.#movie?.title} оценен на ${rating}`);
+      if (this.#movie?.userRating !== undefined) {
+        this.#movie.userRating = rating;
+      }
+    } catch (e) {
+      console.log(e);
     }
-    console.log(`Фильм ${this.#movie?.title} оценен на ${rating}`);
+
+    // if (this.#movie?.userRating !== undefined) {
+    //   this.#movie.userRating = rating;
+    // }
+    // console.log(`Фильм ${this.#movie?.title} оценен на ${rating}`);
   }
 
-  deleteRating() {
-    if (this.#movie?.userRating) {
-      this.#movie.userRating = 0;
+  async deleteRatingRequest() {
+    try {
+      // const response = await apiClient.delete({
+      //   path: 'rate',
+      // });
+      console.log(`Удалена оценка с ${this.#movie?.title}`);
+      if (this.#movie?.userRating) {
+        this.#movie.userRating = 0;
+      }
+    } catch (e) {
+      console.log(e);
     }
-    console.log(`Удалена оценка с ${this.#movie?.title}`);
+
+    // if (this.#movie?.userRating) {
+    //   this.#movie.userRating = 0;
+    // }
+    // console.log(`Удалена оценка с ${this.#movie?.title}`);
   }
 
   async reduce(action: any) {
@@ -272,7 +297,7 @@ class MoviePageStore {
         this.rateMovieRequest(action.payload.rating);
         break;
       case ActionTypes.DELETE_RATING:
-        this.deleteRating();
+        this.deleteRatingRequest();
         break;
       default:
         break;

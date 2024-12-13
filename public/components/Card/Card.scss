@@ -83,6 +83,10 @@
   .card {
     width: 140px;
     height: 188px;
+
+    &:hover {
+      transform: none;
+    }
   }
   .card-skeleton {
     min-width: 140px;
