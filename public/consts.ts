@@ -4,6 +4,7 @@ export const PREV_HOST = 'http://185.241.195.151/';
 export const HOST = 'https://cassette-world.ru/';
 export const API_URL = HOST + 'api/';
 // export const API_URL = 'http://localhost:8080/api/';
+// export const API_URL = 'http://192.168.2.1:8080/api/';
 
 export const GRID_MOVIES_AMOUNT = 3;
 

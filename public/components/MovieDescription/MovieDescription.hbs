@@ -21,12 +21,30 @@
         </p>
 
         <div class='movie-description__actions'>
-          <button
-            id='show-movie-btn'
-            class='button movie-description__actions_show_btn'
-          >Смотреть</button>
+
+          {{#if withSubscription}}
+            {{#if isPremiumUser}}
+
+              <button
+                id='show-movie-btn'
+                class='button movie-description__actions_show_btn'
+              >Смотреть</button>
+            {{else}}
+              <p class='movie-description__info_text'>
+                Доступно в
+                <strong>Cassette Premium</strong>
+              </p>
+            {{/if}}
+
+          {{else}}
+            <button
+              id='show-movie-btn'
+              class='button movie-description__actions_show_btn'
+            >Смотреть</button>
+          {{/if}}
+
           {{! TODO: Совместный просмотр в разработке }}
-          {{#if isUserAuth}}
+          {{#if isPremiumUser}}
             <button
               id='watch-together-btn'
               class='button movie-description__actions_show_together_btn'

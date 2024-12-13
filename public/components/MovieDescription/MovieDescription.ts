@@ -69,9 +69,11 @@ export class MovieDescription {
       'show-movie-btn',
     ) as HTMLButtonElement;
 
-    showBtn.addEventListener('click', () => {
-      this.#onWatchClick();
-    });
+    if (showBtn) {
+      showBtn.addEventListener('click', () => {
+        this.#onWatchClick();
+      });
+    }
   }
 
   // TODO: Совместный просмор в разработке
@@ -80,7 +82,7 @@ export class MovieDescription {
       'watch-together-btn',
     ) as HTMLButtonElement;
 
-    if (userStore.getUser().username) {
+    if (userStore.getUser().username && watchTogetherBtn) {
       watchTogetherBtn.addEventListener('click', async () => {
         if (this.#movie) {
           Actions.createRoom(this.#movie.id);
@@ -127,6 +129,8 @@ export class MovieDescription {
       this.#parent.innerHTML = template({
         movie: this.#movie,
         isUserAuth: !!userStore.getUser().email,
+        isPremiumUser: userStore.getUser().isPremium,
+        withSubscription: moviePageStore.getMovie()?.withSubscription,
       });
 
       this.checkFavorite();
