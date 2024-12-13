@@ -176,6 +176,7 @@ class RoomPageStore {
               roomPage.renderVideo(
                 this.#room.movie.video,
                 this.#room.movie.titleImage,
+                this.#room.movie.seasons,
               );
               roomPage.changeMovieInfo(
                 this.#room.movie.titleImage,
