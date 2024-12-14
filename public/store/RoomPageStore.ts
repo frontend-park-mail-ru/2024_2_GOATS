@@ -13,7 +13,7 @@ import { serializeRoom, serializeMovieDetailed } from 'modules/Serializer';
 const roomPage = new RoomPage();
 
 class RoomPageStore {
-  #room!: Room;
+  #room!: Room | null;
   #ws: WebSocket | null = null;
   #user!: User;
   #createdRoomId = '';
@@ -169,7 +169,11 @@ class RoomPageStore {
             // console.log('serialized movie', this.#room.movie);
 
             console.log('MSG DATA', messageData);
-            if (messageData['movie '].id !== this.#room.movie.id) {
+            if (
+              this.#room &&
+              messageData['movie '] &&
+              messageData['movie '].id !== this.#room.movie.id
+            ) {
               // messageData['movie '].video_url =
               //   '/static/movies_all/avatar/movie.mp4';
               this.#room.movie = serializeMovieDetailed(messageData['movie ']);
@@ -209,6 +213,7 @@ class RoomPageStore {
       this.#isModalConfirm = false;
       this.#createdRoomId = '';
       this.#roomIdFromUrl = '';
+      this.#room = null;
     }
   }
 
@@ -232,7 +237,7 @@ class RoomPageStore {
         this.#globalRoomId = action.id;
         break;
       case ActionTypes.CHANGE_MOVIE:
-        if (action.id !== this.#room.movie.id) {
+        if (this.#room && action.id !== this.#room.movie.id) {
           roomPage.videoPause(0);
 
           this.sendActionMessage({

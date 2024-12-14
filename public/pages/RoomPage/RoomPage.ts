@@ -15,7 +15,7 @@ import { CreateRoomModal } from 'components/CreateRoomModal/CreateRoomModal';
 import { Season } from 'types/movie';
 
 export class RoomPage {
-  #room!: Room;
+  #room!: Room | null;
   #loader!: Loader;
   #video!: VideoPlayer;
   #notifier!: Notifier;
@@ -195,25 +195,27 @@ export class RoomPage {
     console.log('RENDER VIDEO', videoUrl, titleImage);
     // TODO: Добавить обработку серий и сезонов при первой загрузке страницы
     const videoContainer = document.getElementById('room-video') as HTMLElement;
-    this.#video = new VideoPlayer({
-      parent: videoContainer,
-      ...(videoUrl ? { videoUrl } : { videoUrl: this.#room.movie.video }),
-      ...(titleImage
-        ? { titleImage }
-        : { titleImage: this.#room.movie.titleImage }),
-      ...(seasons &&
-        seasons.length && {
-          seasons,
-          ...(!currentSeason
-            ? { currentSeason: 1, currentSeries: 1 }
-            : { currentSeason, currentSeries }),
-          onVideoUpdate: this.onVideoUpdate.bind(this),
-        }),
-      onPlayClick: this.onPlayClick,
-      onPauseClick: this.onPauseClick,
-      handleRewindVideo: this.handleRewindVideo,
-    });
-    this.#video.render();
+    if (this.#room) {
+      this.#video = new VideoPlayer({
+        parent: videoContainer,
+        ...(videoUrl ? { videoUrl } : { videoUrl: this.#room.movie.video }),
+        ...(titleImage
+          ? { titleImage }
+          : { titleImage: this.#room?.movie.titleImage }),
+        ...(seasons &&
+          seasons.length && {
+            seasons,
+            ...(!currentSeason
+              ? { currentSeason: 1, currentSeries: 1 }
+              : { currentSeason, currentSeries }),
+            onVideoUpdate: this.onVideoUpdate.bind(this),
+          }),
+        onPlayClick: this.onPlayClick,
+        onPauseClick: this.onPauseClick,
+        handleRewindVideo: this.handleRewindVideo,
+      });
+      this.#video.render();
+    }
   }
 
   changeMovieInfo(titleImage: string, shortDescription: string) {
@@ -229,10 +231,12 @@ export class RoomPage {
   }
 
   onSeriesClick(seriesNumber: number) {
-    this.#room.currentSeries = seriesNumber;
+    if (this.#room) {
+      this.#room.currentSeries = seriesNumber;
+    }
 
     if (
-      this.#room.movie?.seasons &&
+      this.#room?.movie?.seasons &&
       this.#room.movie?.seasons.length &&
       this.#room.currentSeason
     ) {
@@ -251,15 +255,17 @@ export class RoomPage {
     currentSeason: number,
     currentSeries: number,
   ) {
-    this.#room.currentSeason = currentSeason;
-    this.#room.currentSeries = currentSeries;
+    if (this.#room) {
+      this.#room.currentSeason = currentSeason;
+      this.#room.currentSeries = currentSeries;
+    }
 
     this.onPauseClick(0);
     this.handleChageSeries(currentSeason, currentSeries);
     this.renderVideo(
       videoUrl,
-      this.#room.movie.titleImage,
-      this.#room.movie.seasons,
+      this.#room?.movie.titleImage,
+      this.#room?.movie.seasons,
       currentSeason,
       currentSeries,
     );
