@@ -173,11 +173,19 @@ class RoomPageStore {
               // messageData['movie '].video_url =
               //   '/static/movies_all/avatar/movie.mp4';
               this.#room.movie = serializeMovieDetailed(messageData['movie ']);
-              roomPage.renderVideo(
-                this.#room.movie.video,
-                this.#room.movie.titleImage,
-                this.#room.movie.seasons,
-              );
+              if (this.#room.movie.seasons && this.#room.movie.seasons.length) {
+                roomPage.renderVideo(
+                  this.#room.movie.seasons[0].episodes[0].video,
+                  this.#room.movie.titleImage,
+                  this.#room.movie.seasons,
+                );
+              } else {
+                roomPage.renderVideo(
+                  this.#room.movie.video,
+                  this.#room.movie.titleImage,
+                  this.#room.movie.seasons,
+                );
+              }
               roomPage.changeMovieInfo(
                 this.#room.movie.titleImage,
                 this.#room.movie.shortDescription,

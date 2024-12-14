@@ -64,6 +64,14 @@ export class RoomPage {
     });
   }
 
+  handleChageSeries(season: number, series: number) {
+    Actions.sendActionMessage({
+      name: 'change_series',
+      season_number: season,
+      episode_number: series,
+    });
+  }
+
   videoPlay(timeCode: number) {
     // TODO: согласовать, зачем нужен timeCode
     console.log('TIMECODE FROM VIDEO PLAY HANDLER', timeCode);
@@ -177,7 +185,13 @@ export class RoomPage {
     }
   }
 
-  renderVideo(videoUrl?: string, titleImage?: string, seasons?: Season[]) {
+  renderVideo(
+    videoUrl?: string,
+    titleImage?: string,
+    seasons?: Season[],
+    currentSeason?: number,
+    currentSeries?: number,
+  ) {
     console.log('RENDER VIDEO', videoUrl, titleImage);
     // TODO: Добавить обработку серий и сезонов при первой загрузке страницы
     const videoContainer = document.getElementById('room-video') as HTMLElement;
@@ -188,10 +202,13 @@ export class RoomPage {
         ? { titleImage }
         : { titleImage: this.#room.movie.titleImage }),
       ...(seasons &&
-        seasons.length && { seasons, currentSeason: 1, currentSeries: 1 }),
-      // ...(this.#room.movie.isSerial && {
-      //   onSeriesClick: () => (this.#startTimeCode = 0),
-      // })
+        seasons.length && {
+          seasons,
+          ...(!currentSeason
+            ? { currentSeason: 1, currentSeries: 1 }
+            : { currentSeason, currentSeries }),
+          onVideoUpdate: this.onVideoUpdate.bind(this),
+        }),
       onPlayClick: this.onPlayClick,
       onPauseClick: this.onPauseClick,
       handleRewindVideo: this.handleRewindVideo,
@@ -227,6 +244,25 @@ export class RoomPage {
         this.#room.movie.seasons,
       );
     }
+  }
+
+  onVideoUpdate(
+    videoUrl: string,
+    currentSeason: number,
+    currentSeries: number,
+  ) {
+    this.#room.currentSeason = currentSeason;
+    this.#room.currentSeries = currentSeries;
+
+    this.onPauseClick(0);
+    this.handleChageSeries(currentSeason, currentSeries);
+    this.renderVideo(
+      videoUrl,
+      this.#room.movie.titleImage,
+      this.#room.movie.seasons,
+      currentSeason,
+      currentSeries,
+    );
   }
 
   renderTemplate() {

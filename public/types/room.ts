@@ -14,8 +14,8 @@ export type Action = {
   message?: MessageData;
   username?: string;
   movie_id?: number;
-  season?: number;
-  series?: number;
+  season_number?: number;
+  episode_number?: number;
   duration?: number;
 };
 
