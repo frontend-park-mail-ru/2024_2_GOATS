@@ -192,7 +192,6 @@ export class RoomPage {
     currentSeason?: number,
     currentSeries?: number,
   ) {
-    console.log('RENDER VIDEO', videoUrl, titleImage);
     // TODO: Добавить обработку серий и сезонов при первой загрузке страницы
     const videoContainer = document.getElementById('room-video') as HTMLElement;
     if (this.#room) {
@@ -213,6 +212,7 @@ export class RoomPage {
         onPlayClick: this.onPlayClick,
         onPauseClick: this.onPauseClick,
         handleRewindVideo: this.handleRewindVideo,
+        fromRoomPage: true,
       });
       this.#video.render();
     }

@@ -47,6 +47,7 @@ export class VideoPlayer {
   #wasPlayOrPauseByOthers: boolean;
   #isSeeking = false;
   #seekTimeout: any;
+  #fromRoomPage;
 
   constructor(params: {
     parent: HTMLElement;
@@ -57,6 +58,7 @@ export class VideoPlayer {
     currentSeason?: number;
     seasons?: Season[];
     autoPlay?: boolean;
+    fromRoomPage?: boolean;
     onBackClick?: () => void;
     onPlayClick?: (timeCode: number) => void;
     onPauseClick?: (timeCode: number) => void;
@@ -100,6 +102,7 @@ export class VideoPlayer {
     this.#wasRewindByOthers = false;
     this.#wasPlayOrPauseByOthers = false;
     this.#seekTimeout = null;
+    this.#fromRoomPage = !!params.fromRoomPage;
 
     this.checkSeriesPosition();
 
@@ -452,7 +455,10 @@ export class VideoPlayer {
       });
     }
 
-    document.addEventListener('keydown', this.#boundHandleKeyPress);
+    // Проверка, чтобы управлять клавишами нельзя было на странице комнаты без полноэкранного режима
+    if (!this.#fromRoomPage) {
+      document.addEventListener('keydown', this.#boundHandleKeyPress);
+    }
 
     window.addEventListener('beforeunload', () => {
       if (this.#handleSaveTimecode && !this.#seasons) {
@@ -476,7 +482,6 @@ export class VideoPlayer {
 
   getVideoDuration() {
     const { video } = this.#controls;
-    console.log(video);
     return video.duration;
   }
 
@@ -699,6 +704,13 @@ export class VideoPlayer {
       this.#controls.fullOrSmallScreen.classList.remove(
         'video__controls_icon_small',
       );
+    }
+
+    // TODO: ПРОТЕСТИРОВАТЬ!!!
+    if (this.#fromRoomPage && isFullScreen && !isMobileDevice()) {
+      document.addEventListener('keydown', this.#boundHandleKeyPress);
+    } else if (this.#fromRoomPage) {
+      document.removeEventListener('keydown', this.#boundHandleKeyPress);
     }
   }
 
