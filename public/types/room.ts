@@ -4,6 +4,8 @@ export type Room = {
   status: string;
   timeCode: number;
   movie: MovieDetailed;
+  currentSeason?: number;
+  currentSeries?: number;
 };
 
 export type Action = {
@@ -12,6 +14,9 @@ export type Action = {
   message?: MessageData;
   username?: string;
   movie_id?: number;
+  season?: number;
+  series?: number;
+  duration?: number;
 };
 
 export type MessageData = {

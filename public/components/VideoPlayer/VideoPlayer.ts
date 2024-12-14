@@ -474,6 +474,12 @@ export class VideoPlayer {
     return video.currentTime;
   }
 
+  getVideoDuration() {
+    const { video } = this.#controls;
+    console.log(video);
+    return video.duration;
+  }
+
   setVideoTime(timeCode: number) {
     const { video } = this.#controls;
     video.currentTime = timeCode;

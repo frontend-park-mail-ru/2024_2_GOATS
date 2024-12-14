@@ -58,6 +58,10 @@ export class RoomPage {
       name: 'play',
       time_code: timeCode,
     });
+    Actions.sendActionMessage({
+      name: 'duration',
+      duration: this.getVideoDuration(),
+    });
   }
 
   videoPlay(timeCode: number) {
@@ -152,6 +156,10 @@ export class RoomPage {
     return this.#video.getCurrentVideoTime();
   }
 
+  getVideoDuration() {
+    return this.#video.getVideoDuration();
+  }
+
   setVideoTime(timeCode: number) {
     this.#video.setVideoTime(timeCode);
   }
@@ -179,7 +187,11 @@ export class RoomPage {
       ...(titleImage
         ? { titleImage }
         : { titleImage: this.#room.movie.titleImage }),
-      ...(seasons && { seasons, currentSeason: 1, currentSeries: 1 }),
+      ...(seasons &&
+        seasons.length && { seasons, currentSeason: 1, currentSeries: 1 }),
+      // ...(this.#room.movie.isSerial && {
+      //   onSeriesClick: () => (this.#startTimeCode = 0),
+      // })
       onPlayClick: this.onPlayClick,
       onPauseClick: this.onPauseClick,
       handleRewindVideo: this.handleRewindVideo,
@@ -197,6 +209,24 @@ export class RoomPage {
 
     titleBlock.src = titleImage;
     descriptionBlock.textContent = shortDescription;
+  }
+
+  onSeriesClick(seriesNumber: number) {
+    this.#room.currentSeries = seriesNumber;
+
+    if (
+      this.#room.movie?.seasons &&
+      this.#room.movie?.seasons.length &&
+      this.#room.currentSeason
+    ) {
+      this.renderVideo(
+        this.#room.movie?.seasons[this.#room.currentSeason - 1].episodes[
+          seriesNumber - 1
+        ].video,
+        this.#room.movie.titleImage,
+        this.#room.movie.seasons,
+      );
+    }
   }
 
   renderTemplate() {
@@ -237,7 +267,20 @@ export class RoomPage {
           movie: this.#room.movie,
         });
 
-        this.renderVideo();
+        if (
+          this.#room.movie.isSerial &&
+          this.#room.movie.seasons &&
+          this.#room.currentSeason &&
+          this.#room.currentSeries
+        ) {
+          this.renderVideo(
+            this.#room.movie.seasons[this.#room.currentSeason - 1].episodes[
+              this.#room.currentSeries - 1
+            ].video,
+          );
+        } else {
+          this.renderVideo();
+        }
 
         // Для установки текущего тайм кода новому пользователю
         this.videoRewind(this.#room.timeCode);
