@@ -8,6 +8,7 @@ export const serializeMovie = (movie: any) => {
     title: movie.title,
     albumImage: HOST + movie.album_url,
     cardImage: HOST + movie.card_url,
+    verticalImage: HOST + movie.ver_url,
     country: movie.country,
     description: movie.description,
     movieType: movie.movie_type,
