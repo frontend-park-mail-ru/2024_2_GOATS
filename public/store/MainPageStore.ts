@@ -57,7 +57,9 @@ class MainPageStore {
           // TODO: Расскомментировать после мержа
           // await moviePageStore.getLastMoviesRequest();
         }
-        mainPage.render();
+        setTimeout(() => {
+          mainPage.render();
+        }, 50);
         break;
       default:
         break;
