@@ -93,13 +93,12 @@ class FavoritesPageStore {
     favoritePage.render();
     if (userStore.getisUserLoading()) {
       return;
+    }
+    if (userStore.getUser().username) {
+      await this.getFavorites();
+      favoritePage.render();
     } else {
-      if (userStore.getUser().username) {
-        await this.getFavorites();
-        favoritePage.render();
-      } else {
-        router.go('/');
-      }
+      router.go('/');
     }
   } //TK
 

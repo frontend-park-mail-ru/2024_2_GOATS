@@ -111,7 +111,7 @@ export class RateBlock {
   renderTemplate() {
     this.#parent.innerHTML = template({
       isUserAuth: !!userStore.getUser().email,
-      rating: this.#movie?.rating,
+      rating: this.#movie?.rating.toFixed(1),
       userRating: this.#movie?.userRating,
       isUserVoted: this.#movie?.userRating !== 0,
     });

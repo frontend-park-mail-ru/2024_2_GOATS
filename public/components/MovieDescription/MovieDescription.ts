@@ -130,6 +130,7 @@ export class MovieDescription {
         isUserAuth: !!userStore.getUser().email,
         isPremiumUser: userStore.getUser().isPremium,
         withSubscription: moviePageStore.getMovie()?.withSubscription,
+        movieRating: moviePageStore.getMovie()?.rating.toFixed(1),
       });
 
       this.checkFavorite();

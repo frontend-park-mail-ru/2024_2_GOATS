@@ -41,10 +41,10 @@ export class SeriesList {
   }
 
   renderSeasonsBlock() {
-    const seasonsBlock = document.getElementById(
-      'series-list-seasons',
-    ) as HTMLDivElement;
     if (this.#seasons) {
+      const seasonsBlock = document.getElementById(
+        'series-list-seasons',
+      ) as HTMLDivElement;
       const seasonsMenu = new SeasonsMenu(
         seasonsBlock,
         this.#seasons.length,

@@ -184,3 +184,12 @@ export const CARD_PREVIEW_HIDING_TIMEOUT = 300;
 export const PLAYER_CONTROLL_HIDING_TIMEOUT = 3000;
 export const NOTIFIER_WRAPPER_CLEAN_TIMEOUT = 300;
 export const CLOSING_SERIES_MENU_TIMEOUT = 300;
+
+export const DEVICES_LIST = [
+  'iPad Simulator',
+  'iPhone Simulator',
+  'iPod Simulator',
+  'iPad',
+  'iPhone',
+  'iPod',
+];
