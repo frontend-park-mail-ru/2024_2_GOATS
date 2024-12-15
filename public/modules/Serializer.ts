@@ -134,6 +134,8 @@ export const serializeRoom = (room: any) => {
     movie: serializeMovieDetailed(room.movie),
     status: room.status,
     timeCode: room.time_code,
+    currentSeason: room.season_now,
+    currentSeries: room.episode_now,
   };
 };
 

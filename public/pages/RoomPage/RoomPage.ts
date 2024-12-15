@@ -60,7 +60,7 @@ export class RoomPage {
     });
     Actions.sendActionMessage({
       name: 'duration',
-      duration: this.getVideoDuration(),
+      duration: Math.round(this.getVideoDuration()),
     });
   }
 
@@ -310,8 +310,7 @@ export class RoomPage {
         });
 
         if (
-          this.#room.movie.isSerial &&
-          this.#room.movie.seasons &&
+          this.#room.movie.seasons?.length &&
           this.#room.currentSeason &&
           this.#room.currentSeries
         ) {
@@ -319,6 +318,18 @@ export class RoomPage {
             this.#room.movie.seasons[this.#room.currentSeason - 1].episodes[
               this.#room.currentSeries - 1
             ].video,
+            this.#room.movie.titleImage,
+            this.#room.movie.seasons,
+            this.#room.currentSeason,
+            this.#room.currentSeries,
+          );
+        } else if (this.#room.movie.seasons?.length) {
+          this.#room.currentSeason = 1;
+          this.#room.currentSeries = 1;
+          this.renderVideo(
+            this.#room.movie.seasons[0].episodes[0].video,
+            this.#room.movie.titleImage,
+            this.#room.movie.seasons,
           );
         } else {
           this.renderVideo();
