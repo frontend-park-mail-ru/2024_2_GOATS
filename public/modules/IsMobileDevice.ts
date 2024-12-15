@@ -1,3 +1,5 @@
+import { DEVICES_LIST } from 'consts';
+
 export const isMobileDevice = () => {
   return window.matchMedia('only screen and (max-width: 750px)').matches;
 };
@@ -8,14 +10,7 @@ export const isTabletOrMobileLandscape = () => {
 
 export const isiOS = () => {
   return (
-    [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod',
-    ].includes(navigator.platform) ||
+    DEVICES_LIST.includes(navigator.platform) ||
     (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
   );
 };

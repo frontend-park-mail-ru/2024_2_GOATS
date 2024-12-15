@@ -2,8 +2,8 @@ import { User } from 'types/user';
 
 export const PREV_HOST = 'http://185.241.195.151/';
 export const HOST = 'https://cassette-world.ru/';
-// export const API_URL = HOST + 'api/';
-export const API_URL = 'http://localhost:8080/api/';
+export const API_URL = HOST + 'api/';
+// export const API_URL = 'http://localhost:8080/api/';
 // export const API_URL = 'http://192.168.2.1:8080/api/';
 
 export const GRID_MOVIES_AMOUNT = 3;
@@ -184,3 +184,12 @@ export const CARD_PREVIEW_HIDING_TIMEOUT = 300;
 export const PLAYER_CONTROLL_HIDING_TIMEOUT = 3000;
 export const NOTIFIER_WRAPPER_CLEAN_TIMEOUT = 300;
 export const CLOSING_SERIES_MENU_TIMEOUT = 300;
+
+export const DEVICES_LIST = [
+  'iPad Simulator',
+  'iPhone Simulator',
+  'iPod Simulator',
+  'iPad',
+  'iPhone',
+  'iPod',
+];
