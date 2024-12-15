@@ -2,6 +2,8 @@ import template from './CoWatchBlock.hbs';
 import { userStore } from 'store/UserStore';
 import { Actions } from 'flux/Actions';
 import { CreateRoomModal } from 'components/CreateRoomModal/CreateRoomModal';
+import { router } from 'modules/Router';
+import { Notifier } from 'components/Notifier/Notifier';
 
 export class CoWatchBlock {
   #parent: HTMLElement;
@@ -45,7 +47,17 @@ export class CoWatchBlock {
     if (subscribtionButton) {
       subscribtionButton.addEventListener('click', (event) => {
         event.preventDefault();
-        Actions.buySubscription({ subscriptionForm, subscriptionFormLabel });
+        if (userStore.getUser().username) {
+          Actions.buySubscription({ subscriptionForm, subscriptionFormLabel });
+        } else {
+          const notifier = new Notifier(
+            'error',
+            'Сначала необходимо войти в аккаунт',
+            3000,
+          );
+          notifier.render();
+          router.go('/auth');
+        }
       });
     }
   }
