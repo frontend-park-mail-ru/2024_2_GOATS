@@ -164,6 +164,24 @@ class RoomPageStore {
           case 'message':
             roomPage.renderMessage(messageData.message);
             break;
+          case 'change_series':
+            if (this.#room && this.#room.movie.seasons) {
+              this.#room.timeCode = 0;
+              this.#room.currentSeason = messageData.season_number;
+              this.#room.currentSeries = messageData.episode_number;
+
+              if (this.#room.currentSeason && this.#room.currentSeries) {
+                roomPage.renderVideo(
+                  this.#room.movie.seasons[this.#room.currentSeason - 1]
+                    .episodes[this.#room.currentSeries - 1].video,
+                  this.#room.movie.titleImage,
+                  this.#room.movie.seasons,
+                  this.#room.currentSeason,
+                  this.#room.currentSeries,
+                );
+              }
+            }
+            break;
           default:
             // TODO: проверить на новом формате прихода измененного фильма
             // console.log('serialized movie', this.#room.movie);
@@ -174,8 +192,6 @@ class RoomPageStore {
               messageData['movie '] &&
               messageData['movie '].id !== this.#room.movie.id
             ) {
-              // messageData['movie '].video_url =
-              //   '/static/movies_all/avatar/movie.mp4';
               this.#room.movie = serializeMovieDetailed(messageData['movie ']);
               if (this.#room.movie.seasons && this.#room.movie.seasons.length) {
                 roomPage.renderVideo(
@@ -231,7 +247,6 @@ class RoomPageStore {
         break;
       case ActionTypes.SEND_ACTION_MESSAGE:
         this.sendActionMessage(action.actionData);
-        console.log('SEND ACTIONS', action.actionData);
         break;
       case ActionTypes.SET_GLOBAL_ROOM_ID:
         this.#globalRoomId = action.id;
