@@ -72,9 +72,7 @@ export class RoomPage {
     });
   }
 
-  videoPlay(timeCode: number) {
-    // TODO: согласовать, зачем нужен timeCode
-    console.log('TIMECODE FROM VIDEO PLAY HANDLER', timeCode);
+  videoPlay() {
     this.#video.videoPlay();
   }
 
@@ -339,7 +337,7 @@ export class RoomPage {
         this.videoRewind(this.#room.timeCode);
 
         if (this.#room.status === 'playing') {
-          this.videoPlay(this.#room.timeCode);
+          this.videoPlay();
         }
 
         const invitationBtn = document.getElementById(

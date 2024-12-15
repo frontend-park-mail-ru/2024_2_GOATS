@@ -13,6 +13,7 @@ import {
   serializeMovieDetailed,
   serializeUsersList,
 } from 'modules/Serializer';
+import { mainPageStore } from './MainPageStore';
 
 const roomPage = new RoomPage();
 
@@ -74,6 +75,7 @@ class RoomPageStore {
       isModalConfirm
     ) {
       this.wsInit();
+      mainPageStore.getCollection();
     }
   }
 
@@ -143,10 +145,10 @@ class RoomPageStore {
 
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
-      if ((messageData.movie && messageData.movie.id) || messageData.id) {
-        // console.log('RECEIVED ROOM DATA', messageData);
-        // messageData.movie.video_url =
-        //   '/static/movies_all/how-you-see-me/movie.mp4';
+      if (
+        (messageData.movie && messageData.movie.id && !messageData.name) ||
+        messageData.id
+      ) {
         this.setState(serializeRoom(messageData));
         roomPage.render();
       } else if (Array.isArray(messageData)) {
@@ -158,7 +160,7 @@ class RoomPageStore {
       } else {
         switch (messageData.name) {
           case 'play':
-            roomPage.videoPlay(messageData.time_code);
+            roomPage.videoPlay();
             break;
           case 'pause':
             roomPage.videoPause(messageData.time_code);
@@ -187,17 +189,13 @@ class RoomPageStore {
               }
             }
             break;
-          default:
-            // TODO: проверить на новом формате прихода измененного фильма
-            // console.log('serialized movie', this.#room.movie);
-
-            console.log('MSG DATA', messageData);
+          case 'change_movie':
             if (
               this.#room &&
-              messageData['movie '] &&
-              messageData['movie '].id !== this.#room.movie.id
+              messageData['movie'] &&
+              messageData['movie'].id !== this.#room.movie.id
             ) {
-              this.#room.movie = serializeMovieDetailed(messageData['movie ']);
+              this.#room.movie = serializeMovieDetailed(messageData['movie']);
               if (this.#room.movie.seasons && this.#room.movie.seasons.length) {
                 roomPage.renderVideo(
                   this.#room.movie.seasons[0].episodes[0].video,
@@ -216,6 +214,7 @@ class RoomPageStore {
                 this.#room.movie.shortDescription,
               );
             }
+            break;
         }
       }
     };
