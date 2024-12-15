@@ -8,6 +8,7 @@ export const serializeMovie = (movie: any) => {
     title: movie.title,
     albumImage: HOST + movie.album_url,
     cardImage: HOST + movie.card_url,
+    verticalImage: HOST + movie.ver_url,
     country: movie.country,
     description: movie.description,
     movieType: movie.movie_type,
@@ -123,7 +124,7 @@ export const serializeUserData = (user: any) => {
     birthdate: user.birthdate,
     sex: user.sex,
     avatar: HOST + user.avatar_url,
-    isPremium: true,
+    isPremium: user.subscription_status,
     expirationDate: user.subscription_expiration_date,
   };
 };

@@ -22,8 +22,14 @@ export class GridMoviesList {
     const gridContainer = document.getElementById(
       'create-room-modal-find-list',
     ) as HTMLElement;
+    const updatedItems = items.map((item) => {
+      return {
+        ...item,
+        verticalImage: item.albumImage.replace('poster', 'album'),
+      };
+    });
     gridContainer.innerHTML = template({
-      items,
+      items: updatedItems,
       isEmpty,
     });
     this.handleItemClick();

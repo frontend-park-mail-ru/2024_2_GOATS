@@ -26,6 +26,7 @@
       transition: transform 0.15s ease;
 
       &:hover {
+        cursor: pointer;
         transform: scale(1.02);
       }
 

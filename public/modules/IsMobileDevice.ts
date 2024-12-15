@@ -1,4 +1,4 @@
-import { DEVICES_LIST } from 'consts';
+import { DEVICES_LIST } from '../consts';
 
 export const isMobileDevice = () => {
   return window.matchMedia('only screen and (max-width: 750px)').matches;

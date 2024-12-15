@@ -6,6 +6,7 @@ export type Movie = {
   description: string;
   cardImage: string;
   albumImage: string;
+  verticalImage?: string;
   rating: number;
   releaseDate: string;
   movieType: string;
