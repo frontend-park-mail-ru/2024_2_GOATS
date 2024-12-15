@@ -6,6 +6,7 @@ import {
   CARD_PREVIEW_EXPANDING_TIMEOUT,
   CARD_PREVIEW_HIDING_TIMEOUT,
 } from '../../consts';
+import { isMobileDevice } from 'modules/IsMobileDevice';
 
 export class Card {
   #parent;
@@ -33,7 +34,7 @@ export class Card {
     const previewBlock = document.getElementById('preview') as HTMLElement;
     let timeoutId: any;
 
-    if (card) {
+    if (card && !isMobileDevice()) {
       card.addEventListener('mouseover', () => {
         timeoutId = setTimeout(() => {
           const coor = card.getBoundingClientRect();

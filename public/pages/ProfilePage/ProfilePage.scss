@@ -90,12 +90,15 @@
       display: none;
 
       &_label {
+        position: relative;
+
         display: flex;
         align-items: center;
         gap: 8px;
         font-size: $font-size-medium;
         border: 1.5px solid $brand;
-        padding: 0.5em 1em;
+        padding: 0.5em 1em 1em 1em;
+
         border-radius: 0.5em;
         transition: transform 0.2s ease;
 
@@ -109,6 +112,15 @@
         &_icon {
           width: 24px;
           user-select: none;
+        }
+
+        &_sub {
+          color: $text-secondary-color;
+          font-size: 12px;
+          bottom: 2px;
+          font-weight: 300;
+          right: 20%;
+          position: absolute;
         }
       }
     }
@@ -296,6 +308,11 @@
       &_input {
         &_label {
           font-size: 14px;
+
+          &_sub {
+            font-size: 10px;
+            right: 25%;
+          }
         }
       }
     }

@@ -42,20 +42,20 @@ export class RateBlock {
       '.rating-star',
     ) as NodeListOf<HTMLElement>;
 
-    if (this.#movie?.userRating === 0) {
-      stars.forEach((star, index) => {
-        star.addEventListener('click', () => {
-          Actions.rateMovie(index + 1);
-          this.render();
-        });
+    stars.forEach((star, index) => {
+      star.addEventListener('click', () => {
+        Actions.rateMovie(index + 1);
+        this.render();
+      });
+      if (this.#movie?.userRating === 0) {
         star.addEventListener('mouseenter', () => {
           this.highlightStars(index);
         });
         star.addEventListener('mouseleave', () => {
           this.resetStars();
         });
-      });
-    }
+      }
+    });
   }
 
   highlightStars(index: number) {
@@ -102,18 +102,19 @@ export class RateBlock {
     }
   }
 
-  deleteRating() {
-    const deleteRatingButton = document.getElementById(
-      'rate-block-delete-rate-button',
-    ) as HTMLElement;
+  // не удалять
+  // deleteRating() {
+  //   const deleteRatingButton = document.getElementById(
+  //     'rate-block-delete-rate-button',
+  //   ) as HTMLElement;
 
-    if (deleteRatingButton) {
-      deleteRatingButton.addEventListener('click', () => {
-        Actions.deleteRating();
-        this.render();
-      });
-    }
-  }
+  //   if (deleteRatingButton) {
+  //     deleteRatingButton.addEventListener('click', () => {
+  //       Actions.deleteRating();
+  //       this.render();
+  //     });
+  //   }
+  // }
 
   renderTemplate() {
     this.#parent.innerHTML = template({
@@ -126,6 +127,6 @@ export class RateBlock {
     this.handleAuthClick();
     this.coloringInitialRatingStars();
     this.handleStarsHover();
-    this.deleteRating();
+    // this.deleteRating(); // не удалять
   }
 }

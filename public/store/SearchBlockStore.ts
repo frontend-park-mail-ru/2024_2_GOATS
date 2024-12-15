@@ -100,7 +100,6 @@ class SearchBlockStore {
       const response = await apiClient.get({
         path: `movies/movies/search?query=${searchQuery}`,
       });
-      console.log(response);
       this.#findItems = response.map((movie: Movie) => {
         return serializeMovie(movie);
       });
