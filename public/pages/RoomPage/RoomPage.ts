@@ -190,7 +190,6 @@ export class RoomPage {
     currentSeason?: number,
     currentSeries?: number,
   ) {
-    // TODO: Добавить обработку серий и сезонов при первой загрузке страницы
     const videoContainer = document.getElementById('room-video') as HTMLElement;
     if (this.#room) {
       this.#video = new VideoPlayer({

@@ -7,17 +7,9 @@ import { Actions } from 'flux/Actions';
 
 export class RateBlock {
   #movie!: MovieDetailed | null;
-  //   #rating: number | undefined;
-  //   #userRating: number;
   #parent: HTMLElement;
 
-  constructor(
-    // rating: number | undefined,
-    // userRating: number,
-    parent: HTMLElement,
-  ) {
-    // this.#rating = rating;
-    // this.#userRating = userRating;
+  constructor(parent: HTMLElement) {
     this.#parent = parent;
   }
 

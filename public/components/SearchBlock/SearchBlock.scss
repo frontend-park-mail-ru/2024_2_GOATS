@@ -9,7 +9,6 @@
   justify-content: space-between;
   align-items: flex-end;
   position: relative;
-  // gap: 8px;
 
   &.active-search-bar {
     border-bottom: 2px solid white;
@@ -134,7 +133,6 @@
 @include mediumTablet {
   .search-bar {
     align-items: center;
-    // gap: 6px;
 
     &.active-search-bar {
       padding-bottom: 6px;
@@ -164,7 +162,6 @@
 @include mobile {
   .search-bar {
     align-items: center;
-    // gap: 6px;
 
     &.active-search-bar {
       padding-bottom: 6px;
@@ -194,13 +191,6 @@
 @include extraSmallMobile {
   .search-bar {
     align-items: center;
-    // gap: 6px;
-
-    // &__list {
-    //   right: -40px;
-    //   margin: 0 auto;
-    //   width: 90vw;
-    // }
     &.active-search-bar {
       padding-bottom: 6px;
       .search-bar {
@@ -232,51 +222,10 @@
       padding-bottom: 6px;
       .search-bar {
         &__input {
-          // flex-grow: 1.3;
           width: 60vw;
-          // width: 100%;
           padding-left: 4px;
         }
       }
     }
   }
 }
-
-// @include ultraSmallMobile {
-//   .search-bar {
-//     align-items: center;
-//     // gap: 6px;
-
-//     &__list {
-//       right: -40px;
-//       margin: 0 auto;
-//       width: 90vw;
-//     }
-//     &.active-search-bar {
-//       padding-bottom: 6px;
-
-//       #header__container_logo {
-//         display: none;
-//       }
-//       .search-bar {
-//         &__input {
-//           width: 70px;
-//           padding-left: 4px;
-//         }
-//       }
-//     }
-
-//     &__search {
-//       font-size: 14px;
-//     }
-//     &__input {
-//       font-size: 14px;
-//     }
-//     &__close {
-//       height: 18px;
-//       &_icon {
-//         width: 18px;
-//       }
-//     }
-//   }
-// }

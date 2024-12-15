@@ -102,13 +102,6 @@
   }
 
   &__info {
-    //TODO: проверить
-    // width: 30%;
-
-    // display: flex;
-    // flex-direction: column;
-    // gap: 20px;
-
     &_description {
       background-color: $block-background;
       color: $text-secondary-color;
@@ -139,7 +132,6 @@
     }
 
     &_button {
-      // background-color: $brand;
       color: $brand;
       font-size: $font-size-medium;
       font-weight: 600;

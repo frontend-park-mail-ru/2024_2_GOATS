@@ -25,7 +25,6 @@ class AuthPageStore {
         if (roomPageStore.getGlobalRoomId() && userStore.getUser().username) {
           roomPageStore.setIsModalConfirm(false);
           router.go('/room', roomPageStore.getGlobalRoomId());
-          // Actions.setGlobalRoomId('');
         }
       }
     });
@@ -69,7 +68,6 @@ class AuthPageStore {
         router.go('/');
       }
     } catch (e: any) {
-      // TODO: поменять обработку статус
       if (e.status === 404 || e.status === 409) {
         throwBackendError('auth', 'Неверный e-mail или пароль');
       } else {

@@ -76,7 +76,6 @@ export class MovieDescription {
     }
   }
 
-  // TODO: Совместный просмор в разработке
   handleWatchTogether() {
     const watchTogetherBtn = document.getElementById(
       'watch-together-btn',

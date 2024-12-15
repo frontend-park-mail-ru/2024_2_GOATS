@@ -100,12 +100,11 @@ class MoviePageStore {
       ) {
         response.movie_info.movie_type = 'movie';
       }
-      // response.movie_info.video_url =
-      //   '/static/movies_all/how-you-see-me/movie.mp4';
       const serializedMovieData = serializeMovieDetailed(response.movie_info);
       this.setMovieState(serializedMovieData);
     } catch (error) {
       throw error;
+      // TODO: 404 к защите
       // const errorPage = new ErrorPage({
       //   errorTitle: '404. Страница не найдена',
       //   errorDescription:

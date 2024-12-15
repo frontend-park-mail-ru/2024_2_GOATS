@@ -98,14 +98,7 @@ export class MainPage {
       slider.render();
       slider.render();
     } else {
-      this.#movieSelections.slice(1).forEach((selection, index) => {
-        // TODO: убрать проверку
-        if (index === 0) {
-          selection.movies = selection.movies.filter(
-            (movie) => movie.title !== '1+1',
-          );
-        }
-
+      this.#movieSelections.slice(1).forEach((selection) => {
         const newBlock = document.createElement('div');
         newBlock.classList.add('main-page__block');
         newBlock.id = `main-page-block-${selection.id}`;
@@ -135,12 +128,5 @@ export class MainPage {
     pageElement.innerHTML = template();
 
     this.renderBlocks();
-
-    //TODO: Вынести
-    // const coWatchBlockContainer = document.getElementById(
-    //   'cowatch-wrapper',
-    // ) as HTMLElement;
-    // const block = new CoWatchBlock(coWatchBlockContainer, false);
-    // block.render();
   }
 }

@@ -21,14 +21,7 @@ export class SearchBlock {
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
 
-    // const dataFetchingListener =
-    //   searchBlockStore.dataLoadingEmmitter$.addListener(() => {
-    //     this.renderItemsList();
-    //   });
-
-    this.ngOnDestroy = () => {
-      // dataFetchingListener();
-    };
+    this.ngOnDestroy = () => {};
   }
 
   ngOnDestroy(): void {}

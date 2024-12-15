@@ -56,7 +56,6 @@ export type Season = {
   episodes: Episode[];
 };
 
-//TODO: После мержа перенести
 export type Person = {
   id: number;
   name: string;

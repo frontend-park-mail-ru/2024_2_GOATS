@@ -162,10 +162,6 @@ export class ProfilePage {
     usernameInput.addEventListener('input', () => {
       this.controlButtonDisable();
     });
-
-    // avatarInput.addEventListener('change', () => {
-    //   this.controlButtonDisable();
-    // });
   }
 
   controlButtonDisable() {

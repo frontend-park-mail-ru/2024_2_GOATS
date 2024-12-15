@@ -105,7 +105,6 @@
 
       &_right {
         position: static;
-        // right: -5px;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -252,13 +251,11 @@
     transition:
       opacity 0.2s ease-in-out,
       visibility 0.2s ease-in-out;
-    // bottom 0.5s ease-in-out;
 
     &_show {
       opacity: 1;
       visibility: visible;
       z-index: 100;
-      // bottom: 50px;
     }
   }
 

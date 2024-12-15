@@ -73,10 +73,6 @@
       width: fit-content;
       height: fit-content;
       transition: transform 0.3s ease;
-
-      //   &:hover {
-      //     transform: scale(1.1);
-      //   }
     }
 
     &_stars {
@@ -97,18 +93,9 @@
   background-position: center;
   font-size: 13px;
   font-weight: 400;
-  color: #000; /* Цвет текста */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Тень текста для лучшей читаемости */
+  color: #000;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   user-select: none;
-  //   &.hover-star {
-  //     background-image: url('assets/icons/activeStarIcon.svg');
-  //   }
-
-  //   &.no-hover {
-  //     &:hover {
-  //       background-image: url('assets/icons/defaultStarIcon.svg');
-  //     }
-  //   }
 
   &.active-star {
     background-image: url('assets/icons/activeStarIcon.svg');
@@ -118,11 +105,6 @@
     cursor: pointer;
   }
 }
-
-// .rating-star:hover,
-// .rating-star:hover ~ .rating__star {
-//   background-image: url('assets/icons/activeStarIcon.svg');
-// }
 
 @include mobile {
   .rate-block {
