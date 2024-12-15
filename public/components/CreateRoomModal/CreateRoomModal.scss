@@ -35,9 +35,9 @@
   }
 
   &__content {
-    max-width: 600px;
-    width: 700px;
-    height: 400px;
+    max-width: 800px;
+    width: 800px;
+    height: 500px;
     transform: scale(0.5);
     transition: 0.4s all;
     background-color: $modal-content-background;
@@ -49,7 +49,7 @@
     }
 
     &_title {
-      font-size: 32px;
+      font-size: $font-size-extra-large;
       margin-bottom: 16px;
       text-align: center;
     }
@@ -78,14 +78,23 @@
   }
 }
 
-@include smallTablet {
+@include extraLargeTablet {
   .create-room-modal {
     &__content {
-      width: 550px;
+      width: 600px;
+      height: 400px;
     }
     &__close-icon {
       width: 24px;
       height: 24px;
+    }
+  }
+}
+
+@include smallTablet {
+  .create-room-modal {
+    &__content {
+      width: 550px;
     }
   }
 }
@@ -113,15 +122,15 @@
       padding: 24px;
 
       &_title {
-        font-size: 24px;
+        font-size: $font-size-large;
         margin-bottom: 12px;
       }
       &_search {
         &_desc {
-          font-size: 14px;
+          font-size: $font-size-small;
         }
         &_input {
-          font-size: 14px;
+          font-size: $font-size-small;
         }
       }
     }
@@ -139,15 +148,15 @@
       padding: 24px;
 
       &_title {
-        font-size: 20px;
+        font-size: $font-size-menu;
         margin-bottom: 10px;
       }
       &_search {
         &_desc {
-          font-size: 12px;
+          font-size: $font-size-extra-small;
         }
         &_input {
-          font-size: 12px;
+          font-size: $font-size-extra-small;
         }
       }
     }

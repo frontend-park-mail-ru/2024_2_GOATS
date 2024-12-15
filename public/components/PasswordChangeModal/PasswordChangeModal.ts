@@ -56,6 +56,15 @@ export class PasswordChangeModal {
     );
   }
 
+  handleCloseButtonClick() {
+    const closeButton = document.getElementById(
+      'password-modal-close-button',
+    ) as HTMLElement;
+    closeButton.addEventListener('click', () => {
+      this.hideModal();
+    });
+  }
+
   validatePasswordConrirmField(
     passwordValue: string,
     passwordConfirmValue: string,
@@ -159,6 +168,7 @@ export class PasswordChangeModal {
     }
 
     this.onSubmitClick();
+    this.handleCloseButtonClick();
   }
 
   hideModal() {

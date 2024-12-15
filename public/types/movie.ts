@@ -36,7 +36,6 @@ export type MovieDetailed = {
   seasons?: Season[];
   isFromFavorites?: boolean;
   withSubscription?: boolean;
-  //For rating test
   userRating?: number;
 };
 
