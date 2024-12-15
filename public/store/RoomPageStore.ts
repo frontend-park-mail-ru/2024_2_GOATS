@@ -8,7 +8,11 @@ import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { Emitter } from 'modules/Emmiter';
-import { serializeRoom, serializeMovieDetailed } from 'modules/Serializer';
+import {
+  serializeRoom,
+  serializeMovieDetailed,
+  serializeUsersList,
+} from 'modules/Serializer';
 
 const roomPage = new RoomPage();
 
@@ -145,7 +149,7 @@ class RoomPageStore {
         this.setState(serializeRoom(messageData));
         roomPage.render();
       } else if (Array.isArray(messageData)) {
-        roomPage.renderUsersList(messageData);
+        roomPage.renderUsersList(serializeUsersList(messageData));
       } else if (messageData.timeCode) {
         if (messageData.timeCode - roomPage.getCurrentVideoTime() > 2) {
           roomPage.setVideoTime(messageData.timeCode);

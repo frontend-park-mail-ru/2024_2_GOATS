@@ -157,3 +157,14 @@ export const serializeSavedMovies = (savedMovies: any) => {
     return serializeSavedMovie(savedMovie);
   });
 };
+
+export const serializeUsersList = (users: any) => {
+  return users.map((user: any) => {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      avatar: HOST + user.avatar_url,
+    };
+  });
+};
