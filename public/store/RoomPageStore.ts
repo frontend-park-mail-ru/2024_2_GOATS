@@ -123,7 +123,8 @@ class RoomPageStore {
   wsInit() {
     this.#user = userStore.getUser();
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
+      // `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
+      `ws://cassette-world.ru/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
     );
 
     this.#ws = ws;
