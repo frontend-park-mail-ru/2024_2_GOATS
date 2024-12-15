@@ -140,8 +140,6 @@ export class ProfilePage {
         this.#userAvatar = file;
         this.renderAvatar(avatarUrl);
         this.controlButtonDisable();
-        const notifier = new Notifier('info', 'Изображение загружено', 3000);
-        notifier.render();
       }
     }
   }

@@ -64,7 +64,7 @@ export const serializeMovieDetailed = (movie: any) => {
       }),
     isFromFavorites: movie.is_favorite,
     //For rating test
-    userRating: 7,
+    userRating: movie.rating_user,
   };
 };
 
@@ -122,7 +122,7 @@ export const serializeUserData = (user: any) => {
     birthdate: user.birthdate,
     sex: user.sex,
     avatar: HOST + user.avatar_url,
-    isPremium: user.subscription_status,
+    isPremium: true,
     expirationDate: user.subscription_expiration_date,
   };
 };

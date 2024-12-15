@@ -30,17 +30,18 @@ export class RateModalBlock {
     }
   }
 
-  handleDeleteRatingClick() {
-    const deleteRatingButton = document.getElementById(
-      'modal-rate-block-remove-rate-button',
-    );
-    if (deleteRatingButton) {
-      deleteRatingButton.addEventListener('click', () => {
-        Actions.deleteRating();
-        this.hideModal();
-      });
-    }
-  }
+  // не удалять
+  // handleDeleteRatingClick() {
+  //   const deleteRatingButton = document.getElementById(
+  //     'modal-rate-block-remove-rate-button',
+  //   );
+  //   if (deleteRatingButton) {
+  //     deleteRatingButton.addEventListener('click', () => {
+  //       Actions.deleteRating();
+  //       this.hideModal();
+  //     });
+  //   }
+  // }
 
   hideModal() {
     const rateSheet = document.getElementById(
@@ -113,6 +114,6 @@ export class RateModalBlock {
     this.handleRatingScrolling();
     this.displayInitialRating();
     this.handleRateClick();
-    this.handleDeleteRatingClick();
+    // this.handleDeleteRatingClick(); //не удалять
   }
 }

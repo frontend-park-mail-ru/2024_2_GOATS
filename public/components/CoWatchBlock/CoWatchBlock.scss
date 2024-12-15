@@ -19,6 +19,7 @@
   &__background {
     width: 100%;
     user-select: none;
+    height: 35vw;
   }
   &__container {
     position: absolute;
@@ -110,7 +111,7 @@
     }
     height: 420px;
     &__container {
-      background-image: url('assets/images/cowatchBackgroundMobile.png');
+      background-image: url('assets/images/cowatchBackgroundMobile.webp');
       background-size: cover;
       background-position: center;
     }

@@ -10,6 +10,7 @@ import {
 } from 'modules/Serializer';
 import { userStore } from './UserStore';
 import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
+import { Notifier } from 'components/Notifier/Notifier';
 
 const moviePage = new MoviePage();
 
@@ -222,42 +223,37 @@ class MoviePageStore {
   }
 
   async rateMovieRequest(rating: number) {
+    const tmp = this.#movie?.userRating;
     try {
-      // const response = await apiClient.post({
-      //   path: 'rate',
-      //   body: { rate: rating },
-      // });
-      console.log(`Фильм ${this.#movie?.title} оценен на ${rating}`);
+      if (this.#movie?.userRating !== undefined) {
+        this.#movie.userRating = rating;
+      }
+      await apiClient.post({
+        path: `movies/${this.#movie?.id}/rating`,
+        body: { rating: rating },
+      });
       if (this.#movie?.userRating !== undefined) {
         this.#movie.userRating = rating;
       }
     } catch (e) {
-      console.log(e);
+      if (this.#movie?.userRating !== undefined) {
+        this.#movie.userRating = tmp;
+      }
+      const not = new Notifier('error', 'Что-то пошло не так', 2000);
+      not.render();
     }
-
-    // if (this.#movie?.userRating !== undefined) {
-    //   this.#movie.userRating = rating;
-    // }
-    // console.log(`Фильм ${this.#movie?.title} оценен на ${rating}`);
   }
 
+  // не удалять
   async deleteRatingRequest() {
     try {
-      // const response = await apiClient.delete({
-      //   path: 'rate',
-      // });
-      console.log(`Удалена оценка с ${this.#movie?.title}`);
+      const response = await apiClient.delete({
+        path: `movies/${this.#movie?.id}/rating`,
+      });
       if (this.#movie?.userRating) {
         this.#movie.userRating = 0;
       }
-    } catch (e) {
-      console.log(e);
-    }
-
-    // if (this.#movie?.userRating) {
-    //   this.#movie.userRating = 0;
-    // }
-    // console.log(`Удалена оценка с ${this.#movie?.title}`);
+    } catch (e) {}
   }
 
   async reduce(action: any) {
