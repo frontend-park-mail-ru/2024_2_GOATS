@@ -190,11 +190,7 @@ class RoomPageStore {
             }
             break;
           case 'change_movie':
-            if (
-              this.#room &&
-              messageData['movie'] &&
-              messageData['movie'].id !== this.#room.movie.id
-            ) {
+            if (this.#room && messageData['movie'].id !== this.#room.movie.id) {
               this.#room.movie = serializeMovieDetailed(messageData['movie']);
               if (this.#room.movie.seasons && this.#room.movie.seasons.length) {
                 roomPage.renderVideo(

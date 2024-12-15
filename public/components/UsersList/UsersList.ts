@@ -7,10 +7,10 @@ export class UsersList {
 
   constructor(parent: HTMLElement, users: UserNew[]) {
     this.#parent = parent;
-    this.#users = this.getUniqueUsers(users);
+    this.#users = this.#getUniqueUsers(users);
   }
 
-  getUniqueUsers(users: UserNew[]) {
+  #getUniqueUsers(users: UserNew[]) {
     const seenUsernames = new Set<string>();
     const uniqueUsers: UserNew[] = [];
 

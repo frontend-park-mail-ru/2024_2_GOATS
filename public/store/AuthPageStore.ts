@@ -6,7 +6,6 @@ import { router } from 'modules/Router';
 import { userStore } from 'store/UserStore';
 import { throwBackendError, removeBackendError } from 'modules/BackendErrors';
 import { roomPageStore } from './RoomPageStore';
-import { User } from 'types/user';
 
 class AuthPageStore {
   constructor() {
@@ -21,11 +20,13 @@ class AuthPageStore {
     );
 
     const userAuthListener = userStore.isUserAuthEmmiter$.addListener(() => {
-      if (router.getCurrentPath() === '/auth') {
-        if (roomPageStore.getGlobalRoomId() && userStore.getUser().username) {
-          roomPageStore.setIsModalConfirm(false);
-          router.go('/room', roomPageStore.getGlobalRoomId());
-        }
+      if (
+        router.getCurrentPath() === '/auth' &&
+        roomPageStore.getGlobalRoomId() &&
+        userStore.getUser().username
+      ) {
+        roomPageStore.setIsModalConfirm(false);
+        router.go('/room', roomPageStore.getGlobalRoomId());
       }
     });
 
