@@ -1,0 +1,45 @@
+{
+  "id": "/",
+  "lang": "ru-RU",
+  "short_name": "Cassette",
+  "name": "Cassette — онлайн кинотеатр с совместным просмотром",
+  "description": "Cassette — онлайн кинотеатр с совместным просмотром",
+  "icons": [
+    {
+      "src": "./assets/icons/logoIcon.svg",
+      "type": "image/svg",
+      "sizes": "37x37",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/assets/icons/logoIcon-144.svg",
+      "type": "image/svg",
+      "sizes": "144x144",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/logoIcon-180.png",
+      "type": "image/png",
+      "sizes": "563x563",
+      "purpose": "any"
+    }
+  ],
+  "background_color": "#000",
+  "display": "standalone",
+  "start_url": "/",
+  "theme_color": "#000",
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/screen1.png",
+      "type": "image/png",
+      "sizes": "3024x1748",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/assets/screenshots/screen2.png",
+      "type": "image/png",
+      "sizes": "708x1538",
+      "form_factor": "narrow"
+    }
+  ]
+}
