@@ -30,14 +30,5 @@ root.appendChild(footerElement);
 root.appendChild(notifierElement);
 root.appendChild(previewElement);
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/sw.js', { scope: '/' })
-    .then(() => console.log('serviceWorker has been registered'))
-    .catch((err) => {
-      console.log('SW ERR: ', err);
-    });
-}
-
 initialStore.start();
 router.start();
