@@ -210,15 +210,17 @@ export class MoviePage {
     season?: number,
     series?: number,
   ) {
-    if (timeCode > duration * 0.95 || timeCode < duration * 0.05) {
-      Actions.deleteLastMovie();
-      return;
-    }
+    if (duration) {
+      if (timeCode > duration * 0.95 || timeCode < duration * 0.05) {
+        Actions.deleteLastMovie();
+        return;
+      }
 
-    if (!this.#movie?.isSerial) {
-      Actions.setLastMovies(timeCode, duration);
-    } else {
-      Actions.setLastMovies(timeCode, duration, season, series);
+      if (!this.#movie?.isSerial) {
+        Actions.setLastMovies(timeCode, duration);
+      } else {
+        Actions.setLastMovies(timeCode, duration, season, series);
+      }
     }
   }
 

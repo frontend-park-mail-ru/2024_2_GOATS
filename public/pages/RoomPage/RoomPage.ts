@@ -358,6 +358,25 @@ export class RoomPage {
         ) as HTMLButtonElement;
         sendMessageButton.addEventListener('click', () => this.sendMessage());
         this.handleChangeMovieClick();
+
+        const messageInput = document.getElementById(
+          'messages-input',
+        ) as HTMLInputElement;
+
+        const handleEnterKey = (event: KeyboardEvent) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            this.sendMessage();
+          }
+        };
+
+        messageInput.addEventListener('focus', () => {
+          messageInput.addEventListener('keydown', handleEnterKey);
+        });
+
+        messageInput.addEventListener('blur', () => {
+          messageInput.removeEventListener('keydown', handleEnterKey);
+        });
       } else {
         this.#loader.render();
       }
