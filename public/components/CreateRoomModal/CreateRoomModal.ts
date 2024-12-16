@@ -15,12 +15,16 @@ export class CreateRoomModal {
   #inputValueEmmitter: Emitter<string>;
   #isModalOpen: boolean;
   #onClick;
+  #title;
+  #text;
 
-  constructor(onClick?: (id: number) => void) {
+  constructor(title: string, text: string, onClick?: (id: number) => void) {
     this.#isModalOpen = false;
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
     this.#onClick = onClick;
+    this.#title = title;
+    this.#text = text;
 
     const userLoadingListener = searchBlockStore.movEm$.addListener(() => {
       this.renderMoviesList(searchBlockStore.getMovies(), this.#inputValue);
@@ -88,7 +92,10 @@ export class CreateRoomModal {
   render() {
     const root = document.getElementById('root');
     if (root) {
-      root.insertAdjacentHTML('beforeend', template());
+      root.insertAdjacentHTML(
+        'beforeend',
+        template({ title: this.#title, text: this.#text }),
+      );
       root.style.overflow = 'hidden';
     }
 

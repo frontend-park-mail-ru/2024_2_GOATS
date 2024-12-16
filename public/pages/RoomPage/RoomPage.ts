@@ -171,7 +171,11 @@ export class RoomPage {
   }
 
   handleChangeMovieClick() {
-    const modal = new CreateRoomModal((id: number) => Actions.changeMovie(id));
+    const modal = new CreateRoomModal(
+      'Изменение фильма',
+      'Воспользуйтесь поиском, чтобы найти нужный фильм',
+      (id: number) => Actions.changeMovie(id),
+    );
     const createRoomButton = document.getElementById(
       'change-movie-btn',
     ) as HTMLElement;
