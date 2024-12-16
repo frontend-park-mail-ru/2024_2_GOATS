@@ -294,9 +294,9 @@ export class VideoPlayer {
     video.addEventListener('ended', this.onVideoEnd.bind(this));
 
     // TODO: проверить на мобилке
-    if (this.#isModal) {
-      video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
-    }
+    // if (this.#isModal) {
+    video.addEventListener('loadeddata', this.hidePlaceholder.bind(this));
+    // }
 
     fullOrSmallScreen.addEventListener(
       'click',
@@ -374,7 +374,7 @@ export class VideoPlayer {
 
     // TODO: проверить на мобилке
     if (!this.#isModal) {
-      this.hidePlaceholder();
+      // this.hidePlaceholder();
 
       if (isTouchDevice() && isTabletOrMobileLandscape()) {
         const controls = document.querySelector(
@@ -796,8 +796,8 @@ export class VideoPlayer {
     this.#controls.videoWrapper.classList.remove('hidden');
     if (this.#isModal) {
       this.#controls.videoBackButton.classList.remove('video__controls_hidden');
-      this.#controls.videoTitle.classList.remove('video__controls_hidden');
     }
+    this.#controls.videoTitle.classList.remove('video__controls_hidden');
 
     this.#controls.videoMobileControls?.classList.remove(
       'video__controls_hidden',
