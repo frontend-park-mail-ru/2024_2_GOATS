@@ -1,0 +1,164 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.create-room-modal {
+  min-height: 100dvh;
+  min-width: 100dvw;
+  background-color: $modal-background;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
+  z-index: 10000;
+  backdrop-filter: blur(3px);
+
+  &__close-icon {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    top: 15px;
+    right: 15px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &__content {
+    max-width: 800px;
+    width: 800px;
+    height: 500px;
+    transform: scale(0.5);
+    transition: 0.4s all;
+    background-color: $modal-content-background;
+    padding: 24px 32px;
+    border-radius: $border-radius-small;
+
+    &_active {
+      transform: scale(1);
+    }
+
+    &_title {
+      font-size: $font-size-extra-large;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    &_search {
+      margin-bottom: 8px;
+      &_area {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      &_input {
+        width: 100%;
+        font-size: $font-size-medium;
+        outline: 1px solid #fff;
+
+        &:focus {
+          outline: 2px solid #fff;
+        }
+        &:hover {
+          cursor: text;
+        }
+      }
+    }
+  }
+}
+
+@include extraLargeTablet {
+  .create-room-modal {
+    &__content {
+      width: 600px;
+      height: 400px;
+    }
+    &__close-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+@include smallTablet {
+  .create-room-modal {
+    &__content {
+      width: 550px;
+    }
+  }
+}
+
+@include mobile {
+  .create-room-modal {
+    &__content {
+      width: 85vw;
+    }
+    &__close-icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+@include extraSmallMobile {
+  .create-room-modal {
+    &__close-icon {
+      width: 18px;
+      height: 18px;
+    }
+    &__content {
+      width: 90vw;
+      padding: 24px;
+
+      &_title {
+        font-size: $font-size-large;
+        margin-bottom: 12px;
+      }
+      &_search {
+        &_desc {
+          font-size: $font-size-small;
+        }
+        &_input {
+          font-size: $font-size-small;
+        }
+      }
+    }
+  }
+}
+
+@include tinyMobile {
+  .create-room-modal {
+    &__close-icon {
+      width: 16px;
+      height: 16px;
+    }
+    &__content {
+      width: 90vw;
+      padding: 24px;
+
+      &_title {
+        font-size: $font-size-menu;
+        margin-bottom: 10px;
+      }
+      &_search {
+        &_desc {
+          font-size: $font-size-extra-small;
+        }
+        &_input {
+          font-size: $font-size-extra-small;
+        }
+      }
+    }
+  }
+}

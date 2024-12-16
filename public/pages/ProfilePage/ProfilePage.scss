@@ -10,9 +10,8 @@
 
     display: grid;
     grid-template-columns: 60% 35%;
-    grid-template-rows: repeat(2, 1fr);
     justify-content: space-between;
-    row-gap: 12px;
+    row-gap: 20px;
   }
 
   &__profile-block {
@@ -37,7 +36,7 @@
     }
   }
 
-  &__security-block {
+  &__additional-block {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -55,12 +54,11 @@
   }
 
   &__exit-block {
-    grid-column-start: 2;
-
+    margin-top: 20px;
     &_title {
-      font-size: $font-size-large;
+      font-size: 20px;
       font-weight: bold;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     &_btn {
@@ -91,12 +89,15 @@
       display: none;
 
       &_label {
+        position: relative;
+
         display: flex;
         align-items: center;
         gap: 8px;
         font-size: $font-size-medium;
         border: 1.5px solid $brand;
         padding: 0.5em 1em;
+
         border-radius: 0.5em;
         transition: transform 0.2s ease;
 
@@ -109,6 +110,16 @@
 
         &_icon {
           width: 24px;
+          user-select: none;
+        }
+
+        &_sub {
+          color: $text-secondary-color;
+          font-size: 12px;
+          bottom: 2px;
+          font-weight: 300;
+          right: 20%;
+          position: absolute;
         }
       }
     }
@@ -199,7 +210,7 @@
   }
 }
 
-.security {
+.additional {
   &__title {
     font-size: 20px;
     font-weight: bold;
@@ -214,6 +225,8 @@
   &__select {
     width: fit-content;
     margin-top: 16px;
+    display: flex;
+    gap: 30px;
 
     &_button {
       width: 100%;
@@ -226,6 +239,14 @@
       transition: background-color 0.2s ease;
       &:hover {
         background-color: #590da6;
+      }
+
+      &_secondary {
+        background-color: $button-background-secondary;
+
+        &:hover {
+          background-color: $button-background-secondary-hover;
+        }
       }
     }
   }
@@ -262,12 +283,7 @@
       }
     }
 
-    &__security-block {
-      &_title {
-        font-size: 22px;
-      }
-    }
-    &__exit-block {
+    &__additional-block {
       &_title {
         font-size: 22px;
       }
@@ -291,6 +307,11 @@
       &_input {
         &_label {
           font-size: 14px;
+
+          &_sub {
+            font-size: 10px;
+            right: 25%;
+          }
         }
       }
     }

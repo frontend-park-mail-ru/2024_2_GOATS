@@ -21,14 +21,7 @@ export class SearchBlock {
     this.#inputValue = '';
     this.#inputValueEmmitter = new Emitter<string>('');
 
-    // const dataFetchingListener =
-    //   searchBlockStore.dataLoadingEmmitter$.addListener(() => {
-    //     this.renderItemsList();
-    //   });
-
-    this.ngOnDestroy = () => {
-      // dataFetchingListener();
-    };
+    this.ngOnDestroy = () => {};
   }
 
   ngOnDestroy(): void {}
@@ -131,7 +124,7 @@ export class SearchBlock {
       if (checkScreenWidth()) {
         headerLogo.style.display = 'none';
       }
-      searchBlockStore.searchRequest();
+      searchBlockStore.globalSearchRequest();
     });
 
     closeButton.addEventListener('click', () => {
@@ -142,6 +135,11 @@ export class SearchBlock {
       }
       searchInput.value = '';
       searchBlockStore.clearFounded();
+      const activeNav = document.getElementById(
+        'search-active-nav',
+      ) as HTMLElement;
+      activeNav.classList.remove('persons-selected');
+      activeNav.classList.add('movies-selected');
     });
   }
 

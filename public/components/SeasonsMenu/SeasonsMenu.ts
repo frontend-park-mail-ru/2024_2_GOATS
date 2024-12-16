@@ -7,16 +7,19 @@ export class SeasonsMenu {
   #activeSeason;
   #onSeasonClick;
   #seasons: SeasonsNumber[] = [];
+  #menuId;
 
   constructor(
     parent: HTMLElement,
     seasonsCount: number,
     activeSeason: number,
+    menuId: number,
     onSeasonClick: (number: number) => void,
   ) {
     this.#parent = parent;
     this.#seasonsCount = seasonsCount;
     this.#activeSeason = activeSeason;
+    this.#menuId = menuId;
     this.#onSeasonClick = onSeasonClick;
   }
 
@@ -38,18 +41,26 @@ export class SeasonsMenu {
     let currentSeason;
     this.#seasons.forEach((season) => {
       currentSeason = document.getElementById(
-        `season-${season.number}`,
+        `season-${this.#menuId}-${season.number}`,
       ) as HTMLDivElement;
 
-      currentSeason.addEventListener('click', () =>
-        this.#onSeasonClick(season.number),
-      );
+      currentSeason.addEventListener('click', () => {
+        this.#onSeasonClick(season.number);
+      });
     });
   }
 
   renderTemplate() {
     this.getSeasonsArray();
-    this.#parent.innerHTML = template({ seasons: this.#seasons });
+
+    const seasonsWithKey = this.#seasons.map((season) => {
+      return { ...season, key: this.#menuId };
+    });
+
+    this.#parent.innerHTML = template({
+      id: this.#menuId,
+      seasons: seasonsWithKey,
+    });
     this.onSeasonClick();
   }
 }

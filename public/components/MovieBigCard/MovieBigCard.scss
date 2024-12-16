@@ -6,6 +6,10 @@
   position: relative;
   transition: all 0.2s ease;
 
+  &__star-icon {
+    height: 14px;
+  }
+
   &__image {
     width: 100%;
     height: 100%;

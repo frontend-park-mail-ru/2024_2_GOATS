@@ -7,6 +7,7 @@ import { User } from 'types/user';
 import { EventEmitter } from 'events';
 import { Emitter } from 'modules/Emmiter';
 import { serializeUserData } from 'modules/Serializer';
+import { checkLocalStorage, clearLocalStorage } from 'modules/LocalStorage';
 const headerElement = document.createElement('header');
 
 class UserStore {
@@ -31,6 +32,8 @@ class UserStore {
       email: '',
       username: '',
       avatar: '',
+      isPremium: false,
+      expirationDate: '',
     };
     dispatcher.register(this.reduce.bind(this));
   }
@@ -65,6 +68,8 @@ class UserStore {
     this.#user.email = user.email;
     this.#user.username = user.username;
     this.#user.avatar = user.avatar;
+    this.#user.isPremium = user.isPremium;
+    this.#user.expirationDate = user.expirationDate;
 
     this.#isUserAuthEmmiter.set(true);
 
@@ -118,7 +123,17 @@ class UserStore {
       const response = await apiClient.get({
         path: 'auth/session',
       });
+
+      response.user_data.email = response.user_data.email.replace(
+        /&#34;/g,
+        '"',
+      );
       this.setState(serializeUserData(response.user_data));
+
+      if (checkLocalStorage()) {
+        Actions.copyLastMovies();
+        clearLocalStorage();
+      }
     } catch {
       this.clearUser();
     }

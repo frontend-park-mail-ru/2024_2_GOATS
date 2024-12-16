@@ -5,6 +5,7 @@ import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { userStore } from 'store/UserStore';
 import { throwBackendError, removeBackendError } from 'modules/BackendErrors';
+import { roomPageStore } from './RoomPageStore';
 
 class RegPageStore {
   constructor() {
@@ -18,11 +19,25 @@ class RegPageStore {
       },
     );
 
+    const userAuthListener = userStore.isUserAuthEmmiter$.addListener(() => {
+      if (router.getCurrentPath() === '/registration') {
+        if (roomPageStore.getGlobalRoomId() && userStore.getUser().username) {
+          roomPageStore.setIsModalConfirm(false);
+          router.go('/room', roomPageStore.getGlobalRoomId());
+        }
+      }
+    });
+
     this.ngOnDestroy = () => {
       userLoadingListener();
     };
+
+    this.ngOnUserAuthDestroy = () => {
+      userAuthListener();
+    };
   }
   ngOnDestroy(): void {}
+  ngOnUserAuthDestroy(): void {}
 
   renderReg() {
     if (userStore.getisUserLoading()) {
@@ -31,7 +46,7 @@ class RegPageStore {
       if (!userStore.getUserAuthStatus()) {
         const regPage = new RegPage();
         regPage.render();
-      } else {
+      } else if (!roomPageStore.getGlobalRoomId()) {
         router.go('/');
       }
     }
@@ -56,9 +71,11 @@ class RegPageStore {
       });
 
       userStore.checkAuth();
-      router.go('/');
+      if (!roomPageStore.getGlobalRoomId()) {
+        router.go('/');
+      }
     } catch (e: any) {
-      if (e.status === 409) {
+      if (e.status === 422) {
         throwBackendError('reg', 'Такой пользователь уже существует');
       } else {
         throwBackendError('reg', 'Что-то пошло не так. Попробуйте позже');

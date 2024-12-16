@@ -6,12 +6,36 @@
     max-width: $content-width-max;
     width: $content-width;
     margin: 0 auto;
-    margin-top: 16px;
+  }
+
+  &__content {
+    display: flex;
+
+    justify-content: space-between;
+  }
+
+  &__rating {
+    width: fit-content;
+    max-width: 550px;
+    height: 200px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &_title {
+      height: 20%;
+      font-size: 30px;
+    }
+
+    &_block {
+      height: 80%;
+    }
   }
 
   &__description {
-    padding-top: 30px;
-    width: 60%;
+    width: 33vw;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -30,6 +54,10 @@
       display: flex;
       align-items: center;
       gap: 5px;
+
+      &_icon {
+        user-select: none;
+      }
 
       &_text {
         font-size: $font-size-small;
@@ -71,6 +99,36 @@
         height: 100px !important;
       }
     }
+    &__rate {
+      width: 35vw;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &_text {
+        height: 120px !important;
+      }
+    }
+  }
+}
+
+@include tablet {
+  .movie-page {
+    &__content {
+      flex-direction: column;
+
+      gap: 30px;
+    }
+    &__description {
+      width: 80%;
+      max-width: none;
+    }
+    &-skeleton {
+      &__rate {
+        width: 50vw;
+      }
+    }
   }
 }
 
@@ -85,6 +143,11 @@
     &__description {
       width: 100%;
     }
+    &-skeleton {
+      &__rate {
+        width: 70vw;
+      }
+    }
   }
 }
 
@@ -94,6 +157,17 @@
       width: 90dvw;
       max-width: 90dvw;
       margin: 0 auto;
+    }
+    &__rating {
+      height: 175px;
+      &_title {
+        font-size: $font-size-large;
+      }
+    }
+    &-skeleton {
+      &__rate {
+        width: 80vw;
+      }
     }
 
     &__description {
@@ -117,5 +191,17 @@
         }
       }
     }
+  }
+}
+
+@include smallMobile {
+  .movie-page__rating {
+    width: 100%;
+  }
+}
+
+@include megaSmallMobile {
+  .movie-page__rating {
+    display: none;
   }
 }

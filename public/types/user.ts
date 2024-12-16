@@ -11,6 +11,8 @@ export type User = {
   username: string;
   birthDate?: Date;
   avatar: string;
+  isPremium: boolean;
+  expirationDate: string;
 };
 
 // For profile editing
@@ -28,4 +30,9 @@ export type UserNew = {
   sex?: string;
   avatar?: string;
   isAdmin?: boolean;
+};
+
+export type Subscription = {
+  subscriptionForm: HTMLFormElement;
+  subscriptionFormLabel: HTMLInputElement;
 };

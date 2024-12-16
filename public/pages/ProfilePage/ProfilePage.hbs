@@ -22,7 +22,10 @@
             <img
               class='user__image-field_input_label_icon'
               src='/assets/icons/upload.svg'
-            />Выбрать изображение</label>
+            />
+            {{! <span class='user__image-field_input_label_sub'>До 1мБ, png/jpg/jpeg</span> }}
+            Выбрать изображение</label>
+
           <span class='user__file_error' id='user-image-type-error'></span>
         </div>
         <div class='user__text-fields'>
@@ -79,26 +82,73 @@
 
       </div>
     </div>
-    <div class='profile-page__security-block'>
-      <h2 class='profile-page__security-block_title'>Управление доступом</h2>
-      <div class='profile-page__security-block_content'>
-        <h3 class='security__title'>Смена пароля</h3>
-        <span class='security__desc'>При смене пароля будут завершены все
+    <div class='profile-page__additional-block'>
+      <h2 class='profile-page__additional-block_title'>Подписка</h2>
+      <form
+        id='subscription-form'
+        method='POST'
+        action='https://yoomoney.ru/quickpay/confirm'
+      >
+        <input
+          id='subscription-form-label'
+          type='hidden'
+          name='label'
+          value=''
+        />
+        <input type='hidden' name='sum' value='2' data-type='number' />
+        <input type='hidden' name='receiver' value='4100118910706695' />
+        <input type='hidden' name='quickpay-form' value='button' />
+        <div class='profile-page__additional-block_content'>
+
+          {{#if user.isPremium}}
+            <h3 class='additional__title'>Подписка подключена</h3>
+            <span class='additional__desc'>
+              До конца подписки осталось
+              {{expirationDays}}
+            </span>
+          {{else}}
+            <h3 class='additional__title'>Подписка не активна</h3>
+            <span class='additional__desc'>Подписка стоит
+              <strong>10р.</strong>
+              и оформляется на
+              <strong>1 месяц</strong>
+            </span>
+          {{/if}}
+          <span class='additional__desc'>В подписку входят эксклюзывные фильмы и
+            сериалы, а также возможность создания комнат совместного просмотра
+          </span>
+          <div class='additional__select'>
+            {{#unless user.isPremium}}
+              <button
+                class='button additional__select_button'
+                id='subscription-btn'
+              >Оформить подписку</button>
+            {{/unless}}
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class='profile-page__additional-block'>
+      <h2 class='profile-page__additional-block_title'>Управление доступом</h2>
+      <div class='profile-page__additional-block_content'>
+        <h3 class='additional__title'>Смена пароля</h3>
+        <span class='additional__desc'>При смене пароля будут завершены все
           активные сеансы на других устройствах</span>
-        <div class='security__select'>
+        <div class='additional__select'>
           <button
-            class='button security__select_button'
+            class='button additional__select_button'
             id='security-change-btn'
           >Изменить пароль</button>
         </div>
+        <div class='profile-page__exit-block'>
+          <h2 class='profile-page__exit-block_title'>Выход из аккаунта</h2>
+          <button
+            id='exit-button'
+            class='button profile-page__exit-block_btn'
+          >Выйти</button>
+        </div>
       </div>
-    </div>
-    <div class='profile-page__exit-block'>
-      <h2 class='profile-page__exit-block_title'>Выход из аккаунта</h2>
-      <button
-        id='exit-button'
-        class='button profile-page__exit-block_btn'
-      >Выйти</button>
     </div>
 
   </div>

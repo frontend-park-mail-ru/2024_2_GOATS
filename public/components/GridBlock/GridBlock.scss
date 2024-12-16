@@ -54,11 +54,16 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      user-select: none;
     }
 
     &:first-child {
       grid-row: span 2 / span 2;
       font-size: 40px;
+
+      .grid-block__star-icon {
+        height: 20px;
+      }
 
       .grid-block__element_desc {
         padding: 24px;
@@ -72,6 +77,10 @@
       grid-column-start: 2;
       font-size: $font-size-extra-large;
 
+      .grid-block__star-icon {
+        height: 12px;
+      }
+
       .grid-block__element_desc {
         &_stats {
           font-weight: 400;
@@ -82,6 +91,10 @@
     &:nth-child(3) {
       font-size: $font-size-extra-large;
       grid-column-start: 2;
+
+      .grid-block__star-icon {
+        height: 12px;
+      }
 
       .grid-block__element_desc {
         &_stats {

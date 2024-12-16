@@ -6,7 +6,9 @@ import { Loader } from 'components/Loader/Loader';
 import { apiClient } from 'modules/ApiClient';
 import { MovieSelection } from 'types/movie';
 import { serializeCollections } from 'modules/Serializer';
+import { moviePageStore } from './MoviePageStore';
 import { EventEmitter } from 'events';
+import { userStore } from './UserStore';
 
 const mainPage = new MainPage();
 
@@ -36,17 +38,28 @@ class MainPageStore {
 
     if (serializedSelections.length !== this.#movieSelections.length) {
       this.setState(serializedSelections);
-      mainPage.render();
     } else {
       this.setState(serializedSelections);
     }
   }
+
+  rateMovie() {}
 
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MAIN_PAGE:
         mainPage.render();
         await this.getCollection();
+        if (
+          userStore.getUser().username &&
+          !userStore.isUserLoadingEmmiter$.get()
+        ) {
+          // TODO: Расскомментировать после мержа
+          // await moviePageStore.getLastMoviesRequest();
+        }
+        setTimeout(() => {
+          mainPage.render();
+        }, 50);
         break;
       default:
         break;

@@ -2,8 +2,6 @@
 
 .room-page {
   background-color: $background;
-  padding-bottom: 100px;
-
   &__container {
     max-width: $content-width-max;
     width: $content-width;
@@ -16,8 +14,14 @@
   }
 
   &__title {
-    font-size: 30px;
-    padding-bottom: 20px;
+    font-size: min($font-size-extra-large, calc(10px + 3.5vw));
+
+    &_block {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      padding-bottom: 10px;
+    }
   }
 
   &__header {
@@ -30,6 +34,19 @@
     display: flex;
     gap: 20px;
     height: 500px;
+  }
+
+  &__button {
+    background-color: $brand;
+    color: $brand-secondary;
+    max-width: 200px;
+    font-size: $font-size-medium;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $button-background-hover;
+    }
   }
 
   &__video {
@@ -85,12 +102,6 @@
   }
 
   &__info {
-    width: 30%;
-
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
     &_description {
       background-color: $block-background;
       color: $text-secondary-color;
@@ -121,14 +132,120 @@
     }
 
     &_button {
-      background-color: $brand;
-      color: $brand-secondary;
+      color: $brand;
       font-size: $font-size-medium;
       font-weight: 600;
-      transition: background-color 0.2s ease;
+      transition: color 0.2s ease;
 
       &:hover {
-        background-color: $button-background-hover;
+        color: $button-background-hover;
+      }
+    }
+  }
+}
+
+@include largeTablet {
+  .room-page {
+    &__content {
+      flex-direction: column;
+      height: auto;
+    }
+
+    &__title {
+      &_block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+
+    &__video {
+      width: calc(100% + 20vw);
+      margin-left: -10vw;
+    }
+
+    &__chat {
+      width: 100%;
+      height: 400px;
+
+      &_messages {
+        height: 75%;
+      }
+    }
+  }
+}
+
+@include smallTablet {
+  .room-page {
+    &__container {
+      width: 85vw;
+    }
+
+    &__info {
+      &_description {
+        padding: 20px;
+
+        &_title {
+          width: 20%;
+        }
+      }
+    }
+
+    &__video {
+      width: calc(100% + 15vw);
+      margin-left: -7.5vw;
+    }
+  }
+}
+
+@include mobile {
+  .room-page {
+    &__container {
+      width: 90vw;
+    }
+
+    &__content {
+      flex-direction: column;
+      height: auto;
+    }
+
+    &__title {
+      &_block {
+        padding-bottom: 0;
+      }
+    }
+
+    &__video {
+      width: calc(100% + 10vw);
+      margin-left: -5vw;
+    }
+
+    &__header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    &__info {
+      &_description {
+        padding: 20px;
+
+        &_title {
+          width: 30%;
+        }
+      }
+    }
+  }
+}
+
+@include ultraSmallMobile {
+  .room-page {
+    &__info {
+      &_description {
+        &_title {
+          width: 40%;
+        }
       }
     }
   }

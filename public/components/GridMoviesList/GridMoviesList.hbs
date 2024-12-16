@@ -1,0 +1,24 @@
+<div class='grid-list'>
+  {{#if isEmpty}}
+    <div class='empty-message'>
+      <img
+        class='empty-message__icon'
+        src='/assets/icons/searchIcon.svg'
+        alt=''
+      />
+      <span class='empty-message__text'>Ничего не найдено</span>
+    </div>
+  {{else}}
+    <div class='grid-list__container'>
+      {{#each items}}
+        <div id='grid-find-id-{{this.id}}' class='grid-list__container_item'>
+          <img
+            src='{{this.verticalImage}}'
+            alt='{{title}}'
+            class='grid-list__container_item_image'
+          />
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+</div>

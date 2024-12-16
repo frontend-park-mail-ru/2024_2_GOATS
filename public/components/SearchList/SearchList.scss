@@ -16,8 +16,9 @@
 
   &__subtitle {
     margin-left: 5%;
+    white-space: nowrap;
+    overflow: hidden;
   }
-
   // Эти комменты не удалять
   &::-webkit-scrollbar {
     width: 12px; // ширина области бара
@@ -44,7 +45,6 @@
 
     display: flex;
     padding-left: 5%;
-    // justify-content: space-between;
     gap: 8px;
 
     &:hover {
@@ -100,28 +100,3 @@
     }
   }
 }
-
-// @include extraSmallMobile {
-//   .find-item-list {
-//     width: 100%;
-
-//     &__item {
-//       gap: 4px;
-
-//       &_image {
-//         height: 35px;
-//       }
-
-//       &_info {
-//         &_title {
-//           font-size: 14px;
-//         }
-//       }
-
-//       &_stats {
-//         font-size: 10px;
-//         gap: 3px;
-//       }
-//     }
-//   }
-// }

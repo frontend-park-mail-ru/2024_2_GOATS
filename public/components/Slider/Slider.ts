@@ -209,7 +209,6 @@ export class Slider {
         case 'selection':
           if (this.#selection) {
             this.#title = this.#selection.title;
-            console.log('selection', this.#selection.title);
           }
           this.#selection?.movies.forEach((movie) => {
             const card = new Card(
@@ -257,7 +256,11 @@ export class Slider {
           this.#title = 'Вы недавно смотрели';
           this.#savedMovies?.forEach((movie) => {
             const progressCard = new ProgressCard(track, movie, () => {
-              router.go('/movie', movie.id, { fromRecentlyWatched: true });
+              router.go('/movie', movie.id, {
+                fromRecentlyWatched: true,
+                receivedSeason: movie.season,
+                receivedSeries: movie.series,
+              });
             });
             progressCard.render();
           });

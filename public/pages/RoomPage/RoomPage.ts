@@ -11,9 +11,11 @@ import { Message } from 'components/Message/Message';
 import { UsersList } from 'components/UsersList/UsersList';
 import { userStore } from 'store/UserStore';
 import { router } from 'modules/Router';
+import { CreateRoomModal } from 'components/CreateRoomModal/CreateRoomModal';
+import { Season } from 'types/movie';
 
 export class RoomPage {
-  #room!: Room;
+  #room!: Room | null;
   #loader!: Loader;
   #video!: VideoPlayer;
   #notifier!: Notifier;
@@ -56,11 +58,21 @@ export class RoomPage {
       name: 'play',
       time_code: timeCode,
     });
+    Actions.sendActionMessage({
+      name: 'duration',
+      duration: Math.round(this.getVideoDuration()),
+    });
   }
 
-  videoPlay(timeCode: number) {
-    // TODO: согласовать, зачем нужен timeCode
-    console.log('TIMECODE FROM VIDEO PLAY HANDLER', timeCode);
+  handleChageSeries(season: number, series: number) {
+    Actions.sendActionMessage({
+      name: 'change_series',
+      season_number: season,
+      episode_number: series,
+    });
+  }
+
+  videoPlay() {
     this.#video.videoPlay();
   }
 
@@ -146,6 +158,116 @@ export class RoomPage {
     }
   }
 
+  getCurrentVideoTime() {
+    return this.#video.getCurrentVideoTime();
+  }
+
+  getVideoDuration() {
+    return this.#video.getVideoDuration();
+  }
+
+  setVideoTime(timeCode: number) {
+    this.#video.setVideoTime(timeCode);
+  }
+
+  handleChangeMovieClick() {
+    const modal = new CreateRoomModal((id: number) => Actions.changeMovie(id));
+    const createRoomButton = document.getElementById(
+      'change-movie-btn',
+    ) as HTMLElement;
+
+    if (createRoomButton) {
+      createRoomButton.addEventListener('click', () => {
+        modal.render();
+      });
+    }
+  }
+
+  renderVideo(
+    videoUrl?: string,
+    titleImage?: string,
+    seasons?: Season[],
+    currentSeason?: number,
+    currentSeries?: number,
+  ) {
+    const videoContainer = document.getElementById('room-video') as HTMLElement;
+    if (this.#room) {
+      this.#video = new VideoPlayer({
+        parent: videoContainer,
+        ...(videoUrl ? { videoUrl } : { videoUrl: this.#room.movie.video }),
+        ...(titleImage
+          ? { titleImage }
+          : { titleImage: this.#room?.movie.titleImage }),
+        ...(seasons &&
+          seasons.length && {
+            seasons,
+            ...(!currentSeason
+              ? { currentSeason: 1, currentSeries: 1 }
+              : { currentSeason, currentSeries }),
+            onVideoUpdate: this.onVideoUpdate.bind(this),
+          }),
+        onPlayClick: this.onPlayClick,
+        onPauseClick: this.onPauseClick,
+        handleRewindVideo: this.handleRewindVideo,
+        fromRoomPage: true,
+      });
+      this.#video.render();
+    }
+  }
+
+  changeMovieInfo(titleImage: string, shortDescription: string) {
+    const titleBlock = document.querySelector(
+      '.room-page__info_description_title',
+    ) as HTMLImageElement;
+    const descriptionBlock = document.querySelector(
+      '.room-page__info_description_text',
+    ) as HTMLParagraphElement;
+
+    titleBlock.src = titleImage;
+    descriptionBlock.textContent = shortDescription;
+  }
+
+  onSeriesClick(seriesNumber: number) {
+    if (this.#room) {
+      this.#room.currentSeries = seriesNumber;
+    }
+
+    if (
+      this.#room?.movie?.seasons &&
+      this.#room.movie?.seasons.length &&
+      this.#room.currentSeason
+    ) {
+      this.renderVideo(
+        this.#room.movie?.seasons[this.#room.currentSeason - 1].episodes[
+          seriesNumber - 1
+        ].video,
+        this.#room.movie.titleImage,
+        this.#room.movie.seasons,
+      );
+    }
+  }
+
+  onVideoUpdate(
+    videoUrl: string,
+    currentSeason: number,
+    currentSeries: number,
+  ) {
+    if (this.#room) {
+      this.#room.currentSeason = currentSeason;
+      this.#room.currentSeries = currentSeries;
+    }
+
+    this.onPauseClick(0);
+    this.handleChageSeries(currentSeason, currentSeries);
+    this.renderVideo(
+      videoUrl,
+      this.#room?.movie.titleImage,
+      this.#room?.movie.seasons,
+      currentSeason,
+      currentSeries,
+    );
+  }
+
   renderTemplate() {
     const rootElem = document.getElementById('root');
     if (rootElem) {
@@ -155,14 +277,27 @@ export class RoomPage {
     const pageElement = document.getElementsByTagName('main')[0];
     this.#loader = new Loader(pageElement, template());
 
-    if (!this.#isModalConfirm) {
+    if (!userStore.getUser().username) {
+      Actions.setGlobalRoomId(roomPageStore.getRoomIdFromUrl());
+      const notifier = new Notifier(
+        'error',
+        'Сначала необходимо войти в аккаунт',
+        3000,
+      );
+      notifier.render();
+      router.go('/auth');
+    } else if (!this.#isModalConfirm) {
+      pageElement.innerHTML = '';
       const modal = new ConfirmModal(
         'Присоединиться к комнате совместного просмотра',
         false,
         () => {
           roomPageStore.setIsModalConfirm(true);
         },
-        () => router.go('/'),
+        () => {
+          router.go('/');
+          Actions.setGlobalRoomId('');
+        },
       );
       modal.render();
     } else {
@@ -171,26 +306,37 @@ export class RoomPage {
           movie: this.#room.movie,
         });
 
-        const videoContainer = document.getElementById(
-          'room-video',
-        ) as HTMLElement;
-        this.#video = new VideoPlayer({
-          parent: videoContainer,
-          url: this.#room.movie.video,
-          hasNextSeries: true,
-          hasPrevSeries: true,
-          onPlayClick: this.onPlayClick,
-          onPauseClick: this.onPauseClick,
-          handleRewindVideo: this.handleRewindVideo,
-          hanldeIntervalTick: this.hanldeTimerTick,
-        });
-        this.#video.render();
+        if (
+          this.#room.movie.seasons?.length &&
+          this.#room.currentSeason &&
+          this.#room.currentSeries
+        ) {
+          this.renderVideo(
+            this.#room.movie.seasons[this.#room.currentSeason - 1].episodes[
+              this.#room.currentSeries - 1
+            ].video,
+            this.#room.movie.titleImage,
+            this.#room.movie.seasons,
+            this.#room.currentSeason,
+            this.#room.currentSeries,
+          );
+        } else if (this.#room.movie.seasons?.length) {
+          this.#room.currentSeason = 1;
+          this.#room.currentSeries = 1;
+          this.renderVideo(
+            this.#room.movie.seasons[0].episodes[0].video,
+            this.#room.movie.titleImage,
+            this.#room.movie.seasons,
+          );
+        } else {
+          this.renderVideo();
+        }
 
         // Для установки текущего тайм кода новому пользователю
         this.videoRewind(this.#room.timeCode);
 
         if (this.#room.status === 'playing') {
-          this.videoPlay(this.#room.timeCode);
+          this.videoPlay();
         }
 
         const invitationBtn = document.getElementById(
@@ -211,53 +357,10 @@ export class RoomPage {
           'send-message-button',
         ) as HTMLButtonElement;
         sendMessageButton.addEventListener('click', () => this.sendMessage());
+        this.handleChangeMovieClick();
       } else {
         this.#loader.render();
       }
     }
-
-    // TODO: проверить
-    // if (this.#room) {
-    //   pageElement.innerHTML = template({
-    //     movie: this.#room.movie,
-    //   });
-
-    //   const videoContainer = document.getElementById(
-    //     'room-video',
-    //   ) as HTMLElement;
-    //   this.#video = new VideoPlayer({
-    //     parent: videoContainer,
-    //     url: this.#room.movie.video,
-    //     hasNextSeries: true,
-    //     hasPrevSeries: true,
-    //     onPlayClick: this.onPlayClick,
-    //     onPauseClick: this.onPauseClick,
-    //     handleRewindVideo: this.handleRewindVideo,
-    //     hanldeIntervalTick: this.hanldeTimerTick,
-    //   });
-    //   this.#video.render();
-
-    //   // Для установки текущего тайм кода новому пользователю
-    //   this.videoRewind(this.#room.timeCode);
-
-    //   const invitationBtn = document.getElementById(
-    //     'invitation-btn',
-    //   ) as HTMLButtonElement;
-
-    //   invitationBtn.addEventListener('click', () => this.onInviteButtonClick());
-
-    //   this.#notifier = new Notifier(
-    //     'success',
-    //     'Ссылка для приглашения скопирована',
-    //     3000,
-    //   );
-
-    //   const sendMessageButton = document.getElementById(
-    //     'send-message-button',
-    //   ) as HTMLButtonElement;
-    //   sendMessageButton.addEventListener('click', () => this.sendMessage());
-    // } else {
-    //   this.#loader.render();
-    // }
   }
 }

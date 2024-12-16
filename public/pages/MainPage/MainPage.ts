@@ -7,6 +7,7 @@ import { moviePageStore } from 'store/MoviePageStore';
 import { router } from 'modules/Router';
 import { Actions } from 'flux/Actions';
 import { isMobileDevice } from 'modules/IsMobileDevice';
+import { CoWatchBlock } from 'components/CoWatchBlock/CoWatchBlock';
 
 export class MainPage {
   #movieSelections: MovieSelection[] = [];
@@ -26,6 +27,9 @@ export class MainPage {
     const mainPageBlocks = document.querySelector(
       '.main-page__blocks',
     ) as HTMLElement;
+    const coWatchBlockContainer = document.getElementById(
+      'cowatch-wrapper',
+    ) as HTMLElement;
 
     if (isLoaded && moviePageStore.getLastMovies().length) {
       const newBlock = document.createElement('div');
@@ -42,6 +46,14 @@ export class MainPage {
       });
 
       slider.render();
+    }
+
+    if (isLoaded) {
+      const coWatchBlock = new CoWatchBlock(coWatchBlockContainer, false);
+      coWatchBlock.render();
+    } else {
+      const coWatchBlock = new CoWatchBlock(coWatchBlockContainer, true);
+      coWatchBlock.render();
     }
 
     const trendMoviesBlock = document.getElementById(

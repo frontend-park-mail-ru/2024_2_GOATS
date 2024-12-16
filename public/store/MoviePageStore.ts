@@ -6,9 +6,16 @@ import { MovieDetailed, MovieSaved, MovieSelection } from 'types/movie';
 import { Emitter } from 'modules/Emmiter';
 import {
   serializeMovieDetailed,
-  serializeCollections,
+  serializeSavedMovies,
 } from 'modules/Serializer';
+import {
+  deserializeSavedMovie,
+  deserializeSavedMovies,
+} from 'modules/Deserializer';
 import { userStore } from './UserStore';
+import { ErrorPage } from 'pages/ErrorPage/ErrorPage';
+import { Notifier } from 'components/Notifier/Notifier';
+import { UsersList } from 'components/UsersList/UsersList';
 
 const moviePage = new MoviePage();
 
@@ -79,22 +86,6 @@ class MoviePageStore {
     return this.#lastMovies;
   }
 
-  async getCollection() {
-    const response = await apiClient.get({
-      path: 'movie_collections/',
-    });
-
-    const serializedSelections = serializeCollections(
-      response.collections,
-    ).sort((selection1: any, selection2: any) => selection1.id - selection2.id);
-
-    if (serializedSelections.length !== this.#movieSelections.length) {
-      this.setSelectionsState(serializedSelections);
-    } else {
-      this.setSelectionsState(serializedSelections);
-    }
-  }
-
   async getMovieRequest(id: number) {
     this.#hasMovieGot.set(false);
     try {
@@ -102,10 +93,24 @@ class MoviePageStore {
         path: `movies/${id}`,
       });
 
+      // TODO: Убрать мок
+      if (
+        response.movie_info.title === 'Игра в кальмара' ||
+        response.movie_info.title === 'Бумажный дом'
+      ) {
+        response.movie_info.movie_type = 'movie';
+      }
       const serializedMovieData = serializeMovieDetailed(response.movie_info);
       this.setMovieState(serializedMovieData);
     } catch (error) {
       throw error;
+      // TODO: 404 к защите
+      // const errorPage = new ErrorPage({
+      //   errorTitle: '404. Страница не найдена',
+      //   errorDescription:
+      //     'Возможно, вы воспользовались недействительной ссылкой или страница была удалена. Проверьте URL-адрес или перейдите на главную страницу, там вас ожидают лучшие фильмы и сериалы.',
+      // });
+      // errorPage.render();
     } finally {
       this.#hasMovieGot.set(true);
     }
@@ -125,27 +130,76 @@ class MoviePageStore {
     }
   }
 
-  setLastMoviesToLocalStorage(timeCode: number, duration: number) {
+  async getLastMoviesRequest() {
+    try {
+      const response = await apiClient.get({
+        path: `users/${userStore.getUser().id}/watched`,
+      });
+
+      this.#lastMovies = serializeSavedMovies(response.watched_movies);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  setLastMoviesRequest(savedMovie?: MovieSaved) {
+    apiClient.post({
+      path: `users/${userStore.getUser().id}/watched`,
+      ...(savedMovie
+        ? { body: { watched_movies: [deserializeSavedMovie(savedMovie)] } }
+        : {
+            body: {
+              watched_movies: deserializeSavedMovies(this.#lastMovies),
+            },
+          }),
+    });
+  }
+
+  deleteLastMovieRequest() {
+    apiClient.delete({
+      path: `users/${userStore.getUser().id}/watched`,
+      body: {
+        movie_id: this.#movie?.id,
+      },
+    });
+  }
+
+  setLastMoviesToLocalStorage(
+    timeCode: number,
+    duration: number,
+    season?: number,
+    series?: number,
+  ) {
     const foundMovie = this.#lastMovies.find((m) => m.id === this.#movie?.id);
     if (this.#movie) {
       if (this.#movie?.isSerial) {
-        //TODO: Проверить сохранение серий
+        const seriesImage = this.#movie.seasons
+          ?.find((seasonObject) => seasonObject.seasonNumber === season)
+          ?.episodes.find(
+            (episode) => episode.episodeNumber === series,
+          )?.preview;
+
         if (foundMovie) {
-          // foundMovie.timeCode = timeCode;
+          foundMovie.timeCode = timeCode;
+          foundMovie.season = season;
+          foundMovie.series = series;
+          foundMovie.albumImage = seriesImage as string;
         } else {
-          // this.#lastMovies.push({
-          //   id: this.#movie.id,
-          //   title: this.#movie.title,
-          //   albumImage: this.#movie.albumImage,
-          //   timeCode: timeCode,
-          //   duration: duration,
-          //   season: season,
-          //   series: series,
-          // });
+          this.#lastMovies.push({
+            id: this.#movie.id,
+            title: this.#movie.title,
+            albumImage: seriesImage as string,
+            timeCode: timeCode,
+            duration: duration,
+            season: season,
+            series: series,
+            savingSeconds: Date.now(),
+          });
         }
       } else {
         if (foundMovie) {
           foundMovie.timeCode = timeCode;
+          foundMovie.savingSeconds = Date.now();
         } else {
           this.#lastMovies.push({
             id: this.#movie.id,
@@ -153,8 +207,15 @@ class MoviePageStore {
             albumImage: this.#movie.albumImage,
             timeCode: timeCode,
             duration: duration,
+            savingSeconds: Date.now(),
           });
         }
+      }
+
+      this.#lastMovies.sort((a, b) => b.savingSeconds - a.savingSeconds);
+
+      if (this.#lastMovies.length > 5) {
+        this.#lastMovies.pop();
       }
 
       try {
@@ -185,32 +246,108 @@ class MoviePageStore {
     }
   }
 
+  async rateMovieRequest(rating: number) {
+    const tmp = this.#movie?.userRating;
+    try {
+      if (this.#movie?.userRating !== undefined) {
+        this.#movie.userRating = rating;
+      }
+      await apiClient.post({
+        path: `movies/${this.#movie?.id}/rating`,
+        body: { rating: rating },
+      });
+      if (this.#movie?.userRating !== undefined) {
+        this.#movie.userRating = rating;
+      }
+    } catch (e) {
+      if (this.#movie?.userRating !== undefined) {
+        this.#movie.userRating = tmp;
+      }
+      const not = new Notifier('error', 'Что-то пошло не так', 2000);
+      not.render();
+    }
+  }
+
+  // не удалять
+  async deleteRatingRequest() {
+    try {
+      const response = await apiClient.delete({
+        path: `movies/${this.#movie?.id}/rating`,
+      });
+      if (this.#movie?.userRating) {
+        this.#movie.userRating = 0;
+      }
+    } catch (e) {}
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_MOVIE_PAGE:
         this.#movie = null;
         moviePage.render();
-        await Promise.all([
-          this.getCollection(),
-          this.getMovieRequest(action.payload.id),
-        ]);
-        this.getLastMoviesFromLocalStorage();
-        moviePage.render(action.payload.fromRecentlyWatched);
+        await this.getMovieRequest(action.payload.id);
+        if (!userStore.isUserLoadingEmmiter$.get()) {
+          if (userStore.getUser().username) {
+            // TODO: Расскомментировать после мержа
+            // await this.getLastMoviesRequest();
+          } else {
+            this.getLastMoviesFromLocalStorage();
+          }
+        }
+        // this.getLastMoviesFromLocalStorage();
+        moviePage.render(
+          action.payload.fromRecentlyWatched,
+          action.payload.receivedSeason,
+          action.payload.receivedSeries,
+        );
         break;
       case ActionTypes.GET_MOVIE:
         await this.getMovieRequest(action.payload);
         break;
       case ActionTypes.GET_LAST_MOVIES:
-        this.getLastMoviesFromLocalStorage();
+        if (
+          !userStore.isUserLoadingEmmiter$.get() &&
+          !userStore.getUser().username
+        ) {
+          this.getLastMoviesFromLocalStorage();
+        }
         break;
       case ActionTypes.SET_LAST_MOVIES:
-        this.setLastMoviesToLocalStorage(
-          action.payload.timeCode,
-          action.payload.duration,
-        );
+        if (userStore.getUser().username) {
+          // TODO: Расскомментировать после мержа
+          // this.setLastMoviesRequest({
+          //   ...action.payload,
+          //   id: this.#movie?.id,
+          //   title: this.#movie?.title,
+          //   albumImage: this.#movie?.albumImage,
+          //   savingSeconds: Date.now(),
+          // });
+        } else {
+          this.setLastMoviesToLocalStorage(
+            action.payload.timeCode,
+            action.payload.duration,
+            action.payload.season,
+            action.payload.series,
+          );
+        }
+        break;
+      case ActionTypes.COPY_LAST_MOVIES:
+        // TODO: Расскомментировать после мержа
+        // this.setLastMoviesRequest();
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
-        this.deleteLastMovieFromLocalStorage();
+        if (userStore.getUser().username) {
+          // TODO: Расскомментировать после мержа
+          // this.deleteLastMovieRequest();
+        } else {
+          this.deleteLastMovieFromLocalStorage();
+        }
+        break;
+      case ActionTypes.RATE_MOVIE:
+        this.rateMovieRequest(action.payload.rating);
+        break;
+      case ActionTypes.DELETE_RATING:
+        this.deleteRatingRequest();
         break;
       default:
         break;

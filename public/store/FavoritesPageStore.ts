@@ -15,14 +15,11 @@ class FavoritesPageStore {
   #movies: Movie[] | null = null;
 
   constructor() {
-    const unsubscribe = userStore.isUserAuthEmmiter$.addListener(
-      async (status) => {
-        if (status && router.getCurrentPath() === `/favorites`) {
-          await this.getFavorites();
-          favoritePage.render();
-        }
-      },
-    );
+    const unsubscribe = userStore.isUserLoadingEmmiter$.addListener(() => {
+      if (router.getCurrentPath() === '/favorites') {
+        this.renderFavoritesPage();
+      }
+    }); //TK
 
     this.ngOnDestroy = () => {
       unsubscribe();
@@ -82,15 +79,24 @@ class FavoritesPageStore {
     }
   }
 
+  async renderFavoritesPage() {
+    this.#movies = null;
+    favoritePage.render();
+    if (userStore.getisUserLoading()) {
+      return;
+    }
+    if (userStore.getUser().username) {
+      await this.getFavorites();
+      favoritePage.render();
+    } else {
+      router.go('/');
+    }
+  } //TK
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_FAVORITES_PAGE:
-        this.#movies = null;
-        favoritePage.render();
-        if (userStore.getUser().username) {
-          await this.getFavorites();
-          favoritePage.render();
-        }
+        this.renderFavoritesPage(); // TK
         break;
       case ActionTypes.ADD_TO_FAVORITES:
         this.addToFavorites(action.id);

@@ -27,6 +27,13 @@
 @import './components/SeasonsMenu/SeasonsMenu.scss';
 @import './components/SearchBlock/SearchBlock.scss';
 @import './components/SearchList/SearchList.scss';
+@import './components/SeriesList/SeriesList.scss';
+@import './components/SeriesListItem/SeriesListItem.scss';
+@import './components/RateBlock/RateBlock.scss';
+@import './components/RateModalBlock/RateModalBlock.scss';
+@import './components/CoWatchBlock/CoWatchBlock.scss';
+@import './components/CreateRoomModal/CreateRoomModal.scss';
+@import './components/GridMoviesList/GridMoviesList.scss';
 
 @import './pages/MainPage/MainPage.scss';
 @import './pages/AuthPage/AuthPage.scss';
@@ -67,7 +74,7 @@ body {
   }
 
   &-image {
-    background-image: url('./assets/images/background-image.jpg');
+    background-image: url('./assets/images/background-image.webp');
     background-size: cover;
     background-position: center;
   }

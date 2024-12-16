@@ -1,0 +1,9 @@
+<div id='series-list-item-{{series.id}}' class='series-list-item'>
+  <img class='series-list-item__img' src={{series.preview}} alt='series' />
+  <div class='series-list-item__title_block'>
+    {{#if isCurrentSeries}}
+      <span class='series-list-item__current'></span>
+    {{/if}}
+    <p class='series-list-item__title'>{{series.episodeNumber}} серия</p>
+  </div>
+</div>

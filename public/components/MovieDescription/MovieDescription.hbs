@@ -4,7 +4,7 @@
       <div class='movie-description__content'>
         <img class='movie-description__title' src={{movie.titleImage}} alt='' />
         <div class='movie-description__info'>
-          <span class='rating'>{{movie.rating}}</span>
+          <span class='rating'>{{movieRating}}</span>
           <span class='movie-description__info_text'>{{movie.releaseDate}},
             {{movie.country}}
           </span>
@@ -21,22 +21,43 @@
         </p>
 
         <div class='movie-description__actions'>
-          <button
-            id='show-movie-btn'
-            class='button movie-description__actions_show_btn'
-          >Смотреть</button>
-          {{! TODO: Совместный просмотр в разработке }}
-          {{!-- {{#if isUserAuth}}
+
+          {{#if withSubscription}}
+            {{#if isPremiumUser}}
+
+              <button
+                id='show-movie-btn'
+                class='button movie-description__actions_show_btn'
+              >Смотреть</button>
+            {{else}}
+              <p class='movie-description__info_text'>
+                Доступно в
+                <strong>Cassette Premium</strong>
+              </p>
+            {{/if}}
+
+          {{else}}
+            <button
+              id='show-movie-btn'
+              class='button movie-description__actions_show_btn'
+            >Смотреть</button>
+          {{/if}}
+
+          {{#if isPremiumUser}}
             <button
               id='watch-together-btn'
               class='button movie-description__actions_show_together_btn'
             >Смотреть вместе</button>
-          {{/if}} --}}
+          {{/if}}
 
           {{#if isUserAuth}}
             <span
               id='favorites-movie-btn'
               class='movie-description__actions_favorites_btn'
+            ></span>
+            <span
+              id='mobile-rate-movie-btn'
+              class='movie-description__actions_rate_btn'
             ></span>
           {{/if}}
         </div>

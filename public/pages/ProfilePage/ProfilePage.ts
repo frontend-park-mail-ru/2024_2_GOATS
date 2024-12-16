@@ -132,12 +132,14 @@ export class ProfilePage {
 
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
+
       const isValid = await this.validateAvatarField(file);
 
       if (isValid) {
         const avatarUrl = URL.createObjectURL(file);
         this.#userAvatar = file;
         this.renderAvatar(avatarUrl);
+        this.controlButtonDisable();
       }
     }
   }
@@ -158,10 +160,6 @@ export class ProfilePage {
     });
 
     usernameInput.addEventListener('input', () => {
-      this.controlButtonDisable();
-    });
-
-    avatarInput.addEventListener('change', () => {
       this.controlButtonDisable();
     });
   }
@@ -207,11 +205,86 @@ export class ProfilePage {
     }
   }
 
+  onSubscribeClick() {
+    const subscribtionButton = document.getElementById(
+      'subscription-btn',
+    ) as HTMLButtonElement;
+
+    const subscriptionForm = document.getElementById(
+      'subscription-form',
+    ) as HTMLFormElement;
+
+    const subscriptionFormLabel = document.getElementById(
+      'subscription-form-label',
+    ) as HTMLInputElement;
+
+    if (subscribtionButton) {
+      subscribtionButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        Actions.buySubscription({ subscriptionForm, subscriptionFormLabel });
+      });
+    }
+  }
+
+  getCountDaysString() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const currentDay = String(currentDate.getDate()).padStart(2, '0');
+
+    const currentDateArray = [currentYear.toString(), currentMonth, currentDay];
+
+    const expirationDateArray = userStore.getUser().expirationDate.split('-');
+
+    const currentYearNum = parseInt(currentDateArray[0], 10);
+    const currentMonthNum = parseInt(currentDateArray[1], 10);
+    const currentDayNum = parseInt(currentDateArray[2], 10);
+
+    const expirationYearNum = parseInt(expirationDateArray[0], 10);
+    const expirationMonthNum = parseInt(expirationDateArray[1], 10);
+    const expirationDayNum = parseInt(expirationDateArray[2], 10);
+
+    const currentDateObj = new Date(
+      currentYearNum,
+      currentMonthNum - 1,
+      currentDayNum,
+      0,
+      0,
+      0,
+    );
+    const expirationDateObj = new Date(
+      expirationYearNum,
+      expirationMonthNum - 1,
+      expirationDayNum,
+      0,
+      0,
+      0,
+    );
+
+    const differenceInTime =
+      expirationDateObj.getTime() - currentDateObj.getTime();
+
+    const differenceInDays = Math.ceil(
+      differenceInTime / (1000 * 60 * 60 * 24),
+    );
+
+    if ([1, 21, 31].includes(differenceInDays)) {
+      return String(differenceInDays) + ' день';
+    } else if ([2, 3, 4, 22, 23, 24].includes(differenceInDays)) {
+      return String(differenceInDays) + ' дня';
+    } else {
+      return String(differenceInDays) + ' дней';
+    }
+  }
+
   renderTemplate() {
     const pageElement = document.getElementsByTagName('main')[0];
 
     pageElement.innerHTML = template({
       user: profilePageStore.getUserInfo(),
+      ...(userStore.getUser().expirationDate && {
+        expirationDays: this.getCountDaysString(),
+      }),
     });
     this.renderAvatar(profilePageStore.getUserInfo().avatar);
 
@@ -228,5 +301,6 @@ export class ProfilePage {
 
     this.onExitClick();
     this.listenInputsChange();
+    this.onSubscribeClick();
   }
 }

@@ -1,6 +1,11 @@
 <div id='room-page' class='room-page'>
   <div class='room-page__container'>
-    <h4 class='room-page__title'>Комната для просмотра сериала от gashurov</h4>
+    <div class='room-page__title_block'>
+      <h4 class='room-page__title'>Комната для совместного просмотра</h4>
+      {{! <button id='invitation-btn' class='button room-page__members_button'>
+        Скопировать ссылку
+      </button> }}
+    </div>
     <div class='room-page__header'>
       <img
         class='room-page__info_description_title'
@@ -8,6 +13,21 @@
         alt='title'
       />
       <p class='room-page__info_description_text'>{{movie.shortDescription}}</p>
+    </div>
+
+    <button id='change-movie-btn' class='button room-page__button'>
+      Изменить фильм
+    </button>
+
+    <div class='room-page__members_wrapper'>
+      <div class='room-page__members_title_block'>
+        <h4 class='room-page__members_title'>Участники</h4>
+        <button id='invitation-btn' class='button room-page__members_button'>
+          Пригласить
+        </button>
+      </div>
+
+      <div id='room-page-members-list'></div>
     </div>
 
     <div class='room-page__content'>
@@ -38,15 +58,12 @@
       </div>
     </div>
 
-    <div class='room-page__members_wrapper'>
+    {{! <div class='room-page__members_wrapper'>
       <div class='room-page__members_title_block'>
         <h4 class='room-page__members_title'>Участники</h4>
-        <button id='invitation-btn' class='button room-page__members_button'>
-          Добавить
-        </button>
       </div>
 
       <div id='room-page-members-list'></div>
-    </div>
+    </div> }}
   </div>
 </div>

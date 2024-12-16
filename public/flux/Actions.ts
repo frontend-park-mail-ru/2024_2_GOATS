@@ -1,4 +1,4 @@
-import { User, AuthUser, UserData } from 'types/user';
+import { User, AuthUser, UserData, Subscription } from 'types/user';
 import { ActionTypes } from './ActionTypes';
 import { dispatcher } from './Dispatcher';
 import { Action } from 'types/room';
@@ -20,10 +20,15 @@ export const Actions = {
       type: ActionTypes.RENDER_REG_PAGE,
     });
   },
-  renderMoviePage(id: number | string, fromRecentlyWatched?: boolean) {
+  renderMoviePage(
+    id: number | string,
+    fromRecentlyWatched?: boolean,
+    receivedSeason?: boolean,
+    receivedSeries?: boolean,
+  ) {
     dispatcher.dispatch({
       type: ActionTypes.RENDER_MOVIE_PAGE,
-      payload: { id, fromRecentlyWatched },
+      payload: { id, fromRecentlyWatched, receivedSeason, receivedSeries },
     });
   },
   renderHeader(url: string) {
@@ -141,6 +146,11 @@ export const Actions = {
       },
     });
   },
+  copyLastMovies() {
+    dispatcher.dispatch({
+      type: ActionTypes.COPY_LAST_MOVIES,
+    });
+  },
   deleteLastMovie() {
     dispatcher.dispatch({
       type: ActionTypes.DELETE_LAST_MOVIE,
@@ -155,6 +165,35 @@ export const Actions = {
   deleteFromFavorites(id: number) {
     dispatcher.dispatch({
       type: ActionTypes.DELETE_FROM_FAVORITES,
+      id,
+    });
+  },
+  buySubscription(subscriptionFields: Subscription) {
+    dispatcher.dispatch({
+      type: ActionTypes.BUY_SUBSCRIPTION,
+      subscriptionFields,
+    });
+  },
+  rateMovie(rating: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.RATE_MOVIE,
+      payload: { rating },
+    });
+  },
+  deleteRating() {
+    dispatcher.dispatch({
+      type: ActionTypes.DELETE_RATING,
+    });
+  },
+  setGlobalRoomId(id: string) {
+    dispatcher.dispatch({
+      type: ActionTypes.SET_GLOBAL_ROOM_ID,
+      id,
+    });
+  },
+  changeMovie(id: number) {
+    dispatcher.dispatch({
+      type: ActionTypes.CHANGE_MOVIE,
       id,
     });
   },

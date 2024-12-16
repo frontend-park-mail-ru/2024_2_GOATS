@@ -9,6 +9,23 @@
     top: 0;
     width: 100%;
     z-index: 10;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    &.hidden::before {
+      opacity: 0;
+    }
   }
 
   &__container {
@@ -17,6 +34,29 @@
     height: 100%;
     display: flex;
     align-items: center;
+  }
+
+  &__title {
+    z-index: 10;
+    width: 15%;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+
+    &_image {
+      width: 100%;
+      user-select: none;
+      margin-bottom: 15px;
+    }
+
+    &_text {
+      font-size: 20px;
+      text-align: center;
+      font-weight: 400;
+      color: $text-secondary;
+    }
   }
 
   &__placeholder {
@@ -31,7 +71,7 @@
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    z-index: 1;
+    z-index: 100;
   }
 
   &__controls {
@@ -59,17 +99,27 @@
     &_actions {
       display: flex;
       justify-content: space-between;
+      width: calc(100% + 15px);
+      position: relative;
+      right: 5px;
 
       &_right {
+        position: static;
         display: flex;
         align-items: center;
         gap: 10px;
       }
 
       &_left {
+        position: static;
+        left: -5px;
         display: flex;
         align-items: center;
         gap: 10px;
+
+        &_time {
+          margin-top: 15px;
+        }
       }
     }
 
@@ -82,6 +132,7 @@
       background-repeat: no-repeat;
       background-size: 36px;
       user-select: none;
+      margin-top: 15px;
 
       &_play {
         background-image: url('assets/icons/playIcon.svg');
@@ -98,6 +149,30 @@
       &_small {
         background-image: url('assets/icons/smallScreenIcon.svg');
       }
+
+      &_volume-up {
+        background-image: url('assets/icons/volumeUp.svg');
+      }
+
+      &_volume-off {
+        background-image: url('assets/icons/volumeOff.svg');
+      }
+    }
+
+    &_seasons {
+      position: relative;
+      font-size: 16px;
+
+      &_title {
+        margin-top: 15px;
+
+        &_block {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          cursor: pointer;
+        }
+      }
     }
 
     &_timer {
@@ -110,6 +185,7 @@
       gap: 5px;
 
       &_input {
+        margin-top: 15px;
         -webkit-appearance: none;
         appearance: none;
         width: 80px;
@@ -155,7 +231,7 @@
 
   &__back {
     cursor: pointer;
-    z-index: 100;
+    z-index: 1000;
     width: 36px;
     height: 36px;
     position: absolute;
@@ -163,11 +239,32 @@
     left: 50px;
   }
 
+  &__series {
+    opacity: 0;
+    visibility: hidden;
+    width: 500px;
+    height: 400px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition:
+      opacity 0.2s ease-in-out,
+      visibility 0.2s ease-in-out;
+
+    &_show {
+      opacity: 1;
+      visibility: visible;
+      z-index: 100;
+    }
+  }
+
   &-mobile {
     &__controls {
       display: none;
       width: 100%;
       position: absolute;
+      z-index: 10;
 
       &_bottom {
         &_icon {
@@ -178,6 +275,7 @@
           background-repeat: no-repeat;
           background-size: 40px;
           user-select: none;
+          margin-top: 10px;
         }
       }
 
@@ -189,6 +287,10 @@
         background-repeat: no-repeat;
         background-size: 40px;
         user-select: none;
+      }
+
+      &_timer {
+        display: none;
       }
     }
   }
@@ -242,6 +344,41 @@
 
 @include mediumTablet {
   .video {
+    &__title {
+      width: 20%;
+    }
+
+    &__back {
+      top: 20px;
+      left: 15px;
+    }
+
+    &__title {
+      top: 20px;
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+
+      &_image {
+        margin-bottom: 0;
+      }
+
+      &_text {
+        min-width: 200px;
+        font-size: 14px;
+      }
+    }
+
+    &__controls {
+      padding: 10px 15px 20px 15px;
+
+      &_actions_left_time {
+        padding-left: 5px;
+      }
+    }
+
     &-mobile {
       &__controls {
         display: flex;
@@ -268,12 +405,11 @@
 @include mobileLandscape {
   .video {
     &__controls {
-      padding: 10px 15px 20px 15px;
-
       &_icon {
         width: 30px;
         height: 30px;
         background-size: 30px;
+        margin-top: 10px;
       }
     }
 
@@ -303,12 +439,51 @@
   }
 }
 
+@include mobile {
+  .video {
+    position: relative;
+    &__controls {
+      &_seasons {
+        position: static;
+
+        &_title {
+          display: none;
+        }
+      }
+    }
+
+    &__series {
+      width: 100%;
+      left: -2px;
+      transform: translateX(0);
+    }
+  }
+}
+
 @include extraSmallMobile {
   .video {
     &__controls {
       &_actions_left_time {
-        font-size: 12px;
+        font-size: 14px;
       }
+    }
+  }
+}
+
+@media (max-height: 500px) {
+  .video {
+    &__series {
+      height: 300px;
+      bottom: 30px;
+    }
+  }
+}
+
+@media (max-height: 370px) {
+  .video {
+    &__series {
+      height: 250px;
+      position: absolute;
     }
   }
 }

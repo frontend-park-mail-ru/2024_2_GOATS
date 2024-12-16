@@ -1,6 +1,6 @@
 import { ProfilePage } from 'pages/ProfilePage/ProfilePage';
 import { ActionTypes } from 'flux/ActionTypes';
-import { User, UserData } from 'types/user';
+import { Subscription, User, UserData } from 'types/user';
 import { dispatcher } from 'flux/Dispatcher';
 import { apiClient } from 'modules/ApiClient';
 import { Emitter } from 'modules/Emmiter';
@@ -8,11 +8,11 @@ import { removeBackendError, throwBackendError } from 'modules/BackendErrors';
 import { Notifier } from 'components/Notifier/Notifier';
 import { router } from 'modules/Router';
 import { userStore } from './UserStore';
-import { Actions } from 'flux/Actions';
 
 export class ProfilePageStore {
   #user!: User;
   #passwordChangedEmitter: Emitter<boolean>;
+  #subscriptionFormLabel!: string;
 
   constructor() {
     this.#passwordChangedEmitter = new Emitter<boolean>(false);
@@ -29,6 +29,8 @@ export class ProfilePageStore {
     this.ngOnDestroy = () => {
       userLoadingListener();
     };
+
+    this.#subscriptionFormLabel = '';
   }
   ngOnDestroy(): void {}
 
@@ -123,6 +125,26 @@ export class ProfilePageStore {
     }
   }
 
+  async sendPayment() {
+    try {
+      const response = await apiClient.post({
+        path: 'subscription/',
+        body: { amount: 2 },
+      });
+
+      this.#subscriptionFormLabel = response.subscription_idp;
+    } catch {
+      throw new Error('subscription error');
+    }
+  }
+
+  async buySubscription(subscriptionFields: Subscription) {
+    await this.sendPayment();
+    subscriptionFields.subscriptionFormLabel.value =
+      this.#subscriptionFormLabel;
+    subscriptionFields.subscriptionForm.submit();
+  }
+
   async reduce(action: any) {
     switch (action.type) {
       case ActionTypes.RENDER_PROFILE_PAGE:
@@ -144,6 +166,9 @@ export class ProfilePageStore {
         ) {
           await this.changeUserInfoRequest(action.userData);
         }
+        break;
+      case ActionTypes.BUY_SUBSCRIPTION:
+        await this.buySubscription(action.subscriptionFields);
         break;
       default:
         break;

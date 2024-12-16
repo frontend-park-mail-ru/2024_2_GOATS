@@ -32,6 +32,7 @@
       gap: 32px;
 
       &_icon {
+        user-select: none;
         width: 32px;
         height: 32px;
         transition: transform 0.2s ease;

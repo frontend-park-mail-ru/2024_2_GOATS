@@ -11,7 +11,6 @@ import {
   serializeMovie,
   serializeSearchActorData,
 } from 'modules/Serializer';
-import { findActors, findMovies } from 'types/searchTypes';
 
 const searchBlock = new SearchBlock();
 
@@ -20,22 +19,25 @@ class SearchBlockStore {
   #searchValue: string;
   #selectedNav: string;
 
+  #findItemsEmmiter: Emitter<boolean>;
+
   constructor() {
     this.#findItems = [];
+    this.#findItemsEmmiter = new Emitter<boolean>(false);
     this.#searchValue = '';
     this.#selectedNav = 'movies';
 
     const inputChangeListener = searchBlock.inputEmmitter$.addListener(
       (value: string) => {
         this.#searchValue = value;
-        this.searchRequest();
+        this.globalSearchRequest();
       },
     );
 
     const categoryChangeListener = searchBlock.navEmmitter$.addListener(
       (value) => {
         this.#selectedNav = value;
-        this.searchRequest();
+        this.globalSearchRequest();
       },
     );
 
@@ -45,11 +47,18 @@ class SearchBlockStore {
     };
     dispatcher.register(this.reduce.bind(this));
   }
+  get movEm$(): Emitter<boolean> {
+    return this.#findItemsEmmiter;
+  }
+  findMovies(a: string) {
+    this.moviesSearchRequest(a);
+  }
 
   clearFounded() {
     this.#findItems = [];
     this.#searchValue = '';
     this.#selectedNav = 'movies';
+    this.#findItemsEmmiter.set(false);
   }
 
   ngOnDestroy(): void {}
@@ -62,38 +71,42 @@ class SearchBlockStore {
     return this.#findItems;
   }
 
-  async searchRequest() {
+  async globalSearchRequest() {
     try {
       this.#findItems = [];
 
-      // const response = await apiClient.get({
-      //   path: `movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
-      // });
-
-      const response = await fetch(
-        `http://83.166.232.3:8080/api/movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            mode: 'cors',
-          },
-        },
-      );
-      const data = await response.json();
+      const response = await apiClient.get({
+        path: `movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
+      });
 
       if (this.#selectedNav === 'movies') {
-        this.#findItems = data.map((movie: Movie) => {
+        this.#findItems = response.map((movie: Movie) => {
           return serializeMovie(movie);
         });
       } else {
-        this.#findItems = data.map((movie: Movie) => {
+        this.#findItems = response.map((movie: Movie) => {
           return serializeSearchActorData(movie);
         });
       }
       searchBlock.renderItemsList(this.#selectedNav, false);
     } catch (e: any) {
       searchBlock.renderItemsList(this.#selectedNav, true);
+    }
+  }
+
+  async moviesSearchRequest(searchQuery: string) {
+    try {
+      this.#findItems = [];
+      const response = await apiClient.get({
+        path: `movies/movies/search?query=${searchQuery}`,
+      });
+      this.#findItems = response.map((movie: Movie) => {
+        return serializeMovie(movie);
+      });
+      this.#findItemsEmmiter.set(true);
+    } catch (e: any) {
+      this.#findItems = [];
+      this.#findItemsEmmiter.set(false);
     }
   }
 

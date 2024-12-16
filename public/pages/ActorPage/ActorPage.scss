@@ -21,6 +21,7 @@
       width: 35%;
       min-width: 140px;
       max-width: 300px;
+      user-select: none;
     }
 
     &_info {
@@ -173,6 +174,7 @@
 }
 
 .toggler_icon {
+  user-select: none;
   &.less {
     transform: rotate(180deg);
   }

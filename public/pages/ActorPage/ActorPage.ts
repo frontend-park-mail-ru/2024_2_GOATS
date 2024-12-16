@@ -38,6 +38,11 @@ export class ActorPage {
   }
 
   renderTemplate() {
+    const rootElem = document.getElementById('root');
+    if (rootElem) {
+      rootElem.classList.add('root-black');
+      rootElem.classList.remove('root-image');
+    }
     const pageElement = document.getElementsByTagName('main')[0];
     window.scrollTo(0, 0);
 

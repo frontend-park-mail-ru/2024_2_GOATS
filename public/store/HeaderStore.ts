@@ -50,8 +50,6 @@ class HeaderStore {
             if (router.getCurrentPath() !== '/favorites') {
               router.go('/favorites');
             }
-            // TODO: Согласовать с Тамиком
-            // router.go('/favorites');
             if (roomPageStore.getWs()) {
               roomPageStore.closeWs();
             }
@@ -77,9 +75,7 @@ class HeaderStore {
           id: 'header-profile',
           isAvailable: userStore.getUserAuthStatus(),
           render: () => {
-            // if (router.getCurrentPath() !== '/profile') {
             router.go('/profile');
-            // } // TODO: пофиксить баг с навигацией
             if (roomPageStore.getWs()) {
               roomPageStore.closeWs();
             }

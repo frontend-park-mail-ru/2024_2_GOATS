@@ -8,13 +8,23 @@
   {{/if}}
   <div class='video__container'>
     <video id='video' class='video'>
-      <source src={{url}} type='video/mp4' />
+      <source src={{videoUrl}} type='video/mp4' />
     </video>
 
     <div id='video-placeholder' class='video__placeholder'>
       <div class='loader__wrapper'>
         <div class='loader'></div>
       </div>
+    </div>
+
+    <div class='video__title'>
+      <img class='video__title_image' src={{titleImage}} alt='title' />
+      {{#if currentSeason}}
+        <h4 class='video__title_text'>{{currentSeason}}
+          сезон,
+          {{currentSeries}}
+          серия</h4>
+      {{/if}}
     </div>
 
     <div id='video-mobile-controls' class='video-mobile__controls'>
@@ -37,6 +47,17 @@
     </div>
   </div>
   <div id='video-controls' class='video__controls'>
+    <p class='video-mobile__controls_timer'>
+      <span
+        id='current-time-mobile'
+        class='video-mobile__controls_timer_time'
+      >00:00</span>
+      /
+      <span
+        class='video-mobile__controls_timer_time'
+        id='duration-mobile'
+      >00:00</span>
+    </p>
     <div class='video__controls_progress'>
       <div class='video__progress'>
         <input
@@ -102,6 +123,23 @@
       </div>
 
       <div class='video__controls_actions_right'>
+        {{#if isSerial}}
+          <div id='series-block' class='video__controls_seasons'>
+            <div id='video-series' class='video__series'></div>
+            <div
+              id='seasons-button'
+              class='video__controls_seasons_title_block'
+            >
+              <img
+                class='video__controls_icon'
+                src='/assets/icons/episodesIcon.svg'
+                alt='rewind-back'
+              />
+              <p class='video__controls_seasons_title'>Сезоны и серии</p>
+            </div>
+          </div>
+        {{/if}}
+
         <img
           id='rewind-back-button'
           class='video__controls_icon'
@@ -115,11 +153,10 @@
           alt='rewind-back'
         />
         <div id='volume-block' class='video__controls_volume'>
-          <img
-            class='video__controls_icon'
-            src='/assets/icons/volumeUp.svg'
-            alt='volume'
-          />
+          <span
+            id='volume-off-up'
+            class='video__controls_icon video__controls_icon_volume-up'
+          ></span>
           <input
             class='video__controls_volume_input'
             type='range'

@@ -1,0 +1,35 @@
+.series-list-item {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+
+  &__img {
+    width: 150px;
+    user-select: none;
+  }
+
+  &__title {
+    width: 100%;
+
+    &_block {
+      height: 16px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  &__current {
+    background-color: $brand;
+    border-radius: $border-radius-max;
+    min-width: 10px;
+    min-height: 10px;
+  }
+
+  &:hover {
+    background-color: $series-menu-hover-background;
+  }
+}

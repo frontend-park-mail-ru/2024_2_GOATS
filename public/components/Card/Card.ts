@@ -6,12 +6,14 @@ import {
   CARD_PREVIEW_EXPANDING_TIMEOUT,
   CARD_PREVIEW_HIDING_TIMEOUT,
 } from '../../consts';
+import { isMobileDevice } from 'modules/IsMobileDevice';
 
 export class Card {
   #parent;
   #movie;
   #onCardClick;
   #cardId;
+  #imageBlobUrl: string | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -32,13 +34,13 @@ export class Card {
     const previewBlock = document.getElementById('preview') as HTMLElement;
     let timeoutId: any;
 
-    if (card) {
+    if (card && !isMobileDevice()) {
       card.addEventListener('mouseover', () => {
         timeoutId = setTimeout(() => {
-          const a = card.getBoundingClientRect();
+          const coor = card.getBoundingClientRect();
           previewBlock.classList.add('visible');
           if (this.#movie) {
-            const preview = new CardPreview(this.#movie, previewBlock, a);
+            const preview = new CardPreview(this.#movie, previewBlock, coor);
             preview.render();
           }
         }, CARD_PREVIEW_EXPANDING_TIMEOUT);

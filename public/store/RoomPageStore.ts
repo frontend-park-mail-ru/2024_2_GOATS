@@ -8,18 +8,24 @@ import { User } from 'types/user';
 import { apiClient } from 'modules/ApiClient';
 import { router } from 'modules/Router';
 import { Emitter } from 'modules/Emmiter';
-import { serializeRoom } from 'modules/Serializer';
+import {
+  serializeRoom,
+  serializeMovieDetailed,
+  serializeUsersList,
+} from 'modules/Serializer';
+import { mainPageStore } from './MainPageStore';
 
 const roomPage = new RoomPage();
 
 class RoomPageStore {
-  #room!: Room;
+  #room!: Room | null;
   #ws: WebSocket | null = null;
   #user!: User;
   #createdRoomId = '';
   #roomIdFromUrl = '';
   #isModalConfirm = false;
   #isCreatedRoomReceived; // Емиттер для получения айди комнаты после создания
+  #globalRoomId = '';
 
   constructor() {
     this.#isCreatedRoomReceived = new Emitter<boolean>(false);
@@ -32,6 +38,13 @@ class RoomPageStore {
         !this.#ws
       ) {
         this.wsInit();
+      }
+
+      if (
+        !this.#isModalConfirm &&
+        router.getCurrentPath() === `/room/${this.#roomIdFromUrl}`
+      ) {
+        roomPage.render();
       }
     });
 
@@ -55,8 +68,14 @@ class RoomPageStore {
   setIsModalConfirm(isModalConfirm: boolean) {
     this.#isModalConfirm = isModalConfirm;
     roomPage.render();
-    if (!this.#ws && userStore.getUser().username && !this.#createdRoomId) {
+    if (
+      !this.#ws &&
+      userStore.getUser().username &&
+      !this.#createdRoomId &&
+      isModalConfirm
+    ) {
       this.wsInit();
+      mainPageStore.getCollection();
     }
   }
 
@@ -74,6 +93,14 @@ class RoomPageStore {
 
   getIsModalConfirm() {
     return this.#isModalConfirm;
+  }
+
+  getRoomIdFromUrl() {
+    return this.#roomIdFromUrl;
+  }
+
+  getGlobalRoomId() {
+    return this.#globalRoomId;
   }
 
   async createRoom(movieId: number) {
@@ -98,10 +125,15 @@ class RoomPageStore {
   wsInit() {
     this.#user = userStore.getUser();
     const ws = new WebSocket(
-      `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
+      // `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
+      `wss://cassette-world.ru/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
     );
 
     this.#ws = ws;
+
+    if (this.#globalRoomId) {
+      this.#globalRoomId = '';
+    }
 
     ws.onclose = (event) => {
       console.log('WebSocket соединение закрыто:', event.code, event.reason);
@@ -113,21 +145,22 @@ class RoomPageStore {
 
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
-
-      if (messageData.movie) {
-        // TODO: Убрать тестовый сценарий после мержа на бэке:
-        messageData.movie.title_url = '/static/movies/squid-game/logo.png';
-        messageData.movie.video_url = '/static/movies/squid-game/movie.mp4';
-
+      if (
+        (messageData.movie && messageData.movie.id && !messageData.name) ||
+        messageData.id
+      ) {
         this.setState(serializeRoom(messageData));
-
         roomPage.render();
       } else if (Array.isArray(messageData)) {
-        roomPage.renderUsersList(messageData);
+        roomPage.renderUsersList(serializeUsersList(messageData));
+      } else if (messageData.timeCode) {
+        if (messageData.timeCode - roomPage.getCurrentVideoTime() > 2) {
+          roomPage.setVideoTime(messageData.timeCode);
+        }
       } else {
         switch (messageData.name) {
           case 'play':
-            roomPage.videoPlay(messageData.time_code);
+            roomPage.videoPlay();
             break;
           case 'pause':
             roomPage.videoPause(messageData.time_code);
@@ -137,6 +170,46 @@ class RoomPageStore {
             break;
           case 'message':
             roomPage.renderMessage(messageData.message);
+            break;
+          case 'change_series':
+            if (this.#room && this.#room.movie.seasons) {
+              this.#room.timeCode = 0;
+              this.#room.currentSeason = messageData.season_number;
+              this.#room.currentSeries = messageData.episode_number;
+
+              if (this.#room.currentSeason && this.#room.currentSeries) {
+                roomPage.renderVideo(
+                  this.#room.movie.seasons[this.#room.currentSeason - 1]
+                    .episodes[this.#room.currentSeries - 1].video,
+                  this.#room.movie.titleImage,
+                  this.#room.movie.seasons,
+                  this.#room.currentSeason,
+                  this.#room.currentSeries,
+                );
+              }
+            }
+            break;
+          case 'change_movie':
+            if (this.#room && messageData['movie'].id !== this.#room.movie.id) {
+              this.#room.movie = serializeMovieDetailed(messageData['movie']);
+              if (this.#room.movie.seasons && this.#room.movie.seasons.length) {
+                roomPage.renderVideo(
+                  this.#room.movie.seasons[0].episodes[0].video,
+                  this.#room.movie.titleImage,
+                  this.#room.movie.seasons,
+                );
+              } else {
+                roomPage.renderVideo(
+                  this.#room.movie.video,
+                  this.#room.movie.titleImage,
+                  this.#room.movie.seasons,
+                );
+              }
+              roomPage.changeMovieInfo(
+                this.#room.movie.titleImage,
+                this.#room.movie.shortDescription,
+              );
+            }
             break;
         }
       }
@@ -156,6 +229,7 @@ class RoomPageStore {
       this.#isModalConfirm = false;
       this.#createdRoomId = '';
       this.#roomIdFromUrl = '';
+      this.#room = null;
     }
   }
 
@@ -163,16 +237,35 @@ class RoomPageStore {
     switch (action.type) {
       case ActionTypes.RENDER_ROOM_PAGE:
         this.#roomIdFromUrl = action.payload;
-        if (this.#createdRoomId && !this.#ws) {
+        if (this.#createdRoomId && !this.#ws && this.#isModalConfirm) {
           this.wsInit();
         }
-        roomPage.render();
+        // roomPage.render();
         break;
       case ActionTypes.CREATE_ROOM:
         await this.createRoom(action.movieId);
         break;
       case ActionTypes.SEND_ACTION_MESSAGE:
         this.sendActionMessage(action.actionData);
+        break;
+      case ActionTypes.SET_GLOBAL_ROOM_ID:
+        this.#globalRoomId = action.id;
+        break;
+      case ActionTypes.CHANGE_MOVIE:
+        if (this.#room && action.id !== this.#room.movie.id) {
+          roomPage.videoPause(0);
+
+          this.sendActionMessage({
+            name: 'change',
+            movie_id: action.id,
+            time_code: 0,
+          });
+
+          this.sendActionMessage({
+            name: 'pause',
+            time_code: 0,
+          });
+        }
         break;
       default:
         break;

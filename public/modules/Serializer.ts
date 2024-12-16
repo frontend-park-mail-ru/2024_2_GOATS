@@ -8,6 +8,7 @@ export const serializeMovie = (movie: any) => {
     title: movie.title,
     albumImage: HOST + movie.album_url,
     cardImage: HOST + movie.card_url,
+    verticalImage: HOST + movie.ver_url,
     country: movie.country,
     description: movie.description,
     movieType: movie.movie_type,
@@ -58,11 +59,14 @@ export const serializeMovieDetailed = (movie: any) => {
       : undefined,
     director: movie.director ? movie.director : undefined,
     seasons:
-      movie.seasons.length &&
+      movie.seasons &&
       movie.seasons.map(serializeSeason).sort((a: Season, b: Season) => {
         return a.seasonNumber - b.seasonNumber;
       }),
     isFromFavorites: movie.is_favorite,
+    withSubscription: !!movie.with_subscription,
+    //For rating test
+    userRating: movie.rating_user,
   };
 };
 
@@ -120,6 +124,8 @@ export const serializeUserData = (user: any) => {
     birthdate: user.birthdate,
     sex: user.sex,
     avatar: HOST + user.avatar_url,
+    isPremium: user.subscription_status,
+    expirationDate: user.subscription_expiration_date,
   };
 };
 
@@ -129,5 +135,37 @@ export const serializeRoom = (room: any) => {
     movie: serializeMovieDetailed(room.movie),
     status: room.status,
     timeCode: room.time_code,
+    currentSeason: room.season_now,
+    currentSeries: room.episode_now,
   };
+};
+
+export const serializeSavedMovie = (savedMovie: any) => {
+  return {
+    id: savedMovie.id,
+    title: savedMovie.title,
+    albumImage: savedMovie.album_url,
+    timeCode: savedMovie.timecode,
+    duration: savedMovie.duration,
+    savingSeconds: savedMovie.saving_seconds,
+    ...(savedMovie.season && { season: savedMovie.season }),
+    ...(savedMovie.series && { series: savedMovie.series }),
+  };
+};
+
+export const serializeSavedMovies = (savedMovies: any) => {
+  return savedMovies.map((savedMovie: any) => {
+    return serializeSavedMovie(savedMovie);
+  });
+};
+
+export const serializeUsersList = (users: any) => {
+  return users.map((user: any) => {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      avatar: HOST + user.avatar_url,
+    };
+  });
 };

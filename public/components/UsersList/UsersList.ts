@@ -7,7 +7,21 @@ export class UsersList {
 
   constructor(parent: HTMLElement, users: UserNew[]) {
     this.#parent = parent;
-    this.#users = users;
+    this.#users = this.#getUniqueUsers(users);
+  }
+
+  #getUniqueUsers(users: UserNew[]) {
+    const seenUsernames = new Set<string>();
+    const uniqueUsers: UserNew[] = [];
+
+    for (const user of users) {
+      if (!seenUsernames.has(user.username)) {
+        seenUsernames.add(user.username);
+        uniqueUsers.push(user);
+      }
+    }
+
+    return uniqueUsers;
   }
 
   render() {
@@ -15,6 +29,8 @@ export class UsersList {
   }
 
   renderTemplate() {
-    this.#parent.innerHTML = template({ users: this.#users });
+    if (this.#parent) {
+      this.#parent.innerHTML = template({ users: this.#users });
+    }
   }
 }

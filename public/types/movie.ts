@@ -6,6 +6,7 @@ export type Movie = {
   description: string;
   cardImage: string;
   albumImage: string;
+  verticalImage?: string;
   rating: number;
   releaseDate: string;
   movieType: string;
@@ -35,6 +36,8 @@ export type MovieDetailed = {
   director: string;
   seasons?: Season[];
   isFromFavorites?: boolean;
+  withSubscription?: boolean;
+  userRating?: number;
 };
 
 export type Episode = {
@@ -53,7 +56,6 @@ export type Season = {
   episodes: Episode[];
 };
 
-//TODO: После мержа перенести
 export type Person = {
   id: number;
   name: string;
@@ -69,6 +71,7 @@ export type MovieSaved = {
   duration: number;
   season?: number;
   series?: number;
+  savingSeconds: number;
 };
 
 export type SeasonsNumber = {
