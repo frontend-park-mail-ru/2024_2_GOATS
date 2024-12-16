@@ -106,6 +106,7 @@ class UserStore {
     this.#user.username = '';
     this.#user.avatar = '';
     this.#user.id = 0;
+    this.#user.isPremium = false;
 
     this.#isUserLoading = false;
     this.#isUserLoadingEmmiter.set(false);

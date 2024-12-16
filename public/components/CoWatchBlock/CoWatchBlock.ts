@@ -25,7 +25,10 @@ export class CoWatchBlock {
 
     if (createRoomButton) {
       createRoomButton.addEventListener('click', () => {
-        const modal = new CreateRoomModal();
+        const modal = new CreateRoomModal(
+          'Создание комнаты',
+          'Воспользуйтесь поиском, чтобы найти нужный фильм и создать комнату для совместного просмотра',
+        );
         modal.render();
       });
     }

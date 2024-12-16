@@ -171,7 +171,11 @@ export class RoomPage {
   }
 
   handleChangeMovieClick() {
-    const modal = new CreateRoomModal((id: number) => Actions.changeMovie(id));
+    const modal = new CreateRoomModal(
+      'Изменение фильма',
+      'Воспользуйтесь поиском, чтобы найти нужный фильм',
+      (id: number) => Actions.changeMovie(id),
+    );
     const createRoomButton = document.getElementById(
       'change-movie-btn',
     ) as HTMLElement;
@@ -358,6 +362,25 @@ export class RoomPage {
         ) as HTMLButtonElement;
         sendMessageButton.addEventListener('click', () => this.sendMessage());
         this.handleChangeMovieClick();
+
+        const messageInput = document.getElementById(
+          'messages-input',
+        ) as HTMLInputElement;
+
+        const handleEnterKey = (event: KeyboardEvent) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            this.sendMessage();
+          }
+        };
+
+        messageInput.addEventListener('focus', () => {
+          messageInput.addEventListener('keydown', handleEnterKey);
+        });
+
+        messageInput.addEventListener('blur', () => {
+          messageInput.removeEventListener('keydown', handleEnterKey);
+        });
       } else {
         this.#loader.render();
       }

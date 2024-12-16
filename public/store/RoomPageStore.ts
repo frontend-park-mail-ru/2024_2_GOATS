@@ -135,13 +135,13 @@ class RoomPageStore {
       this.#globalRoomId = '';
     }
 
-    ws.onclose = (event) => {
-      console.log('WebSocket соединение закрыто:', event.code, event.reason);
-    };
+    // ws.onclose = (event) => {
+    //   console.log('WebSocket соединение закрыто:', event.code, event.reason);
+    // };
 
-    ws.onopen = () => {
-      console.log('WebSocket соединение открыто');
-    };
+    // ws.onopen = () => {
+    //   console.log('WebSocket соединение открыто');
+    // };
 
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
@@ -190,7 +190,11 @@ class RoomPageStore {
             }
             break;
           case 'change_movie':
-            if (this.#room && messageData['movie'].id !== this.#room.movie.id) {
+            if (
+              this.#room &&
+              messageData['movie'] &&
+              messageData['movie'].id !== this.#room.movie.id
+            ) {
               this.#room.movie = serializeMovieDetailed(messageData['movie']);
               if (this.#room.movie.seasons && this.#room.movie.seasons.length) {
                 roomPage.renderVideo(
