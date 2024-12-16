@@ -184,6 +184,7 @@ class MoviePageStore {
           foundMovie.season = season;
           foundMovie.series = series;
           foundMovie.albumImage = seriesImage as string;
+          foundMovie.savingSeconds = Date.now();
         } else {
           this.#lastMovies.push({
             id: this.#movie.id,
@@ -313,35 +314,35 @@ class MoviePageStore {
         }
         break;
       case ActionTypes.SET_LAST_MOVIES:
-        if (userStore.getUser().username) {
-          // TODO: Расскомментировать после мержа
-          // this.setLastMoviesRequest({
-          //   ...action.payload,
-          //   id: this.#movie?.id,
-          //   title: this.#movie?.title,
-          //   albumImage: this.#movie?.albumImage,
-          //   savingSeconds: Date.now(),
-          // });
-        } else {
-          this.setLastMoviesToLocalStorage(
-            action.payload.timeCode,
-            action.payload.duration,
-            action.payload.season,
-            action.payload.series,
-          );
-        }
+        // if (userStore.getUser().username) {
+        // TODO: Расскомментировать после мержа
+        // this.setLastMoviesRequest({
+        //   ...action.payload,
+        //   id: this.#movie?.id,
+        //   title: this.#movie?.title,
+        //   albumImage: this.#movie?.albumImage,
+        //   savingSeconds: Date.now(),
+        // });
+        // } else {
+        this.setLastMoviesToLocalStorage(
+          action.payload.timeCode,
+          action.payload.duration,
+          action.payload.season,
+          action.payload.series,
+        );
+        // }
         break;
       case ActionTypes.COPY_LAST_MOVIES:
         // TODO: Расскомментировать после мержа
         // this.setLastMoviesRequest();
         break;
       case ActionTypes.DELETE_LAST_MOVIE:
-        if (userStore.getUser().username) {
-          // TODO: Расскомментировать после мержа
-          // this.deleteLastMovieRequest();
-        } else {
-          this.deleteLastMovieFromLocalStorage();
-        }
+        // if (userStore.getUser().username) {
+        // TODO: Расскомментировать после мержа
+        // this.deleteLastMovieRequest();
+        // } else {
+        this.deleteLastMovieFromLocalStorage();
+        // }
         break;
       case ActionTypes.RATE_MOVIE:
         this.rateMovieRequest(action.payload.rating);
