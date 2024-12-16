@@ -135,13 +135,13 @@ class RoomPageStore {
       this.#globalRoomId = '';
     }
 
-    ws.onclose = (event) => {
-      console.log('WebSocket соединение закрыто:', event.code, event.reason);
-    };
+    // ws.onclose = (event) => {
+    //   console.log('WebSocket соединение закрыто:', event.code, event.reason);
+    // };
 
-    ws.onopen = () => {
-      console.log('WebSocket соединение открыто');
-    };
+    // ws.onopen = () => {
+    //   console.log('WebSocket соединение открыто');
+    // };
 
     ws.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
