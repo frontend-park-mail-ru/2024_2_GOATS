@@ -337,7 +337,9 @@ export class RoomPage {
         }
 
         // Для установки текущего тайм кода новому пользователю
-        this.videoRewind(this.#room.timeCode);
+        if (this.#room.timeCode) {
+          this.videoRewind(this.#room.timeCode);
+        }
 
         if (this.#room.status === 'playing') {
           this.videoPlay();
@@ -381,6 +383,10 @@ export class RoomPage {
         messageInput.addEventListener('blur', () => {
           messageInput.removeEventListener('keydown', handleEnterKey);
         });
+
+        setInterval(() => {
+          Actions.sendActionMessage({ name: 'sync' });
+        }, 15000);
       } else {
         this.#loader.render();
       }

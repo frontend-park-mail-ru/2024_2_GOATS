@@ -2,7 +2,7 @@ import { MovieDetailed } from './movie';
 
 export type Room = {
   status: string;
-  timeCode: number;
+  timeCode?: number;
   movie: MovieDetailed;
   currentSeason?: number;
   currentSeries?: number;
