@@ -7,6 +7,7 @@ import Handlebars from 'handlebars';
 import { Actions } from 'flux/Actions';
 import { router } from 'modules/Router';
 import { SearchBlock } from 'components/SearchBlock/SearchBlock';
+import { roomPageStore } from 'store/RoomPageStore';
 
 function clickHandler(event: MouseEvent, config: any) {
   let targetElement: HTMLElement;
@@ -73,6 +74,9 @@ export class Header {
     const logo = document.getElementById('header-logo') as HTMLElement;
     logo.addEventListener('click', () => {
       router.go('/');
+      if (roomPageStore.getWs()) {
+        roomPageStore.closeWs();
+      }
     });
   }
 
