@@ -1,3 +1,9 @@
 <div id='movie-card-{{id}}' class='card'>
+  <div class='card__overlay'>
+    <span class='card__overlay_country'>{{movie.country}},
+      {{releaseYear}}</span>
+    {{! <span class='card__overlay_about'></span> }}
+  </div>
+  <div class='card__rating-block {{color}}'>{{rating}}</div>
   <img class='card__image' src={{movie.cardImage}} alt='card' />
 </div>

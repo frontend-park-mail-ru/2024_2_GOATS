@@ -25,6 +25,7 @@ export class CardPreview {
     this.#parent.innerHTML = template({
       movie: this.#movie,
       releaseYear: yearPicker(this.#movie.releaseDate),
+      rating: this.#movie.rating.toFixed(1),
     });
   }
 }

@@ -44,9 +44,13 @@ export class GridBlock {
   }
 
   renderTemplate() {
+    const itemsWithFixedRating = this.getTop()?.map((item) => {
+      item.rating.toFixed;
+      return { ...item, rating: item.rating.toFixed(1) };
+    });
     if (this.#movies) {
       this.#parent.innerHTML = template({
-        items: this.getTop(),
+        items: itemsWithFixedRating,
         title: this.#blockTitle,
       });
     } else {

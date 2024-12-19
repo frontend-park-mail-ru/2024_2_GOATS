@@ -7,6 +7,7 @@ import {
   CARD_PREVIEW_HIDING_TIMEOUT,
 } from '../../consts';
 import { isMobileDevice } from 'modules/IsMobileDevice';
+import { yearPicker } from 'modules/DateFormatter';
 
 export class Card {
   #parent;
@@ -86,16 +87,27 @@ export class Card {
     if (!this.#movie) {
       this.#parent.insertAdjacentHTML('beforeend', skeletonTemplate());
     } else {
+      let color;
+      if (this.#movie?.rating >= 7) {
+        color = 'high';
+      } else if (this.#movie?.rating >= 4) {
+        color = 'medium';
+      } else {
+        color = 'low';
+      }
       this.#parent.insertAdjacentHTML(
         'beforeend',
         template({
           movie: this.#movie,
+          rating: this.#movie.rating.toFixed(1),
+          color,
+          releaseYear: yearPicker(this.#movie.releaseDate),
           id: `${this.#cardId ? this.#cardId : this.#movie && this.#movie.id}`,
         }),
       );
 
       this.handleCardClick();
-      this.showExpandedCard();
+      // this.showExpandedCard();
     }
   }
 }

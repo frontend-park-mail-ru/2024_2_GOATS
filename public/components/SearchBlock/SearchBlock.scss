@@ -12,7 +12,7 @@
 
   &.active-search-bar {
     border-bottom: 2px solid white;
-    padding-bottom: 6px;
+    padding-bottom: 8px;
     .search-bar {
       align-self: flex-end;
 
@@ -135,7 +135,7 @@
     align-items: center;
 
     &.active-search-bar {
-      padding-bottom: 6px;
+      padding-bottom: 9px;
       .search-bar {
         &__input {
           width: 200px;
