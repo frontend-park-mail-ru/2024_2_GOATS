@@ -26,9 +26,11 @@ export class Notifier {
       }
     });
 
-    setTimeout(() => {
-      this.hideNotifier();
-    }, this.#liveTime);
+    if (this.#liveTime) {
+      setTimeout(() => {
+        this.hideNotifier();
+      }, this.#liveTime);
+    }
   }
 
   handleCloseButtonClick() {
@@ -47,6 +49,7 @@ export class Notifier {
     }
 
     const notifierWrapper = document.getElementById('notifier');
+
     setTimeout(() => {
       if (notifierWrapper) {
         notifierWrapper.innerHTML = '';

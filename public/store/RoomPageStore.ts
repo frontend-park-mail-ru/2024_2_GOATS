@@ -157,7 +157,7 @@ class RoomPageStore {
         const notifier = new Notifier(
           'info',
           `Сессия истекла, перезагрузите страницу`,
-          5000,
+          0,
         );
         notifier.render();
       }
