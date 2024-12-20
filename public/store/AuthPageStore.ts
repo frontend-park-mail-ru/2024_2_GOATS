@@ -69,7 +69,7 @@ class AuthPageStore {
         router.go('/');
       }
     } catch (e: any) {
-      if (e.status === 404 || e.status === 409) {
+      if (e.status === 404 || e.status === 409 || e.status === 422) {
         throwBackendError('auth', 'Неверный e-mail или пароль');
       } else {
         throwBackendError('auth', 'Что-то пошло не так. Попробуйте позже');
