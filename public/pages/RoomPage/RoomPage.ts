@@ -133,11 +133,22 @@ export class RoomPage {
   }
 
   sendMessage() {
-    const messageValue = (<HTMLInputElement>(
+    let messageValue = (<HTMLInputElement>(
       document.getElementById('messages-input')
     )).value;
 
     if (messageValue) {
+      if (messageValue.length > 200) {
+        const notifier = new Notifier(
+          'error',
+          'Максимальная длина сообщения 200',
+          3000,
+        );
+
+        notifier.render();
+        return;
+      }
+
       const messagesContainer = document.querySelector(
         '.room-page__chat_messages',
       ) as HTMLDivElement;
