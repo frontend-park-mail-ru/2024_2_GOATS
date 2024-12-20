@@ -67,7 +67,7 @@ export const serializeMovieDetailed = (movie: any) => {
     withSubscription: !!movie.with_subscription,
     //For rating test
     userRating: movie.rating_user,
-    genres: ['Драма', 'Боевик', 'Комедия'],
+    genres: movie.genres,
   };
 };
 
