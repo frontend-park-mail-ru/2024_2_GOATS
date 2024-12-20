@@ -392,6 +392,17 @@ export class RoomPage {
         setInterval(() => {
           Actions.sendActionMessage({ name: 'sync' });
         }, 15000);
+
+        // TODO: проверить
+        // window.addEventListener('beforeunload', () => {
+        //   alert(121212);
+        //   // roomPageStore.setIsModalConfirm(false);
+        // });
+
+        // window.addEventListener('unload', () => {
+        //   alert(121212);
+        //   // roomPageStore.setIsModalConfirm(false);
+        // });
       } else {
         this.#loader.render();
       }

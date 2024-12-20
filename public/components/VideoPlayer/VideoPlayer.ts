@@ -13,6 +13,8 @@ import {
 } from '../../consts';
 import { Season } from 'types/movie';
 import { SeriesList } from 'components/SeriesList/SeriesList';
+import { Notifier } from 'components/Notifier/Notifier';
+import { roomPageStore } from 'store/RoomPageStore';
 
 export class VideoPlayer {
   #parent;
@@ -493,6 +495,11 @@ export class VideoPlayer {
   setVideoTime(timeCode: number) {
     const { video } = this.#controls;
     video.currentTime = timeCode;
+
+    // TODO: Может можно сделать луше для ios при закрытии плеера
+    if (this.#controls.video.paused) {
+      video.play();
+    }
   }
 
   videoPlay() {
@@ -1114,6 +1121,14 @@ export class VideoPlayer {
   }
 
   handleIOSFullscreenEnd() {
+    // if (roomPageStore.getRoom()?.status === 'playing') {
+    //   const notifier = new Notifier(
+    //     'info',
+    //     'На IOS пауза сработала только у вас!',
+    //     3000,
+    //   );
+    //   notifier.render();
+    // }
     const { video } = this.#controls;
     video.removeAttribute('controls');
     this.resetHideControlsTimer();
@@ -1122,6 +1137,16 @@ export class VideoPlayer {
     this.#controls.fullOrSmallScreen.classList.remove(
       'video__controls_icon_small',
     );
+
+    // console.log(roomPageStore.getRoom());
+    // if (roomPageStore.getRoom()?.status === 'playing') {
+    //   const notifier = new Notifier(
+    //     'info',
+    //     'На IOS пауза сработала только у вас!',
+    //     3000,
+    //   );
+    //   notifier.render();
+    // }
   }
 
   handleIOSFullscreenIn() {
