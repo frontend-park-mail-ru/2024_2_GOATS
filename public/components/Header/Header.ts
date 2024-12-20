@@ -73,9 +73,11 @@ export class Header {
   handleLogoClick() {
     const logo = document.getElementById('header-logo') as HTMLElement;
     logo.addEventListener('click', () => {
-      router.go('/');
-      if (roomPageStore.getWs()) {
-        roomPageStore.closeWs();
+      if (router.getCurrentPath() !== '/') {
+        router.go('/');
+        if (roomPageStore.getWs()) {
+          roomPageStore.closeWs();
+        }
       }
     });
   }
