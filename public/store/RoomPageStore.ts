@@ -35,14 +35,6 @@ class RoomPageStore {
     this.#errorType = '';
     this.#closeFromJs = false;
 
-    /////
-    document.addEventListener(
-      'visibilitychange',
-      this.handleVisibilityChange.bind(this),
-    );
-    // window.addEventListener('focus', this.handleFocus.bind(this));
-    /////
-
     const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
       if (
         this.#isModalConfirm &&
@@ -67,29 +59,6 @@ class RoomPageStore {
 
     dispatcher.register(this.reduce.bind(this));
   }
-
-  /////
-  handleVisibilityChange() {
-    if (document.visibilityState === 'visible') {
-      this.checkWebSocketConnection();
-    }
-  }
-
-  // handleFocus() {
-  //   this.checkWebSocketConnection();
-  // }
-
-  checkWebSocketConnection() {
-    if (!this.#ws || this.#ws.readyState !== WebSocket.OPEN) {
-      const notifier = new Notifier(
-        'info',
-        'Сессия истекла, перезагрузите страницу',
-        0,
-      );
-      notifier.render();
-    }
-  }
-  /////
 
   ngOnDestroy(): void {}
 
@@ -185,12 +154,12 @@ class RoomPageStore {
       if (!this.#errorType && !this.#closeFromJs) {
         // alert(123);
         // router.go('/room', this.#roomIdFromUrl);
-        // const notifier = new Notifier(
-        //   'info',
-        //   `Сессия истекла, перезагрузите страницу`,
-        //   0,
-        // );
-        // notifier.render();
+        const notifier = new Notifier(
+          'info',
+          `Сессия истекла, перезагрузите страницу`,
+          0,
+        );
+        notifier.render();
       }
       // if (this.#errorType === '') {
       //   this.#isModalConfirm = false;
