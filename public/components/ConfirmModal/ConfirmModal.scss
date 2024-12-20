@@ -70,17 +70,26 @@
 }
 
 @include mobile {
-  .password-modal {
+  .modal {
     &__content {
       width: 350px;
+
+      &_text {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
     }
   }
 }
 @include extraSmallMobile {
-  .password-modal {
+  .modal {
     &__content {
       padding: 24px;
       width: 90vw;
+
+      &_btn {
+        font-size: 14px;
+      }
     }
   }
 }

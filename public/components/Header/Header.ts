@@ -120,6 +120,7 @@ export class Header {
 
   renderTemplate() {
     this.#parent.innerHTML = '';
+
     const items = this.items.map(([key, { text, href, isAvailable, id }]) => {
       let className = '';
 
@@ -132,7 +133,20 @@ export class Header {
 
     const user = userStore.getUser();
 
+    // let headerBack;
+
+    // if (
+    //   router.getCurrentPath() === '/auth' ||
+    //   router.getCurrentPath() === '/registration'
+    // ) {
+    //   headerBack = 'transparent-header';
+    // } else {
+    //   headerBack = 'black-header';
+    // }
+    // console.log(headerBack);
+
     this.#parent.innerHTML = template({
+      // headerBack,
       navItems: items.filter((item) => item.id != 'header-profile'),
       isUserAuth: userStore.getUserAuthStatus(),
       currentUserAvatar: user.avatar.replace(/ /g, '%20'),

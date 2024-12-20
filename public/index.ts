@@ -23,6 +23,8 @@ const previewElement = document.createElement('div');
 notifierElement.id = 'notifier';
 previewElement.id = 'preview';
 
+// headerElement.style.marginBottom = '63px';
+
 pageElement.id = 'page-element';
 root.appendChild(headerElement);
 root.appendChild(pageElement);
