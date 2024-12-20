@@ -131,10 +131,10 @@ class UserStore {
       );
       this.setState(serializeUserData(response.user_data));
 
-      if (checkLocalStorage()) {
-        Actions.copyLastMovies();
-        // clearLocalStorage();
-      }
+      // if (checkLocalStorage()) {
+      // Actions.copyLastMovies();
+      // clearLocalStorage();
+      // }
     } catch {
       this.clearUser();
     }
