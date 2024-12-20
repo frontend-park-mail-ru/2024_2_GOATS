@@ -160,7 +160,6 @@ class RoomPageStore {
           0,
         );
         notifier.render();
-        this.wsInit();
       }
       // if (this.#errorType === '') {
       //   this.#isModalConfirm = false;
