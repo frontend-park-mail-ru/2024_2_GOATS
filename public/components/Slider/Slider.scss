@@ -97,8 +97,12 @@
 
     &__container {
       overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      scroll-snap-type: x mandatory;
+      -ms-scroll-snap-type: x mandatory;
+
+      &::-webkit-scrollbar {
+        display: none; // IOS Solution
+      }
     }
 
     &__track {
