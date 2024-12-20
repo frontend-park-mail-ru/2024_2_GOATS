@@ -62,6 +62,10 @@ export class RoomPage {
       name: 'duration',
       duration: Math.round(this.getVideoDuration()),
     });
+
+    if (!roomPageStore.getWs()) {
+      alert(123123);
+    }
   }
 
   handleChageSeries(season: number, series: number) {
