@@ -119,7 +119,7 @@ class RoomPageStore {
 
       this.#isCreatedRoomReceived.set(false);
       const response = await apiClient.post({
-        path: `room/create?user_id=${userStore.getUser().id}`,
+        path: `room/create`,
         body: {
           movie: {
             id: movieId,
