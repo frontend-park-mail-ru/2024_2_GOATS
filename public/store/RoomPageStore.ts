@@ -14,6 +14,7 @@ import {
   serializeUsersList,
 } from 'modules/Serializer';
 import { mainPageStore } from './MainPageStore';
+import { Notifier } from 'components/Notifier/Notifier';
 
 const roomPage = new RoomPage();
 
@@ -103,11 +104,18 @@ class RoomPageStore {
     return this.#globalRoomId;
   }
 
+  renderNotifier(text: string) {
+    const notifier = new Notifier('error', text, 3000);
+    notifier.render();
+  }
+
   async createRoom(movieId: number) {
     try {
+      // path: 'room/create',
+
       this.#isCreatedRoomReceived.set(false);
       const response = await apiClient.post({
-        path: 'room/create',
+        path: `room/create?user_id=${userStore.getUser().id}`,
         body: {
           movie: {
             id: movieId,
@@ -214,6 +222,16 @@ class RoomPageStore {
                 this.#room.movie.shortDescription,
               );
             }
+            break;
+          case 'many_connections':
+            console.log('many_connections');
+            this.renderNotifier('Комната переполнена :(');
+            router.go('/');
+            break;
+          case 'already_connected':
+            console.log('already_connected');
+            this.renderNotifier('Вы уже подключены к комнате!');
+            router.go('/');
             break;
         }
       }
