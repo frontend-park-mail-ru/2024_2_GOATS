@@ -148,8 +148,8 @@ class RoomPageStore {
       this.#globalRoomId = '';
     }
 
-    ws.onclose = (event) => {
-      console.log('WebSocket соединение закрыто:', event.code, event.reason);
+    ws.onclose = () => {
+      // console.log('WebSocket соединение закрыто:', event.code, event.reason);
 
       if (!this.#errorType && !this.#closeFromJs) {
         // alert(123);

@@ -275,6 +275,12 @@ export class MoviePage {
     this.renderRateBlock();
     if (this.#movie?.seasons) {
       this.renderSeasonsBlock(false);
+      const seriesblock = document.getElementById(
+        'movie-page-series',
+      ) as HTMLElement;
+      if (seriesblock) {
+        seriesblock.style.paddingBottom = '30px';
+      }
     }
 
     const personsBlock = document.getElementById(
