@@ -94,7 +94,6 @@ class MoviePageStore {
       });
 
       if (!response) {
-        console.log('not responsea');
         const errorPage = new ErrorPage({
           errorTitle: '404. Страница не найдена',
           errorDescription:
@@ -113,10 +112,8 @@ class MoviePageStore {
 
       const serializedMovieData = serializeMovieDetailed(response.movie_info);
       this.setMovieState(serializedMovieData);
-      console.log('response', response);
     } catch (error) {
       // TODO: 404 к защите
-      console.log('catch');
       const errorPage = new ErrorPage({
         errorTitle: '404. Страница не найдена',
         errorDescription:
@@ -143,17 +140,17 @@ class MoviePageStore {
     }
   }
 
-  async getLastMoviesRequest() {
-    try {
-      const response = await apiClient.get({
-        path: `users/${userStore.getUser().id}/watched`,
-      });
+  // async getLastMoviesRequest() {
+  //   try {
+  //     const response = await apiClient.get({
+  //       path: `users/${userStore.getUser().id}/watched`,
+  //     });
 
-      this.#lastMovies = serializeSavedMovies(response.watched_movies);
-    } catch (e) {
-      throw e;
-    }
-  }
+  //     this.#lastMovies = serializeSavedMovies(response.watched_movies);
+  //   } catch (e) {
+  //     throw e;
+  //   }
+  // }
 
   setLastMoviesRequest(savedMovie?: MovieSaved) {
     apiClient.post({
@@ -168,14 +165,14 @@ class MoviePageStore {
     });
   }
 
-  deleteLastMovieRequest() {
-    apiClient.delete({
-      path: `users/${userStore.getUser().id}/watched`,
-      body: {
-        movie_id: this.#movie?.id,
-      },
-    });
-  }
+  // deleteLastMovieRequest() {
+  //   apiClient.delete({
+  //     path: `users/${userStore.getUser().id}/watched`,
+  //     body: {
+  //       movie_id: this.#movie?.id,
+  //     },
+  //   });
+  // }
 
   setLastMoviesToLocalStorage(
     timeCode: number,
@@ -319,12 +316,12 @@ class MoviePageStore {
         await this.getMovieRequest(action.payload);
         break;
       case ActionTypes.GET_LAST_MOVIES:
-        if (
-          !userStore.isUserLoadingEmmiter$.get() &&
-          !userStore.getUser().username
-        ) {
-          this.getLastMoviesFromLocalStorage();
-        }
+        // if (
+        // !userStore.isUserLoadingEmmiter$.get() &&
+        // !userStore.getUser().username
+        // ) {
+        this.getLastMoviesFromLocalStorage();
+        // }
         break;
       case ActionTypes.SET_LAST_MOVIES:
         // if (userStore.getUser().username) {
