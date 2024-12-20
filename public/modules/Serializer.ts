@@ -67,6 +67,7 @@ export const serializeMovieDetailed = (movie: any) => {
     withSubscription: !!movie.with_subscription,
     //For rating test
     userRating: movie.rating_user,
+    genres: ['Драма', 'Боевик', 'Комедия'],
   };
 };
 
@@ -124,7 +125,7 @@ export const serializeUserData = (user: any) => {
     birthdate: user.birthdate,
     sex: user.sex,
     avatar: HOST + user.avatar_url,
-    isPremium: user.subscription_status,
+    isPremium: true, //user.subscription_status,
     expirationDate: user.subscription_expiration_date,
   };
 };

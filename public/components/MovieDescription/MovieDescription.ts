@@ -125,12 +125,17 @@ export class MovieDescription {
 
   renderTemplate() {
     if (this.#movie) {
+      const date = this.#movie.releaseDate.split(' ')[2];
+      const genres = this.#movie.genres?.join(', ');
+
       this.#parent.innerHTML = template({
         movie: this.#movie,
+        releaseYear: date,
         isUserAuth: !!userStore.getUser().email,
         isPremiumUser: userStore.getUser().isPremium,
         withSubscription: moviePageStore.getMovie()?.withSubscription,
         movieRating: moviePageStore.getMovie()?.rating.toFixed(1),
+        genres,
       });
 
       this.checkFavorite();

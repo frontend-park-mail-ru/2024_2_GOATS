@@ -8,9 +8,9 @@
   transition: all 0.2s ease;
 
   &__rating-block {
-    padding: 2px 5px;
+    padding: 2px 9px;
     position: absolute;
-    border-radius: 5px;
+    border-radius: 10px;
 
     top: 10px;
     right: 10px;
@@ -29,10 +29,6 @@
   &:hover {
     transform: scale(1.05);
     cursor: pointer;
-
-    .card__rating-block {
-      // display: none;
-    }
   }
 
   &__image {

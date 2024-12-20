@@ -75,6 +75,11 @@ class SearchBlockStore {
     try {
       this.#findItems = [];
 
+      if (this.#searchValue === '') {
+        searchBlock.renderItemsList(this.#selectedNav, true);
+        return;
+      }
+
       const response = await apiClient.get({
         path: `movies/${this.#selectedNav}/search?query=${this.#searchValue}`,
       });
@@ -97,6 +102,12 @@ class SearchBlockStore {
   async moviesSearchRequest(searchQuery: string) {
     try {
       this.#findItems = [];
+
+      if (searchQuery === '') {
+        this.#findItems = [];
+        this.#findItemsEmmiter.set(false);
+        return;
+      }
       const response = await apiClient.get({
         path: `movies/movies/search?query=${searchQuery}`,
       });

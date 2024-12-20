@@ -29,8 +29,14 @@ export class UsersList {
   }
 
   renderTemplate() {
+    const tmp = this.#users.map((user) => {
+      return {
+        ...user,
+        avatar: user.avatar?.replace(/ /g, '%20'),
+      };
+    });
     if (this.#parent) {
-      this.#parent.innerHTML = template({ users: this.#users });
+      this.#parent.innerHTML = template({ users: tmp });
     }
   }
 }

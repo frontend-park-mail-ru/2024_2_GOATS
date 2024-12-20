@@ -38,6 +38,7 @@ export type MovieDetailed = {
   isFromFavorites?: boolean;
   withSubscription?: boolean;
   userRating?: number;
+  genres?: string[];
 };
 
 export type Episode = {

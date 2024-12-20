@@ -123,6 +123,8 @@ export class CreateRoomModal {
         isDragging = false;
       });
     }
+    document.body.classList.add('no-main-scroll');
+
     this.#isModalOpen = true;
     searchBlockStore.findMovies('');
     this.handleInputChange();
@@ -170,6 +172,7 @@ export class CreateRoomModal {
         { once: true },
       );
     }
+    document.body.classList.remove('no-main-scroll');
     this.#isModalOpen = false;
     searchBlockStore.clearFounded();
     this.#inputValue = '';

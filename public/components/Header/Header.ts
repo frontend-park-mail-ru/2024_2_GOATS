@@ -127,6 +127,9 @@ export class Header {
       if (href === this.#activeLink && href != '/profile') {
         className += 'active';
       }
+      if (href === '/auth') {
+        className += 'bold-nav';
+      }
 
       return { key, text, href, className, id, isAvailable };
     });

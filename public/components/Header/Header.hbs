@@ -2,9 +2,9 @@
   <div class='header__container {{#unless isUserAuth}} not-authed{{/unless}}'>
     <div id='header-logo' class='header__container_logo'>
       <span>Cassette</span>
-      {{#if isPremium}}
+      {{!-- {{#if isPremium}}
         <span  class='header__container_logo_caption'>premium</span>
-      {{/if}}
+      {{/if}} --}}
     </div>
 
     <div class='header__container_nav {{#if isUserAuth}} authed{{/if}}'>
@@ -31,12 +31,18 @@
           data-section='{{profileItem.key}}'
         >
           <div class='header__container_profile'> 
+            {{#if isPremium}}
+              <img class='header__container_avatar_img_lab'
+                src='/assets/icons/activeStarIcon.svg'
+                alt='userIcon'/> 
+            {{/if}}
             <div class='header__container_avatar'>
               <img
                 class='header__container_avatar_img'
                 src={{currentUserAvatar}}
                 alt='userIcon'
               />
+              
             </div>
           </div>
         </a>
