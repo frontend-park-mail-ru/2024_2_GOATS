@@ -133,7 +133,7 @@ class UserStore {
 
       if (checkLocalStorage()) {
         Actions.copyLastMovies();
-        clearLocalStorage();
+        // clearLocalStorage();
       }
     } catch {
       this.clearUser();
