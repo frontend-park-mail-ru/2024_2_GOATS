@@ -22,23 +22,55 @@ class Router {
     };
   }
 
+  // go(path: string, id?: number | string, data?: any) {
+  //   let url = id
+  //     ? new URL(`${path}/${id}`, window.location.href)
+  //     : new URL(path, window.location.href);
+  //   searchBlockStore.clearFounded();
+  //   if (id && data) {
+  //     routerHandler(url, id, data);
+  //     window.history.pushState({ id }, path, `${path}/${id}`);
+  //   } else if (id) {
+  //     routerHandler(url, id);
+  //     window.history.pushState({ id }, path, `${path}/${id}`);
+  //   } else {
+  //     routerHandler(url);
+  //     window.history.pushState({}, path, path);
+  //   }
+
+  //   //Чистим serachBar на каждый переход
+  // }
+
   go(path: string, id?: number | string, data?: any) {
     let url = id
       ? new URL(`${path}/${id}`, window.location.href)
       : new URL(path, window.location.href);
+
+    // Сравниваем текущий URL с новым URL
+    const currentUrl = new URL(window.location.href);
+    const newUrl = url.toString();
+    const isSameUrl = currentUrl.toString() === newUrl;
+
     searchBlockStore.clearFounded();
+
     if (id && data) {
       routerHandler(url, id, data);
-      window.history.pushState({ id }, path, `${path}/${id}`);
+      if (!isSameUrl) {
+        window.history.pushState({ id }, path, `${path}/${id}`);
+      }
     } else if (id) {
       routerHandler(url, id);
-      window.history.pushState({ id }, path, `${path}/${id}`);
+      if (!isSameUrl) {
+        window.history.pushState({ id }, path, `${path}/${id}`);
+      }
     } else {
       routerHandler(url);
-      window.history.pushState({}, path, path);
+      if (!isSameUrl) {
+        window.history.pushState({}, path, path);
+      }
     }
 
-    //Чистим serachBar на каждый переход
+    // Чистим searchBar на каждый переход
   }
 
   parseUrl(url: any) {

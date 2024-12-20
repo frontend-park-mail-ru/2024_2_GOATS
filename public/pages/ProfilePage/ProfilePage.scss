@@ -66,6 +66,7 @@
       color: $brand-secondary;
       font-size: $font-size-medium;
       font-weight: 600;
+      transition: background 0.2s ease;
 
       &:hover {
         background-color: $button-background-hover;

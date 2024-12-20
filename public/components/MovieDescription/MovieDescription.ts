@@ -8,6 +8,7 @@ import { router } from 'modules/Router';
 import { Actions } from 'flux/Actions';
 import { RateModalBlock } from 'components/RateModalBlock/RateModalBlock';
 import { Notifier } from 'components/Notifier/Notifier';
+import { debounce } from 'modules/Debounce';
 
 export class MovieDescription {
   #parent;
@@ -100,13 +101,28 @@ export class MovieDescription {
     }
   }
 
+  // handleFavoritesClick() {
+  //   const favoritesBtn = document.getElementById(
+  //     'favorites-movie-btn',
+  //   ) as HTMLButtonElement;
+  //   const debouncedUpdateValue = debounce(() => {
+  //     this.onFavoritesClick.bind(this);
+  //   }, 1000);
+  //   if (favoritesBtn) {
+  //     favoritesBtn.addEventListener('click', () => debouncedUpdateValue());
+  //   }
+  // }
+
   handleFavoritesClick() {
     const favoritesBtn = document.getElementById(
       'favorites-movie-btn',
     ) as HTMLButtonElement;
-
+    const debouncedUpdateValue = debounce(
+      this.onFavoritesClick.bind(this),
+      200,
+    );
     if (favoritesBtn) {
-      favoritesBtn.addEventListener('click', this.onFavoritesClick.bind(this));
+      favoritesBtn.addEventListener('click', () => debouncedUpdateValue());
     }
   }
 

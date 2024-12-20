@@ -93,24 +93,37 @@ class MoviePageStore {
         path: `movies/${id}`,
       });
 
-      // TODO: Убрать мок
-      if (
-        response.movie_info.title === 'Игра в кальмара' ||
-        response.movie_info.title === 'Бумажный дом'
-      ) {
-        response.movie_info.movie_type = 'movie';
+      if (!response) {
+        console.log('not responsea');
+        const errorPage = new ErrorPage({
+          errorTitle: '404. Страница не найдена',
+          errorDescription:
+            'Возможно, вы воспользовались недействительной ссылкой или страница была удалена. Проверьте URL-адрес или перейдите на главную страницу, там вас ожидают лучшие фильмы и сериалы.',
+        });
+        errorPage.render();
       }
+
+      // TODO: Убрать мок
+      // if (
+      //   (response && response.movie_info.title === 'Игра в кальмара') ||
+      //   response.movie_info.title === 'Бумажный дом'
+      // ) {
+      //   response.movie_info.movie_type = 'movie';
+      // }
+
       const serializedMovieData = serializeMovieDetailed(response.movie_info);
       this.setMovieState(serializedMovieData);
+      console.log('response', response);
     } catch (error) {
-      throw error;
       // TODO: 404 к защите
-      // const errorPage = new ErrorPage({
-      //   errorTitle: '404. Страница не найдена',
-      //   errorDescription:
-      //     'Возможно, вы воспользовались недействительной ссылкой или страница была удалена. Проверьте URL-адрес или перейдите на главную страницу, там вас ожидают лучшие фильмы и сериалы.',
-      // });
-      // errorPage.render();
+      console.log('catch');
+      const errorPage = new ErrorPage({
+        errorTitle: '404. Страница не найдена',
+        errorDescription:
+          'Возможно, вы воспользовались недействительной ссылкой или страница была удалена. Проверьте URL-адрес или перейдите на главную страницу, там вас ожидают лучшие фильмы и сериалы.',
+      });
+      errorPage.render();
+      // throw error;
     } finally {
       this.#hasMovieGot.set(true);
     }

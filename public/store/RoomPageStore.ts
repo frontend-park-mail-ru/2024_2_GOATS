@@ -14,6 +14,7 @@ import {
   serializeUsersList,
 } from 'modules/Serializer';
 import { mainPageStore } from './MainPageStore';
+import { Notifier } from 'components/Notifier/Notifier';
 
 const roomPage = new RoomPage();
 
@@ -26,9 +27,13 @@ class RoomPageStore {
   #isModalConfirm = false;
   #isCreatedRoomReceived; // Емиттер для получения айди комнаты после создания
   #globalRoomId = '';
+  #errorType: 'many_connections' | 'already_connected' | '';
+  #closeFromJs;
 
   constructor() {
     this.#isCreatedRoomReceived = new Emitter<boolean>(false);
+    this.#errorType = '';
+    this.#closeFromJs = false;
 
     const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
       if (
@@ -103,11 +108,18 @@ class RoomPageStore {
     return this.#globalRoomId;
   }
 
+  renderNotifier(text: string) {
+    const notifier = new Notifier('error', text, 3000);
+    notifier.render();
+  }
+
   async createRoom(movieId: number) {
     try {
+      // path: 'room/create',
+
       this.#isCreatedRoomReceived.set(false);
       const response = await apiClient.post({
-        path: 'room/create',
+        path: `room/create`,
         body: {
           movie: {
             id: movieId,
@@ -126,6 +138,7 @@ class RoomPageStore {
     this.#user = userStore.getUser();
     const ws = new WebSocket(
       // `ws://localhost:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
+      // `ws://192.168.2.1:8080/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
       `wss://cassette-world.ru/api/room/join?room_id=${this.#roomIdFromUrl}&user_id=${this.#user.id}`,
     );
 
@@ -137,6 +150,21 @@ class RoomPageStore {
 
     ws.onclose = (event) => {
       console.log('WebSocket соединение закрыто:', event.code, event.reason);
+
+      if (!this.#errorType && !this.#closeFromJs) {
+        // alert(123);
+        // router.go('/room', this.#roomIdFromUrl);
+        const notifier = new Notifier(
+          'info',
+          `Сессия истекла, перезагрузите страницу`,
+          0,
+        );
+        notifier.render();
+      }
+      // if (this.#errorType === '') {
+      //   this.#isModalConfirm = false;
+      //   roomPage.render();
+      // }
     };
 
     // ws.onopen = () => {
@@ -215,6 +243,16 @@ class RoomPageStore {
               );
             }
             break;
+          case 'many_connections':
+            this.#errorType = 'many_connections';
+            this.renderNotifier('Комната переполнена :(');
+            router.go('/');
+            break;
+          case 'already_connected':
+            this.#errorType = 'already_connected';
+            this.renderNotifier('Вы уже подключены к комнате!');
+            router.go('/');
+            break;
         }
       }
     };
@@ -228,6 +266,7 @@ class RoomPageStore {
 
   closeWs() {
     if (this.#ws) {
+      this.#closeFromJs = true;
       this.#ws.close();
       this.#ws = null;
       this.#isModalConfirm = false;
