@@ -36,11 +36,11 @@ class RoomPageStore {
     this.#closeFromJs = false;
 
     /////
-    // document.addEventListener(
-    //   'visibilitychange',
-    //   this.handleVisibilityChange.bind(this),
-    // );
-    window.addEventListener('focus', this.handleFocus.bind(this));
+    document.addEventListener(
+      'visibilitychange',
+      this.handleVisibilityChange.bind(this),
+    );
+    // window.addEventListener('focus', this.handleFocus.bind(this));
     /////
 
     const unsubscribe = userStore.isUserAuthEmmiter$.addListener((status) => {
@@ -69,15 +69,15 @@ class RoomPageStore {
   }
 
   /////
-  // handleVisibilityChange() {
-  //   if (document.visibilityState === 'visible') {
-  //     this.checkWebSocketConnection();
-  //   }
-  // }
-
-  handleFocus() {
-    this.checkWebSocketConnection();
+  handleVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+      this.checkWebSocketConnection();
+    }
   }
+
+  // handleFocus() {
+  //   this.checkWebSocketConnection();
+  // }
 
   checkWebSocketConnection() {
     if (!this.#ws || this.#ws.readyState !== WebSocket.OPEN) {
