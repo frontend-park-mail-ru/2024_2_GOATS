@@ -114,7 +114,7 @@ export class ProfilePageStore {
       not.render();
       userStore.checkAuth();
     } catch (e: any) {
-      if (e.status === 409) {
+      if (e.status === 409 || e.status === 422) {
         throw throwBackendError(
           'update-profile',
           'Уже существует аккаунт с таким логином или почтой',
