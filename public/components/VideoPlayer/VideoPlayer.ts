@@ -36,6 +36,7 @@ export class VideoPlayer {
   #currentSeries;
   #currentSeason;
   #nextOrPrevClicked;
+  #playClicked;
   #seasons;
   #seriesPosition: number | null = null;
   #seriesBlockTimeout!: number;
@@ -48,6 +49,7 @@ export class VideoPlayer {
   #isSeeking = false;
   #seekTimeout: any;
   #fromRoomPage;
+  #fromIosPlayer;
 
   constructor(params: {
     parent: HTMLElement;
@@ -68,6 +70,7 @@ export class VideoPlayer {
       videoUrl: string,
       currentSeason: number,
       currentSeries: number,
+      fromIos?: boolean,
     ) => void;
     handleSaveTimecode?: (
       timeCode: number,
@@ -95,6 +98,7 @@ export class VideoPlayer {
     this.#handleSaveTimecode = params.handleSaveTimecode;
     this.#boundHandleKeyPress = this.handleKeyPress.bind(this);
     this.#nextOrPrevClicked = false;
+    this.#playClicked = false;
     this.#isSeriesBlockVisible = false;
     this.#autoplay = !!params.autoPlay;
     this.#onSeriesClick = params.onSeriesClick;
@@ -103,6 +107,7 @@ export class VideoPlayer {
     this.#wasPlayOrPauseByOthers = false;
     this.#seekTimeout = null;
     this.#fromRoomPage = !!params.fromRoomPage;
+    this.#fromIosPlayer = false;
 
     this.checkSeriesPosition();
 
@@ -603,6 +608,12 @@ export class VideoPlayer {
     const { video } = this.#controls;
     this.handlePlayOrPauseIOS();
 
+    // if (isiOS()) {
+    //   if (this.#onPlayClick) {
+    //     if (!this.#playClicked) this.#onPlayClick(video.currentTime);
+    //   }
+    // }
+
     video.setAttribute('playsinline', '');
     const { playOrPause } = this.#controls;
     playOrPause?.classList.add('video__controls_icon_pause');
@@ -631,12 +642,14 @@ export class VideoPlayer {
     const { video } = this.#controls;
     this.resetHideControlsTimer();
     if (video.paused) {
+      this.#playClicked = true;
       video.play();
       video.setAttribute('playsinline', '');
 
       if (this.#onPlayClick) {
         this.#onPlayClick(this.#controls.video.currentTime);
       }
+      this.#playClicked = false;
       this.onPlay();
     } else {
       video.pause();
@@ -902,11 +915,26 @@ export class VideoPlayer {
       this.#currentSeries = seriesNumber;
       this.#nextOrPrevClicked = false;
       if (this.#onVideoUpdate) {
-        this.#onVideoUpdate(
-          this.#videoUrl,
-          this.#currentSeason,
-          this.#currentSeries,
-        );
+        // this.#onVideoUpdate(
+        //   this.#videoUrl,
+        //   this.#currentSeason,
+        //   this.#currentSeries,
+        // );
+
+        if (isiOS() && !this.#isModal) {
+          this.#onVideoUpdate(
+            this.#videoUrl,
+            this.#currentSeason,
+            this.#currentSeries,
+            true,
+          );
+        } else {
+          this.#onVideoUpdate(
+            this.#videoUrl,
+            this.#currentSeason,
+            this.#currentSeries,
+          );
+        }
       }
 
       this.#nextOrPrevClicked = true;
@@ -1009,13 +1037,31 @@ export class VideoPlayer {
       }
 
       if (this.#onVideoUpdate) {
-        this.#onVideoUpdate(
-          this.#seasons[this.#currentSeason - 1].episodes[
-            this.#currentSeries - 1
-          ].video,
-          this.#currentSeason,
-          this.#currentSeries,
-        );
+        if (isiOS() && !this.#isModal) {
+          this.#onVideoUpdate(
+            this.#seasons[this.#currentSeason - 1].episodes[
+              this.#currentSeries - 1
+            ].video,
+            this.#currentSeason,
+            this.#currentSeries,
+            true,
+          );
+        } else {
+          this.#onVideoUpdate(
+            this.#seasons[this.#currentSeason - 1].episodes[
+              this.#currentSeries - 1
+            ].video,
+            this.#currentSeason,
+            this.#currentSeries,
+          );
+        }
+        // this.#onVideoUpdate(
+        //   this.#seasons[this.#currentSeason - 1].episodes[
+        //     this.#currentSeries - 1
+        //   ].video,
+        //   this.#currentSeason,
+        //   this.#currentSeries,
+        // );
       }
     }
   }
@@ -1038,13 +1084,31 @@ export class VideoPlayer {
       }
 
       if (this.#onVideoUpdate) {
-        this.#onVideoUpdate(
-          this.#seasons[this.#currentSeason - 1].episodes[
-            this.#currentSeries - 1
-          ].video,
-          this.#currentSeason,
-          this.#currentSeries,
-        );
+        if (isiOS() && !this.#isModal) {
+          this.#onVideoUpdate(
+            this.#seasons[this.#currentSeason - 1].episodes[
+              this.#currentSeries - 1
+            ].video,
+            this.#currentSeason,
+            this.#currentSeries,
+            true,
+          );
+        } else {
+          this.#onVideoUpdate(
+            this.#seasons[this.#currentSeason - 1].episodes[
+              this.#currentSeries - 1
+            ].video,
+            this.#currentSeason,
+            this.#currentSeries,
+          );
+        }
+        // this.#onVideoUpdate(
+        //   this.#seasons[this.#currentSeason - 1].episodes[
+        //     this.#currentSeries - 1
+        //   ].video,
+        //   this.#currentSeason,
+        //   this.#currentSeries,
+        // );
       }
     }
   }

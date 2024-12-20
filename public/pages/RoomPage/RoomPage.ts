@@ -255,6 +255,7 @@ export class RoomPage {
     videoUrl: string,
     currentSeason: number,
     currentSeries: number,
+    fromIos?: boolean,
   ) {
     if (this.#room) {
       this.#room.currentSeason = currentSeason;
@@ -263,6 +264,10 @@ export class RoomPage {
 
     this.onPauseClick(0);
     this.handleChageSeries(currentSeason, currentSeries);
+    if (fromIos) {
+      // ??
+      this.onPlayClick(0);
+    }
     this.renderVideo(
       videoUrl,
       this.#room?.movie.titleImage,
