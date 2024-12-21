@@ -5,6 +5,7 @@ import template from './ActorPage.hbs';
 import skeletonTemplate from './ActorPageSkeleton.hbs';
 import { CardsList } from 'components/CardsList/CardsList';
 import { dateFormatter } from 'modules/DateFormatter';
+import { roomPageStore } from 'store/RoomPageStore';
 
 export class ActorPage {
   render() {
@@ -13,6 +14,12 @@ export class ActorPage {
 
   getActorInfo() {
     return actorPageStore.getActor();
+  }
+  /////////
+  checkWs() {
+    if (roomPageStore.getWs()) {
+      roomPageStore.closeWs();
+    }
   }
 
   toggleBiographyExpansion() {
@@ -72,5 +79,7 @@ export class ActorPage {
       const cards = new CardsList(actorFilmography, 4);
       cards.render();
     }
+
+    this.checkWs();
   }
 }
