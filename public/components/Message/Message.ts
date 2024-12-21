@@ -22,9 +22,11 @@ export class Message {
   }
 
   renderTemplate() {
+    const userAvatar = this.#message.avatar;
     this.#parent.insertAdjacentHTML(
       'beforeend',
       template({
+        userAvatar: userAvatar.replace(/ /g, '%20'),
         message: this.#message,
         isCurrentUser: this.#isCurrentUser,
       }),
