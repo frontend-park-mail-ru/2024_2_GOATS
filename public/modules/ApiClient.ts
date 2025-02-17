@@ -98,9 +98,8 @@ class ApiClient {
         'X-CSRF-Token': userStore.getCsrfToken(),
       };
       options.body = formData;
-    } else {
     }
-
+    
     const response = await fetch(url, options);
 
     if (!response.ok) {
